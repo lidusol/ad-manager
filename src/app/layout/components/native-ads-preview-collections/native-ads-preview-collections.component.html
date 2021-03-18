@@ -1,0 +1,272 @@
+<!-- carousel -->
+<ng-container *ngIf="isLoading; else loaded">
+              
+    <mat-card style="box-shadow: none !important;">
+     
+      <mat-card-content>
+
+      <div lySkeleton [lyWidth]="1" [lyHeight]="200">
+        {{ '\u00A0' }}
+      </div>
+       <div class="mt-2" lySkeleton [lyWidth]="1" [lyHeight]="40">
+        {{ '\u00A0' }}
+      </div>
+      </mat-card-content>
+    
+    </mat-card>
+    
+  
+</ng-container>
+<ng-template #loaded>
+<mat-card class="carousel text-center d-flex flex-column">
+<ng-container *ngIf="slides.length>0">
+<ng-container *ngFor="let slide of slides; let i = index">
+    <ng-container *ngIf="triggerSimulation(slide.adData) as __result__">
+        <div class="w-100 d-block" style="height: 170px;" *ngIf="i === currentSlide">
+        <div class="campaign-info-block">
+        <ng-container *ngIf="(slide.ad_group_id | campaignStatusFromAdGroupId: slide.owner | async) as status">
+        <ng-container *ngIf="status==='PAUSED'">
+                   <div style="font-size: 12px; color: #202124; cursor: pointer;"
+                     matTooltip="Cette campagne est actuellement en veille" [matTooltipShowDelay]="'1000'"
+                     [matTooltipPosition]="'after'">
+                     <mat-icon class="icon-status">pause</mat-icon>
+                   </div>
+                 </ng-container>
+                 <ng-container *ngIf="status==='ENABLED'">
+                   <div style="font-size: 12px; color: #202124;"
+                     matTooltip="Cette campagne est actuellement activée" [matTooltipShowDelay]="'1000'"
+                     [matTooltipPosition]="'after'">
+                     <mat-icon class="icon-status text-success">play_circle_filled</mat-icon>
+                   </div>
+                 </ng-container>
+                 <ng-container *ngIf="status==='ENDED'">
+                   <div style="font-size: 12px; color: #202124; cursor: pointer;"
+                     matTooltip="Cette campagne est terminée" [matTooltipShowDelay]="'1000'"
+                     [matTooltipPosition]="'after'">
+                     <mat-icon class="icon-status text-danger">work_off</mat-icon>
+                   </div>
+                 </ng-container>
+        
+        </ng-container>
+        
+                 <span>{{slide.ad_group_id | campaignNameFromAdGroupId: slide.owner | async}}</span>
+        </div>
+        <div class="d-flex justify-content-center mt-2" style="border-radius: 5px; height: 100%; align-items: center; flex-direction: column; overflow: hidden;">
+            <div class="illustration-component-3 mat-elevation-z4" style="width: 300px;height: 250px; zoom: 65%">
+                
+                <div class="preview-block"  style="width: 300px;height: 250px; overflow: hidden;" >
+                  <div>
+                    <div style="width: 300px;height: 250px;">
+                      <div style="box-sizing: border-box;
+        flex-shrink: 0;
+        border: none;
+        width: 100%;
+        height: 100%;
+        font-family: Roboto,Arial,sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        font-size: 20px;
+        ">
+                        <div style="width: 300px">
+                          <img [src]="preview_illustration" id="image-1" style="max-width: 100%" *ngIf="videoPreviewUrl===''" [crossOrigin]="'anonymous'">
+                          <adf-video-preview [lyWidth]="300" [lyHeight]="160"  style="max-width: 100%;"  [videoId]="videoPreviewUrl" *ngIf="videoPreviewUrl!==''"></adf-video-preview>
+                        </div>
+                        <div class="d-flex flex-column align-items-start" style="width: 100%;">
+                          <h3
+                            class="title-preview-small pl-2"
+                            [style]="getstyleShadow(preview_text_color, preview_background_color, preview_box_shadow)"
+                           >{{titleToDisplay}}</h3>
+                          <div class="d-flex justify-content-start align-items-center mt-3"
+                            style="background: white; height: 20px;">
+                            <div class="d-flex flex-column align-items-start justify-content-start pl-2"
+                              style="min-width: 200px">
+                              <div class="d-flex justify-content-start align-items-center"
+                                *ngIf="preview_illustration_logo!==''">
+                                <img style="height: 50px; width: 50px; padding: 5px" [src]="preview_illustration_logo">
+                                <span
+                                  style="font-size: 14px; font-weight: 400;max-width: 150px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{descriptionToDisplay}}</span>
+                              </div>
+                              <span *ngIf="preview_illustration_logo===''"
+                                style="font-size: 14px; font-weight: 400;max-width: 200px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{descriptionToDisplay}}</span>
+                              <span
+                                style="font-size: 12px; font-weight: 400;max-width: 300px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{brandToDisplay}}</span>
+                            </div>
+                            <div>
+                              <button mat-button style='color: #fff !important;
+                              display: flex !important; zoom: 65%' class="mr-5"
+                                [style]="getBackgroundImg(preview_text_color, preview_background_color)">
+                                <span [style]="getColor(preview_text_color)">Ouvrir</span>
+                                &nbsp;
+                                <mat-icon [style]="getColor(preview_text_color)">chevron_right</mat-icon>
+                              </button>
+                            </div>
+        
+                          </div>
+                        </div>
+        
+        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        
+            <!-- <img
+        
+        [src]="slide.adData.marketingImages[0].imageUrl"
+        class="slide"
+        [@slideAnimation]="animationType"  [mdePopoverTriggerFor]="popoverAds"  mdePopoverTriggerOn="hover" style="cursor: pointer;"
+        /> -->
+        </div>
+        </div>
+
+    </ng-container>
+    
+<div>
+<mat-toolbar *ngIf="i === currentSlide" class="toolbar-slides">
+<div class="d-flex flex-column">
+<span class="ad-coll-label">Annonce</span>
+<ng-container *ngIf="user_role!==undefined">
+<ng-container *ngIf="user_role.readOnly">
+  <ng-container *ngIf="slide.status==='PAUSED'">
+      <div style="font-size: 12px; color: #202124; height: 30px; cursor: pointer;" class="d-flex justify-content-center mt-2" matTooltip="Cette annonce est actuellement en veille"
+[matTooltipShowDelay]="'1000'"  [matTooltipPosition]="'after'"><mat-icon class="icon-status mt-2 mr-1">pause</mat-icon>En veille</div>
+  </ng-container>
+  <ng-container *ngIf="slide.status==='ENABLED'">
+    <div 
+    style="font-size: 12px; color: #202124; width: 100px; display: flex; align-items: center; cursor: pointer; padding-left: 10px; height: 40px;"
+    class="ml-1" matTooltip="Cette annonce est actuellement activée"
+[matTooltipShowDelay]="'1000'"  [matTooltipPosition]="'after'">
+    <mat-icon class="icon-status text-success">play_circle_filled</mat-icon>Activée<mat-icon
+      class="icon-status-dropdown ml-1 mt-2 icon-status text-white" >arrow_drop_down</mat-icon>
+  </div>
+  </ng-container>
+</ng-container>
+<ng-container *ngIf="user_role.admin">
+   <ng-container *ngIf="slide.status==='PAUSED'">
+<span [matMenuTriggerFor]="statusMenu" style="font-size: 12px; color: #202124; height: 30px; cursor: pointer;" (mouseenter)="buttonStatusEnter()" (mouseleave)="buttonStatusLeave()" class="d-flex justify-content-center mt-2 area-status" matTooltip="Cette annonce est actuellement en veille"
+[matTooltipShowDelay]="'1000'"  [matTooltipPosition]="'after'"><mat-icon class="icon-status mt-2 mr-1">pause</mat-icon>En veille<mat-icon
+      class="icon-status-dropdown ml-1 mt-2 icon-status" >arrow_drop_down</mat-icon></span>
+
+  </ng-container>
+  <ng-container *ngIf="slide.status==='ENABLED'">
+    <span [matMenuTriggerFor]="statusMenu"
+     style="font-size: 12px; color: #202124; height: 30px; cursor: pointer;"
+    class="d-flex justify-content-center mt-2 area-status" (mouseenter)="buttonStatusEnter()" (mouseleave)="buttonStatusLeave()" matTooltip="Cette annonce est actuellement activée"
+[matTooltipShowDelay]="'1000'"  [matTooltipPosition]="'after'">
+    <mat-icon class="icon-status mt-2 mr-1 text-success">play_circle_filled</mat-icon>Activée<mat-icon
+      class="icon-status-dropdown ml-1 mt-2 icon-status" >arrow_drop_down</mat-icon>
+  </span>
+  </ng-container>
+</ng-container>
+
+<mat-menu #statusMenu="matMenu" [overlapTrigger]="'true'">
+<ng-container *ngIf="slide.status==='ENABLED'">
+<button mat-menu-item class="button-item selected" disableRipple>
+<mat-icon class="text-success icon-status">play_circle_filled</mat-icon>
+<span>Activée</span>
+</button>
+
+<button mat-menu-item class="button-item" (click)="changeAdStatus(slide.id, slide.ad_id, slide.status, slide.ad_group_id)"  matTooltip="Mettre en pause"
+[matTooltipShowDelay]="'1000'"  [matTooltipPosition]="'after'" disableRipple>
+<mat-icon class="icon-status">pause_circle_filled</mat-icon>
+<span>Mise en veille</span>
+</button>
+</ng-container>
+<ng-container *ngIf="slide.status==='PAUSED'">
+<button mat-menu-item class="button-item" (click)="changeAdStatus(slide.id, slide.ad_id, slide.status, slide.ad_group_id)" disableRipple  matTooltip="Activer l'annonce"
+[matTooltipShowDelay]="'1000'"  [matTooltipPosition]="'after'">
+<mat-icon class="text-success icon-status">play_circle_filled</mat-icon>
+<span>Activée</span>
+</button>
+
+<button mat-menu-item class="button-item selected" disableRipple>
+<mat-icon class="icon-status">pause_circle_filled</mat-icon>
+<span>Mise en veille</span>
+</button>
+</ng-container>
+</mat-menu>
+</ng-container>
+
+
+
+</div>
+<div class="d-flex flex-column ml-1">
+<span class="ad-coll-label">Nombre d'impressions</span>
+<span class="ad-stats-text mt-2" style="height: 30px;">{{slide.ad_group_id | getAdsSummuryReport: defaulClientCustomerId:slide.ad_id:'impressions' | async}}</span>
+</div>
+<div class="d-flex flex-column ml-3" style="width: 70px;">
+<mat-select class="card-stats-all-select ad-coll-label" [(value)]="selectedOptionStats1"  (mouseenter)="selectHighlightEnter('selectStats1')" (mouseleave)="selectHighlightLeave('selectStats1')">
+   <ng-container *ngFor="let option of statsOptions">
+     <mat-option class="stats-select-options" value={{option.value}} style="font-size: 10px;">{{option.text}}</mat-option>
+   </ng-container>
+ </mat-select>
+ 
+  <ng-container *ngIf="selectedOptionStats1==='costs'">
+ <span class="ad-stats-text mt-2" style="height: 30px;">  
+  {{slide.ad_group_id | getAdsSummuryReport: defaulClientCustomerId:slide.ad_id:selectedOptionStats1 | async | currency}}</span>
+  </ng-container>
+    <ng-container *ngIf="selectedOptionStats1!=='costs'">
+    <span class="ad-stats-text mt-2" style="height: 30px;">
+  {{slide.ad_group_id | getAdsSummuryReport: defaulClientCustomerId:slide.ad_id:selectedOptionStats1 | async}}</span>
+  </ng-container>
+  
+</div>
+<div class="d-none d-md-flex flex-column ml-3" style="width: 70px;">
+<mat-select class="card-stats-all-select ad-coll-label" [(value)]="selectedOptionStats2"  (mouseenter)="selectHighlightEnter('selectStats2')" (mouseleave)="selectHighlightLeave('selectStats2')">
+   <ng-container *ngFor="let option of statsOptions">
+     <mat-option class="stats-select-options" value={{option.value}} style="font-size: 10px;">{{option.text}}</mat-option>
+   </ng-container>
+ </mat-select>
+ 
+  <ng-container *ngIf="selectedOptionStats2==='costs'">
+ <span class="ad-stats-text mt-2" style="height: 30px;">  
+  {{slide.ad_group_id | getAdsSummuryReport: defaulClientCustomerId:slide.ad_id:selectedOptionStats2 | async | currency}}</span>
+  </ng-container>
+    <ng-container *ngIf="selectedOptionStats2!=='costs'">
+    <span class="ad-stats-text mt-2" style="height: 30px;">
+  {{slide.ad_group_id | getAdsSummuryReport: defaulClientCustomerId:slide.ad_id:selectedOptionStats2 | async}}</span>
+  </ng-container>
+  
+</div>
+
+</mat-toolbar>
+
+</div>
+<mde-popover  #popoverAds="mdePopover" [mdePopoverOverlapTrigger]="true" [mdePopoverCloseOnClick]="false" >
+        <mat-card class="card-brief d-flex overflow-hidden justify-content-center align-items-center" style="border-radius: 2px; height: auto; max-width: 352px">
+          <mat-card-content><img mat-card-img [src]="slide.adData.marketingImages[0].imageUrl" style="max-height: 352px; max-width: 352px"></mat-card-content>
+        </mat-card>
+</mde-popover>
+
+</ng-container>
+<!-- controls -->
+<mat-card-actions align="end" class="pager-ads">
+
+<div class="d-flex flex-row-reverse align-items-center">
+<button mat-icon-button (click)="onNextClick()" style="color: rgba(0,0,0,.54);"><mat-icon>keyboard_arrow_right</mat-icon></button> <span class="page-count">{{currentSlide + 1}} sur&nbsp;{{slides.length}}</span> <button mat-icon-button (click)="onPreviousClick()" style="color: rgba(0,0,0,.54);"><mat-icon>keyboard_arrow_left</mat-icon></button>
+
+</div>
+</mat-card-actions>
+
+
+</ng-container>
+<ng-container *ngIf="slides.length===0">
+<div class="w-100 d-flex justify-content-center align-items-center mat-elevation-z2" style="background: whitesmoke; height: 170px;">
+<div class="d-flex justify-content-center mt-1 pt-1" >
+<h4>Aucune annonce</h4>
+</div>
+</div>
+</ng-container>
+
+</mat-card>
+</ng-template>
+
+
+
+
+
+<adf-spinner *ngIf="loaderEdit"></adf-spinner>
+<adf-snackbar></adf-snackbar>

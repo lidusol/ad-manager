@@ -1,0 +1,52 @@
+<div class="d-flex w-100 justify-content-center align-items-center p-md-5">
+    <ng-container *ngIf="showSpinnerSearch">
+        <div class="col-md-12 text-center">
+            <h4 style="color: rgba(158, 158, 158, 0.8); font-weight: 400;">Recherche d'images en cours</h4>
+            <br>
+            <br>
+            <mat-spinner
+                [mode]="'indeterminate'" color="primary" [diameter]="30" class="d-inline-block">
+            </mat-spinner>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="!showSpinnerSearch">
+        <ng-container *ngIf="assetsDisplay.length>0; else noAssets">
+          
+             <div class="d-flex flex-wrap justify-content-center align-items-center">
+                 <mat-card *ngFor="let asset of assetsDisplay" class="card-image-gallery m-2" [id]="asset.name">
+                     <button mat-mini-fab class="checked-icon"><mat-icon>done</mat-icon></button>
+                  <mat-card-content class="d-flex justify-content-center align-items-center flex-column">
+                      <span style="font-size: 12px;">Dimensions: &nbsp;{{asset.width}} x {{asset.height}}</span>
+               <img [src]="asset.urls" [alt]="asset.name" class="img-fluid" style="max-height: 100px;" >         
+         </mat-card-content>
+                 <mat-card-actions align="center">
+                     <button mat-button color="primary"  (click)="selectImage(asset)" class="select-btn">Select</button>
+                     <button mat-button color="primary"  (click)="selectImage(asset)" class="deselect-btn">Deselect</button>
+                     <button mat-button color="warn" (click)="deleteImage(asset)">Supprimer</button>
+                 </mat-card-actions>
+             </mat-card>
+
+             </div>
+            
+         
+    
+        </ng-container>
+    
+        <ng-template #noAssets>
+            <div class="col-md-12 text-center">
+                <mat-icon style="font-size: 32px;">image_not_supported</mat-icon>
+                <br>
+                <br>
+                <h4 style="color: rgba(158, 158, 158, 0.8); font-weight: 400;">Aucune image trouvée !</h4>
+                <br>
+                <br>
+                <!-- <button mat-raised-button color="primary" (click)="getListAssetsDisplay()"> <mat-icon>refresh</mat-icon>&nbsp;Rafraichir</button> -->
+                 <br>
+            </div>
+        </ng-template>
+
+    </ng-container>
+    
+    
+    
+</div>

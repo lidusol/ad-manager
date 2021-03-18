@@ -1,0 +1,11 @@
+<mat-card class="card-selector">
+    <mat-card-header>
+        <mat-card-title>{{'select_adv_act_main' | translate}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+    <adf-select-account [showAutoComplete]="false"></adf-select-account>
+    </mat-card-content>
+    <mat-card-actions align="end">
+        <button mat-flat-button color="accent" (click)="signout()">{{ 'logout' | translate }}</button>
+    </mat-card-actions>
+</mat-card>

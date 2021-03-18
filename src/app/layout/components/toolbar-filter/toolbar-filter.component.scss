@@ -1,0 +1,42 @@
+.filter-toolbar{
+    width: 100%;
+    min-height: 48px;
+    background: #fff;
+    height: auto;
+    position: fixed;
+    z-index: 2;
+    
+}
+
+.filter-toolbar .toolbar-container{
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    width: 100%; 
+}
+
+.date-selector{
+    display: flex;
+    justify-content: flex-end ;
+    flex-shrink: 0;
+    font-size: 13px;
+    padding: 0 16px;
+    margin-top: 6px;
+    
+}
+
+.navigationLink{
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+    flex: 1;
+    overflow: hidden;
+}
+
+.heading-single{
+    font-size: 20px;
+    font-weight: 500;
+    align-self: center;
+    padding-left: 24px;
+}
+

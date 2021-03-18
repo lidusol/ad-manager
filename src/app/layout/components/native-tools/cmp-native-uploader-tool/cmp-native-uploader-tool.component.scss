@@ -1,0 +1,237 @@
+h1 {
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  a {
+    text-decoration: none;
+    color: #007bff;
+  }
+}
+
+iframe {
+  display: block;
+  margin: 0 auto 20px;
+}
+
+::ng-deep .cropper-container, ::ng-deep .cropper img {
+  max-height: 500px !important;
+}
+
+.hide {
+  opacity: .5;
+  overflow: hidden;
+  width: 0;
+  height: 0;
+}
+
+.previews {
+  margin: 1.25rem 0 0;
+  text-align: center;
+  .preview {
+    display: inline-block;
+    vertical-align: middle;
+    border: 5px solid transparent;
+    &:hover {
+      cursor: pointer;
+      border: 5px solid red;
+    }
+    .img-preview {
+      overflow: hidden;
+      width: 150px;
+      height: 150px;
+    }
+  }
+}
+
+
+
+
+
+
+.icon-status{
+    width: 12px;
+    height: 12px;
+    font-size: 12px;
+}
+
+/* .selected{
+    background: #e8eaed;
+    outline: none;
+} */
+
+.button-item{
+    font-size: 12px;
+}
+
+.card-asset{
+    height: 180px;
+    box-shadow: none !important;
+    cursor: pointer;
+    border-radius: 0px !important;
+    margin: 1rem;
+    max-width: 240px
+}
+.card-asset:hover{
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2) !important;
+    cursor: pointer;
+    .asset-info-container{
+        display: none;
+    }
+    .action-block{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+.asset-container-preview{
+    max-height: 110px;
+    min-width: 110px;
+    height: 110px;
+}
+
+.asset-preview{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    max-height: inherit;
+    max-width: inherit;
+    position: relative;
+}
+
+.asset-img{
+    max-height: inherit;
+    max-width: inherit;
+}
+
+.asset-info-container{
+    align-items: center;
+    display: flex;
+    height: 40px;
+    justify-content: center;
+}
+
+.metadata-container{
+        align-items: inherit;
+    display: inherit;
+    height: inherit;
+    justify-content: inherit;
+    width: 100%;
+}
+
+.image-asset-metadata{
+    color: #9aa0a6;
+    left: 0;
+    overflow: hidden;
+    padding: 12px 0;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    white-space: nowrap;
+}
+
+.action-block{
+    display: none;
+}
+
+.secondary-action-info-container{
+    position: absolute;
+    right: 3px;
+    top: 10px;
+    height: 24px;
+    border-radius: 100%;
+    background: #fff;
+
+}
+
+.asset-indicator{
+   display: initial
+}
+
+.btn-checked{
+    color: #1a73e8;
+    display: none;
+}
+
+.btn-remove-checked{
+    display: none;
+    color: black;
+}
+
+.card-asset.selected{
+    .mat-card-content{
+        outline: 2px solid #1a73e8;
+    }
+}
+
+.card-asset.selected{
+   .btn-checked{
+       display: block;
+   } 
+}
+
+.card-asset.selected:hover{
+    .btn-remove-checked{
+        display: block;
+    }
+    .btn-checked{
+        display: none;
+    }
+}
+
+.gallery-selector-container{
+    align-items: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+    padding-right: 4px;
+}
+
+.gallery-selection-wrapper{
+    /* max-height: 500px;
+    overflow-x: hidden;
+    overflow-y: auto; */
+}
+
+.gallery-selection-header{
+    background: #fff;
+    /* padding: 8px; */
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12), 0 1px 5px 0 rgba(0,0,0,.2);
+    padding-bottom: 16px;
+    position: relative;
+    z-index: 100;
+    /* transform: translate3d(0px, 658px, 0px); */
+    .title{
+    padding: 0 24px;
+    align-items: center;
+    display: flex;
+    width: 100%;
+        h2{
+            font-size: 15px;
+            font-weight: 400;
+            margin-bottom: 12px;
+            margin-right: 4px;
+            margin-top: 12px;
+        }
+    }
+}
+
+.gallery-body{
+    padding: 0 24px;
+    margin-top: 20px;
+    max-height: 300px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.add-button{
+        display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border: 1px solid #9aa0a6;
+    color: #9aa0a6;
+    cursor: pointer;
+    height: 110px;
+    margin: 12px;
+    width: 110px;
+}

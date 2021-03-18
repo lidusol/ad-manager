@@ -1,0 +1,182 @@
+<mat-card class="p-md-5 ml-md-3 mt-2" [ngStyle]="{'box-shadow': shadowed?'inherit':'none !important'}">
+    <div class="row justify-content-center" *ngIf="data.length>0">
+        <div class="c-column">
+            <div class="d-flex">
+                
+                <mat-icon class="c-icon"><img src="assets/svg/display.svg"></mat-icon>     
+                <div class="c-item f-col">
+                 <span>{{ 'cmp_recap_name' | translate }}</span>
+                 <div class="d-flex justify-content-center">
+                 <span style="flex: 1;">{{data[0].name}}</span>
+                 </div>     
+             </div>  
+            </div>
+            <div class="d-flex">
+                <mat-icon class="c-icon">calendar_today</mat-icon>
+
+                <div class="c-item f-col">     
+                    <span>{{ 'cmp_date_review' | translate }}</span>
+                    <span style="flex: 1;">{{moment(data[0].startDateEnglish, "MM-DD-YYYY").format('LL')}}</span>
+                    
+                </div>
+            </div>
+         <div class="d-flex flex-column">
+
+             <ng-container *ngIf="data[0].targetedLocations.length>0 && data[0].excludedLocations.length>0">
+                 <div class="c-item">
+                 <mat-icon class="c-icon" [matTooltip]="'targeted_locations_label_recap' | translate">location_on</mat-icon>
+                 <ng-container *ngIf="data[0].targetedLocations.length===1">
+                     <span style="flex: 1;">{{data[0].targetedLocations[0].locationName}} </span>
+                 </ng-container>
+                 <ng-container *ngIf="data[0].targetedLocations.length===2">
+                      <span style="flex: 1;">{{data[0].targetedLocations[0].locationName}} & {{data[0].targetedLocations[1].locationName}}</span>
+                 </ng-container>
+                 <ng-container *ngIf="data[0].targetedLocations.length>2">
+                      <span style="flex: 1;">{{data[0].targetedLocations[0].locationName}} & {{data[0].targetedLocations.length - 1}} {{ 'others_label_plural' | translate }}</span>
+                 </ng-container>
+             </div>
+             <div class="c-item">
+                 <mat-icon class="c-icon" [matTooltip]="'excluded_locations_label_recap' | translate">location_off</mat-icon>
+                 <ng-container *ngIf="data[0].excludedLocations.length===1">
+                     <span style="flex: 1;">{{data[0].excludedLocations[0].locationName}} </span>
+                 </ng-container>
+                 <ng-container *ngIf="data[0].excludedLocations.length===2">
+                      <span style="flex: 1;">{{data[0].excludedLocations[0].locationName}} & {{data[0].excludedLocations[1].locationName}}</span>
+                 </ng-container>
+                 <ng-container *ngIf="data[0].excludedLocations.length>2">
+                      <span style="flex: 1;">{{data[0].excludedLocations[0].locationName}} & {{data[0].excludedLocations.length - 1}} {{ 'others_label_plural' | translate }}</span>
+                 </ng-container>
+             </div>
+             </ng-container>
+             <ng-container *ngIf="data[0].targetedLocations.length>0 && data[0].excludedLocations.length===0">
+                  <div class="c-item">
+                 <mat-icon class="c-icon" [matTooltip]="'targeted_locations_label_recap' | translate">location_on</mat-icon>
+                 <ng-container *ngIf="data[0].targetedLocations.length===1">
+                     <span style="flex: 1;">{{data[0].targetedLocations[0].locationName}} </span>
+                 </ng-container>
+                 <ng-container *ngIf="data[0].targetedLocations.length===2">
+                      <span style="flex: 1;">{{data[0].targetedLocations[0].locationName}} & {{data[0].targetedLocations[1].locationName}}</span>
+                 </ng-container>
+                 <ng-container *ngIf="data[0].targetedLocations.length>2">
+                      <span style="flex: 1;">{{data[0].targetedLocations[0].locationName}} & {{data[0].targetedLocations.length - 1}} {{ 'others_label_plural' | translate }}</span>
+                 </ng-container>
+             </div>
+                <div class="c-item" >
+                     <mat-icon class="c-icon" [matTooltip]="'excluded_locations_label_recap' | translate">location_off</mat-icon>
+                      <span style="flex: 1;">{{ 'no_excluded_zones_review' | translate }}</span>  
+                 </div>
+             </ng-container>
+             <ng-container *ngIf="data[0].targetedLocations.length===0 && data[0].excludedLocations.length>0">
+                    <div class="c-item" >
+                     <mat-icon class="c-icon" [matTooltip]="'targeted_locations_label_recap' | translate">location_on</mat-icon>
+                      <span style="flex: 1;">{{ 'all_without_excluded' | translate }}</span>  
+                 </div>
+                  <div class="c-item">
+                 <mat-icon class="c-icon" [matTooltip]="'excluded_locations_label_recap' | translate">location_off</mat-icon>
+                 <ng-container *ngIf="data[0].excludedLocations.length===1">
+                     <span style="flex: 1;">{{data[0].excludedLocations[0].locationName}} </span>
+                 </ng-container>
+                 <ng-container *ngIf="data[0].excludedLocations.length===2">
+                      <span style="flex: 1;">{{data[0].excludedLocations[0].locationName}} & {{data[0].excludedLocations[1].locationName}}</span>
+                 </ng-container>
+                 <ng-container *ngIf="data[0].excludedLocations.length>2">
+                      <span style="flex: 1;">{{data[0].excludedLocations[0].locationName}} & {{data[0].excludedLocations.length - 1}} {{ 'others_label_plural' | translate }}</span>
+                 </ng-container>
+             </div>
+             </ng-container>
+             <ng-container *ngIf="data[0].targetedLocations.length===0 && data[0].excludedLocations.length===0">
+                 <div class="c-item" >
+                     <mat-icon class="c-icon" [matTooltip]="'targeted_locations_label_recap' | translate">location_on</mat-icon>
+                      <span style="flex: 1;">{{ 'all_targeted_countries' | translate }} </span>  
+                 </div>
+                 <div class="c-item" >
+                     <mat-icon class="c-icon" [matTooltip]="'excluded_locations_label_recap' | translate">location_off</mat-icon>
+                      <span style="flex: 1;">{{ 'no_excluded_locations_recap' | translate }} </span>  
+                 </div>
+     
+             </ng-container>
+         </div>  
+        
+        
+        
+    </div>
+
+      <div class="c-column">
+        <div class="c-item f-col">
+            <span style="flex: 1;">{{ 'placements_label_recap' | translate }} </span>
+            <span style="flex: 1;" class="c-sub-item">
+                <ng-container *ngIf="data[0].targetedPlacements.length===0">
+                    {{ 'all_websites_apllications_recap_label' | translate }}
+                </ng-container>
+                <ng-container *ngIf="data[0].targetedPlacements.length>0">
+                    {{data[0].targetedPlacements.length}} {{ 'sites_label_plural_recap' | translate }}
+                </ng-container>
+                 </span>
+        </div>
+        <div class="c-item f-col">
+            <span style="flex: 1;">{{ 'type_spend_label_recap' | translate }}</span>
+             <ng-container *ngIf="data[0].packType==='0'">
+                    <span style="flex: 1;" class="c-sub-item">Test </span>
+            </ng-container>
+            <ng-container *ngIf="data[0].packType==='1'">
+                    <span style="flex: 1;" class="c-sub-item">Basic </span>
+            </ng-container>
+            <ng-container *ngIf="data[0].packType==='2'">
+                <span style="flex: 1;" class="c-sub-item">Premium </span>
+            </ng-container>
+            <ng-container *ngIf="data[0].packType==='3'">
+                <span style="flex: 1;" class="c-sub-item">Pro</span>
+            </ng-container>
+            <ng-container *ngIf="data[0].packType==='4'">
+                <span style="flex: 1;" class="c-sub-item">{{ 'budget_spend_type' | translate }}</span>
+            </ng-container>
+            
+            
+        </div>
+    </div>
+    <div class="c-column">
+         <div class="c-item f-col">
+            <span style="flex: 1;">{{ 'cmp_objective_label' | translate }} </span>
+            <span style="flex: 1;" class="c-sub-item">
+                <ng-container *ngIf="(data[0].objective!==undefined && data[0].objective!==null); else noObjective">
+                    {{data[0].objective.primary.title}}
+                </ng-container>
+                <ng-template #noObjective>
+
+                    <ng-container *ngIf="data[0].totalImpressions!==undefined; else impressionsAttributeUndefined">
+                        <ng-container *ngIf="data[0].totalImpressions>0">
+                            {{data[0].totalImpressions | shortNumber}} {{ 'impressions_label_recap' | translate }}
+                        </ng-container>
+                        <ng-container *ngIf="data[0].totalClics>0">
+                             {{data[0].totalClics | shortNumber}} {{ 'clics_label_recap' | translate }}
+                        </ng-container>
+                    </ng-container>
+                    <ng-template #impressionsAttributeUndefined>
+                        <ng-container *ngIf="data[0].packType==='0'">
+                            {{20000 | shortNumber}}
+                        </ng-container>
+                        <ng-container *ngIf="data[0].packType==='1'">
+                            {{100000 | shortNumber}}
+                        </ng-container>
+                        <ng-container *ngIf="data[0].packType==='2'">
+                            {{250000 | shortNumber}}
+                        </ng-container>
+                        <ng-container *ngIf="data[0].packType==='3'">
+                            {{500000 | shortNumber}}
+                        </ng-container>
+                    
+                    </ng-template>
+                </ng-template>
+                </span>
+        </div>
+        <div class="c-item f-col">
+            <span style="flex: 1;" >{{ 'cmp_strategy_label_recap' | translate }}</span>
+            <span style="flex: 1;" class="c-sub-item">{{data[0].strategie}} </span>
+        </div>
+         <div class="c-item f-col">
+            <span style="flex: 1;" >{{ 'cmp_cost_label_recap' | translate }}</span>
+            <span style="flex: 1; font-weight: 600;">{{data[0].realBudget | currency}} </span>
+        </div>
+    </div>
+    </div>
+</mat-card>

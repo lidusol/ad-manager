@@ -1,0 +1,566 @@
+<!-- <mat-accordion>
+  <mat-expansion-panel #zonesExpansion id="zones-expansion" [expanded]="expanded" class="panel-builder-single"
+    hideToggle>
+
+
+    <mat-expansion-panel-header (click)="expandPanel($event)">
+      <mat-icon class="expansion-toggle pt-3 pr-2" *ngIf="zonesExpansion.expanded"
+        (click)="$event.stopPropagation(togglePanel($event))">expand_less</mat-icon>
+      <mat-icon class="expansion-toggle" *ngIf="!zonesExpansion.expanded"
+        (click)="$event.stopPropagation(togglePanel($event))">expand_more</mat-icon>
+      <mat-panel-title>
+        <ng-container *ngIf="zonesExpansion.expanded">
+          <div class="pt-4">
+            Zones géographiques
+
+          </div>
+        </ng-container>
+        <ng-container *ngIf="!zonesExpansion.expanded">
+
+          Zones géographiques
+        </ng-container>
+
+      </mat-panel-title>
+      <mat-panel-description>
+        <ng-container *ngIf="zonesExpansion.expanded">
+          <div class="pl-3 pt-4">
+            Sélectionnez les zones géographiques à cibler
+
+          </div>
+        </ng-container>
+        <ng-container *ngIf="!zonesExpansion.expanded">
+          <div class="pl-3">
+
+            <ng-container *ngIf="zonesOptionSelected==='all'">
+              Tous les pays et territoires
+            </ng-container>
+            <ng-container *ngIf="zonesOptionSelected==='default'">
+              Sénégal
+            </ng-container>
+            <ng-container *ngIf="zonesOptionSelected==='custom'">
+              <div class="d-flex justify-content-center">
+                     <ng-container *ngIf="NEW_LOCATIONS_TO_TARGET.length>0 && NEW_LOCATIONS_TO_EXCLUDE.length>0">
+            <div class="c-item">
+            <mat-icon class="c-icon" matTooltip="Zones ciblées">location_on</mat-icon>
+            <ng-container *ngIf="NEW_LOCATIONS_TO_TARGET.length===1">
+                <span style="flex: 1;">{{NEW_LOCATIONS_TO_TARGET[0].locationName}} </span>
+            </ng-container>
+            <ng-container *ngIf="NEW_LOCATIONS_TO_TARGET.length===2">
+                 <span style="flex: 1;">{{NEW_LOCATIONS_TO_TARGET[0].locationName}} et {{NEW_LOCATIONS_TO_TARGET[1].locationName}}</span>
+            </ng-container>
+            <ng-container *ngIf="NEW_LOCATIONS_TO_TARGET.length>2">
+                 <span style="flex: 1;">{{NEW_LOCATIONS_TO_TARGET[0].locationName}} et {{NEW_LOCATIONS_TO_TARGET.length - 1}} autres</span>
+            </ng-container>
+        </div>
+        <div class="c-item">
+            <mat-icon class="c-icon" matTooltip="Zones exclues">location_off</mat-icon>
+            <ng-container *ngIf="NEW_LOCATIONS_TO_EXCLUDE.length===1">
+                <span style="flex: 1;">{{NEW_LOCATIONS_TO_EXCLUDE[0].locationName}} </span>
+            </ng-container>
+            <ng-container *ngIf="NEW_LOCATIONS_TO_EXCLUDE.length===2">
+                 <span style="flex: 1;">{{NEW_LOCATIONS_TO_EXCLUDE[0].locationName}} et {{NEW_LOCATIONS_TO_EXCLUDE[1].locationName}}</span>
+            </ng-container>
+            <ng-container *ngIf="NEW_LOCATIONS_TO_EXCLUDE.length>2">
+                 <span style="flex: 1;">{{NEW_LOCATIONS_TO_EXCLUDE[0].locationName}} et {{NEW_LOCATIONS_TO_EXCLUDE.length - 1}} autres</span>
+            </ng-container>
+        </div>
+        </ng-container>
+        <ng-container *ngIf="NEW_LOCATIONS_TO_TARGET.length>0 && NEW_LOCATIONS_TO_EXCLUDE.length===0">
+             <div class="c-item">
+            <mat-icon class="c-icon" matTooltip="Zones ciblées">location_on</mat-icon>
+            <ng-container *ngIf="NEW_LOCATIONS_TO_TARGET.length===1">
+                <span style="flex: 1;">{{NEW_LOCATIONS_TO_TARGET[0].locationName}} </span>
+            </ng-container>
+            <ng-container *ngIf="NEW_LOCATIONS_TO_TARGET.length===2">
+                 <span style="flex: 1;">{{NEW_LOCATIONS_TO_TARGET[0].locationName}} et {{NEW_LOCATIONS_TO_TARGET[1].locationName}}</span>
+            </ng-container>
+            <ng-container *ngIf="NEW_LOCATIONS_TO_TARGET.length>2">
+                 <span style="flex: 1;">{{NEW_LOCATIONS_TO_TARGET[0].locationName}} et {{NEW_LOCATIONS_TO_TARGET.length - 1}} autres</span>
+            </ng-container>
+        </div>
+           <div class="c-item" >
+                <mat-icon class="c-icon" matTooltip="Zones exclues">location_off</mat-icon>
+                 <span style="flex: 1;">Pas de zones exclues</span>  
+            </div>
+        </ng-container>
+        <ng-container *ngIf="NEW_LOCATIONS_TO_TARGET.length===0 && NEW_LOCATIONS_TO_EXCLUDE.length>0">
+               <div class="c-item" >
+                <mat-icon class="c-icon" matTooltip="Zones ciblées">location_on</mat-icon>
+                 <span style="flex: 1;">Tous les pays et territoires sauf ceux qui sont exclus</span>  
+            </div>
+             <div class="c-item">
+            <mat-icon class="c-icon" matTooltip="Zones exclues">location_off</mat-icon>
+            <ng-container *ngIf="NEW_LOCATIONS_TO_EXCLUDE.length===1">
+                <span style="flex: 1;">{{NEW_LOCATIONS_TO_EXCLUDE[0].locationName}} </span>
+            </ng-container>
+            <ng-container *ngIf="NEW_LOCATIONS_TO_EXCLUDE.length===2">
+                 <span style="flex: 1;">{{NEW_LOCATIONS_TO_EXCLUDE[0].locationName}} et {{NEW_LOCATIONS_TO_EXCLUDE[1].locationName}}</span>
+            </ng-container>
+            <ng-container *ngIf="NEW_LOCATIONS_TO_EXCLUDE.length>2">
+                 <span style="flex: 1;">{{NEW_LOCATIONS_TO_EXCLUDE[0].locationName}} et {{NEW_LOCATIONS_TO_EXCLUDE.length - 1}} autres</span>
+            </ng-container>
+        </div>
+        </ng-container>
+        <ng-container *ngIf="NEW_LOCATIONS_TO_TARGET.length===0 && NEW_LOCATIONS_TO_EXCLUDE.length===0">
+            <div class="c-item" >
+                <mat-icon class="c-icon" matTooltip="Zones ciblées">location_on</mat-icon>
+                 <span style="flex: 1;">Tous les pays et territoires </span>  
+            </div>
+            <div class="c-item" >
+                <mat-icon class="c-icon" matTooltip="Zones exclues">location_off</mat-icon>
+                 <span style="flex: 1;">Aucune zone exclue </span>  
+            </div>
+
+        </ng-container>
+              </div>
+            </ng-container>
+
+          </div>
+        </ng-container>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+   <div class="row" >
+          <div class="col-md-12 text-center">
+                        <ejs-grid #gridTargetedZones [dataSource]='LOCATIONS_TO_TARGET' *ngIf="LOCATIONS_TO_TARGET.length>0" locale="fr" allowTextWrap="true" [enableHover]='"false"'
+        id="gridDisplay" 
+       [allowResizing]='true' [allowSorting]="true" [gridLines]='gridLines' width="auto"
+        height="auto" >
+        <e-columns>
+           <e-column field='locationName' headerText='Zones ciblées' [filter]='filter' clipMode='EllipsisWithTooltip' width='170' ></e-column>
+            <e-column field='id' headerText='Action' width='70' >
+       <ng-template #template let-data>
+         <button mat-icon-button (click)="removeLocationTargetedFromGrid(data)"><mat-icon>cancel</mat-icon></button> 
+         </ng-template>
+         </e-column>
+        </e-columns>
+      </ejs-grid>
+         <ejs-grid #gridExcludedZones [dataSource]='LOCATIONS_TO_EXCLUDE' locale="fr" allowTextWrap="true" [enableHover]='"false"'
+        id="gridDisplay" 
+       [allowResizing]='true' [allowSorting]="true" [gridLines]='gridLines' width="auto"
+        height="auto" *ngIf="LOCATIONS_TO_EXCLUDE.length>0">
+        <e-columns>
+          <e-column field='locationName' headerText='Zones exclues' [filter]='filter' clipMode='EllipsisWithTooltip' width='170' ></e-column>
+           <e-column field='id' headerText='Action' width='70' >
+             <ng-template #template let-data> 
+               <button mat-icon-button (click)="removeLocationTargetedFromGrid(data)"> <mat-icon (click)="removeLocationExcludedFromGrid(data)">cancel</mat-icon>
+              </button>  
+              </ng-template>
+             
+             
+          
+         </e-column>
+        </e-columns>
+      </ejs-grid>
+        </div>
+    </div>         
+      <div class="row">
+         <div class="col-md-4 text-center">
+
+         </div>
+        <div class="col-md-4 text-center">
+            <mat-radio-group #zonesOption aria-labelledby="Sélectionnez les zones géographiques à cibler"
+              class="example-radio-group" [(ngModel)]="zonesOptionSelected" (change)="register($event)">
+              <mat-radio-button class="example-radio-button" *ngFor="let default of zonesData" [value]="default.id">
+                {{default.label}}
+              </mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <div class="col-md-4 text-center">
+           <adf-google-maps></adf-google-maps>
+        </div>
+    
+      </div>
+      <div class="row" *ngIf="zonesOptionSelected==='custom'">
+        <div class="col-md-4"> 
+
+        </div>
+        <div class="col-md-4">
+                  <mat-form-field class="zones-field mb-3" appearance="legacy" [mdePopoverTriggerFor]="popover"  mdePopoverTriggerOn="click">
+            <input matInput #inputZonesQuery (keyup)="inputChange(inputZonesQuery.value)" [formControl]="searchLocation" id="inputZones" placeholder=""
+             autofocus   >
+            <mat-icon matPrefix >search</mat-icon>
+          </mat-form-field>
+          <br>
+
+    <mde-popover #popover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdePopoverCloseOnClick]="false" [mdePopoverArrowWidth]=0 [mdeFocusTrapAutoCaptureEnabled]='false' [mdeFocusTrapEnabled]='false' [mdePopoverPositionY]='"below"' [mdePopoverPositionX]='"after"'>
+  <mat-card class="card-search mb-5">
+    <mat-progress-bar
+      mode="indeterminate" color="primary" *ngIf="showProgressSearchLocation">
+    </mat-progress-bar>
+    <mat-card-content>
+      
+       <div class="row" *ngIf="locations.length>0">
+        <div class="col-md-12 text-center pl-0 pr-0">
+
+
+          <mat-selection-list #matSelectionList role="option" class="p-0" (selectionChange)="onZoneSelect($event)"
+            multiple='false'>
+
+            <mat-list-option style="cursor: pointer; height: 24px" *ngFor="let loc of  LIST_LOCATIONS_ALL_READY_GET"
+              [value]="loc">
+              <div class="list-dynamic-item">
+                <div class="location-suggestion">
+                  <div class="location-entry d-flex justify-content-between align-items-center">
+                       <div class="d-flex flex-column align-items-start">
+                   <div class="location-description">
+                       {{loc.canonicalName}} 
+                    </div>
+                    </div>
+                   <div class="d-flex align-items-end">
+                     <button mat-button color="primary" class="button-target-option" style='font-size: 12px' (click)="addZonesTarget(loc)">
+                   Cibler
+                 </button>
+                 <button mat-button class="button-target-option" color="primary" style='font-size: 12px' (click)="excludeZonesTarget(loc)">
+                   Exclure
+                 </button>
+
+                   </div>
+                  </div>
+                </div>
+              </div>
+      
+            </mat-list-option>
+          </mat-selection-list>
+        </div>
+      </div>
+    </mat-card-content>
+ 
+  </mat-card>
+</mde-popover>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+         
+        </div>
+        <div class="col-md-8" style="text-align: left;">
+          
+           <mat-accordion >
+  <mat-expansion-panel #optionTargetExpansion style="border: none !important; box-shadow: none !important" class="option-target" hideToggle>
+    <mat-expansion-panel-header class="d-flex flex-row-reverse accent-color">
+      <mat-icon class="accent-color" *ngIf="optionTargetExpansion.expanded"
+        (click)="$event.stopPropagation(togglePanel($event))">expand_less</mat-icon>
+      <mat-icon class="accent-color" *ngIf="!optionTargetExpansion.expanded"
+        (click)="$event.stopPropagation(togglePanel($event))">expand_more</mat-icon>
+      <mat-panel-title class="ml-2 accent-color">
+        Option de ciblage démographique
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="option-target-label">
+      Cible <mat-icon class="icon-helper" [mdePopoverTriggerFor]="popoverHelperTarget"  mdePopoverTriggerOn="hover">help_outline</mat-icon>
+    </div>
+    <mat-radio-group aria-labelledby="Sélectionnez les zones géographiques à cibler"
+              class="example-radio-group" [(ngModel)]="zonesOptionTargetSelected" >
+              <mat-radio-button class="example-radio-button" *ngFor="let default of zonesDataTargetOption" [value]="default.id">
+                {{default.label}}
+              </mat-radio-button>
+            </mat-radio-group>
+            <div class="option-target-label">
+      Exclure <mat-icon class="icon-helper" [mdePopoverTriggerFor]="popoverHelperExclude"  mdePopoverTriggerOn="hover">help_outline</mat-icon>
+    </div>
+    <mat-radio-group aria-labelledby="Sélectionnez les zones géographiques à cibler"
+              class="example-radio-group" [(ngModel)]="zonesOptionExcludeSelected" >
+              <mat-radio-button class="example-radio-button" *ngFor="let default of zonesDataExcludeOption" [value]="default.id">
+                {{default.label}}
+              </mat-radio-button>
+            </mat-radio-group>
+            <mde-popover #popoverHelperTarget="mdePopover" [mdePopoverOverlapTrigger]="false" [mdePopoverCloseOnClick]="false" [mdePopoverArrowWidth]=0 [mdePopoverEnterDelay]='1000' [mdePopoverPositionY]="'below'" [mdePopoverPositionX]='"after"'>
+  <mat-card class="card-helper">
+   
+    <mat-card-content>
+      <div class="helper-topic">
+        Par défaut, vos annonces sont susceptibles d'être diffusées auprès des internautes en fonction de leur position probable ou des lieux qui les intéressent. Si vous le souhaitez, vous pouvez utiliser ces options géographiques afin que vos annonces ne soient diffusées que pour un seul type de zone géographique.
+      </div>
+    </mat-card-content>
+ 
+  </mat-card>
+</mde-popover>
+ <mde-popover #popoverHelperExclude="mdePopover" [mdePopoverOverlapTrigger]="false" [mdePopoverCloseOnClick]="false" [mdePopoverArrowWidth]=0 [mdePopoverEnterDelay]='1000' [mdePopoverPositionY]="'below'" [mdePopoverPositionX]='"after"'>
+  <mat-card class="card-helper">
+   
+    <mat-card-content>
+      <div class="helper-topic">
+        Par défaut, vos annonces sont susceptibles d'être diffusées auprès des internautes en fonction de leur position probable ou des lieux qui les intéressent. Si vous le souhaitez, vous pouvez utiliser ces options géographiques afin que vos annonces ne soient diffusées que pour un seul type de zone géographique.
+      </div>
+    </mat-card-content>
+ 
+  </mat-card>
+</mde-popover>
+  </mat-expansion-panel>
+
+</mat-accordion>
+        </div>
+      </div>
+    <div class="panel-footer">
+      <mat-spinner [mode]="'indeterminate'" color="primary" [diameter]="25" *ngIf="spinnerUpdate" class="mr-4">
+      </mat-spinner>
+      <ng-container *ngIf="!spinnerUpdate && user_access!==undefined">
+        <button mat-button color="primary" (click)="updateZones()" [disabled]="user_access.readOnly">Enregistrer</button>
+        <button mat-button color="primary" (click)="$event.stopPropagation(togglePanel($event))">Annuler</button>
+
+      </ng-container>
+
+    </div>
+
+
+
+  </mat-expansion-panel>
+</mat-accordion>
+
+
+
+
+
+<ejs-dialog id='dialogExcludeTargeted' #dialogExcludeTargeted [visible]="visible" [target]="target"
+  [position]='position' [isModal]='isModal' style="top: 3rem; max-width: 500px; z-index: 40;">
+  <ng-template #content>
+    <div class="dialog-content">
+      <div class="row w-100">
+        <div class="col-md-12 text-center">
+          <h4 class="dialog-header-label w-100">Exclure l'élément</h4>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="row mt-5" *ngIf="showProgressExcludeTargeted">
+        <div class="col-md-12 p-5 text-center align-items-center">
+          <mat-spinner class="d-inline-block" color="primary" [diameter]="50">
+          </mat-spinner>
+          <p class="mt-5" style="font-size: 18px; color: rgba(0,0,0,.54);">Exclusion en cours...</p>
+        </div>
+      </div>
+      <div class="row mt-5" *ngIf="!showProgressExcludeTargeted">
+        <div class="col-md-12 p-5 text-center align-items-center">
+          <p class="mt-5" style="font-size: 14px; color: rgba(0,0,0,.54);">Vous allez retirer cette zone de la liste des
+            éléments ciblés pour l'ajouter dans la liste des éléments exclus ?</p>
+        </div>
+      </div>
+
+    </div>
+    <mat-divider></mat-divider>
+    <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end">
+      <button mat-button (click)="dialogExcludeTargeted.hide()">Annuler</button>
+      <button mat-button color="primary" (click)="excludeLocationButtonAction()">Exclure</button>
+    </div>
+  </ng-template>
+</ejs-dialog>
+
+<ejs-dialog id='dialogTargetExcluded' #dialogTargetExcluded [visible]="visible" [target]="target" [position]='position'
+  [isModal]='isModal' style="top: 3rem; max-width: 500px; z-index: 40;">
+  <ng-template #content>
+    <div class="dialog-content">
+      <div class="row w-100">
+        <div class="col-md-12 text-center">
+          <h4 class="dialog-header-label w-100">Ciblé l'élément</h4>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="row mt-5" *ngIf="showProgressTargetExcluded">
+        <div class="col-md-12 p-5 text-center align-items-center">
+          <mat-spinner class="d-inline-block" color="primary" [diameter]="50">
+          </mat-spinner>
+          <p class="mt-5" style="font-size: 18px; color: rgba(0,0,0,.54);">Ajout en cours...</p>
+        </div>
+      </div>
+      <div class="row mt-5" *ngIf="!showProgressTargetExcluded">
+        <div class="col-md-12 p-5 text-center align-items-center">
+          <p class="mt-5" style="font-size: 14px; color: rgba(0,0,0,.54);">Vous allez retirer cette zone de la liste des
+            éléments exclus pour l'ajouter dans la liste des éléments ciblés ?</p>
+        </div>
+      </div>
+
+    </div>
+    <mat-divider></mat-divider>
+    <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end">
+      <button mat-button (click)="dialogTargetExcluded.hide()">Annuler</button>
+      <button mat-button color="primary" (click)="targetLocationButtonAction()">Confirmer</button>
+    </div>
+  </ng-template>
+</ejs-dialog>
+
+-->
+<adf-snackbar #appSnackBar></adf-snackbar>
+
+
+ <div class="row" >
+  <div class="col-md-12 text-center">
+                <ejs-grid #gridTargetedZones [dataSource]='LOCATIONS_TO_TARGET' *ngIf="LOCATIONS_TO_TARGET.length>0" locale="fr" allowTextWrap="true" [enableHover]='"false"'
+id="gridDisplay" 
+[allowResizing]='true' [allowSorting]="true" [gridLines]='gridLines' width="auto"
+height="auto" >
+<e-columns>
+   <e-column field='locationName' headerText='Zones ciblées' [filter]='filter' clipMode='EllipsisWithTooltip' width='170' ></e-column>
+    <e-column field='id' headerText='Action' width='70' >
+<ng-template #template let-data>
+ <button mat-icon-button (click)="removeLocationTargetedFromGrid(data)"><mat-icon>cancel</mat-icon></button> 
+ </ng-template>
+ </e-column>
+</e-columns>
+</ejs-grid>
+ <ejs-grid #gridExcludedZones [dataSource]='LOCATIONS_TO_EXCLUDE' locale="fr" allowTextWrap="true" [enableHover]='"false"'
+id="gridDisplay" 
+[allowResizing]='true' [allowSorting]="true" [gridLines]='gridLines' width="auto"
+height="auto" *ngIf="LOCATIONS_TO_EXCLUDE.length>0">
+<e-columns>
+  <e-column field='locationName' headerText='Zones exclues' [filter]='filter' clipMode='EllipsisWithTooltip' width='170' ></e-column>
+   <e-column field='id' headerText='Action' width='70' >
+     <ng-template #template let-data> 
+       <button mat-icon-button (click)="removeLocationTargetedFromGrid(data)"> <mat-icon (click)="removeLocationExcludedFromGrid(data)">cancel</mat-icon>
+      </button>  
+      </ng-template>
+     
+     
+  
+ </e-column>
+</e-columns>
+</ejs-grid>
+</div>
+</div>         
+<div class="row">
+ <div class="col-md-4 text-center">
+
+ </div>
+<div class="col-md-4 text-center">
+    <mat-radio-group #zonesOption aria-labelledby="Sélectionnez les zones géographiques à cibler"
+      class="example-radio-group" [(ngModel)]="zonesOptionSelected" (change)="register($event)" color="primary">
+      <mat-radio-button class="example-radio-button" *ngFor="let default of zonesData" [value]="default.id">
+        {{default.label}}
+      </mat-radio-button>
+    </mat-radio-group>
+</div>
+<div class="col-md-4 text-center">
+   <adf-google-maps></adf-google-maps>
+</div>
+
+</div>
+<div class="row" *ngIf="zonesOptionSelected==='custom'">
+<div class="col-md-4"> 
+
+</div>
+<div class="col-md-4">
+          <mat-form-field color="primary" class="zones-field mb-3" appearance="legacy" [mdePopoverTriggerFor]="popover"  mdePopoverTriggerOn="click">
+    <input matInput #inputZonesQuery (keyup)="inputChange(inputZonesQuery.value)" [formControl]="searchLocation" id="inputZones" placeholder=""
+     autofocus  autocomplete="off">
+    <mat-icon matPrefix >search</mat-icon>
+    <mat-hint style="font-size: 12px;">Par exemple: un pays, une ville ou une région</mat-hint>
+  </mat-form-field>
+  <br>
+
+<mde-popover #popover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdePopoverCloseOnClick]="false" [mdePopoverArrowWidth]=0 [mdeFocusTrapAutoCaptureEnabled]='false' [mdeFocusTrapEnabled]='false' [mdePopoverPositionY]='"below"' [mdePopoverPositionX]='"after"'>
+<mat-card class="card-search mb-5">
+<mat-progress-bar
+mode="indeterminate" color="primary" *ngIf="showProgressSearchLocation">
+</mat-progress-bar>
+<mat-card-content>
+
+<div class="row" *ngIf="locations.length>0">
+<div class="col-md-12 text-center pl-0 pr-0">
+
+
+  <mat-selection-list #matSelectionList role="option" class="p-0" (selectionChange)="onZoneSelect($event)"
+    multiple='false'>
+
+    <mat-list-option style="cursor: pointer; height: 24px" *ngFor="let loc of  LIST_LOCATIONS_ALL_READY_GET"
+      [value]="loc">
+      <div class="list-dynamic-item">
+        <div class="location-suggestion">
+          <div class="location-entry d-flex justify-content-between align-items-center">
+               <div class="d-flex flex-column align-items-start">
+           <div class="location-description">
+               {{loc.canonicalName}} 
+            </div>
+            </div>
+           <div class="d-flex align-items-end">
+             <button mat-flat-button color="primary" class="button-target-option" style='font-size: 12px' (click)="addZonesTarget(loc)">
+           Cibler
+         </button>
+         <button mat-flat-button class="button-target-option" color="primary" style='font-size: 12px' (click)="excludeZonesTarget(loc)">
+           Exclure
+         </button>
+
+           </div>
+          </div>
+        </div>
+      </div>
+
+    </mat-list-option>
+  </mat-selection-list>
+</div>
+</div>
+</mat-card-content>
+
+</mat-card>
+</mde-popover>
+</div>
+</div>
+<div class="row">
+<div class="col-md-4">
+ 
+</div>
+<div class="col-md-8" style="text-align: left;">
+  
+   <mat-accordion >
+<mat-expansion-panel #optionTargetExpansion style="border: none !important; box-shadow: none !important" class="option-target" hideToggle>
+<mat-expansion-panel-header class="d-flex flex-row-reverse accent-color">
+<mat-icon class="accent-color" *ngIf="optionTargetExpansion.expanded"
+(click)="$event.stopPropagation(togglePanel($event))">expand_less</mat-icon>
+<mat-icon class="accent-color" *ngIf="!optionTargetExpansion.expanded"
+(click)="$event.stopPropagation(togglePanel($event))">expand_more</mat-icon>
+<mat-panel-title class="ml-2 accent-color">
+Option de ciblage démographique
+</mat-panel-title>
+</mat-expansion-panel-header>
+<div class="option-target-label">
+Cible <mat-icon class="icon-helper" [mdePopoverTriggerFor]="popoverHelperTarget"  mdePopoverTriggerOn="hover">help_outline</mat-icon>
+</div>
+<mat-radio-group aria-labelledby="Sélectionnez les zones géographiques à cibler"
+      class="example-radio-group" [(ngModel)]="zonesOptionTargetSelected" color="primary">
+      <mat-radio-button class="example-radio-button" *ngFor="let default of zonesDataTargetOption" [value]="default.id">
+        {{default.label}}
+      </mat-radio-button>
+    </mat-radio-group>
+    <div class="option-target-label">
+Exclure <mat-icon class="icon-helper" [mdePopoverTriggerFor]="popoverHelperExclude"  mdePopoverTriggerOn="hover">help_outline</mat-icon>
+</div>
+<mat-radio-group aria-labelledby="Sélectionnez les zones géographiques à cibler"
+      class="example-radio-group" [(ngModel)]="zonesOptionExcludeSelected" >
+      <mat-radio-button class="example-radio-button" *ngFor="let default of zonesDataExcludeOption" [value]="default.id">
+        {{default.label}}
+      </mat-radio-button>
+    </mat-radio-group>
+    <mde-popover #popoverHelperTarget="mdePopover" [mdePopoverOverlapTrigger]="false" [mdePopoverCloseOnClick]="false" [mdePopoverArrowWidth]=0 [mdePopoverEnterDelay]='1000' [mdePopoverPositionY]="'below'" [mdePopoverPositionX]='"after"'>
+<mat-card class="card-helper">
+
+<mat-card-content>
+<div class="helper-topic">
+Par défaut, vos annonces sont susceptibles d'être diffusées auprès des internautes en fonction de leur position probable ou des lieux qui les intéressent. Si vous le souhaitez, vous pouvez utiliser ces options géographiques afin que vos annonces ne soient diffusées que pour un seul type de zone géographique.
+</div>
+</mat-card-content>
+
+</mat-card>
+</mde-popover>
+<mde-popover #popoverHelperExclude="mdePopover" [mdePopoverOverlapTrigger]="false" [mdePopoverCloseOnClick]="false" [mdePopoverArrowWidth]=0 [mdePopoverEnterDelay]='1000' [mdePopoverPositionY]="'below'" [mdePopoverPositionX]='"after"'>
+<mat-card class="card-helper">
+
+<mat-card-content>
+<div class="helper-topic">
+Par défaut, vos annonces sont susceptibles d'être diffusées auprès des internautes en fonction de leur position probable ou des lieux qui les intéressent. Si vous le souhaitez, vous pouvez utiliser ces options géographiques afin que vos annonces ne soient diffusées que pour un seul type de zone géographique.
+</div>
+</mat-card-content>
+
+</mat-card>
+</mde-popover>
+</mat-expansion-panel>
+
+</mat-accordion>
+</div>
+</div>
+<div class="panel-footer">
+<mat-spinner [mode]="'indeterminate'" color="primary" [diameter]="25" *ngIf="spinnerUpdate" class="mr-4">
+</mat-spinner>
+<ng-container *ngIf="!spinnerUpdate && user_access!==undefined">
+<button mat-button color="primary" (click)="updateZones()" [disabled]="user_access.readOnly">Enregistrer</button>
+<button mat-button color="primary" (click)="$event.stopPropagation(togglePanel($event))">Annuler</button>
+
+</ng-container>
+
+</div>

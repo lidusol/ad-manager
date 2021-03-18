@@ -1,0 +1,466 @@
+
+        <div>
+            <ng-container *ngIf="isLoading; else loadedToolbar">
+ <mat-toolbar class="review-toolbar app-bg-secondary" #reviewToolbar>
+          
+<div gutterBottom lySkeleton [lyWidth]="350" [lyHeight]="30">
+                        {{ '\u00A0' }}
+                      </div>
+
+            </mat-toolbar>
+            </ng-container>
+            <ng-template #loadedToolbar>
+ <mat-toolbar class="review-toolbar app-bg-secondary" *ngIf="campaignData.length>0" #reviewToolbar>
+  <mat-icon class="mr-1 mt-1">web</mat-icon>
+             <ng-container *ngIf="user_access!==undefined">
+               <ng-container *ngIf="campaignData.length>0 && campaignData[0].status==='ENABLED' && campaignData[0].id_campagne!==0 && !campaignData[0].budgetEnded">
+                <button mat-button [matMenuTriggerFor]="statusMenu"
+                  style="color: #202124; width: 100px; display: flex; align-items: center; cursor: pointer;"
+                  class="ml-1 mt-1" (mouseenter)="buttonStatusEnter()" (mouseleave)="buttonStatusLeave()" [disabled]="user_access.readOnly">
+                  <mat-icon class="icon-status text-success mr-2">lens</mat-icon>Activée<mat-icon
+                    class="icon-status-dropdown ml-1 icon-status d-none">arrow_drop_down</mat-icon>
+                </button>
+
+              </ng-container>
+              <ng-container *ngIf="campaignData.length>0 && campaignData[0].status==='PAUSED' && campaignData[0].id_campagne!==0 && !campaignData[0].budgetEnded">
+                <button mat-button [matMenuTriggerFor]="statusMenu" style="color: #202124;"
+                  class="mt-1" (mouseenter)="buttonStatusEnter()" (mouseleave)="buttonStatusLeave()" [disabled]="user_access.readOnly">
+                  <mat-icon class="icon-status mr-2">pause</mat-icon>Mise en veille<mat-icon
+                    class="icon-status-dropdown ml-1 icon-status d-none">arrow_drop_down</mat-icon>
+                </button>
+              </ng-container>
+             </ng-container>
+             
+              <mat-menu #statusMenu="matMenu" [overlapTrigger]="'true'">
+                <ng-container *ngIf="campaignData.length>0 && campaignData[0].status==='ENABLED'">
+                  <button mat-menu-item class="button-item selected" disableRipple>
+                    <mat-icon class="text-success icon-status mr-2">lens</mat-icon>
+                    <span>Activée</span>
+                  </button>
+
+                  <button mat-menu-item class="button-item" disableRipple (click)="pauseCampaign(campaignData[0].id, campaignData[0].id_campagne, campaignData[0].type, campaignData[0].budgetEnded)">
+                    <mat-icon class="icon-status mr-2">pause_circle_filled</mat-icon>
+                    <span>Mise en veille</span>
+                  </button>
+                </ng-container>
+                <ng-container *ngIf="campaignData.length>0 && campaignData[0].status==='PAUSED'">
+                  <button mat-menu-item class="button-item" disableRipple (click)="activateCampaign(campaignData[0].id, campaignData[0].id_campagne, campaignData[0].type, campaignData[0].budgetEnded)">
+                    <mat-icon class="text-success icon-status mr-2">lens</mat-icon>
+                    <span>Activée</span>
+                  </button>
+
+                  <button mat-menu-item class="button-item selected" disableRipple>
+                    <mat-icon class="icon-status mr-2">pause_circle_filled</mat-icon>
+                    <span>Mise en veille</span>
+                  </button>
+                </ng-container>
+              </mat-menu>
+              <div class="d-flex align-content-center align-items-center pt-2 mr-2" style="width: 100px;">
+                <span class="toolbar-item-title">Type:</span>
+                &nbsp;
+                <span class="toolbar-item-content">{{campaignData[0].type}}</span>
+              </div>
+       <!--        <div class="d-flex align-content-center align-items-center" style="width: 100px;"
+                (mouseenter)="buttonEditEnter()" (mouseleave)="buttonEditLeave()">
+                <span class="toolbar-item-title">Budget:</span>
+                &nbsp;
+                <span class="toolbar-item-content">{{campaignData[0].dailyBudget}} $US/jour</span>
+
+                <button mat-icon-button [mdePopoverTriggerFor]="popover" mdePopoverTriggerOn="click"
+                  class="button-edit d-none">
+                  <mat-icon class="icon-edit">edit</mat-icon>
+                </button>
+                <mde-popover #popover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdePopoverCloseOnClick]="false"
+                  [mdePopoverOverlapTrigger]="'true'">
+                  <adf-cmp-budget-edit-popup (closePanel)="budgetPanelOutputAction($event)"></adf-cmp-budget-edit-popup>
+                </mde-popover>
+              </div> -->
+                     <div class="d-flex align-content-center align-items-center pt-2" style="width: 100px;">
+                <span class="toolbar-item-title">Pack:</span>
+                &nbsp;
+                 <ng-container *ngIf="campaignData[0].packType==='0'">
+                    <span class="toolbar-item-content">Test</span>
+                </ng-container>
+                <ng-container *ngIf="campaignData[0].packType==='1'">
+                    <span class="toolbar-item-content">Basic</span>
+                </ng-container>
+                <ng-container *ngIf="campaignData[0].packType==='2'">
+                     <span class="toolbar-item-content">Premium</span>
+                </ng-container>
+                <ng-container *ngIf="campaignData[0].packType==='3'">
+                     <span class="toolbar-item-content">Pro</span>
+                </ng-container>
+                <ng-container *ngIf="campaignData[0].packType==='4'">
+                     <span class="toolbar-item-content">Custom</span>
+                </ng-container>
+                
+                
+              </div>
+
+
+            </mat-toolbar>
+            </ng-template>
+           
+<div class="container-fluid settings-container mb-5 pt-md-5 pb-md-5 pr-md-5 pl-md-5" style="margin-top: 1rem;">
+   <ng-container *ngIf="isLoading; else loaded">
+                <div class="row mt-3">
+                  <div class="col-md-12 pl-md-5 pr-md-5">
+                    <mat-card style="box-shadow: none;">
+                      <mat-card-header>
+                        <mat-card-title><div gutterBottom lySkeleton [lyWidth]="40" [lyHeight]="10">
+                        {{ '\u00A0' }}
+                      </div></mat-card-title>
+                      </mat-card-header>
+                      <mat-card-content>
+             
+                      <div gutterBottom lySkeleton [lyWidth]="100" [lyHeight]="20">
+                        {{ '\u00A0' }}
+                      </div>
+                      <div gutterBottom lySkeleton [lyWidth]="1" [lyHeight]="30" class="mt-2">
+                        {{ '\u00A0' }}
+                      </div>
+                      </mat-card-content>
+                    
+                    </mat-card>
+                    
+                  </div>
+                    </div>
+                    <div class="row mt-3">
+                  <div class="col-md-12 pl-md-5 pr-md-5">
+                    <mat-card style="box-shadow: none;">
+                      <mat-card-header>
+                        <mat-card-title><div gutterBottom lySkeleton [lyWidth]="40" [lyHeight]="10">
+                        {{ '\u00A0' }}
+                      </div></mat-card-title>
+                      </mat-card-header>
+                      <mat-card-content>
+             
+                      <div gutterBottom lySkeleton [lyWidth]="100" [lyHeight]="20">
+                        {{ '\u00A0' }}
+                      </div>
+                      <div gutterBottom lySkeleton [lyWidth]="1" [lyHeight]="30" class="mt-2">
+                        {{ '\u00A0' }}
+                      </div>
+                      </mat-card-content>
+                    
+                    </mat-card>
+                    
+                  </div>
+                    </div>
+                    <div class="row mt-3">
+                  <div class="col-md-12 pl-md-5 pr-md-5">
+                    <mat-card style="box-shadow: none;">
+                      <mat-card-header>
+                        <mat-card-title><div gutterBottom lySkeleton [lyWidth]="40" [lyHeight]="10">
+                        {{ '\u00A0' }}
+                      </div></mat-card-title>
+                      </mat-card-header>
+                      <mat-card-content>
+             
+                      <div gutterBottom lySkeleton [lyWidth]="100" [lyHeight]="20">
+                        {{ '\u00A0' }}
+                      </div>
+                      <div gutterBottom lySkeleton [lyWidth]="1" [lyHeight]="30" class="mt-2">
+                        {{ '\u00A0' }}
+                      </div>
+                      </mat-card-content>
+                    
+                    </mat-card>
+                    
+                  </div>
+                    </div>
+                    <div class="row mt-3">
+                  <div class="col-md-12 pl-md-5 pr-md-5">
+                    <mat-card style="box-shadow: none;">
+                      <mat-card-header>
+                        <mat-card-title><div gutterBottom lySkeleton [lyWidth]="40" [lyHeight]="10">
+                        {{ '\u00A0' }}
+                      </div></mat-card-title>
+                      </mat-card-header>
+                      <mat-card-content>
+             
+                      <div gutterBottom lySkeleton [lyWidth]="100" [lyHeight]="20">
+                        {{ '\u00A0' }}
+                      </div>
+                      <div gutterBottom lySkeleton [lyWidth]="1" [lyHeight]="30" class="mt-2">
+                        {{ '\u00A0' }}
+                      </div>
+                      </mat-card-content>
+                    
+                    </mat-card>
+                    
+                  </div>
+                    </div>
+                    <div class="row mt-3">
+                  <div class="col-md-12 pl-md-5 pr-md-5">
+                    <mat-card style="box-shadow: none;">
+                      <mat-card-header>
+                        <mat-card-title><div gutterBottom lySkeleton [lyWidth]="40" [lyHeight]="10">
+                        {{ '\u00A0' }}
+                      </div></mat-card-title>
+                      </mat-card-header>
+                      <mat-card-content>
+             
+                      <div gutterBottom lySkeleton [lyWidth]="100" [lyHeight]="20">
+                        {{ '\u00A0' }}
+                      </div>
+                      <div gutterBottom lySkeleton [lyWidth]="1" [lyHeight]="30" class="mt-2">
+                        {{ '\u00A0' }}
+                      </div>
+                      </mat-card-content>
+                    
+                    </mat-card>
+                    
+                  </div>
+                    </div>
+                    <div class="row mt-3">
+                  <div class="col-md-12 pl-md-5 pr-md-5">
+                    <mat-card style="box-shadow: none;">
+                      <mat-card-header>
+                        <mat-card-title><div gutterBottom lySkeleton [lyWidth]="40" [lyHeight]="10">
+                        {{ '\u00A0' }}
+                      </div></mat-card-title>
+                      </mat-card-header>
+                      <mat-card-content>
+             
+                      <div gutterBottom lySkeleton [lyWidth]="100" [lyHeight]="20">
+                        {{ '\u00A0' }}
+                      </div>
+                      <div gutterBottom lySkeleton [lyWidth]="1" [lyHeight]="30" class="mt-2">
+                        {{ '\u00A0' }}
+                      </div>
+                      </mat-card-content>
+                    
+                    </mat-card>
+                    
+                  </div>
+                    </div>
+              </ng-container>
+              <ng-template #loaded>
+                <mat-accordion class="edit-accordion">
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <div>
+                          Nom
+                        </div>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        Choisir un nom pour cette campagne
+                        <mat-icon class="ml-md-auto mt-1">web</mat-icon>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <adf-cmp-name-edit></adf-cmp-name-edit>
+                  </mat-expansion-panel>
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <div>
+                          Landing page
+        
+                        </div>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        Site ou page web de la campagne
+                        <mat-icon class="ml-md-auto mt-1">pages</mat-icon>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <adf-cmp-landing-page-edit></adf-cmp-landing-page-edit>
+                  </mat-expansion-panel>
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <div>
+                          Localiser l'audience
+                        </div>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        Où veux-tu faire de la publicité ?
+                        <mat-icon class="ml-md-auto mt-1">location_on</mat-icon>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <adf-cmp-zones-edit></adf-cmp-zones-edit>
+                  </mat-expansion-panel>
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <div>
+                          Âges et genres
+                        </div>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        Indiquez à google qui pourra voir vos annonces
+                        <mat-icon class="ml-md-auto mt-1">reduce_capacity</mat-icon>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <adf-cmp-demographic-target-edit></adf-cmp-demographic-target-edit>
+                  </mat-expansion-panel>
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <div>
+                          Centre d'intérêt de l'audience
+                        </div>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        Indiquez les audiences concer
+                        <mat-icon class="ml-md-auto mt-1">reduce_capacity</mat-icon>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <adf-cmp-user-interest></adf-cmp-user-interest>
+                  </mat-expansion-panel>
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <div>
+                          Appareils
+                        </div>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        Indiquez les appareils sur lesquels hoogle devra diffuser vos annonces en priorité
+                        <mat-icon class="ml-md-auto mt-1">reduce_capacity</mat-icon>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <adf-cmp-device-target></adf-cmp-device-target>
+                  </mat-expansion-panel>
+
+                  
+            
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <div>
+                          Emplacements
+                        </div>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        Indique à google où tu veux apparaître
+                        <mat-icon class="ml-md-auto mt-1">track_changes</mat-icon>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <adf-cmp-placements-edit></adf-cmp-placements-edit>
+                  </mat-expansion-panel>
+                  <mat-expansion-panel *ngIf="campaignId===0">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <div>
+                          Date
+                        </div>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        Date de Début
+                        <mat-icon class="ml-md-auto mt-1">calendar_today</mat-icon>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <adf-cmp-dates-edit ></adf-cmp-dates-edit>
+                  </mat-expansion-panel>
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <div>
+                          Heures
+                        </div>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        Choisir les heures auxquelles vous souhaitez apparaître
+                        <mat-icon class="ml-md-auto mt-1">av_timer</mat-icon>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <adf-cmp-schedules-edit #schedule></adf-cmp-schedules-edit>
+                  </mat-expansion-panel>
+                  <mat-expansion-panel *ngIf="campaignId===0">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <div>
+                          Budget
+                        </div>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        Combien veux-tu investir dans la publicité
+                        <mat-icon class="ml-md-auto mt-1">account_balance</mat-icon>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <adf-cmp-pack-chooser-edit ></adf-cmp-pack-chooser-edit>
+                  </mat-expansion-panel>
+                </mat-accordion>
+                <adf-cmp-ads-uploader-edit></adf-cmp-ads-uploader-edit>
+                </ng-template>
+
+
+    
+
+</div>
+
+
+
+
+       
+ <ejs-dialog id='dialogNoEnoughFounds' #dialogNoEnoughFounds [visible]="visible" [target]="target" [position]='position'
+  [isModal]='isModal' style="top: 3rem; max-width: 300px; height: auto;">
+
+  <ng-template #content>
+    <div class="dialog-content">
+      <div class="row w-100">
+        <div class="col-md-12 text-center">
+          <h3 class="dialog-header-label w-100">Information</h3>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      
+      <div class="row p-4 mt-5">
+        <div class="col-md-12 text-center pl-0 pr-0">
+           <span class="text-large text-danger">Le solde de votre compte est insuffisant pour diffuser cette campagne.</span>
+          <br>
+          <span>Ajoutez des fonds puis réessayer!</span>
+          
+        </div>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end">
+      <button mat-button (click)="hideDialog()" >annuler</button>
+      <button mat-button color="primary" (click)="goPayments()">Ajouter des fonds</button>
+           <!-- <button ejs-button cssClass="e-success e-flat" (click)="openDialogPromo()" class="pull-right">Utiliser un code promo</button> -->
+    </div>
+
+
+
+
+
+
+
+  </ng-template>
+
+</ejs-dialog>
+
+
+  <ejs-dialog id='dialog' #campaignConfirmDelete [visible]="visible" [target]="target" [position]='position'
+  [isModal]='isModal' style="top: 3rem; max-width: 300px; height: auto;">
+      <ng-template #content>
+        <div class="dialog-content">
+      <div class="row w-100">
+        <div class="col-md-12 text-center">
+          <h3 class="dialog-header-label w-100">Avertissement</h3>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      
+      <div class="row p-4 mt-5">
+        <div class="col-md-12 text-center pl-0 pr-0">
+           <span class="text-large">Vous êtes sur le point de supprimer cette campagne, êtes-vous sûr de votre action ?</span>
+          
+        </div>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end">
+      <button mat-button (click)="campaignConfirmDelete.hide()"  >annuler</button>
+      <button mat-raised-button color="primary" (click)="deletionConfirmed()">Supprimer</button>
+           <!-- <button ejs-button cssClass="e-success e-flat" (click)="openDialogPromo()" class="pull-right">Utiliser un code promo</button> -->
+    </div>
+        
+      </ng-template>
+      </ejs-dialog>
+
+<adf-spinner *ngIf="loader"></adf-spinner>
+  <adf-publish-campaign *ngIf="publishComponent"></adf-publish-campaign>

@@ -1,0 +1,72 @@
+<div class="row">
+  <div class="col-md-2">
+
+  </div>
+  <div class="col-md-6 pl-5">
+     <mat-radio-group #placementOption aria-labelledby="Sélectionnez les zones géographiques à cibler"
+          class="example-radio-group" [(ngModel)]="placementOptionSelected" (change)="register($event)" color="primary">
+          <mat-radio-button class="example-radio-button" value="none">
+          Par défaut cibler tout les sites Web et application mobile
+          </mat-radio-button>
+           <mat-radio-button class="example-radio-button" value="custom">
+           Choisir vos propre site web (illimité)
+          </mat-radio-button>
+          
+        </mat-radio-group>
+            <ng-container *ngIf="placementOptionSelected==='custom'">
+          <ng-container *ngFor="let skill of skills.controls; index as i">
+            <form [formGroup]="skill" style="max-height: 40px;"  (mouseenter)="formOvered(i)" (mouseleave)="formLeaved(i)"> 
+    
+     <mat-form-field class="placement-field" appearance="legacy" hintLabel="Exemple: https://monsite.com" color="primary">
+      <input matInput #inputUrl  [formControl]="skills.controls[i]" id="url" placeholder=""  autofocus>
+      <mat-error *ngIf="skills.controls[i].hasError('required')">Ce champ ne peut être vide.</mat-error>
+      <mat-error *ngIf="!skills.controls[i].hasError('required') && skills.controls[i].invalid">Url invalide</mat-error>
+    </mat-form-field>
+    <button mat-icon-button class="float-rignt d-none" [id]="i" (click)="removeSkill(i)"><mat-icon style="font-size: 18px; ">close</mat-icon></button>
+    </form>
+          </ng-container>
+            <button mat-button color="primary" class="mt-4" (click)="addSkill()">Ajouter</button>
+
+                 <ng-container *ngIf="campaignId!==0">
+           <ng-container *ngIf="placementOptionSelected==='custom'">
+             <ejs-grid #gridPlacements [dataSource]='currentTargetedPlacement' locale="fr" allowTextWrap="true"
+        [enableHover]='"false"' id="gridDisplay" [allowResizing]='true' [allowSorting]="true" [gridLines]='gridLines'
+        width="auto" height="auto" *ngIf="currentTargetedPlacement.length>0">
+        <e-columns>
+          <e-column field='url' headerText='Sites web'  clipMode='EllipsisWithTooltip'
+            width='170'></e-column>
+          <e-column field='criterionId' headerText='Action' width='70'>
+            <ng-template #template let-data>
+              <button mat-icon-button (click)="removePlacementTargetedFromGrid(data)">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </ng-template>
+          </e-column>
+        </e-columns>
+      </ejs-grid>
+
+           </ng-container>
+        </ng-container>
+        </ng-container>
+   
+        
+     
+        
+  </div>
+  <div class="col-md-3">
+    <div class="placement-info">
+          Par défaut vos annonces s'afficheront dans tous les sites du réseau display de google mais vous pourrez toujours spécifier ceux que vous voulez qu'ils soient prioritaires.
+        </div>
+  </div>
+</div>    
+   <div class="panel-footer">
+    <mat-spinner
+        [mode]="'indeterminate'" color="primary" [diameter]="25" *ngIf="spinnerUpdate" class="mr-4">
+    </mat-spinner>
+    <ng-container *ngIf="!spinnerUpdate && user_access!==undefined">
+        <button mat-button color="primary" (click)="updatePlacement()" [disabled]="user_access.readOnly">Enregistrer</button>
+        <button mat-button color="primary" (click)="$event.stopPropagation(togglePanel($event))">Annuler</button>
+
+    </ng-container>
+    
+</div>     

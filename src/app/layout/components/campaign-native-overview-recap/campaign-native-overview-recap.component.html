@@ -1,0 +1,383 @@
+<ng-container *ngIf="isLoading; else loaded">
+              
+    <mat-card style="box-shadow: none !important">
+     
+      <mat-card-content>
+
+      <div gutterBottom lySkeleton [lyWidth]="1" [lyHeight]="230">
+        {{ '\u00A0' }}
+      </div>
+      </mat-card-content>
+    
+    </mat-card>
+    
+  
+</ng-container>
+<ng-template #loaded>
+<mat-card style="box-shadow: none !important; padding: 0;">
+<ejs-grid #gridCampaignsRecap id='gridCampaignsRecap' [dataSource]='campaigns' [allowSelection]='true' [allowSorting]='true' height='340px' (dataBound)='onDataBound($event)' [enableHover]='false' [selectionSettings]='selectionSettings' [filterSettings]='filterSettings' [allowSorting]='true' [allowFiltering]='false'  [allowPaging]='true'
+[pageSettings]='initialPage' style="overflow: hidden;" [locale]="'fr'">
+<e-columns>
+<e-column field='name' [visible]='true'  [allowResizing]='false' headerText="" width="120"   [customAttributes]='entityName'>
+ <ng-template #template let-data>
+<div class="justify-content-between entity-container">
+    
+<ng-container *ngIf="data.servingStatus==='SERVING' || data.servingStatus==='SUSPENDED' || data.servingStatus==='PENDING'">
+ <ng-container *ngIf="!data.budgetEnded">
+   <ng-container *ngIf="user_access!==undefined">
+     <ng-container *ngIf="user_access.readOnly">
+       <ng-container *ngIf="data.status==='PAUSED'">
+         <div style="font-size: 12px; color: #202124; cursor: pointer;"
+           matTooltip="Cette campagne est actuellement en veille" [matTooltipShowDelay]="'1000'"
+           [matTooltipPosition]="'after'">
+           <mat-icon class="icon-status">pause</mat-icon>
+         </div>
+       </ng-container>
+       <ng-container *ngIf="data.status==='ENABLED'">
+         <div style="font-size: 12px; color: #202124;"
+           matTooltip="Cette campagne est actuellement activée" [matTooltipShowDelay]="'1000'"
+           [matTooltipPosition]="'after'">
+           <mat-icon class="icon-status text-success">play_circle_filled</mat-icon>
+         </div>
+       </ng-container>
+     </ng-container>
+     <ng-container *ngIf="user_access.admin">
+       <ng-container *ngIf="data.status==='PAUSED'">
+         <span [matMenuTriggerFor]="statusMenu" class="area-status d-flex justify-content-center"
+           matTooltip="Cette campagne est actuellement en veille" [matTooltipShowDelay]="'1000'"
+           [matTooltipPosition]="'after'" (mouseenter)="buttonStatusEnter(data.id)"
+           (mouseleave)="buttonStatusLeave(data.id)">
+           <mat-icon class="icon-status mr-1 ">pause_circle_filled</mat-icon>
+           <mat-icon class="icon-status-dropdown icon-status d-none" [id]='data.id'>arrow_drop_down
+           </mat-icon>
+         </span>
+
+       </ng-container>
+       <ng-container *ngIf="data.status==='ENABLED'">
+         <span [matMenuTriggerFor]="statusMenu" class="area-status d-flex justify-content-center"
+           matTooltip="Cette campagne est actuellement activée" [matTooltipShowDelay]="'1000'"
+           [matTooltipPosition]="'after'" (mouseenter)="buttonStatusEnter(data.id)"
+           (mouseleave)="buttonStatusLeave(data.id)">
+           <mat-icon class="icon-status mr-1 text-success">play_circle_filled</mat-icon>
+           <mat-icon class="icon-status-dropdown icon-status d-none" [id]='data.id'>arrow_drop_down</mat-icon>
+         </span>
+       </ng-container>
+       <mat-menu #statusMenu="matMenu" [overlapTrigger]="'true'">
+          <button mat-menu-item class="button-item" disableRipple (click)="goReviewNotPublish(data.id, data.type, data.accountId)">
+         <mat-icon class="icon-status">subject</mat-icon>
+         <span>Voir les informations</span>
+       </button>
+         <ng-container *ngIf="data.status==='ENABLED'">
+           <button mat-menu-item class="button-item selected" matTooltip="La campagne est en activée"
+             [matTooltipShowDelay]="'1000'" [matTooltipPosition]="'after'" disableRipple>
+             <mat-icon class="text-success icon-status">play_circle_filled</mat-icon>
+             <span>Activée</span>
+           </button>
+
+           <button mat-menu-item class="button-item" matTooltip="Mettre en pause la campagne"
+             [matTooltipShowDelay]="'1000'" [matTooltipPosition]="'after'" disableRipple
+             (click)="pauseCampaign(data.id, data.id_campagne, data.type, data.budgetEnded)">
+             <mat-icon class="icon-status">pause_circle_filled</mat-icon>
+             <span>Mise en veille</span>
+           </button>
+         </ng-container>
+         <ng-container *ngIf="data.status==='PAUSED'">
+           <button mat-menu-item class="button-item" disableRipple matTooltip="Activer la campagne"
+             [matTooltipShowDelay]="'1000'" [matTooltipPosition]="'after'"
+             (click)="activateCampaign(data.id, data.id_campagne, data.type, data.budgetEnded)">
+             <mat-icon class="text-success icon-status">play_circle_filled</mat-icon>
+             <span>Activée</span>
+           </button>
+
+           <button mat-menu-item class="button-item selected" matTooltip="La campagne est en veille"
+             [matTooltipShowDelay]="'1000'" [matTooltipPosition]="'after'" disableRipple>
+             <mat-icon class="icon-status">pause_circle_filled</mat-icon>
+             <span>Mise en veille</span>
+           </button>
+         
+         </ng-container>
+       </mat-menu>
+     </ng-container>
+
+   </ng-container>
+ </ng-container>
+
+ <div *ngIf="data.budgetEnded">
+   <ng-container *ngIf="user_access.readOnly">
+     <div style="font-size: 12px; color: #202124;" matTooltip="Le budget de cette campagne est épuisé"
+       [matTooltipShowDelay]="'1000'" [matTooltipPosition]="'after'">
+       <mat-icon class="icon-status text-danger">work_off</mat-icon>
+     </div>
+   </ng-container>
+   <ng-container *ngIf="user_access.admin">
+       admin
+     <span [matMenuTriggerFor]="statusMenu" class="area-status d-flex justify-content-center"
+       matTooltip="Budget de la campagne épuisé" [matTooltipShowDelay]="'1000'"
+       [matTooltipPosition]="'after'" (mouseenter)="buttonStatusEnter(data.id)"
+       (mouseleave)="buttonStatusLeave(data.id)">
+       <mat-icon class="icon-status mr-1 text-danger">work_off</mat-icon>
+       <mat-icon class="icon-status-dropdown icon-status d-none" [id]='data.id'>arrow_drop_down
+       </mat-icon>
+     </span>
+     
+        <mat-menu #statusMenu="matMenu" [overlapTrigger]="'true'">
+           <button mat-menu-item class="button-item" disableRipple (click)="goReviewNotPublish(data.id, data.type, data.accountId)">
+         <mat-icon class="icon-status">subject</mat-icon>
+         <span>Voir les informations</span>
+       </button>
+       <!-- <button mat-menu-item class="button-item" disableRipple>
+         <mat-icon class="icon-status" color="primary">access_time</mat-icon>
+         <span>Prolonger la campagne</span>
+       </button> -->
+ 
+   </mat-menu>
+   </ng-container>
+
+
+ </div>
+
+</ng-container>
+<ng-container *ngIf="data.servingStatus===''">
+ <ng-container *ngIf="user_access.readOnly">
+   <ng-container *ngIf="data.status==='PAUSED'">
+     <div style="font-size: 12px; color: #202124; cursor: pointer;"
+       matTooltip="Campagne non publiée" [matTooltipShowDelay]="'1000'"
+       [matTooltipPosition]="'after'">
+       <mat-icon class="icon-status">send</mat-icon>
+     </div>
+   </ng-container>
+   <ng-container *ngIf="data.status==='ENABLED'">
+     <div style="font-size: 12px; color: #202124;" matTooltip="Campagne non publiée"
+       [matTooltipShowDelay]="'1000'" [matTooltipPosition]="'after'">
+       <mat-icon class="icon-status text-success">send</mat-icon>
+     </div>
+   </ng-container>
+ </ng-container>
+ <ng-container *ngIf="user_access.admin">
+     <span [matMenuTriggerFor]="statusMenu" class="area-status d-flex justify-content-center"
+       matTooltip="Cliquez ici pour publier votre campagne" [matTooltipShowDelay]="'1000'"
+       [matTooltipPosition]="'after'" (mouseenter)="buttonStatusEnter(data.id)"
+       (mouseleave)="buttonStatusLeave(data.id)">
+       <mat-icon class="icon-status mr-1 ">send</mat-icon>
+       <mat-icon class="icon-status-dropdown icon-status d-none" [id]='data.id'>arrow_drop_down
+       </mat-icon>
+     </span>
+
+   <mat-menu #statusMenu="matMenu" [overlapTrigger]="'true'">
+     
+        <button mat-menu-item class="button-item" matTooltip="Voir les informations"
+             [matTooltipShowDelay]="'1000'" [matTooltipPosition]="'after'" disableRipple (click)="goReviewNotPublish(data.id, data.type, data.accountId)">
+         <mat-icon class="icon-status">subject</mat-icon>
+         <span>Voir les informations</span>
+       </button>
+       <button mat-menu-item class="button-item" disableRipple disabled>
+         <mat-icon class="text-success icon-status">play_circle_filled</mat-icon>
+         <span>Activée</span>
+       </button>
+
+       <button mat-menu-item class="button-item"
+         disableRipple disabled>
+         <mat-icon class="icon-status">pause_circle_filled</mat-icon>
+         <span>Mise en veille</span>
+       </button>
+     
+
+  
+   </mat-menu>
+ </ng-container>
+</ng-container>
+<ng-container *ngIf="data.status==='ENABLED'">
+ <a style="font-size: 13px; cursor: pointer;" class="entity-name-text active-campaign"
+   [mdePopoverTriggerFor]="popoverBrief" mdePopoverTriggerOn="click" matTooltip="Ciquez ici"
+         [matTooltipShowDelay]="'1000'" [matTooltipPosition]="'before'">{{data.name}}</a>
+
+</ng-container>
+<ng-container *ngIf="data.status==='PAUSED'">
+ <a style="font-size: 13px; cursor: pointer" class="entity-name-text paused-campaign"
+   [mdePopoverTriggerFor]="popoverBrief" mdePopoverTriggerOn="click" matTooltip="Ciquez ici"
+         [matTooltipShowDelay]="'1000'" [matTooltipPosition]="'before'">{{data.name}}</a>
+
+</ng-container>
+
+<mde-popover #popoverBrief="mdePopover" [mdePopoverOverlapTrigger]="true"
+ [mdePopoverCloseOnClick]="false">
+ <mat-card class="card-brief" style="max-width: 300px; max-height: 200px; border-radius: 0;">
+   <ng-container *ngIf="data.id_campagne!==0 && !data.budgetEnded">
+     <mat-card-header>
+       <mat-card-title style="font-size: 12px;" class="accent-text">{{data.name}}</mat-card-title>
+       <mat-card-subtitle>Etat de la campagne: <ng-container *ngIf="data.status==='ENABLED'">Activée
+         </ng-container>
+         <ng-container *ngIf="data.status==='PAUSED'">Mise en veille</ng-container>
+       </mat-card-subtitle>
+     </mat-card-header>
+     <mat-card-actions align="start" class="pl-2">
+       <button mat-raised-button color="accent"
+         (click)="goReviewNotPublish(data.id, data.type, data.accountId)" style="font-size: 10px;">Voir
+         les informations</button>
+     </mat-card-actions>
+   </ng-container>
+   <ng-container *ngIf="data.id_campagne!==0 && data.budgetEnded">
+     <mat-card-header>
+       <mat-card-title style="font-size: 12px;" class="accent-text">{{data.name}}</mat-card-title>
+       <mat-card-subtitle>Etat de la campagne: Budget épuisé
+       </mat-card-subtitle>
+     </mat-card-header>
+     <mat-card-actions align="start" class="pl-2">
+       <button mat-button color="primary" style="font-size: 10px;" (click)="goReviewNotPublish(data.id, data.type, data.accountId)">Voir le rapport</button>
+       <!-- <button mat-raised-button color="primary" class="ml-3" style="font-size: 10px;">Prolonger la
+         campagne (actuellement indisponible)</button> -->
+     </mat-card-actions>
+   </ng-container>
+   <ng-container *ngIf="data.id_campagne===0">
+     <mat-card-header>
+       <mat-card-title style="font-size: 12px;" class="accent-text">{{data.name}}</mat-card-title>
+       <mat-card-subtitle>Etat de la campagne: En attente de publication
+       </mat-card-subtitle>
+     </mat-card-header>
+     <mat-card-actions align="start" class="pl-2">
+       <button mat-raised-button color="accent" class="ml-3"
+         (click)="goReviewNotPublish(data.id, data.type, data.accountId)" style="font-size: 10px;">Voir
+         les informations</button>
+     </mat-card-actions>
+   </ng-container>
+
+
+ </mat-card>
+</mde-popover>
+
+
+<!--    <img src="assets/svg/crown.svg" class="ml-auto" *ngIf="data.isUsedPack && data.packType==='3'" style="width: 24px; height: 24px;" matTooltip="Cette campagne utilise un pack Pro avec 500 000 impression">
+ <img src="assets/svg/premium.svg" class="ml-auto" *ngIf="data.isUsedPack && data.packType==='2'" class="ml-auto" style="width: 24px; height: 24px;" matTooltip="Cette campagne utilise un pack Premium avec 200 000 impression">
+  <img src="assets/svg/pro.svg" class="ml-auto" *ngIf="data.isUsedPack && data.packType==='1'" style="width: 24px; height: 24px;" matTooltip="Cette campagne utilise un pack Basic avec 100 000 impression">
+   <img src="assets/svg/cost.svg" class="ml-auto" *ngIf="!data.isUsedPack" style="width: 24px; height: 24px;"  matTooltip="Cette campagne utilise un budget."> -->
+
+
+</div>
+
+
+
+</ng-template> 
+</e-column>
+
+<!--  <e-column field='status' [visible]='true' headerText='Status' width="110" [allowFiltering]='false' [allowSorting]='false'>
+  <ng-template #template let-data>
+      <ng-container *ngIf="data.status==='ENABLED'">
+        <span>Activée</span>
+      </ng-container>
+      <ng-container *ngIf="data.status==='PAUSED'">
+        <span>Mise en veille</span>
+      </ng-container>
+      
+  </ng-template>
+</e-column> -->
+
+    <e-column headerText='Clic' width="60" field="clicks" [allowFiltering]='false' [allowSorting]='false'  [customAttributes]='customAttributes1' >
+       <ng-template #headerTemplate let-data>
+         <mat-select class="card-stats-all-select ml-2" [(value)]="selectedOptionStats1" id="selectStats1"  (change)="selectChange($event)">
+ <ng-container *ngFor="let option of statsOptions">
+   <mat-option class="stats-select-options" value={{option.value}} style="font-size: 10px;">{{option.text}}</mat-option>
+ </ng-container>
+</mat-select>
+
+       </ng-template>
+
+<ng-template #template let-data>
+<ng-container *ngIf="data.id_campagne===0">
+  0
+</ng-container>
+<ng-container *ngIf="data.id_campagne!==0">
+
+{{data.id_campagne | getCampaignsSummuryReport: DEFAULT_CLIENT_CUSTOMER_ID:selectedOptionStats1 | async}}
+</ng-container>
+
+<!-- <div>
+<button ejs-button *ngIf="data.clicks>0" matTooltip="{{data.clicks}} clics" cssClass="e-info e-flat" style="font-size: 12px;">{{data.clicks}}</button>
+<ng-container *ngIf="data.clicks===0">
+{{data.clicks}}
+</ng-container>
+
+
+</div> -->
+</ng-template>
+</e-column>
+<e-column headerText='Coût' width="60" field="costs" [allowFiltering]='false' [allowSorting]='false' [customAttributes]='customAttributes2'>
+<ng-template #headerTemplate let-data>
+         <mat-select class="card-stats-all-select ml-2" [(value)]="selectedOptionStats2" id="selectStats2" (mouseenter)="selectHighlightEnter('selectStats2')" (mouseleave)="selectHighlightLeave('selectStats2')" (change)="selectChange($event)">
+ <ng-container *ngFor="let option of statsOptions">
+   <mat-option class="stats-select-options" value={{option.value}} style="font-size: 10px;">{{option.text}}</mat-option>
+ </ng-container>
+</mat-select>
+
+       </ng-template>
+<ng-template #template let-data>
+   <ng-container *ngIf="data.id_campagne===0">
+  0
+</ng-container>
+<ng-container *ngIf="data.id_campagne!==0">
+
+{{data.id_campagne | getCampaignsSummuryReport: DEFAULT_CLIENT_CUSTOMER_ID:selectedOptionStats2 | async}}
+</ng-container>
+<!-- <div>
+ <button ejs-button *ngIf="data.costs>0" matTooltip="{{data.costs | currency}} dépensés" cssClass="e-danger e-flat e-small" style="font-size: 12px;">{{data.costs.toFixed(2) | currency}}</button>
+<ng-container *ngIf="data.costs===0">
+{{data.costs.toFixed(2) | currency}}
+</ng-container>
+
+</div> -->
+</ng-template>
+</e-column>
+<e-column headerText='Affichages' field="impressions" width="60"  [allowFiltering]='false' [allowSorting]='false' [customAttributes]='customAttributes3'>
+<ng-template #headerTemplate let-data>
+         <mat-select class="card-stats-all-select ml-2" [(value)]="selectedOptionStats3" id="selectStats3" (mouseenter)="selectHighlightEnter('selectStats3')" (mouseleave)="selectHighlightLeave('selectStats3')" (change)="selectChange($event)">
+ <ng-container *ngFor="let option of statsOptions">
+   <mat-option class="stats-select-options" value={{option.value}} style="font-size: 10px;">{{option.text}}</mat-option>
+ </ng-container>
+</mat-select>
+
+       </ng-template>
+<ng-template #template let-data>
+
+   <ng-container *ngIf="data.id_campagne===0">
+  0
+</ng-container>
+<ng-container *ngIf="data.id_campagne!==0">
+{{data.id_campagne | getCampaignsSummuryReport: DEFAULT_CLIENT_CUSTOMER_ID:selectedOptionStats3 | async}}
+
+</ng-container>
+<!-- <div>
+ <button ejs-button *ngIf="data.impressions>0" cssClass="e-success e-flat" style="font-size: 12px;"><ng-number-formatter [ngNumber]="data.impressions"></ng-number-formatter></button>
+<ng-container *ngIf="data.impressions===0">
+<ng-number-formatter [ngNumber]="data.impressions"></ng-number-formatter>
+</ng-container>
+
+
+</div> -->
+</ng-template>
+</e-column>
+</e-columns>
+<ng-template #pagerTemplate let-data>
+<div class="e-pagertemplate">
+<mat-card-actions  class="mt-2 ml-1 d-flex justify-content-between" >
+<button mat-flat-button color="accent" routerLink="/campaigns/list" class="ml-md-2">Toutes les campagnes <mat-icon>chevron_right</mat-icon> </button>
+<div class="d-flex  align-items-center">
+<button mat-icon-button  style="color: rgba(0,0,0,.54);" (click)="previousPage()"><mat-icon>keyboard_arrow_down</mat-icon></button> <span class="page-count">{{data.currentPage}} sur&nbsp;{{data.totalPages}} pages 
+</span> <button mat-icon-button  style="color: rgba(0,0,0,.54);" (click)="nextPage()"><mat-icon>keyboard_arrow_up</mat-icon></button>
+
+</div>
+</mat-card-actions>
+</div>
+</ng-template>
+</ejs-grid> 
+
+</mat-card>
+</ng-template>
+
+
+
+
+
+
+
+
+<adf-spinner *ngIf="loader"></adf-spinner>
+<adf-snackbar></adf-snackbar>

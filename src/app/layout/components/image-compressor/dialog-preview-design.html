@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Prévisualisation</h1>
+<div mat-dialog-content>
+  <div class="d-flex justify-content-center align-items-center w-100">
+    <img src="" alt="" class="img-fluid" style="max-height: 500px;" id="previewImg">
+  </div>
+  <div mat-dialog-actions class="d-flex w-100 justify-content-end align-items-center">
+    <button mat-button (click)="onNoClick()" color="primary" (click)="dialogRef.close()" class="mr-2">Fermer</button>
+    <a mat-flat-button color="primary" [href]="data.url" download="image.png">Télécharger</a>
+    <!-- <button mat-flat-button color="primary" (click)="dialogRef.close(data.url)">Télécharger</button> -->
+    <!-- <mat-spinner [mode]="'indeterminate'" color="accent" [diameter]="20" *ngIf="spinnerPublication"></mat-spinner> -->
+  </div>
+</div>

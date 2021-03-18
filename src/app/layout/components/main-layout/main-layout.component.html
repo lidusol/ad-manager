@@ -1,0 +1,58 @@
+
+<div class="app-container" [ngClass]="{'default-theme': defaultTheme, 'light-theme': lightTheme}" [class.app-is-mobile]="isMobile || isTablet"  >
+  <mat-sidenav-container class="app-sidenav-container"
+                       [ngClass]="{'mobile-app': isMobile, 'desktop-app': isDesktop, 'tablet-app': isTablet}">
+    <mat-sidenav #snav [mode]="isDesktop? 'side' : 'over'"
+                  
+                 class="main-sidenav"
+                 [ngClass]="{'sidenav-collapsed':togglePadding!==undefined && !togglePadding, 'sidenav-toggled': togglePadding!==undefined && togglePadding}"
+                  [opened]="opened" *ngIf="canShowSideNav" [disableClose]="'true'" > 
+  <adf-sidebar [showItemText]="showSideNavText"  (sideNavToggled)="toggleSideNav($event)" [isMobile]="isMobile"  class="sidenav"></adf-sidebar>
+    </mat-sidenav>
+    <mat-sidenav-content  [ngClass]="{'no-padding': togglePadding!==undefined && !togglePadding , 'padding-content': togglePadding!==undefined && togglePadding}" class="app-bg-secondary">
+        <adf-header (themeSelected)='themeSelected($event)' [title]="headerTitle" [s_b]="s_b" [toolbarFixed]='toolbarFixed'  *ngIf="showHeader"></adf-header>
+      <mat-toolbar  class="toolbar-authorization-request align-items-center warning-color-light-bg" *ngIf="showPushRequest && showPush">
+        <span class="request-text">Nous souhaitons pouvoir vous notifier sur l'état de vos campagnes</span>
+        <div class="ml-auto">
+          <button mat-flat-button  class="mr-3 btn-raised-warning request-action" (click)="authorized()">Autoriser</button>
+          <button mat-flat-button class="btn-raised-warning request-action" [mdePopoverTriggerFor]="popoverUnauthorized"  mdePopoverTriggerOn="click" >Ne pas autoriser</button>
+        </div>
+         <mde-popover  #popoverUnauthorized="mdePopover" [mdePopoverOverlapTrigger]="true" [mdePopoverCloseOnClick]="false" >
+       <mat-card class="card-information">
+         <mat-card-header>
+           <mat-card-title>Information</mat-card-title>
+         </mat-card-header>
+         <mat-card-content>
+            <div class="row">
+              <div class="col-md-12 text-center">
+                Si vous comptez utiliser adafri sur cette appareil nous vous recommandons de nous autoriser à vous notifier sur les actions en rapport avec votre compte.
+              </div>
+            </div>
+         </mat-card-content>
+         <mat-card-actions align="end" class="card-information-footer">
+           <button mat-button (click)="notAuthorized()">ne pas autoriser</button>
+           <button mat-raised-button color="accent" (click)="authorized()">autoriser</button>
+         </mat-card-actions>
+       </mat-card>
+     </mde-popover>
+      </mat-toolbar>
+     
+      <!-- <adf-live-chat style="margin: 0 !important;" *ngIf="s_d"></adf-live-chat> -->
+      <button mat-icon-button style="cursor: pointer; z-index: 1050; position: fixed; top: 50%; left: -10px;" class="mt-2 mr-3" (click)="toggleSideNav(true)" *ngIf="!opened && canShowSideNav" color="primary" matTooltip="Menu"
+        [matTooltipShowDelay]="'1000'"  [matTooltipPosition]="'after'"><mat-icon>arrow_forward_ios</mat-icon></button>
+      <div class="parent-component-container app-bg-secondary" [ngClass]="{'parent-container-padding': parentContainerPadding}"  id="sidenav-content">
+        <app-size-detector></app-size-detector>
+        <router-outlet></router-outlet>
+        <!-- <div style="background: whitesmoke; text-align: center; padding-left:5%; padding-right:5%;" >
+        
+       <p class="cp-text">
+          © Copyright 2020 Adafri. All rights reserved.
+       </p>
+       </div> -->
+        
+      </div>
+      
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
+

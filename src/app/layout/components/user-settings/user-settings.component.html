@@ -1,0 +1,297 @@
+<mat-accordion class="example-headers-align">
+  <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle #emailExpansion disabled>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ 'user_settings.email_address' | translate }}
+      </mat-panel-title>
+      <mat-panel-description>
+        <ng-container *ngIf="!emailExpansion.expanded">
+          <ng-container *ngIf="email.value!==''">
+            {{email.value}}
+          </ng-container>
+          <ng-container *ngIf="email.value===''">
+            {{ 'user_settings.your_email_address' | translate }}
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="emailExpansion.expanded">
+          {{ 'user_settings.your_email_address' | translate }}
+        </ng-container>
+        <mat-icon *ngIf="emailExpansion.expanded">expand_less</mat-icon>
+        <mat-icon *ngIf="!emailExpansion.expanded">expand_more</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-form-field>
+      <mat-label>{{ 'user_settings.email_label' | translate }}</mat-label>
+      <input matInput [formControl]="email">
+    </mat-form-field>
+    <mat-action-row>
+      <button mat-flat-button color="primary" disabled>{{ 'user_settings.save_label' | translate }}</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle #nameExpansion>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ 'user_settings.personal_infos' | translate }}
+      </mat-panel-title>
+      <mat-panel-description>
+        <ng-container *ngIf="!nameExpansion.expanded">
+          <ng-container *ngIf="nom.value!=='' && prenom.value!==''">
+            {{nom.value}} {{prenom.value}}
+          </ng-container>
+          <ng-container *ngIf="nom.value==='' || prenom.value===''">
+            {{ 'user_settings.give_us_firstName_lastName' | translate }}
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="nameExpansion.expanded">
+          {{ 'user_settings.give_us_firstName_lastName' | translate }}
+        </ng-container>
+        <mat-icon *ngIf="nameExpansion.expanded">expand_less</mat-icon>
+        <mat-icon *ngIf="!nameExpansion.expanded">expand_more</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-form-field>
+      <mat-label>{{ 'user_settings.firstName_label' | translate }}</mat-label>
+      <input matInput [formControl]="nom">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ 'user_settings.lastName_label' | translate }}</mat-label>
+      <input matInput [formControl]="prenom">
+    </mat-form-field>
+
+
+    <mat-action-row>
+      <mat-spinner [mode]="'indeterminate'" color="primary" diameter="20" *ngIf="showSpinnerName">
+      </mat-spinner>
+
+      <ng-container>
+        <button mat-button color="primary" *ngIf="!nom.valid || !prenom.valid && !showSpinnerName"
+          disabled>{{ 'user_settings.save_label' | translate }}</button>
+        <button mat-flat-button color="primary" *ngIf="nom.valid && prenom.valid && !showSpinnerName"
+          (click)="saveNameFirstName()">{{ 'user_settings.save_label' | translate }}</button>
+      </ng-container>
+    </mat-action-row>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle #typeExpansion>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ 'user_settings.category' | translate }}
+      </mat-panel-title>
+      <mat-panel-description>
+        <ng-container *ngIf="!typeExpansion.expanded">
+          <ng-container *ngIf="businessType!==''">
+            {{businessType}}
+          </ng-container>
+          <ng-container *ngIf="businessType===''">
+            {{ 'user_settings.select_your_category' | translate }}
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="typeExpansion.expanded">
+          {{ 'user_settings.select_your_category' | translate }}
+        </ng-container>
+        <mat-icon *ngIf="typeExpansion.expanded">expand_less</mat-icon>
+        <mat-icon *ngIf="!typeExpansion.expanded">expand_more</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <div class="d-inline-block" style="width: 250px;">
+          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+            [(ngModel)]="businessType">
+            <mat-radio-button color="primary" class="example-radio-button" *ngFor="let item of business" [value]="item">
+              {{item}}
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+    </div>
+
+    <mat-action-row>
+      <ng-container>
+        <mat-spinner [mode]="'indeterminate'" color="primary" diameter="20" *ngIf="showSpinnerBusinessType">
+        </mat-spinner>
+        <button mat-flat-button color="primary" (click)="saveBusiness()"
+          *ngIf="!showSpinnerBusinessType">{{ 'user_settings.save_label' | translate }}</button>
+
+      </ng-container>
+    </mat-action-row>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle #businessExpansion>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ 'user_settings.company_name' | translate }}
+      </mat-panel-title>
+      <mat-panel-description>
+        <ng-container *ngIf="!businessExpansion.expanded">
+          <ng-container *ngIf="businessName.value!==''">
+            {{businessName.value}}
+          </ng-container>
+          <ng-container *ngIf="businessName.value===''">
+            {{ 'user_settings.company_name_or_brand' | translate }}
+
+          </ng-container>
+
+
+        </ng-container>
+        <ng-container *ngIf="businessExpansion.expanded">
+          {{ 'user_settings.company_name_or_brand' | translate }}
+        </ng-container>
+
+        <mat-icon *ngIf="businessExpansion.expanded">expand_less</mat-icon>
+        <mat-icon *ngIf="!businessExpansion.expanded">expand_more</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-form-field>
+      <mat-label>{{ 'user_settings.company_name_label_input' | translate }}</mat-label>
+      <input matInput [formControl]="businessName">
+    </mat-form-field>
+    <mat-action-row>
+      <ng-container>
+        <mat-spinner [mode]="'indeterminate'" color="primary" diameter="20" *ngIf="showSpinnerBusinessName">
+        </mat-spinner>
+        <button mat-button color="primary" *ngIf=" !businessName.valid && !showSpinnerBusinessName"
+          disabled>{{ 'user_settings.save_label' | translate }}</button>
+        <button mat-flat-button color="primary" *ngIf="businessName.valid && !showSpinnerBusinessName"
+          (click)="saveBusinessName()">{{ 'user_settings.save_label' | translate }}</button>
+
+      </ng-container>
+    </mat-action-row>
+  </mat-expansion-panel>
+  <!-- 
+     <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle #urlExpansion>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Url de l'entreprise
+      </mat-panel-title>
+      <mat-panel-description>
+       
+        <ng-container *ngIf="!urlExpansion.expanded">
+              <ng-container *ngIf="businessUrl.value!==''">
+                {{businessUrl.value}}
+              </ng-container>
+              <ng-container *ngIf="businessUrl.value===''">
+                  Page web votre société ou de votre produit
+
+              </ng-container>
+              
+
+          </ng-container>
+          <ng-container *ngIf="urlExpansion.expanded">
+            Page web votre société ou de votre produit
+          </ng-container>
+        
+         <mat-icon *ngIf="urlExpansion.expanded">expand_less</mat-icon>
+        <mat-icon *ngIf="!urlExpansion.expanded">expand_more</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-form-field>
+      <mat-label>site web</mat-label>
+      <input matInput [formControl]="businessUrl">
+    </mat-form-field>
+    <mat-action-row >
+      <ng-container>
+        <mat-spinner
+              [mode]="'indeterminate'" color="primary" diameter="20" *ngIf="showSpinnerBusinessUrl">
+          </mat-spinner>
+        <button mat-button color="primary" (click)="saveBusinessUrl()" *ngIf="!showSpinnerBusinessUrl && businessUrl.valid">{{ 'user_settings.save_label' | translate }}</button>
+         <button mat-button color="primary"  *ngIf="!showSpinnerBusinessUrl && !businessUrl.valid" disabled>{{ 'user_settings.save_label' | translate }}</button>
+        
+      </ng-container>
+    </mat-action-row>
+  </mat-expansion-panel>
+     <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle #adresseExpansion>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Adresse
+      </mat-panel-title>
+      <mat-panel-description>
+
+            <ng-container *ngIf="!adresseExpansion.expanded">
+              <ng-container *ngIf="adresse.value!==''">
+                {{adresse.value}}
+              </ng-container>
+              <ng-container *ngIf="adresse.value===''">
+                  Adresse de l'entreprise
+
+              </ng-container>
+              
+
+          </ng-container>
+          <ng-container *ngIf="adresseExpansion.expanded">
+            Adresse de l'entreprise
+          </ng-container>
+        
+         <mat-icon *ngIf="adresseExpansion.expanded">expand_less</mat-icon>
+        <mat-icon *ngIf="!adresseExpansion.expanded">expand_more</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+     <mat-form-field>
+      <mat-label>Adresse</mat-label>
+      <input matInput [formControl]="adresse">
+    </mat-form-field>
+    <mat-action-row >
+      <ng-container>
+        <mat-spinner
+              [mode]="'indeterminate'" color="primary" diameter="20" *ngIf="showSpinnerAdresse">
+          </mat-spinner>
+        <button mat-button color="primary" (click)="saveBusinessAdresse()" *ngIf="!showSpinnerAdresse && adresse.valid">{{ 'user_settings.save_label' | translate }}</button>
+         <button mat-button color="primary"  *ngIf="!showSpinnerAdresse && !adresse.valid" disabled>{{ 'user_settings.save_label' | translate }}</button>
+        
+      </ng-container>
+    </mat-action-row>
+  </mat-expansion-panel> -->
+  <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)" hideToggle #phoneExpansion>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ 'user_settings.contact_label' | translate }}
+      </mat-panel-title>
+      <mat-panel-description>
+        <ng-container *ngIf="!phoneExpansion.expanded">
+          <ng-container *ngIf="phone.valid">
+            {{phone.value.internationalNumber}}
+          </ng-container>
+          <ng-container *ngIf="phone.invalid">
+            {{ 'user_settings.give_us_number' | translate }}
+
+          </ng-container>
+
+
+        </ng-container>
+        <ng-container *ngIf="phoneExpansion.expanded">
+          {{ 'user_settings.give_us_number' | translate }}
+        </ng-container>
+
+
+
+        <mat-icon *ngIf="phoneExpansion.expanded">expand_less</mat-icon>
+        <mat-icon *ngIf="!phoneExpansion.expanded">expand_more</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <ngx-intl-tel-input [cssClass]="'custom'" [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true"
+      [enablePlaceholder]="false" [searchCountryFlag]="true"
+      [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]" [selectFirstCountry]="false"
+      [selectedCountryISO]="selectedCountryISO" [maxLength]="15" [tooltipField]="TooltipLabel.Name"
+      [phoneValidation]="true" [inputId]="'phone'" name="phone" [formControl]="phone"></ngx-intl-tel-input>
+      <div  class="alert alert-warning mt-3" *ngIf="!phoneValid">
+        <div class="d-flex">
+          <span style="font-size: 12px;">Veuillez mettre à jour votre contact.</span>
+        </div>
+    </div>
+    <mat-action-row>
+      <ng-container>
+        <mat-spinner [mode]="'indeterminate'" color="primary" diameter="20" *ngIf="showSpinnerPhone">
+        </mat-spinner>
+        <button mat-flat-button color="primary" (click)="saveBusinessPhone()"
+          *ngIf="!showSpinnerPhone && phone.valid">{{ 'user_settings.save_label' | translate }}</button>
+        <button mat-button color="primary" *ngIf="!showSpinnerPhone && !phone.valid" disabled>{{ 'user_settings.save_label' | translate }}</button>
+      </ng-container>
+    </mat-action-row>
+  </mat-expansion-panel>
+
+</mat-accordion>

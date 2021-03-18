@@ -1,0 +1,10 @@
+$adf-light-primary: mat-palette($mat-blue, A700, A300, A400);
+$adf-light-accent: mat-palette($mat-blue-gray, 50);
+//$adf-light-warn: mat-palette($mat-deep-orange, 200);
+$adf-light-warn: mat-palette($mat-pink, A200, A100, A400);
+
+$adf-light-theme: mat-light-theme(
+  $adf-light-primary,
+  $adf-light-accent,
+  $adf-light-warn
+);

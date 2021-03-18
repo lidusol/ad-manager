@@ -1,0 +1,71 @@
+<ng-container *ngIf="isLoading; else loaded">
+  <div class="fab-container">
+    
+    <button mat-fab class="fab-toggler" color="accent">
+      <div lySkeleton [lyWidth]="40" style="border-radius: 50px; position: absolute; top: 0.5rem; left: 0.5rem;"  [lyHeight]="40">
+                        {{ '\u00A0' }}
+                      </div>
+    </button>
+   
+  </div>
+</ng-container>
+<ng-template #loaded>
+  
+  <div class="fab-container">
+      <!-- <mat-icon  class="fab-toggler mat-elevation-z5"
+            (click)="onToggleFab()"><img src="assets/svg/avatar.svg" style="width: 4rem"></mat-icon> -->
+    <button mat-fab class="fab-toggler primary-dark-bg"
+            (click)="toggleChat()" >
+           
+     <!--  <i class="material-icons" *ngIf="buttons.length===0">keyboard_arrow_up</i>
+      <i class="material-icons" *ngIf="buttons.length>0">keyboard_arrow_down</i> -->
+      <mat-icon class="icon-avatar"><img src="assets/images/AVATAR.png" style="width: 40px;"></mat-icon>
+      
+     
+    </button>
+    <div>
+      <button *ngFor="let btn of buttons"
+              mat-mini-fab
+              class="fab-accent"
+              [color]="btn.color" [matTooltip]="btn.tooltip" [matTooltipPosition]="'after'" (click)='btnClicked(btn.action)'>
+              <span class="material-icons material-icons-round">{{btn.icon}}</span>
+  
+      </button>
+    </div>
+  </div>
+  <div id="fab-dismiss" 
+       *ngIf="fabTogglerState==='active'" 
+       (click)="onToggleFab()">
+  </div>
+</ng-template>
+<div class="chat-container" [ngClass]="{'chat-visible': chatVisible}">
+  <adf-live-chat></adf-live-chat>
+
+</div>
+<!-- <mat-card class="chat-wrapper overflow-hidden" [ngClass]="{'chat-visible': chatVisible}">
+  <mat-card-header>
+    <div class="d-flex w-100 justify-content-end align-items-end">
+      <button mat-icon-button (click)="toggleChat()"><mat-icon>close</mat-icon></button>
+
+    </div>
+  </mat-card-header>
+  <mat-card-content style="max-height: 350px;">
+  
+  </mat-card-content>
+</mat-card> -->
+
+
+
+            <ejs-dialog id='dialog' #createAdDialog [visible]="visible" [target]="target" [position]='position'
+  [isModal]='isModal' style="top: 3rem; max-width: 900px; width: 100%; height: auto;" [position]='position' [showCloseIcon]="true">
+      <ng-template #content>
+        <div class="dialog-content">
+
+      
+    </div>
+
+        
+      </ng-template>
+      </ejs-dialog>
+
+      <adf-snackbar></adf-snackbar>

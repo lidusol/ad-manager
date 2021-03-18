@@ -1,0 +1,102 @@
+<!-- <mat-accordion>
+  <mat-expansion-panel #demographicExpansion id="demographic-expansion" [expanded]="expanded" class="panel-builder-single" hideToggle>
+
+
+    <mat-expansion-panel-header (click)="expandPanel($event)">
+      <mat-icon class="expansion-toggle" *ngIf="demographicExpansion.expanded"
+        (click)="$event.stopPropagation(togglePanel($event))">expand_less</mat-icon>
+      <mat-icon class="expansion-toggle" *ngIf="!demographicExpansion.expanded"
+        (click)="$event.stopPropagation(togglePanel($event))">expand_more</mat-icon>
+      <mat-panel-title >
+        <div>
+          Données démographiques
+
+        </div>
+      </mat-panel-title>
+      <mat-panel-description class="pl-3">
+        <ng-container *ngIf="demographicExpansion.expanded">
+          Définnissez votre ciblage démographique
+      
+        </ng-container>
+        <ng-container *ngIf="!demographicExpansion.expanded">
+          <div class="pl-3">
+
+            Tous les utilisateurs
+             
+
+  
+          </div>
+        </ng-container>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="row mr-md-5 ml-md-5">
+        <div class="col-md-6 pt-0 text-center pr-0 pl-0 pb-sm-3">
+            <mat-toolbar color="primary" class="toolbar-demog-header">
+            <span>Âges</span>
+          </mat-toolbar>
+           
+        <mat-selection-list #matSelectionListAges role="option" class="p-0" (selectionChange)="onAgeSelect($event)">
+
+            <mat-list-option style="cursor: pointer; padding: 0px;" *ngFor="let age of  ages"
+              [value]="age" checkboxPosition="before" disableRipple>
+              <div fxLayout="row" fxLayoutGap=".5rem" fxLayoutAlign="start center" class="text-demographic-header">
+               {{age.name}}
+              </div>
+            </mat-list-option>
+          </mat-selection-list>
+        </div>
+        <div class="col-md-6 pt-0 pr-0 pl-0 text-center">
+          <mat-toolbar color="primary" class="toolbar-demog-header">
+            <span>Genres</span>
+          </mat-toolbar>
+            
+        <mat-selection-list #matSelectionListGenders role="option" class="p-0" (selectionChange)="onGenderSelect($event)" >
+
+            <mat-list-option style="cursor: pointer; padding: 0px;" *ngFor="let gender of  genders"
+              [value]="gender" checkboxPosition="before" disableRipple>
+              <div fxLayout="row" fxLayoutGap=".5rem" fxLayoutAlign="start center" class="text-demographic-header">
+               {{gender.name}}
+              </div>
+            </mat-list-option>
+          </mat-selection-list>
+        </div>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion> -->
+
+
+
+<div class="row mr-md-5 ml-md-5">
+  <div class="col-md-6 pt-0 text-center pr-0 pl-0 pb-sm-3">
+      <mat-toolbar color="primary" class="toolbar-demog-header">
+      <span>Âges</span>
+    </mat-toolbar>
+     
+  <mat-selection-list #matSelectionListAges role="option" class="p-0" (selectionChange)="onAgeSelect($event)">
+
+      <mat-list-option color="primary" style="cursor: pointer; padding: 0px;" *ngFor="let age of  ages"
+        [value]="age" checkboxPosition="before" disableRipple>
+        <div  class="text-demographic-header d-flex flex-column justify-content-center align-items-start">
+          <span>{{age.name}}</span>
+          <span style="font-size: 11px;">{{age.info?age.info:''}}</span>         
+        </div>
+      </mat-list-option>
+    </mat-selection-list>
+  </div>
+  <div class="col-md-6 pt-0 pr-0 pl-0 text-center">
+    <mat-toolbar color="primary" class="toolbar-demog-header">
+      <span>Genres</span>
+    </mat-toolbar>
+      
+  <mat-selection-list #matSelectionListGenders role="option" class="p-0" (selectionChange)="onGenderSelect($event)" >
+
+      <mat-list-option color="primary" style="cursor: pointer; padding: 0px;" *ngFor="let gender of  genders"
+        [value]="gender" checkboxPosition="before" disableRipple>
+        <div class="text-demographic-header d-flex flex-column justify-content-center align-items-start">
+          <span>{{gender.name}}</span>
+          <span style="font-size: 11px;">{{gender.info?gender.info:''}}</span>
+        </div>
+      </mat-list-option>
+    </mat-selection-list>
+  </div>
+</div>

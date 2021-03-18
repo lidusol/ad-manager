@@ -1,0 +1,9 @@
+.video-js, youtube-player{
+    height: 120px !important;
+    width: 200px !important;
+}
+
+youtube-player iframe{
+    width: inherit !important;
+    height: inherit !important;
+}

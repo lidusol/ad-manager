@@ -1,0 +1,259 @@
+.main-toolbar{
+    z-index: 30;
+    height: 48px;
+    position: static;
+    transition: .6s;
+    margin-bottom: 2rem;
+    /* border-bottom: 1px solid #e6e9ee; */
+    /* color: rgba(255,255,255,.7); */
+    /* background: transparent !important; */
+}
+
+.fixed-header{
+    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+    background: #fff !important;
+}
+
+
+
+
+/* .main-toolbar{
+
+  &:focus{
+    outline: 0;
+  }
+  &:before{
+    content: '';
+    display: block;
+    position: absolute;
+    background: rgba(255,255,255,0.5);
+    width: 100%;
+    height: 48px;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    filter: blur(30px);
+    transform: translateX(-100%)  skewX(-15deg);
+  }
+  &:after{
+    content: '';
+    display: block;
+    position: absolute;
+    background: rgba(255,255,255,0.2);
+    width: 100%;
+    height: 48px;
+    left: 30px;
+    top: 0;
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  &:hover{
+    background: #338033;
+    cursor: pointer;
+    &:before{
+      transform: translateX(100%)  skewX(-15deg);  
+      opacity: 0.6;
+      transition: .7s;
+    }
+    &:after{
+      transform: translateX(100%) skewX(-15deg);  
+      opacity: 1;
+      transition: .7s;
+    }
+  }
+} */
+
+.main-toolbar-fixed{
+    position: sticky;
+    z-index: 30;
+    top: 0;
+    left: 0;
+    right: 0;
+    transition: 0.2s; 
+    height: 48px;
+    /* box-shadow: 0px 6px 6px -3px rgba(0, 0, 0, 0.2), 0px 10px 14px 1px rgba(0, 0, 0, 0.14), 0px 4px 18px 3px rgba(0, 0, 0, 0.12); */
+   
+}
+
+.toolbar-mobile{
+    z-index: 3;
+    margin-top: 64px;
+    position: fixed;
+    height: 50px;
+    
+}
+
+.main-toolbar .toolbar-container{
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    width: 100%; 
+}
+
+.user-avatar mat-icon.mat-card-avatar {
+  width: 45px;
+  height: 45px;
+  font-size: 45px;
+  cursor: pointer;
+}
+
+.user-menu-header{
+    width: 100%;
+    height: 80px;
+    /* background: #fafafa; */
+}
+
+.user-menu-header .header-container{
+    flex-direction: row; 
+    box-sizing: border-box; 
+    display: flex; 
+    place-content: center flex-start; 
+    align-items: center;
+    padding: .5rem;
+}
+
+.user-menu-header .header-container .avatar-container img{
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-color: transparent;
+    overflow: hidden;
+}
+
+.user-menu-header .header-container .user-container{
+    flex: 1 1 auto; 
+    box-sizing: border-box;
+}
+.user-menu-header .header-container .user-container .user-name{
+    font-weight: 600;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 14px;
+}
+
+.user-menu-header .header-container .user-container .user-email{
+    font-weight: 400;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 12px;
+}
+
+.user-menu .mat-menu-item{
+    font-size: 13px;
+}
+
+.settings-block{
+    width: 100%;
+    display: contents;
+}
+.buttons-block{
+    display: flex;
+    width: 100%;
+}
+.notifications-menu-header{
+   /*  width: 300px; */
+    height: 40px;
+}
+
+.notifications-menu-header .header-container{
+    flex-direction: row; 
+    box-sizing: border-box; 
+    display: flex; 
+    place-content: center flex-start; 
+    align-items: center;
+    padding: .5rem;
+}
+
+
+.notifications-menu .notifications-content{
+    width: 100%;
+    display: block;
+}
+
+.notifications-empty{
+   align-items: center;
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    margin-bottom: 48px;
+    text-align: center;
+}
+
+.no-notifications-text{
+    color: #3c4043;
+    font: 400 13px/20px Roboto,Noto,sans-serif;
+    letter-spacing: .01em;
+    margin-top: 8px;
+}
+
+
+/* .logo-white-app{
+    margin-right: 0.5rem;
+} */
+
+
+.google-ads-logo{
+       width: 8rem;
+    padding-left: 1rem;
+    padding-top: 0.2rem;
+
+    
+}
+
+.header-divider{
+    border-right-color: white !important;
+    margin-top: 1.5rem;
+    padding: 0.5rem;
+    height: 15px;
+}
+
+.nav-title{
+    font-size: 18px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    //font-family: ProductSans, 'Roboto', sans-serif !important;
+    font-family: Roboto,Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif !important;
+    
+}
+
+.account-selector{
+    overflow: hidden;
+    flex-direction: column;
+    cursor: pointer;
+    height: 50px;
+}
+
+.card-select-account{
+    border-radius: 0px;
+    width: 300px;
+    height: 400px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 1rem;
+    font-size: 14px;
+}
+
+
+.card-accounts-footer{
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+    right: 1rem;
+
+}
+
+.mat-menu-panel{
+    width: 1000px !important;
+}
+
+
+
+.google-ads-logo{
+    width: 6rem;
+    height: 2rem;
+    
+}

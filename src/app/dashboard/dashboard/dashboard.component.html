@@ -1,0 +1,378 @@
+
+
+<div class="container-fluid pl-md-3 pr-md-3 mt-2 app-bg-secondary">
+  <div class="row p-0">
+    <div class="col-md-12">
+        <div class="row mt-5 pl-md-1 pr-md-1">
+            <div class="col-md-12 pl-md-5 pr-md-5">
+            
+              <ng-container *ngIf="user_access!==undefined">
+        
+                <ng-container *ngIf="user_access.readOnly">
+                  <button mat-raised-button class="ml-md-3 mb-3" style="border-radius: 20px !important;"
+                    color="accent" disabled>
+                    <mat-icon>add</mat-icon> Nouvelle Campagne
+                  </button>
+                </ng-container>
+                <ng-container *ngIf="user_access.admin">
+                  <button mat-flat-button
+                    class="mb-3 ml-md-1" color="primary" (click)="createCampaign()">
+                    <mat-icon>add</mat-icon> Nouvelle Campagne
+                  </button>
+                </ng-container>
+        
+              </ng-container>
+        
+        
+            </div>
+          </div>
+         
+          <ng-container *ngIf="isLoading; else loaded">
+            <!-- <div class="row pl-md-5 pr-md-5 mt-1 mb-1">
+              <div class="col-md-6 pl-md-5 pr-md-1 pt-1">
+                <mat-card class="card-recap">
+        
+                  <mat-card-header>
+                    <mat-card-title>
+                      <div gutterBottom lySkeleton [lyWidth]="200" [lyHeight]="30">
+                        {{ '\u00A0' }}
+                      </div>
+                    </mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <div gutterBottom lySkeleton [lyWidth]="1" [lyHeight]="170">
+                      {{ '\u00A0' }}
+                    </div>
+                  </mat-card-content>
+                  <mat-divider class="footer-divider">
+                  </mat-divider>
+                  <mat-card-actions class="position-absolute pl-3" style="bottom: 1rem; left: 0;" align="start">
+        
+                    <div gutterBottom lySkeleton [lyWidth]="100" [lyHeight]="30">
+                      {{ '\u00A0' }}
+                    </div>
+                  </mat-card-actions>
+                </mat-card>
+              </div>
+              <div class="col-md-6 pl-md-1 pr-md-5 pt-3">
+                <mat-card class="card-recap">
+        
+                  <mat-card-header>
+                    <mat-card-title>
+                      <div gutterBottom lySkeleton [lyWidth]="200" [lyHeight]="30">
+                        {{ '\u00A0' }}
+                      </div>
+                    </mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <div gutterBottom lySkeleton [lyWidth]="1" [lyHeight]="170">
+                      {{ '\u00A0' }}
+                    </div>
+                  </mat-card-content>
+                  <mat-divider class="footer-divider">
+                  </mat-divider>
+                  <mat-card-actions class="position-absolute pl-3" style="bottom: 1rem; left: 0;" align="start">
+        
+                    <div gutterBottom lySkeleton [lyWidth]="100" [lyHeight]="30">
+                      {{ '\u00A0' }}
+                    </div>
+                  </mat-card-actions>
+                </mat-card>
+              </div>
+            </div> -->
+        
+          </ng-container>
+          <ng-template #loaded>
+            <div class="row">
+              <div class="col-md-8">
+                <div class="row pl-md-1 pr-md-1">
+                  <div class="col-md-12 pl-md-5 pr-md-5 d-flex justify-content-center align-items-center">
+                    <mat-card class="dash-stats-card">
+                      <mat-card-header>
+                        <mat-card-title>{{ text_greeting | translate }}&nbsp;{{user_company}}</mat-card-title>
+                      </mat-card-header>
+                      <mat-card-content class="d-flex justify-content-center align-items-center">
+                        <div class="row w-100 p-5">
+                          <div class="col-md-6 d-flex flex-column justify-content-start align-items-center wrapper-1">
+                              <div style="max-width: 100%;" class="d-flex justify-content-start align-items-center w-100">
+                                <div class="logo-act">
+                                  <i class="fa fa-user"></i>
+                                </div>
+                                <div class="act-info-container">
+                                  <div class="act-info-content flex-column w-100 d-flex justify-content-center align-items-start">
+                                      <div class="act-name">{{ 'user_label' | translate }}:&nbsp;{{email}}</div>
+                                      <div class="act-id">ID:&nbsp;{{uid}}</div> 
+                                  </div>
+                                </div>
+                              </div>
+                              <mat-divider class="position-relative mt-4 mb-4"></mat-divider>
+                              <div style="max-width: 100%;" class="d-flex justify-content-start align-items-center w-100">
+                                <div class="logo-act">
+                                  <i class="fa fa-briefcase"></i>
+                                </div>
+                                <div class="act-info-container">
+                                  <div class="act-info-content flex-column w-100 d-flex justify-content-center align-items-start">
+                                      <div class="act-name">{{ 'act_label' | translate }}:&nbsp;{{account_name}}</div>
+                                      <div class="act-id">ID:&nbsp;{{aacid}}</div> 
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                          <div class="col-md-6 d-none d-md-flex align-items-center justify-content-center">
+                            <img src="assets/images/concept_1.jpg" alt="concept_annonceur" class="img-fluid" style="max-height: 150px;">
+                          </div>
+                        </div>
+                      
+                      </mat-card-content>
+                      <!-- <mat-card-actions>
+                        <button mat-button>Ok</button>
+                      </mat-card-actions> -->
+                    </mat-card>
+                  </div>
+                </div>
+                <div class="row pl-md-1 pr-md-1 mt-4">
+                  <div class="col-md-12 pl-md-5 pr-md-5">
+                    <adf-main-chart-view></adf-main-chart-view>
+                  </div>
+                </div>
+                <div class="row pl-md-1 pr-md-1 mt-2 mb-1">
+                  <div class="col-md-12 pl-md-5 pr-md-5 pt-3">
+                    <adf-campaigns-overview-recap></adf-campaigns-overview-recap>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <mat-card class="mb-3">
+                  <mat-card-header>
+                    <mat-card-title> ✨ Bonne nouvelle pour toi</mat-card-title>
+                    <mat-card-subtitle>Profites d'un éditeur pour tes annonces gratuitement pendant un mois.</mat-card-subtitle>
+                  </mat-card-header>
+                  <mat-card-content class="d-flex flex-column justify-content-start align-items-center pl-0 pr-0">
+                    <div class="d-flex w-100 justify-content-center align-items-center">
+                        <img src="assets/svg/image-website.svg" alt="" srcset="" class="img-fluid" style="height: 262px;">
+                    </div>
+                </mat-card-content>
+                  <mat-card-actions align="end">
+                    <div id="resizeContainer"></div>
+                    <button mat-raised-button color="primary" (click)="discoverEditor()"><mat-icon>auto_awesome</mat-icon>&nbsp;Découvrir</button>
+                  </mat-card-actions>
+                </mat-card>
+              <mat-card class="mb-3 pl-0 pr-0 pt-1 pb-3 mt-4 app-bg-secondary" style="box-shadow: none !important;" *ngIf="utm_source!==undefined && utm_source!==null">
+                <mat-card-content class="d-flex flex-column justify-content-center align-items-center pt-5 pl-0 pr-0">
+                    <div class="d-flex w-100 justify-content-center align-items-center">
+                        <img src="assets/gif/A.gif" alt="" srcset="" class="img-fluid mat-elevation-z5 img-card"  style="height: 262px;">
+                    </div>
+                    <div class="d-flex flex-column justify-content-center align-items-start">
+                    <share-buttons [showText]="false" [exclude]="['pinterest','reddit','tumblr','mix','viber','vk','xing','line','sms','print','copy', 'telegram', 'email']"
+                    [show]="18" class="mt-2"  [url]="'http://app.adafri.com/auth/login?utm_source='+utm_source.iv+'&utm_c='+utm_source.content" [description]="DESCRIPTION_SHARE" [theme]="defaultTheme?'material-dark':'material-light'" [autoSetMeta]="true"></share-buttons>
+                    </div>
+                </mat-card-content>
+                
+            </mat-card>
+              </div>
+            </div>
+    
+            <!-- <div class="row pl-md-5 pr-md-5 mt-2 mb-1">
+              <div class="col-md-12 pl-md-2 pr-md-1 pt-3">
+                <mat-card class="card-recap ml-md-3">
+                  
+                  <mat-card-header>
+                    <mat-card-title>{{ 'cmp_dsp_label' | translate }}</mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <adf-campaigns-overview-recap></adf-campaigns-overview-recap>
+                  </mat-card-content>
+                  <mat-divider class="footer-divider">
+                  </mat-divider>
+                </mat-card>
+              </div>
+              <div class="col-md-6 pl-md-1 pr-md-2 pt-3">
+                <mat-card class="card-recap">
+                  <mat-card-header>
+                    <mat-card-title>{{ 'dsp_ads' | translate }}</mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <adf-ad-overview-recap></adf-ad-overview-recap>
+                  </mat-card-content>
+                  <mat-divider class="footer-divider">
+                  </mat-divider>
+                  <mat-card-actions class="position-absolute pl-3" style="bottom: 1rem; left: 0;" align="start">
+                    <button mat-flat-button color="accent" routerLink="/ads/list">{{ 'all_ads' | translate }} <mat-icon>chevron_right
+                      </mat-icon></button>
+                  </mat-card-actions>
+                </mat-card>
+              </div>
+            </div>
+            <div class="row pl-md-5 pr-md-5 mt-1">
+              <div class="col-md-6 pl-md-2 pr-md-1 pt-2">
+                <mat-card class="card-recap ml-md-3">
+        
+                  <mat-card-header>
+                    <mat-card-title>{{ 'cmp_rsdp' | translate }}</mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <adf-campaign-native-overview-recap></adf-campaign-native-overview-recap>
+                  </mat-card-content>
+                  <mat-divider class="footer-divider">
+                  </mat-divider>
+                </mat-card>
+              </div>
+              <div class="col-md-6 pl-md-1 pr-md-2 pt-2">
+                <mat-card class="card-recap">
+                  <mat-card-header>
+                    <mat-card-title>{{ 'rsdp_ads' | translate }}</mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <adf-native-ads-overview-recap></adf-native-ads-overview-recap>
+                  </mat-card-content>
+                  <mat-divider class="footer-divider">
+                  </mat-divider>
+                  <mat-card-actions class="position-absolute pl-3" style="bottom: 1rem; left: 0;" align="start">
+                    <button mat-flat-button color="accent" routerLink="/ads/list">{{ 'all_ads' | translate }} <mat-icon>chevron_right
+                      </mat-icon></button>
+                  </mat-card-actions>
+                </mat-card>
+              </div>
+            </div>
+            <div class="row pl-md-5 pr-md-5 mt-2 mb-1">
+              <div class="col-md-6 pl-md-2 pr-md-1 pt-3">
+                <mat-card class="card-recap ml-md-3">
+        
+                  <mat-card-header>
+                    <mat-card-title>{{ 'cmp_search' | translate }}</mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <adf-campaign-search-overview-recap></adf-campaign-search-overview-recap>
+                  </mat-card-content>
+                  <mat-divider class="footer-divider">
+                  </mat-divider>
+                </mat-card>
+              </div>
+              <div class="col-md-6 pl-md-1 pr-md-2 pt-3">
+                <mat-card class="card-recap">
+                  <mat-card-header>
+                    <mat-card-title>{{ 'search_ads' | translate }}</mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <adf-search-ads-overview-recap></adf-search-ads-overview-recap>
+                  </mat-card-content>
+                  <mat-divider class="footer-divider">
+                  </mat-divider>
+                  <mat-card-actions class="position-absolute pl-3" style="bottom: 1rem; left: 0;" align="start">
+                    <button mat-flat-button color="accent" routerLink="/ads/list">{{ 'all_ads' | translate }} <mat-icon>chevron_right
+                      </mat-icon></button>
+                  </mat-card-actions>
+                </mat-card>
+              </div>
+            </div> -->
+            <!-- <div class="row pl-md-5 pr-md-5 mt-1">
+              <div class="col-md-12 pl-md-5 pr-md-5 pt-3">
+                <mat-card class="card-recap-2 ml-md-3">
+        
+                  <mat-card-header>
+                    <mat-card-title>{{ 'loc_perform_label' | translate }}</mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content class="d-flex justify-content-center align-items-center">
+                    <adf-geo-performance-target></adf-geo-performance-target>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+        
+            </div> -->
+            <!-- <div class="row pl-md-5 pr-md-5 mt-1 mb-5">
+              <div class="col-md-6 pl-md-2 pr-md-1 pt-3">
+                <mat-card class="ml-md-3 overflow-hidden">
+        
+                  <mat-card-header>
+                    <mat-card-title>{{ 'ages_perform_label' | translate }}</mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content class="pl-3 d-flex justify-content-center align-items-center">
+                    <adf-age-performance-report></adf-age-performance-report>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <div class="col-md-6 pl-md-1 pr-md-2 pt-3">
+                <mat-card class="overflow-hidden">
+                  <mat-card-header>
+                    <mat-card-title>{{ 'genders_perform_label' | translate }}</mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content class="d-flex justify-content-center align-items-center pl-3">
+                    <adf-gender-performance-report></adf-gender-performance-report>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div> -->
+        
+        
+          </ng-template>
+     
+
+    </div>
+    <!-- <div class="col-md-4">
+        <div class="row mt-5 pl-md-5 pr-md-5">
+            <div class="col-md-12 pl-md-5 pr-md-5">
+              <adf-notifications></adf-notifications>
+                </div>
+                </div>
+                <div class="row mt-5 pl-md-5 pr-md-5">
+                    <div class="col-md-12 pl-md-5 pr-md-5">
+                        <mat-card class="mb-3">
+                            <mat-card-content class="d-flex flex-column justify-content-start align-items-center pt-5">
+                                <div class="img-share-container">
+                                    <img src="assets/images/1dollar728x90.png" alt="" srcset="" class="img-share">
+                                </div>
+                                <div class="d-flex flex-column justify-content-center align-items-start">
+                                  <span>{{ 'invite_friend_text' | translate }}</span>
+                                  <span>{{ 'recieve_percent_friend' | translate }}</span>
+                                  
+
+                                <share-buttons [showText]="false" [exclude]="['pinterest','reddit','tumblr','mix','viber','vk','xing','line','sms','print','copy']"
+                                [show]="18" class="mt-2"  [url]="'https://app.adafri.com/auth/login?utm_source='+aacid" [description]="DESCRIPTION_SHARE" [theme]="defaultTheme?'material-dark':'material-light'" [autoSetMeta]="true"></share-buttons>
+                                </div>
+                            </mat-card-content>
+                            
+                        </mat-card>
+                        </div>
+                        </div>
+
+    </div> -->
+  </div>
+  <!--   <div class="row mt-5 pl-md-5 pr-md-5" *ngIf="aacid!==undefined && aacid!==null && aacid!==''">
+            <div class="col-md-12 pl-md-5 pr-md-5">
+                <mat-card  style="background: url(assets/images/1dollar.jpg); background-size: contain; min-height: 314px; max-height: 314px; max-width: 600px;" class="mat-elevation-z8 card-share">
+                    <mat-card-content class="d-flex flex-column justify-content-center align-items-center p-md-5">
+                        <div class="d-flex justify-content-center align-items-center overlay overlayFade">
+                            
+                        </div> 
+                        <mat-card class="share-btn" style="opacity: 0.8;">
+                            <mat-card-content class="d-flex flex-column justify-content-center align-items-center">
+                                <h4 class="mt-2 share-btn">Gagnes {{ 1 | currency}} pour chaque utlisateur que vous aurez invité à rejoindre Adafri.</h4>
+                                <h6 class="share-btn" >Cliques sur le bouton ci-dessous pour partager</h6>     
+                            </mat-card-content>
+                        </mat-card>
+                        <share-popup-button [show]="18" class="share-btn mt-2"  [url]="'https://app.adafri.com/auth/register?utm_source='+aacid" [description]="DESCRIPTION_SHARE" [theme]="'material-light'" [autoSetMeta]="true">Partager</share-popup-button>
+                    </mat-card-content>
+                    <mat-card-actions>
+                    </mat-card-actions>
+                </mat-card>
+                
+            </div>
+        </div> -->
+  
+  <!--  <div class="row pl-md-5 pr-md-5">
+        <div class="col-md-12 pl-md-5 pr-md-5">
+                <adf-main-chart-view ></adf-main-chart-view>
+        </div>
+    </div> -->
+  
+
+</div>
+
+
+<!--  <div class="row mt-3 pl-md-5 pr-md-5">
+        <div class="col-md-12 text-center">
+            <mat-card style="border-radius: 0px;" >
+                <div id="chartContainer" style="max-width: 800px; height: 250px;"></div>
+            </mat-card>
+        </div>
+    </div> -->

@@ -1,0 +1,51 @@
+<!-- 
+<mat-accordion>
+  <mat-expansion-panel #statusExpansion id="status-expansion" [expanded]="expanded" class="panel-builder-single" hideToggle>
+    <mat-expansion-panel-header (click)="expandPanel($event)">
+      <mat-icon class="expansion-toggle" *ngIf="statusExpansion.expanded"
+        (click)="$event.stopPropagation(togglePanel($event))">expand_less</mat-icon>
+      <mat-icon class="expansion-toggle" *ngIf="!statusExpansion.expanded"
+        (click)="$event.stopPropagation(togglePanel($event))">expand_more</mat-icon>
+       <mat-panel-title>
+        Status de la campagne
+      </mat-panel-title>
+            <mat-panel-description class="text-center align-items-center align-content-center">
+          <ng-container *ngIf="statusExpansion.expanded">
+            Status de la campagne
+          </ng-container>
+          <ng-container *ngIf="!statusExpansion.expanded && STATUS_CAMPAIGN==='ENABLED'">
+            <mat-icon class="pr-4">play_arrow</mat-icon> Activée
+          </ng-container>
+          <ng-container *ngIf="!statusExpansion.expanded && STATUS_CAMPAIGN==='PAUSED'">
+            <mat-icon class="pr-4">pause_circle_outline</mat-icon> En Veille
+          </ng-container>
+      </mat-panel-description>
+    </mat-expansion-panel-header>  
+    <div class="row">
+      <div class="col-md-4">
+
+      </div>
+      <div class="col-md-4">
+            <mat-form-field class="status-field pt-5" appearance="legacy">
+    <mat-label>Status</mat-label>
+  <mat-select #select  [(ngModel)]="STATUS_CAMPAIGN">
+    <mat-option  value="ENABLED">Activée</mat-option>
+    <mat-option value="PAUSED" >Pause</mat-option>
+  </mat-select>
+  </mat-form-field>
+      </div>
+    </div>                 
+  </mat-expansion-panel>
+</mat-accordion>
+
+
+
+-->
+
+<mat-form-field class="status-field pt-5" appearance="legacy" color="accent">
+  <mat-label>Status</mat-label>
+<mat-select #select  [(ngModel)]="STATUS_CAMPAIGN">
+  <mat-option  value="ENABLED">Activée</mat-option>
+  <mat-option value="PAUSED" >Pause</mat-option>
+</mat-select>
+</mat-form-field>

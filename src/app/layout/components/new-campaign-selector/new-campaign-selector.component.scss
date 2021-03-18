@@ -1,0 +1,235 @@
+
+.card-campaign-type{
+    display: inline-block;
+    width: 300px;
+    height: 330px;
+    cursor: pointer;
+    overflow: visible;
+    border-radius: 5px !important;
+}
+
+
+.checked-icon{
+    position: absolute;
+    top: 1rem;
+    right: 2rem; 
+    z-index: 1050;
+     box-shadow: none;
+     display: none;
+     width: 30px;
+     height: 30px;
+     
+}
+.checked-icon mat-icon{
+    font-size: 15px;
+}
+.active .checked-icon{
+    display: block !important;
+}
+
+.adf-new-campaign-selector{
+    width: 100%;
+}
+
+.card-elevation{
+    //background: whitesmoke;
+    box-shadow: 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12), 0 3px 5px -1px rgba(0,0,0,.2) !important;
+    //box-shadow: none !important;
+}
+
+.obj-container{
+    cursor: pointer;
+    display: block;
+    outline: 0;
+    position: relative;
+    
+}
+.ads-container{
+    cursor: pointer;
+    display: block;
+    outline: 0;
+    position: relative;
+    
+}
+
+.obj-wrapper{
+    margin: 8px;
+}
+
+.ads-wrapper{
+    margin: 8px;
+    
+}
+
+.cmp-type-container::-webkit-scrollbar {
+    display: none;
+  }
+.p-card{
+    background: #fff;
+    border: 2px solid #dadce0;
+    border-radius: 2px;
+    box-sizing: border-box;
+    height: 172px;
+    padding: 8px;
+    width: 236px;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .1) !important;
+    border-radius: 20px !important;
+}
+.p-ad-card{
+    background: #fff;
+    border: 2px solid #dadce0;
+    border-radius: 2px;
+    box-sizing: border-box;
+    height: 172px;
+    padding: 8px;
+    width: 100%;
+}
+
+.s-card{
+    background: #fff;
+    border: 2px solid #dadce0;
+    border-radius: 2px;
+    box-sizing: border-box;
+    // height: 180px;
+    height: 172px;
+    opacity: 0;
+    padding: 8px;
+    transform: scale(0.9076923077,0.9555555556);
+    transition-duration: .2s;
+    transition-timing-function: ease-in-out;
+    transition-property: border-color,opacity,transform;
+    width: 236px;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .1) !important;
+    border-radius: 20px !important;
+}
+.s-ad-card{
+    background: #fff;
+    border: 2px solid #dadce0;
+    border-radius: 2px;
+    box-sizing: border-box;
+    // height: 180px;
+    height: 172px;
+    opacity: 0;
+    padding: 8px;
+    transform: scale(0.9076923077,0.9555555556);
+    transition-duration: .2s;
+    transition-timing-function: ease-in-out;
+    transition-property: border-color,opacity,transform;
+    width: 100%;
+}
+.checked-icon1, .checked-ad-icon{
+    background-color: #fff;
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+    position: absolute;
+    /* right: -5px;
+    top: -5px; */
+    right: 4px;
+    top: 4px;
+    transition-duration: .2s;
+    transition-timing-function: ease-in-out;
+    transition-property: opacity,right,top;
+}
+
+.p-obj-ic{
+    border-radius: 50%;
+    color: #fff;
+    margin-bottom: 16px;
+    font-size: 22px;
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.p-ad-ic{
+    background: no-repeat center;
+    border-radius: 3px;
+    // border: 1px solid #dadce0;
+    display: block;
+    // height: 80px;
+    // margin: 0 auto;
+    max-width: 150px;
+}
+.p-obj-title{
+    color: #202124;
+    font-size: 14px;
+    margin-bottom: 8px;
+    text-align: center;
+
+}
+
+.p-ad-title{
+    color: #202124;
+    font-size: 14px;
+    margin-bottom: 8px;
+    text-align: left;
+
+}
+
+.s-body{
+    color: rgba(0,0,0,.87);
+    font-size: 14px;
+}
+.s-footer{
+    color: rgba(0,0,0,.54);
+    font-size: 12px;
+}
+
+
+
+.obj-wrapper:hover{
+    .p-card{
+        display: none !important;
+    }
+    .s-card{
+        display: flex !important;
+        opacity: 1 !important;
+        transform: scale(1) !important;
+    }
+}
+
+.ads-wrapper:hover{
+    .p-ad-card{
+        display: none !important;
+    }
+    .s-ad-card{
+        display: flex !important;
+        opacity: 1 !important;
+        transform: scale(1) !important;
+    }
+}
+
+.p-ad-description{
+    color: #3c4043;
+    text-align: left;
+    margin-left: 5px;
+}
+
+.stepper-opt{
+    width: 7px;
+    height: 7px;
+    border-radius: 20px;
+    background: #ccc;
+    opacity: 0.8;
+    cursor: pointer;
+}
+.stepper-opt-active{
+    width: 10px !important;
+    height: 10px !important;
+    border-radius: 20px !important;
+}
+
+adf-cmp-name, adf-cmp-user-interest, adf-cmp-landing-page, adf-cmp-demographic-target, adf-youtube-channels-selector, adf-cmp-schedules, adf-cmp-pack-chooser, adf-cmp-placement-target, adf-cmp-keywords-selector, adf-cmp-ads-uploader, adf-cmp-native-ads-creator{
+    width: 100%;
+    margin-top: .2rem;
+    margin-bottom: .2rem;
+}
+
+adf-cmp-ads-uploader, adf-cmp-native-ads-creator{
+    margin-top: .3rem;
+}
+

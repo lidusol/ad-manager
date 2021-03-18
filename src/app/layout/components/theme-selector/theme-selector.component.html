@@ -1,0 +1,22 @@
+<mat-slide-toggle
+          class="theme-toggler"
+          [color]="'accent'"
+          [checked]="checked"
+          [disabled]="disabled"
+          (change)="themeChanged($event)"
+          >
+      </mat-slide-toggle>
+
+<!-- <button mat-icon-button [matMenuTriggerFor]="menuColor" class="theme-picker-btn">
+    <mat-icon class="ml-auto">format_color_fill</mat-icon>
+</button>
+<mat-menu #menuColor="matMenu">
+    <mat-radio-group
+    aria-labelledby="theme-picker-group-label"
+    class="theme-picker-radio-group"
+    [(ngModel)]="selectedTheme" (change)="themeChanged($event)" color="primary">
+    <mat-radio-button class="theme-picker-radio-button" *ngFor="let theme of themes" [value]="theme">
+      {{theme}}
+    </mat-radio-button>
+  </mat-radio-group>
+</mat-menu> -->

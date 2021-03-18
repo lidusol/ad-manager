@@ -1,0 +1,16 @@
+<div class="example-container" [class.example-is-mobile]="mobileQuery.matches" >
+  <adf-header [title]="'Toutes les campagnes'"></adf-header>
+
+  <mat-sidenav-container class="example-sidenav-container"
+                         [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+                 [fixedInViewport]="mobileQuery.matches" fixedTopGap="56" [opened]="opened">
+  <adf-sidebar  (sideNavToggled)="toggleSideNav()" ></adf-sidebar>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+       <button mat-mini-fab  style="cursor: pointer; z-index: 1050; position: absolute; top: 40%; left: -10px; background-color: #fafafa; color: #ccc;" class="mt-2 mr-3" (click)="openSideNav()" *ngIf="!snav.opened"> <mat-icon>arrow_forward_ios</mat-icon></button>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

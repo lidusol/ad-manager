@@ -1,0 +1,146 @@
+<div class="ad-wrapper" *ngIf="format1!==undefined && format1!==null">
+    <div class="ad-wrapper-content p-3">
+        <div class="ad-preview-container flex-column" style="cursor: pointer;" [mdePopoverTriggerFor]="popoverAds" mdePopoverTriggerOn="hover">
+                <div class="visible-url d-flex flex-row">
+                    <span class="ad-badge">Annonce</span>&nbsp;
+                    <span class="visible-url-text">       
+                        
+                        <ng-container *ngIf="format1.path1!=='' && format1.path2!==''">
+                        {{format1.visibleUrl?format1.visibleUrl+format1.path1+'/'+format1.path2:'www.exemple.com/'}}
+
+                    </ng-container>
+                    <ng-container *ngIf="format1.path1!=='' && format1.path2===''">
+                        {{format1.visibleUrl?format1.visibleUrl+format1.path1:'www.exemple.com/'}}
+
+                    </ng-container>
+                    <ng-container *ngIf="format1.path1==='' && format1.path2!==''">
+                        {{format1.visibleUrl?format1.visibleUrl+format1.path2:'www.exemple.com/'}}
+
+                    </ng-container>
+                    <ng-container *ngIf="format1.path1==='' && format1.path2===''">
+                        {{format1.visibleUrl?format1.visibleUrl:'www.exemple.com/'}}
+
+                    </ng-container></span>
+                    
+                </div>
+                <div class="headline accent-text">
+                    <ng-container *ngFor="let item of format1.titles; let i=index">
+                        {{item.assetText}} <ng-container *ngIf="i!==format1.titles.length-1">&nbsp;|&nbsp;</ng-container>
+                        
+                    </ng-container>
+                    
+                </div>
+                <div class="description">
+                    {{format1.descriptions[0].assetText}}
+                </div>
+                <div class="description">
+                    {{format1.descriptions[1].assetText}}
+                </div>
+            
+        </div>
+    </div>
+    <mde-popover  #popoverAds="mdePopover" [mdePopoverOverlapTrigger]="true" [mdePopoverCloseOnClick]="false" >
+<mat-card class="card-show-preview" style="max-width: 500px;">
+    <mat-card-header>
+        <mat-card-title>      
+            <ng-container *ngIf="format1.path1!=='' && format1.path2!==''">
+            {{format1.visibleUrl?format1.visibleUrl+format1.path1+'/'+format1.path2:'www.exemple.com/'}}
+
+        </ng-container>
+        <ng-container *ngIf="format1.path1!=='' && format1.path2===''">
+            {{format1.visibleUrl?format1.visibleUrl+format1.path1:'www.exemple.com/'}}
+
+        </ng-container>
+        <ng-container *ngIf="format1.path1==='' && format1.path2!==''">
+            {{format1.visibleUrl?format1.visibleUrl+format1.path2:'www.exemple.com/'}}
+
+        </ng-container>
+        <ng-container *ngIf="format1.path1==='' && format1.path2===''">
+            {{format1.visibleUrl?format1.visibleUrl:'www.exemple.com/'}}
+
+        </ng-container>
+    </mat-card-title>
+        <mat-card-subtitle>{{format1.finalURL}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="d-flex justify-content-start align-items-center flex-wrap w-100">
+        <div class="pl-3 d-flex flex-column justify-content-center align-items-start w-100">
+            <br>
+            <h6>Titres</h6>
+            <div class="d-flex justify-content-start align-items-center flex-wrap accent-text w-100">
+                <span *ngFor="let item of format1.titles; let i=index">
+                    {{item.assetText}} <ng-container *ngIf="i!==format1.titles.length-1">&nbsp;|&nbsp;</ng-container>
+                </span>
+            </div>
+            <br>
+            <h6>Descriptions</h6>
+            <ng-container  *ngFor="let item of format1.descriptions; let i=index">
+                
+                <div class="description">
+                    {{item.assetText}}
+                </div>
+            </ng-container>
+            
+        </div>
+    </mat-card-content>
+</mat-card>
+        </mde-popover>
+</div>
+
+
+<div class="ad-wrapper" *ngIf="format2!==undefined && format2!==null">
+    <div class="ad-wrapper-content p-3">
+        <div class="ad-preview-container flex-column" style="cursor: pointer;" [mdePopoverTriggerFor]="popoverAds" mdePopoverTriggerOn="hover">
+                <div class="visible-url d-flex flex-row">
+                    <span class="ad-badge">Annonce</span>&nbsp;
+                    <span class="visible-url-text">       
+                        {{getVisibleUrl(format2.finalUrl[0], format2.path1, format2.path2)}}
+                </span>
+                    
+                </div>
+                <div class="headline accent-text">
+                    <ng-container *ngFor="let item of format2.titles; let i=index">
+                        {{item.assetText}} <ng-container *ngIf="i!==format2.titles.length-1">&nbsp;|&nbsp;</ng-container>
+                        
+                    </ng-container>
+                    
+                </div>
+                <div class="description">
+                    {{format2.descriptions[0].assetText}}
+                </div>
+                <div class="description">
+                    {{format2.descriptions[1].assetText}}
+                </div>
+            
+        </div>
+    </div>
+    <mde-popover  #popoverAds="mdePopover" [mdePopoverOverlapTrigger]="true" [mdePopoverCloseOnClick]="false" >
+<mat-card class="card-show-preview" style="max-width: 500px;">
+    <mat-card-header>
+        <mat-card-title>      
+            {{getVisibleUrl(format2.finalUrl[0], format2.path1, format2.path2)}}
+    </mat-card-title>
+        <mat-card-subtitle>{{format2.finalUrl[0]}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="d-flex justify-content-start align-items-center flex-wrap w-100">
+        <div class="pl-3 d-flex flex-column justify-content-center align-items-start w-100">
+            <br>
+            <h6>Titres</h6>
+            <div class="d-flex justify-content-start align-items-center flex-wrap accent-text w-100">
+                <span *ngFor="let item of format2.titles; let i=index">
+                    {{item.assetText}} <ng-container *ngIf="i!==format2.titles.length-1">&nbsp;|&nbsp;</ng-container>
+                </span>
+            </div>
+            <br>
+            <h6>Descriptions</h6>
+            <ng-container  *ngFor="let item of format2.descriptions; let i=index">
+                
+                <div class="description">
+                    {{item.assetText}}
+                </div>
+            </ng-container>
+            
+        </div>
+    </mat-card-content>
+</mat-card>
+        </mde-popover>
+</div>

@@ -1,0 +1,67 @@
+<!-- <mat-accordion class="pl-0 pr-0">
+  <mat-expansion-panel #nameExpansion id="name-expansion" [expanded]="expanded" class="panel-builder-single"
+    class="pl-0 pr-0" hideToggle>
+    <mat-expansion-panel-header (click)="expandPanel($event)">
+      <mat-icon class="expansion-toggle pt-3" *ngIf="nameExpansion.expanded"
+        (click)="$event.stopPropagation(togglePanel($event))">expand_less</mat-icon>
+      <mat-icon class="expansion-toggle" *ngIf="!nameExpansion.expanded"
+        (click)="$event.stopPropagation(togglePanel($event))">expand_more</mat-icon>
+      <mat-panel-title>
+        Nom de la campagne
+      </mat-panel-title>
+      <mat-panel-description>
+        <ng-container *ngIf="expanded">
+          <mat-form-field class="name-field" appearance="legacy" hintLabel="Max 100 caractères">
+            <input matInput #inputName [formControl]="nameControl" id="inputName" maxlength="100" placeholder=""
+              autofocus>
+            <mat-error *ngIf="nameControl.hasError('required')">Ce champ ne peut être vide.</mat-error>
+            <mat-error *ngIf="!nameControl.hasError('required') && nameExist">Ce nom existe déjà</mat-error>
+            <mat-error *ngIf="!nameControl.hasError('required') && nameControl.hasError('minlength')">Minimum 3
+              caractères</mat-error>
+
+            <mat-hint align="end">{{inputName.value?.length || 0}}/100</mat-hint>
+          </mat-form-field>
+        </ng-container>
+        <ng-container *ngIf="!expanded">
+          {{nameControl.value}}
+        </ng-container>
+
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="panel-footer">
+        <mat-spinner
+            [mode]="'indeterminate'" color="accent" [diameter]="25" *ngIf="spinnerUpdate" class="mr-4">
+        </mat-spinner>
+        <ng-container *ngIf="!spinnerUpdate && user_access!==undefined">
+            <button mat-button color="accent" (click)="updateName()" [disabled]="user_access.readOnly">Enregistrer</button>
+            <button mat-button color="accent" (click)="$event.stopPropagation(togglePanel($event))">Annuler</button>
+
+        </ng-container>
+        
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
+ -->
+
+ <mat-form-field class="name-field" appearance="legacy" hintLabel="Max 100 caractères" color="primary">
+  <input matInput #inputName [formControl]="nameControl" id="inputName" maxlength="100" placeholder=""
+    autofocus autocomplete="off">
+  <mat-error *ngIf="nameControl.hasError('required')">Ce champ ne peut être vide.</mat-error>
+  <mat-error *ngIf="!nameControl.hasError('required') && nameExist">Ce nom existe déjà</mat-error>
+  <mat-error *ngIf="!nameControl.hasError('required') && nameControl.hasError('minlength')">Minimum 3
+    caractères</mat-error>
+
+  <mat-hint align="end">{{inputName.value?.length || 0}}/100</mat-hint>
+</mat-form-field>
+
+<div class="panel-footer">
+  <mat-spinner
+      [mode]="'indeterminate'" color="primary" [diameter]="25" *ngIf="spinnerUpdate" class="mr-4">
+  </mat-spinner>
+  <ng-container *ngIf="!spinnerUpdate && user_access!==undefined">
+      <button mat-button color="primary" (click)="updateName()" [disabled]="user_access.readOnly">Enregistrer</button>
+      <button mat-button color="primary" (click)="$event.stopPropagation(togglePanel($event))">Annuler</button>
+
+  </ng-container>
+  
+</div>

@@ -1,0 +1,11 @@
+<ng-container *ngIf="deliveryOptionSelected==='custom'">
+  <div class="row">
+    <div class="col-md-12">
+
+      <div class="d-flex flex-column justify-content-center align-items-center" style="width: 100%">
+        <adf-cmp-bids (bidChanging)="bidChanging($event)" (bidValueChanging)="bidValueChanging($event)"></adf-cmp-bids>
+        <adf-cmp-budget></adf-cmp-budget>
+      </div>
+    </div>
+  </div>
+</ng-container>

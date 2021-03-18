@@ -1,0 +1,50 @@
+<ng-container *ngIf="showAutoComplete!==undefined && showAutoComplete">
+  <adf-act-autocomplete-select></adf-act-autocomplete-select>
+</ng-container>
+
+<ng-container *ngIf="showAutoComplete!==undefined && !showAutoComplete">
+  <div class="d-flex w-100 justify-content-center align-items-center flex-column">
+    <mat-form-field cla="search-field" color="primary">
+    <mat-label>{{ 'accounts_label' | translate }}</mat-label>
+      <input matInput placeholder="Rechercher un compte" autofocus (click)="$event.stopPropagation()" [formControl]="searchControl" autocomplete="off">
+      <mat-icon matSuffix>filter_list</mat-icon>
+  </mat-form-field>
+  <ng-container *ngIf="loadingAccount">
+    <div class="d-flex justify-content-center align-items-center">
+      <mat-spinner [mode]="'indeterminate'" [diameter]="25"></mat-spinner>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="accountDisplay.length>0 && !loadingAccount">
+    <mat-selection-list role="option" class="p-0 w-100 list-account" [multiple]="'false'"  #list>
+     <mat-list-option  [checkboxPosition]="'before'"  style="cursor: pointer; padding: 0px; padding-right: 4px !important;" *ngFor="let account of accountDisplay" [value]="account" [selected]="selectedItem(account)" (click)="onAccountSelect(account)">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-start align-items-center">
+                  <button mat-icon-button disabled>
+                    <mat-icon role="img" class="g-ads-icon">
+                      <img src="assets/logo/favicon.png" style="width: 18px; height: 18px;">
+                    </mat-icon>
+                  </button>
+                  <span class="text-primary-foreground f-13" style="font-weight: 400; max-width: 120px;">{{account.account.name}}</span>
+   
+                </div>
+                <div class="d-flex justify-content-end align-items-center">
+                 <span class="text-primary-foreground f-12" style="font-weight: 300;">{{account.account.id}}</span>
+                </div>
+               
+   
+                 </div>
+   
+     </mat-list-option>
+   </mat-selection-list>
+  
+  </ng-container>
+  
+  <ng-container *ngIf="accountDisplay.length===0 && !loadingAccount">
+    <div class="d-flex justify-content-center align-items-center">
+      <span style="font-size: 13px; font-weight: 500">Aucun compte trouvé</span>
+    </div>
+  </ng-container>
+  
+  </div>
+</ng-container>
+

@@ -1,0 +1,33 @@
+.profile-container{
+    /* margin-bottom: 5rem */
+}
+
+.card-user{
+    position: absolute;
+    bottom: 0rem;
+    left: 3rem;
+    right: 3rem;
+    top: -4rem;
+    height: max-content;
+}
+
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.example-headers-align .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}

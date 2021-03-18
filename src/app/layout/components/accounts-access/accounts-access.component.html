@@ -1,0 +1,516 @@
+
+
+<!-- <button mat-raised-button color="primary" (click)="getAuthUrl()">test url</button> -->
+
+   <div class="container-fluid app-bg-secondary">
+    <div class="row pt-5 mt-5" *ngIf="pendingAccountsToLink.length>0">
+      <div class="col-md-12 pt-3 pl-md-5 pr-md-5">
+          <mat-card>
+              <mat-card-header>
+                  <mat-card-title>{{ 'account_access.request_invitaion_label' | translate }}</mat-card-title>
+                  <mat-card-subtitle>{{ 'account_access.list_pending_title' | translate }}</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                  <ejs-grid [dataSource]='pendingAccountsToLink' locale="fr" allowTextWrap="true" [enableHover]='"false"'
+      id="gridDisplay" 
+     [allowResizing]='true' [allowSorting]="true" [gridLines]='gridLines' width="auto"
+      height="auto" >
+      <e-columns>
+         <e-column field='id' headerText='Compte'  clipMode='EllipsisWithTooltip' width='200'>
+                     <ng-template #template let-data>
+                         <div fxLayout="row" fxLayoutAlign="start center" class="tree-root-container">
+              <button mat-icon-button class="icon-accounts" disabled>
+                <mat-icon role="img" class="g-ads-icon">
+                 <img src="assets/logo/favicon.png" style="width: 18px; height: 18px;">
+                </mat-icon>
+              </button>
+              <div>
+
+                  <div>{{data.linked_account.account.name}}</div>
+                           <div class="customer-id">{{data.linked_account.account.id}}</div>
+              </div>
+
+            </div>             
+                </ng-template>
+         </e-column>
+          
+       <e-column field='owner_email' headerText='Propriétaire' width='200'>
+       </e-column>
+       <e-column field='linkDateString' [headerText]="'account_access.accept_label' | translate" width='100'>
+          <ng-template #template let-data>
+              <button mat-button (click)="acceptLink(data)"  class="grid-btn-small">{{ 'account_access.accept_label' | translate }}</button>
+           </ng-template>
+           
+       </e-column>
+        <e-column field='linkDate' [headerText]="'account_access.refuse_label' | translate" width='100'>
+           <ng-template #template let-data>
+              <button mat-button class="grid-btn-small" (click)="refuseLink(data)">{{ 'account_access.refuse_label' | translate }}</button>
+           </ng-template>
+           
+       </e-column>
+      </e-columns>
+    </ejs-grid>
+              
+              </mat-card-content>
+          </mat-card>
+      </div>
+  </div>
+  <div class="row pt-5 mt-5 pb-5" *ngIf="listAccounts.length>0">
+      <div class="col-md-12 pt-3 pl-md-5 pr-md-5">
+          <mat-card>
+              <mat-card-header>
+                  <mat-card-title>{{ 'account_access.your_accounts' | translate }}</mat-card-title>
+                 <!--  <mat-card-subtitle>Les compte qui vous appartienent</mat-card-subtitle> -->
+              </mat-card-header>
+              <mat-card-content>
+                  <ejs-grid [dataSource]='listAccounts' locale="fr" allowTextWrap="true" [enableHover]='"false"'
+      id="gridDisplay" 
+     [allowResizing]='true' [allowSorting]="true" [gridLines]='gridLines' width="auto"
+      height="auto" >
+      <e-columns>
+         <e-column field='account.id' [headerText]="'account_access.account_label' | translate"  clipMode='EllipsisWithTooltip' width='200'>
+                     <ng-template #template let-data>
+                         <div fxLayout="row" fxLayoutAlign="start center" class="tree-root-container">
+              <button mat-icon-button class="icon-accounts" disabled>
+                <mat-icon role="img" class="g-ads-icon">
+                 <img src="assets/logo/favicon.png" style="width: 18px; height: 18px;">
+                </mat-icon>
+              </button>
+              <div>
+
+                  <div>{{data.account.name}}</div>
+                           <div class="customer-id">{{data.account.id}}</div>
+              </div>
+
+            </div>             
+                </ng-template>
+         </e-column>
+          
+       <e-column field='account.owner_email' [headerText]="'account_access.owner_label' | translate" width='200'>
+       </e-column>
+       <e-column field='creationDateString' [headerText]="'account_access.creation_date' | translate " width='200'>
+           <ng-template #template let-data>
+              le {{data.account.creationDateString}}
+           </ng-template>
+           
+       </e-column>
+        <e-column field='account.creationDate' headerText='Action' width='200'>
+           <ng-template #template let-data>
+              <button mat-button (click)="showInviteUserPanel(data.account)" *ngIf="data.role.admin" class="grid-btn-small">{{ 'account_access.invite_user' | translate }}</button>
+              <button mat-button  *ngIf="data.role.readOnly" disabled class="grid-btn-small">{{ 'account_access.invite_user' | translate }}</button>
+           </ng-template>
+           
+       </e-column>
+      </e-columns>
+    </ejs-grid>
+              
+              </mat-card-content>
+          </mat-card>
+      </div>
+  </div>
+
+  <div class="row pt-5 pb-5" *ngIf="accountAccess.length>0">
+      <div class="col-md-12 pt-3 pl-md-5 pr-md-5">
+          <mat-card>
+              
+              <!-- <button mat-mini-fab class="invite-user" color='accent' matTooltip="Inviter un utilisateur"
+      [matTooltipShowDelay]="'1000'"  [matTooltipPosition]="'after'" tooltipClass='tooltip-test'><mat-icon>add</mat-icon></button> -->
+              
+              <mat-card-header>
+                  <mat-card-title>{{ 'account_access.security_label' | translate }}</mat-card-title>
+                  <!-- <mat-card-subtitle></mat-card-subtitle> -->
+              </mat-card-header>
+              <mat-card-content>
+                  <ejs-grid [dataSource]='accountAccess' locale="fr" allowTextWrap="true" [enableHover]='"false"'
+      id="gridDisplay" 
+     [allowResizing]='true' [allowSorting]="true" [gridLines]='gridLines' width="auto"
+      height="auto" >
+      <e-columns>
+         <e-column field='account.id' [headerText]='"account_access.account_security_table_label" | translate'  clipMode='EllipsisWithTooltip' width='200'>
+                     <ng-template #template let-data>
+                         <div fxLayout="row" fxLayoutAlign="start center" class="tree-root-container">
+              <button mat-icon-button class="icon-accounts" disabled>
+                <mat-icon role="img" class="g-ads-icon">
+                 <img src="assets/logo/favicon.png" style="width: 18px; height: 18px;">
+                </mat-icon>
+              </button>
+              <div>
+
+                  <div>{{data.linked_account.account.name}}</div>
+                           <div class="customer-id">{{data.linked_account.account.id}}</div>
+              </div>
+
+            </div>             
+                </ng-template>
+         </e-column>
+          
+       <!-- <e-column field='owner_email' headerText='Propriétaire'  width='200'>
+       </e-column> -->
+         <e-column field='target_email' [headerText]='"account_access_user_granted_access_table_label" | translate'  width='200'>
+       </e-column>
+       <e-column field='linkDateString' [headerText]="'account_access.binding_date_table_label' | translate">
+           <ng-template #template let-data>
+              le {{data.linkDateString}}
+           </ng-template>
+           
+       </e-column>
+        <e-column field='linkDate' headerText='Action'>
+           <ng-template #template let-data>
+              <button mat-button (click)="disableLink(data)" class="grid-btn-small">{{ 'account_access.remove_access' | translate }}</button>
+             
+           </ng-template>
+           
+       </e-column>
+      </e-columns>
+    </ejs-grid>
+              
+              </mat-card-content>
+          </mat-card>
+      </div>
+  </div>
+
+  <div class="row pt-5 pb-5" *ngIf="myLinksInvited.length>0">
+      <div class="col-md-12 pt-3 pl-md-5 pr-md-5">
+          <mat-card>
+              <mat-card-header>
+                  <mat-card-title>{{ 'account_access.send_invitaions' | translate }}</mat-card-title>
+                  <!-- <mat-card-subtitle>Liste des invitations que vous avez envoyé</mat-card-subtitle> -->
+              </mat-card-header>
+              <mat-card-content>
+                  <ejs-grid [dataSource]='myLinksInvited' locale="fr" allowTextWrap="true" [enableHover]='"false"'
+      id="gridDisplay" 
+     [allowResizing]='true' [allowSorting]="true" [gridLines]='gridLines' width="auto"
+      height="auto" >
+      <e-columns>
+         <e-column field='id' [headerText]="'account_access.account_label' | translate"  clipMode='EllipsisWithTooltip' width='200'>
+                     <ng-template #template let-data>
+                         <div fxLayout="row" fxLayoutAlign="start center" class="tree-root-container">
+              <button mat-icon-button class="icon-accounts" disabled>
+                <mat-icon role="img" class="g-ads-icon">
+                 <img src="assets/logo/favicon.png" style="width: 18px; height: 18px;">
+                </mat-icon>
+              </button>
+              <div>
+
+                  <div>{{data.linked_account.account.name}}</div>
+                           <div class="customer-id">{{data.linked_account.account.id}}</div>
+              </div>
+
+            </div>             
+                </ng-template>
+         </e-column>
+          
+       <e-column field='target_email' [headerText]="'account_access.recipient_label' | translate" width='200'>
+       </e-column>
+       <e-column field='linkDateString' [headerText]="'account_access.binding_date_table_label' | translate" width='200'>
+           <ng-template #template let-data>
+              le {{data.linkDateString}}
+           </ng-template>
+           
+       </e-column>
+        <e-column field='linkDate' headerText='Action' width='150'>
+           <ng-template #template let-data>
+              <button mat-button (click)="disableLinkInvitation(data)" class="grid-btn-small">{{ 'account_access.revoke_access' | translate }}</button>
+           </ng-template>
+           
+       </e-column>
+      </e-columns>
+    </ejs-grid>
+              
+              </mat-card-content>
+          </mat-card>
+      </div>
+  </div>
+  <div class="row" *ngIf="activeAccountsLink.length>0">
+      <div class="col-md-12 pt-5 pl-md-5 pr-md-5 mb-3">
+          <mat-card>
+              <mat-card-header>
+                  <mat-card-title>{{ 'account_access.linked_accounts' | translate }}</mat-card-title>
+                  <!-- <mat-card-subtitle>Les comptes dont les accès vous ont été accordé</mat-card-subtitle> -->
+              </mat-card-header>
+              <mat-card-content>
+                           <ejs-grid [dataSource]='activeAccountsLink' locale="fr" allowTextWrap="true" [enableHover]='"false"'
+      id="gridDisplay" 
+     [allowResizing]='true' [allowSorting]="true" [gridLines]='gridLines' width="auto"
+      height="auto" >
+      <e-columns>
+         <e-column field='id' [headerText]="'account_access.account_label' | translate"  clipMode='EllipsisWithTooltip'  width='200'>
+                     <ng-template #template let-data>
+                         <div fxLayout="row" fxLayoutAlign="start center" class="tree-root-container">
+              <button mat-icon-button class="icon-accounts" disabled>
+                <mat-icon role="img" class="g-ads-icon">
+                 <img src="assets/logo/favicon.png" style="width: 18px; height: 18px;">
+                </mat-icon>
+              </button>
+              <div>
+
+                  <div>{{data.linked_account.account.name}}</div>
+                           <div class="customer-id">{{data.linked_account.account.id}}</div>
+              </div>
+
+            </div>             
+                </ng-template>
+         </e-column>
+          
+       <e-column field='owner_email' [headerText]="'account_access.owner_label' | translate" width='200'>
+       </e-column>
+       <e-column field='linkDateString' [headerText]="'account_access.binding_date_table_label' | translate" width='200'>
+           <ng-template #template let-data>
+              le {{data.linkDateString}}
+           </ng-template>
+           
+       </e-column>
+       <e-column field='linkDate' headerText='Action'>
+           <ng-template #template let-data>
+              <button mat-button (click)="revoqueAccess(data)" class="grid-btn-small">{{ 'account_access.get_me_out' | translate }}</button>
+             
+           </ng-template>
+           
+       </e-column>
+      </e-columns>
+    </ejs-grid>
+              </mat-card-content>
+          </mat-card>
+      </div>
+  </div>
+
+
+
+    <ejs-dialog id='dialog' #inviteNewUserDialog [visible]="visible" [target]="target" [position]='position'
+[isModal]='isModal' style="top: 3rem; max-width: 800px; width: auto; height: auto;">
+    <ng-template #content>
+      <div class="dialog-content">
+    <div class="row mat-elevation-z4">
+      <div class="col-md-12 text-center pt-3">
+        <h3 class="dialog-header-label d-flex justify-content-center align-items-center"><mat-icon>accessibility_new</mat-icon>&nbsp;{{'account_access.invite_user' | translate}}</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-center pl-0 pr-0">
+        <mat-card style="box-shadow: none !important;" class="mt-md-5">
+          <mat-card-header>
+              <mat-card-title *ngIf="CURRENT_ACCOUNT_TO_LINK!==undefined"> {{ 'account_access_allow_other' | translate }}&nbsp;{{CURRENT_ACCOUNT_TO_LINK.name}}</mat-card-title>
+              <mat-card-subtitle  style="max-width: 300px; display: flex; justify-content: flex-start; align-items: center; text-align: left;">
+                  {{ 'account_access.allow_text_description' | translate }}
+              </mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+          <div class="row">
+              <div class="col-md-6 p-3">
+                  <mat-form-field color="primary"  [floatLabel]="'always'">
+  <mat-label>{{'auth.email_label' | translate}}</mat-label>
+  <input matInput type="text" [formControl]="emailControl" [placeholder]="'auth.email_label' | translate" autocomplete="off">  
+  <mat-error *ngIf="emailControl.hasError('required')">{{ 'auth.required' | translate }}</mat-error>  
+  <mat-error *ngIf="emailControl.hasError('email')">{{ 'invalid_email_address' | translate }}</mat-error>
+</mat-form-field>
+<mat-error *ngIf="isErrorMessage" style="font-size: 12px;">{{errorMessage}}</mat-error>   
+              </div>
+              <div class="col-md-6 p-3 pl-5" style="text-align: left;">
+                  <label id="example-radio-group-label">{{ 'account_access.access_type' | translate }}</label>
+                  <br>
+                  <mat-radio-group aria-label="Type" [(ngModel)]="roleOption" color="primary" class="example-radio-group">
+<mat-radio-button value="user">{{ 'account_access.read_only_label' | translate }}</mat-radio-button>
+<mat-radio-button value="admin">{{ 'account_access.read_write_label' | translate }}</mat-radio-button>
+</mat-radio-group>
+              </div>
+          </div>
+          </mat-card-content>
+      </mat-card>  
+        
+      </div>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end">
+      <mat-spinner
+          [mode]="'indeterminate'" color="primary" [diameter]="20" *ngIf="showSpinnerInvitation">
+      </mat-spinner>
+    <button mat-button (click)="inviteNewUserDialog.hide()" class="mr-2" *ngIf="!showSpinnerInvitation">{{ 'account_access.cancel_label' | translate }}</button>
+    <button mat-flat-button color="primary" (click)="requestInvitation()" [disabled]="sendInvitationButtonDisabled" *ngIf="!showSpinnerInvitation" isButtonIcon="true">
+      <mat-icon>send</mat-icon>
+      {{ 'account_access.invite' | translate }}</button>
+  </div>  
+    </ng-template>
+    </ejs-dialog>
+
+
+
+
+
+          <ejs-dialog id='dialog' #confirmDeleteUserAccessDialog [visible]="visible" [target]="target" [position]='position'
+[isModal]='isModal' style="top: 3rem; max-width: 500px; width: auto; height: 150px;">
+    <ng-template #content>
+      <div class="dialog-content">
+
+    
+    <div class="row">
+      <div class="col-md-12 text-center pl-0 pr-0">
+        <mat-card style="box-shadow: none !important;" class="mt-md-3">
+          <mat-card-header style="text-align: left;">
+              <mat-card-title  *ngIf="CURRENT_LINK_ACTIVE_TO_DELETE!==undefined">Supprimer l'accès de {{CURRENT_LINK_ACTIVE_TO_DELETE.target_email}}</mat-card-title>
+              <mat-card-subtitle *ngIf="CURRENT_LINK_ACTIVE_TO_DELETE!==undefined">Cet utilisateur ne pourra plus accéder au compte {{CURRENT_LINK_ACTIVE_TO_DELETE.linked_account.account.name}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content style="text-align: left;" *ngIf="errorMessageDeletion!==''">
+              <span style="font-size: 13px;" class="text-danger">{{ errorMessageDeletion}}</span>
+          </mat-card-content>
+          <mat-card-actions align="end">
+               <mat-spinner
+          [mode]="'indeterminate'" color="primary" [diameter]="20" *ngIf="spinnerDeleteLink">
+      </mat-spinner>
+               <button mat-button color="primary" (click)="confirmDeleteUserAccessDialog.hide()" *ngIf="!spinnerDeleteLink">ANNULER</button>
+    <button mat-flat-button color="primary" *ngIf="!spinnerDeleteLink" (click)="confirmDeletion()">SUPPRIMER L'ACCÈS</button>
+          </mat-card-actions>
+      </mat-card>  
+        
+      </div>
+    </div>
+  </div>
+
+      
+    </ng-template>
+    </ejs-dialog>
+
+
+     <ejs-dialog id='dialog' #confirmRevoqueUserAccessDialog [visible]="visible" [target]="target" [position]='position'
+[isModal]='isModal' style="top: 3rem; max-width: 500px; width: auto; height: 150px;">
+    <ng-template #content>
+      <div class="dialog-content">
+
+    
+    <div class="row">
+      <div class="col-md-12 text-center pl-0 pr-0">
+        <mat-card style="box-shadow: none !important;" class="mt-md-3">
+          <mat-card-header style="text-align: left;">
+              <mat-card-title  *ngIf="CURRENT_LINK_ACTIVE_TO_REVOQUE!==undefined">{{ 'account_access.remove_access_label_of' | translate }}&nbsp;{{CURRENT_LINK_ACTIVE_TO_REVOQUE.target_email}}</mat-card-title>
+              <mat-card-subtitle *ngIf="CURRENT_LINK_ACTIVE_TO_REVOQUE!==undefined">{{ 'account_access.you_will_no_longer' | translate }} &nbsp; {{CURRENT_LINK_ACTIVE_TO_REVOQUE.linked_account.account.name}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content style="text-align: left;" *ngIf="errorMessageDeletion!==''">
+              <span style="font-size: 13px;" class="text-danger">{{ errorMessageDeletion}}</span>
+          </mat-card-content>
+          <mat-card-actions align="end" class="pr-4">
+               <mat-spinner
+          [mode]="'indeterminate'" color="primary" [diameter]="20" *ngIf="spinnerDeleteLink">
+      </mat-spinner>
+               <button mat-button color="primary" (click)="confirmRevoqueUserAccessDialog.hide()" *ngIf="!spinnerRevoqueLink" class="mr-2"> {{'account_access.cancel_label' | translate }}</button>
+    <button mat-flat-button color="primary" *ngIf="!spinnerRevoqueLink" (click)="confirmRevoque()">{{'account_access.remove_access' | translate }}</button>
+          </mat-card-actions>
+      </mat-card>  
+        
+      </div>
+    </div>
+  </div>
+
+      
+    </ng-template>
+    </ejs-dialog>
+
+
+                <ejs-dialog id='dialog' #confirmDeleteUserAccessPendingDialog [visible]="visible" [target]="target" [position]='position'
+[isModal]='isModal' style="top: 3rem; max-width: 500px; width: auto; height: 150px;">
+    <ng-template #content>
+      <div class="dialog-content">
+
+    
+    <div class="row">
+      <div class="col-md-12 text-center pl-0 pr-0">
+        <mat-card style="box-shadow: none !important;" class="mt-md-3">
+          <mat-card-header style="text-align: left;">
+              <mat-card-title *ngIf="CURRENT_LINK_PENDING_TO_DELETE!==undefined">Supprimer l'accès de {{CURRENT_LINK_PENDING_TO_DELETE.target_email}}</mat-card-title>
+              <mat-card-subtitle *ngIf="CURRENT_LINK_PENDING_TO_DELETE!==undefined">L'invitation au compte {{CURRENT_LINK_PENDING_TO_DELETE.linked_account.account.name}} sera révoquée.</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content style="text-align: left;" *ngIf="errorMessageDeletion!==''">
+              <span style="font-size: 13px;" class="text-danger">{{ errorMessageDeletion}}</span>
+          </mat-card-content>
+          <mat-card-actions align="end">
+               <mat-spinner
+          [mode]="'indeterminate'" color="primary" [diameter]="20" *ngIf="spinnerDeleteLink">
+      </mat-spinner>
+               <button mat-button color="primary" (click)="confirmDeleteUserAccessPendingDialog.hide()" *ngIf="!spinnerDeleteLink">ANNULER</button>
+    <button mat-button color="primary" *ngIf="!spinnerDeleteLink" (click)="confirmDeletionPending()">RÉVOQUER L'ACCÈS</button>
+          </mat-card-actions>
+      </mat-card>  
+        
+      </div>
+    </div>
+  </div>
+
+      
+    </ng-template>
+    </ejs-dialog>
+
+
+                      <ejs-dialog id='dialog' #confirmRefuseLink [visible]="visible" [target]="target" [position]='position'
+[isModal]='isModal' style="top: 3rem; max-width: 500px; width: auto; height: 150px;">
+    <ng-template #content>
+      <div class="dialog-content">
+
+    
+    <div class="row">
+      <div class="col-md-12 text-center pl-0 pr-0">
+        <mat-card style="box-shadow: none !important;" class="mt-md-3">
+          <mat-card-header style="text-align: left;">
+              <mat-card-title *ngIf="CURRENT_LINK_PENDING_TO_REFUSE!==undefined">Refuser l'invitation de {{CURRENT_LINK_PENDING_TO_REFUSE.owner_email}}</mat-card-title>
+              <mat-card-subtitle *ngIf="CURRENT_LINK_PENDING_TO_REFUSE!==undefined">L'invitation au compte {{CURRENT_LINK_PENDING_TO_REFUSE.linked_account.account.name}} sera révoquée.</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content style="text-align: left;" *ngIf="errorMessageDeletion!==''">
+              <span style="font-size: 13px;" class="text-danger">{{ errorMessageDeletion}}</span>
+          </mat-card-content>
+          <mat-card-actions align="end">
+               <mat-spinner
+          [mode]="'indeterminate'" color="primary" [diameter]="20" *ngIf="spinnerDeleteLink">
+      </mat-spinner>
+               <button mat-button color="primary" (click)="confirmRefuseLink.hide()" *ngIf="!spinnerDeleteLink">ANNULER</button>
+    <button mat-button color="primary" *ngIf="!spinnerDeleteLink" (click)="confirmRefused()">RÉVOQUER L'ACCÈS</button>
+          </mat-card-actions>
+      </mat-card>  
+        
+      </div>
+    </div>
+  </div>
+
+      
+    </ng-template>
+    </ejs-dialog>
+
+
+      <ejs-dialog id='dialog' #confirmAcceptLink [visible]="visible" [target]="target" [position]='position'
+[isModal]='isModal' style="top: 3rem; max-width: 500px; width: auto; height: 150px;">
+    <ng-template #content>
+      <div class="dialog-content">
+
+    
+    <div class="row">
+      <div class="col-md-12 text-center pl-0 pr-0">
+        <mat-card style="box-shadow: none !important;" class="mt-md-3">
+          <mat-card-header style="text-align: left;">
+              <mat-card-title *ngIf="CURRENT_LINK_PENDING_TO_ACTIVE!==undefined">Accepter l'invitation de {{CURRENT_LINK_PENDING_TO_ACTIVE.owner_email}}</mat-card-title>
+              <mat-card-subtitle *ngIf="CURRENT_LINK_PENDING_TO_ACTIVE!==undefined">
+                  <ng-container *ngIf="CURRENT_LINK_PENDING_TO_ACTIVE.linked_account.role.admin">
+                      En acceptant cette invitation vous disposerez des droits d'administrateur sur le compte{{CURRENT_LINK_PENDING_TO_ACTIVE.linked_account.account.name}}.
+                  </ng-container>
+                  <ng-container *ngIf="CURRENT_LINK_PENDING_TO_ACTIVE.linked_account.role.readOnly">
+                      En acceptant cette invitation vous serrez autoriser à lire les informations du compte {{CURRENT_LINK_PENDING_TO_ACTIVE.linked_account.account.name}}.
+                  </ng-container>
+                  
+                 </mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content style="text-align: left;" *ngIf="errorMessageDeletion!==''">
+              <span style="font-size: 13px;" class="text-danger">{{ errorMessageDeletion}}</span>
+          </mat-card-content>
+          <mat-card-actions align="end">
+               <mat-spinner
+          [mode]="'indeterminate'" color="primary" [diameter]="20" *ngIf="spinnerDeleteLink">
+      </mat-spinner>
+               <button mat-button color="primary" (click)="confirmAcceptLink.hide()" *ngIf="!spinnerDeleteLink">ANNULER</button>
+    <button mat-button color="primary" *ngIf="!spinnerDeleteLink" (click)="confirmAccept()">ACCEPTER L'INVITATION</button>
+          </mat-card-actions>
+      </mat-card>  
+        
+      </div>
+    </div>
+  </div>
+
+      
+    </ng-template>
+    </ejs-dialog>
+  </div>

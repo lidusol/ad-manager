@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "target": "adafri-app", 
+    "public": "dist/material-app-adafri",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+     {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

@@ -1,0 +1,332 @@
+<ng-container *ngIf="!creationStep">
+    <div class="d-flex justify-content-start flex-wrap align-items-center">
+        <ng-container *ngFor="let item of currentUserInterest">
+            <mat-card class="card-websites m-2 app-bg-secondary" style="max-width: 150px;" [matTooltip]="item.name"  [matTooltipShowDelay]="'500'"
+            [matTooltipPosition]="'after'">
+                <button mat-icon-button (click)="removeUserInterest(item)" color="warn" class="btn-delete-channel"><mat-icon>cancel</mat-icon></button>
+                  <mat-card-header class="text-left" style="cursor: pointer;">
+                      <mat-card-subtitle class="channel-name" >
+                          <span>{{item.name}}
+                            </span>
+                        </mat-card-subtitle>
+                     
+                  </mat-card-header>
+              </mat-card>
+        </ng-container>
+        
+    </div>
+</ng-container>
+
+    
+    <div class="row">
+        <div class="col-md-12">
+        <mat-toolbar color="primary" *ngIf="!creationStep && (new_user_interest_brand.length > 0 || new_user_interest_in_market.length>0 || new_user_interest_mobile_app_installer.length>0)">
+                <button mat-flat-button color="primary" (click)="saveUserInterest()">enregistrer</button>
+        </mat-toolbar>
+          <mat-card style="border: 1px solid #e0e0e0; border-radius: 0px !important; height: auto; min-height: 300px" class="card-search-youtube pl-0 pr-0 pt-0">
+            <mat-card-content>
+            <div class="row overflow-hidden" style="height: auto; min-height: 320px;">
+                <div class="col-md-6 pr-0 text-center" style="overflow-x: hidden;">
+                  <div class="row mb-2" style=" border-bottom: 1px solid #e0e0e0; height: 48px;"> 
+                    <div class="col-md-12">
+                      <div class="d-flex justify-content-between">
+                        <mat-form-field appearance="legacy" [floatLabel]="'never'" class="search-input mt-2">
+                  <input matInput #inputSearch placeholder="Rechercher un intérêt utilisateur" autocomplete="off" id="search" [formControl]="searchChannels"  class="pl-3"/>
+                </mat-form-field>
+                <mat-icon matSuffix mat-ripple style="cursor: pointer" class="mt-2 mr-1" >youtube_searched_for</mat-icon>
+                <mat-icon matSuffix mat-ripple style="cursor: pointer" class="mt-2 mr-1" *ngIf="inputSearch.value.length>0">cancel</mat-icon>
+      
+                      </div>
+                    </div>
+                    
+                  </div> 
+                
+                  
+                  <mat-spinner *ngIf="showProgressSearch"
+                    [mode]="'indeterminate'" [diameter]="25" style="display: inline-block;" color="accent" style="margin-top: 5rem; margin-left: 50%;">
+                  </mat-spinner>
+                
+                  <mat-selection-list color="primary" role="option" class="p-0"
+            multiple='false' disableRipple *ngIf="!showProgressSearch && generalPanel">
+            <mat-list-option style="cursor: pointer; height: 30px" (click)="toggleMobileAppPanel()">
+              <div class="d-flex justify-content-between">
+                <span style="font-size: 13px;">Intérêt axé sur les applications mobiles&nbsp;<ng-container *ngIf="new_mobile_app_installer_find.length>0">({{new_mobile_app_installer_find.length}})</ng-container></span>
+                <mat-icon matSuffix mat-ripple style="cursor: pointer" class="" >chevron_right</mat-icon>
+              </div>
+            </mat-list-option>
+            <mat-list-option style="cursor: pointer; height: 30px" (click)="toggleBrandPanel()">
+              <div class="d-flex justify-content-between">
+                <span style="font-size: 13px;">Intérêt sur la marque&nbsp;<ng-container *ngIf="new_brand_find.length>0">({{new_brand_find.length}})</ng-container></span>
+                <mat-icon matSuffix mat-ripple style="cursor: pointer" class="" >chevron_right</mat-icon>
+              </div>
+                           </mat-list-option>
+                           <mat-list-option style="cursor: pointer; height: 30px" (click)="toggleInMarketPanel()">
+              <div class="d-flex justify-content-between">
+                <span style="font-size: 13px;">Intérêt sur le marché&nbsp;<ng-container *ngIf="new_in_market_find.length>0">({{new_in_market_find.length}})</ng-container></span>
+                <mat-icon matSuffix mat-ripple style="cursor: pointer" class="" >chevron_right</mat-icon>
+              </div>
+                           </mat-list-option>
+                           </mat-selection-list>
+                           <ng-container *ngIf="!showProgressSearch && websitesPanel">
+                    <div class="row mb-0" > 
+                    <div class="col-md-12">
+                      <div class="d-flex align-items-center"> 
+                        <button mat-button (click)="toggleGeneralPanel()"><mat-icon matSuffix mat-ripple style="cursor: pointer" class="mr-1" >keyboard_backspace</mat-icon></button>  
+                        <span>Intérêt axé sur les applications mobiles</span>
+                      </div>
+                    </div>
+                    
+                  </div>
+                  <div class="section-body"  *ngIf="new_mobile_app_installer_find.length===0">
+                      <div class="section-body-content">
+                        <div class="section-body-content-placeholder text-left pt-4">
+                         Rechercher un centre d'intérêt
+                      </div>
+                      </div>
+                    </div>
+                  <div class="row pr-0 pl-0 ml-0 mr-0" *ngIf="new_mobile_app_installer_find.length>0"  style="height: 250px; overflow-y: auto;">
+        <div class="col-md-12 text-center pl-0 pr-0" >
+      
+      
+          <mat-selection-list color="primary" #matSelectionListMobileApp role="option" class="p-0"
+            multiple='true'  (selectionChange)="onMobileAppSelect($event)">
+      
+            <mat-list-option style="cursor: pointer" class="pl-2" *ngFor="let site of  new_mobile_app_installer_find"
+              [value]="site"  [matTooltip]="site.name" [matTooltipShowDelay]="'1000'"
+                           [matTooltipPosition]="'after'" [checkboxPosition]="'before'" style="height: auto">
+              <div class="list-dynamic-item">
+                <div class="channel-suggestion">
+                  <div class="channel-entry d-flex align-items-center">
+                    
+                    <div class="d-flex align-items-start justify-content-center">
+                    
+                    <div class="channel-title pl-3">
+                       {{site.name}}
+                    </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-list-option>
+          </mat-selection-list>
+        </div>
+      </div>
+                  </ng-container>
+                               <ng-container *ngIf="!showProgressSearch && channelsPanel">
+                    <div class="row mb-0" > 
+                    <div class="col-md-12">
+                      <div class="d-flex align-items-center"> 
+                        <button mat-button (click)="toggleGeneralPanel()"><mat-icon matSuffix mat-ripple style="cursor: pointer" class="mr-1" >keyboard_backspace</mat-icon></button>  
+                        <span>Intérêt de marque</span>
+                      </div>
+                    </div>
+                    
+                  </div>
+                  <div class="section-body"  *ngIf="new_brand_find.length===0">
+                      <div class="section-body-content">
+                        <div class="section-body-content-placeholder text-left pt-4">
+                         Pour découvrir des suggestions de centre d'intérêt, vous devez effectuer une recherche
+                      </div>
+                      </div>
+                    </div>
+                  <div class="row pr-0 pl-0 ml-0 mr-0" *ngIf="new_brand_find.length>0"  style="height: 250px; overflow-y: auto;">
+        <div class="col-md-12 text-center pl-0 pr-0" >
+      
+      
+          <mat-selection-list color="primary" #matSelectionListBrand role="option" class="p-0"
+            multiple='true'  (selectionChange)="onBrandSelect($event)">
+      
+            <mat-list-option style="cursor: pointer" class="pl-2" *ngFor="let channel of  new_brand_find"
+              [value]="channel"  [matTooltip]="channel.name" [matTooltipShowDelay]="'1000'"
+                           [matTooltipPosition]="'after'" [checkboxPosition]="'before'" style="height: auto">
+              <div class="list-dynamic-item">
+                <div class="channel-suggestion">
+                  <div class="channel-entry d-flex align-items-center">
+                    <div class="d-flex flex-column align-items-start">
+                    <div class="channel-name pl-3">
+                       {{channel.name}}
+                    </div>
+                    </div>
+               
+                  </div>
+                </div>
+              </div>
+            </mat-list-option>
+          </mat-selection-list>
+        </div>
+      </div>
+                  </ng-container>
+                  <ng-container *ngIf="!showProgressSearch && videosPanel">
+                    <div class="row mb-0"> 
+                    <div class="col-md-12">
+                      <div class="d-flex align-items-center"> 
+                        <button mat-button (click)="toggleGeneralPanel()"><mat-icon matSuffix mat-ripple style="cursor: pointer" class="mr-1" >keyboard_backspace</mat-icon></button>  
+                        <span>Intérêt sur le marché</span>
+                      </div>
+                    </div>
+                    
+                  </div>
+                  <div class="section-body"  *ngIf="new_in_market_find.length===0">
+                      <div class="section-body-content">
+                        <div class="section-body-content-placeholder text-left pt-4">
+                         Pour découvrir des suggestions de centre d'intérêt, vous devez effectuer une recherche
+                      </div>
+                      </div>
+                    </div>
+                  <div class="row pr-0 pl-0 ml-0 mr-0" *ngIf="new_in_market_find.length>0" style="height: 200px; overflow-y: auto;">
+        <div class="col-md-12 text-center pl-0 pr-0" >
+      
+      
+          <mat-selection-list color="primary" #matSelectionListInMarket role="option" class="p-0 mb-5"
+            multiple='true' (selectionChange)="onInMarketSelect($event)">
+      
+            <mat-list-option style="cursor: pointer"  class="pl-2" *ngFor="let video of  new_in_market_find"
+              [value]="video"  [matTooltip]="video.name" [matTooltipShowDelay]="'1000'"
+                           [matTooltipPosition]="'after'" [checkboxPosition]="'before'" style="height: auto">
+              <div class="list-dynamic-item">
+                <div class="channel-suggestion">
+                  <div class="channel-entry d-flex align-items-center">
+                    <div class="d-flex flex-column align-items-start">
+                    <div class="channel-name pl-3">
+                       {{video.name}}
+                    </div>
+                    </div>
+                    
+                   <!--  <button mat-button color="accent" (click)="selectChannel(video)" class="button-target-option ml-auto" style='font-size: 12px'>
+                  Choisir
+                </button> -->
+               
+                  </div>
+                </div>
+              </div>
+            </mat-list-option>
+          </mat-selection-list>
+        </div>
+      </div>
+                  </ng-container>
+                </div>
+                <div class="col-md-6 pl-0" style="border-left: 1px solid #e0e0e0;">
+                  <div class="section-wrapper">
+                    <div class="section-header">
+                      <div class="section-header-title text-left">
+                        <ng-container *ngIf="new_user_interest_brand.length===0 &&  new_user_interest_in_market.length===0 && new_user_interest_mobile_app_installer.length===0">
+                          Aucune sélection
+      
+                        </ng-container>
+                        <ng-container *ngIf="new_user_interest_brand.length>0 || new_user_interest_in_market.length>0 || new_user_interest_mobile_app_installer.length>0">
+                          {{new_user_interest_brand.length + new_user_interest_in_market.length + new_user_interest_mobile_app_installer.length}} sélectionné(s)
+      
+                        </ng-container>
+                      </div>
+                    </div>
+                    <div class="section-body" *ngIf="new_user_interest_brand.length===0 && new_user_interest_in_market.length===0 && new_user_interest_mobile_app_installer.length===0">
+                      <div class="section-body-content">
+                        <div class="section-body-content-placeholder text-left">
+                          Votre annonce peut être diffusée auprès de n'importe quel audience correspondant à vos autres critères de ciblage. Définissez vos centres d'intérêts spécifiques afin d'affiner votre ciblage.
+                      </div>
+                      </div>
+                    </div>
+                    <div style="height: 250px; overflow-y: auto; border-top: 1px solid #e0e0e0;" *ngIf="new_user_interest_brand.length>0 || new_user_interest_in_market.length>0 || new_user_interest_mobile_app_installer.length>0">
+                      <ng-container *ngIf="new_user_interest_brand.length>0">
+                        <div class="row-container" mat-ripple *ngFor="let element of new_user_interest_brand">
+                          <div class="sub-row">
+                            <div class="sub-row-container" >
+                              <div class="item-category">
+                                Intérêt de marque
+                              </div>
+                              <div class="item-name">
+                                {{element.name}}
+                              </div>
+                            </div>
+                            <div class="render-cell">
+      
+                            </div>
+                            <div class="icon-remove">
+                              <mat-icon style="cursor: pointer" (click)="removeSelectedBrand(element)">cancel</mat-icon>
+                            </div>
+                          </div>
+                        </div>
+      
+                      </ng-container>
+                      <ng-container *ngIf="new_user_interest_in_market.length>0">
+                        <div class="row-container" mat-ripple *ngFor="let element of new_user_interest_in_market">
+                          <div class="sub-row">
+                            <div class="sub-row-container">
+                              <div class="item-category">
+                                Intérêt sur le marché
+                              </div>
+                              <div class="item-name">
+                                {{element.name}}
+                              </div>
+                            </div>
+                            <div class="render-cell">
+      
+                            </div>
+                            <div class="icon-remove">
+                              <mat-icon style="cursor: pointer"  (click)="removeSelectedInMarket(element)">cancel</mat-icon>
+                            </div>
+                          </div>
+                        </div>
+      
+                      </ng-container>
+                      <ng-container *ngIf="new_user_interest_mobile_app_installer.length>0">
+                        <div class="row-container" mat-ripple *ngFor="let element of new_user_interest_mobile_app_installer">
+                          <div class="sub-row">
+                            <div class="sub-row-container">
+                              <div class="item-category">
+                                Intérêt sur les apps mobiles
+                              </div>
+                              <div class="item-name">
+                                {{element.name}}
+                              </div>
+                            </div>
+                            <div class="render-cell">
+      
+                            </div>
+                            <div class="icon-remove">
+                              <mat-icon style="cursor: pointer"  (click)="removeSelectedMobileApp(element)">cancel</mat-icon>
+                            </div>
+                          </div>
+                        </div>
+      
+                      </ng-container>
+                      
+                    </div>
+                  </div>
+                  
+                </div>
+            </div>
+            </mat-card-content>
+       
+          </mat-card>
+        </div>
+      </div> 
+
+
+      <div
+  style="width: 100%; height: 100; position: fixed; left: 0; right: 0; top: 0; bottom: 0; background-color: rgba(138, 138, 146, 0.3);  backdrop-filter: blur(5px) contrast(.1); z-index: 4;"
+  class="text-center align-items-center align-content-center" *ngIf="spinnerRemove">
+  <mat-card style="width: 300px; height: 300px; margin-top: 10% !important;" class="d-flex justify-content-center align-items-center flex-column overflow-hidden m-auto">
+    <mat-card-header>
+      <mat-card-title>Suppression en cours</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="d-flex justify-content-center align-items-center overflow-hidden">
+      <mat-spinner class="d-inline-block" color="primary" [diameter]="50" >
+      </mat-spinner>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div
+style="width: 100%; height: 100; position: fixed; left: 0; right: 0; top: 0; bottom: 0; background-color: rgba(138, 138, 146, 0.3);  backdrop-filter: blur(5px) contrast(.1); z-index: 9999999;"
+class="text-center align-items-center align-content-center" *ngIf="spinnerSave">
+<mat-card style="width: 300px; height: 300px; margin-top: 10% !important;" class="d-flex justify-content-center align-items-center flex-column overflow-hidden m-auto">
+  <mat-card-header>
+    <mat-card-title>Ciblage de l'audience en cours</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="d-flex justify-content-center align-items-center overflow-hidden">
+    <mat-spinner class="d-inline-block" color="primary" [diameter]="50" >
+    </mat-spinner>
+  </mat-card-content>
+</mat-card>
+</div>

@@ -1,0 +1,20 @@
+.toolbar-filter{
+    position: absolute;
+    z-index: 3;
+    padding-top: 10px;
+    left: 0;
+    right: 0;
+    font-size: 13px;
+}
+.ic-filter{
+    font-size: 13px;
+    width: 13px;
+    height: 13px;
+}
+
+.spinner-chart{
+    display: inline-block;
+    position: fixed;
+    top: 20rem;
+    z-index: 4;
+}

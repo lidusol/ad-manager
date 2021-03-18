@@ -1,0 +1,61 @@
+
+
+<mat-accordion class="example-headers-align">
+  <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle #nameExpansion>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Nom du compte
+      </mat-panel-title>
+      <mat-panel-description>
+             <ng-container *ngIf="!nameExpansion.expanded">
+              <ng-container *ngIf="nom.value!==''">
+                {{nom.value}}
+              </ng-container>
+              <ng-container *ngIf="nom.value===''">
+                   Le nom pour identifier ce compte
+
+              </ng-container>
+              
+
+          </ng-container>
+          <ng-container *ngIf="nameExpansion.expanded">
+             Le nom pour identifier ce compte
+          </ng-container>
+       
+        <mat-icon *ngIf="nameExpansion.expanded">expand_less</mat-icon>
+        <mat-icon *ngIf="!nameExpansion.expanded">expand_more</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+<ng-container *ngIf="isLoading; else loaded">
+              
+                    <mat-card style="box-shadow: none;">
+                      <mat-card-content>
+             
+                      <div gutterBottom lySkeleton [lyWidth]="1" [lyHeight]="130">
+                        {{ '\u00A0' }}
+                      </div>
+                      </mat-card-content>
+                    
+                    </mat-card>
+                    
+                  
+              </ng-container>
+              <ng-template #loaded>
+                <mat-form-field>
+                  <mat-label>Nom</mat-label>
+                  <input matInput [formControl]="nom">
+                </mat-form-field>
+                </ng-template>
+  
+    <!-- <mat-action-row>
+      <ng-container *ngIf="isLoading; else loadedButtons">
+        <button mat-button color="accent" disabled>Enregistrer</button>
+      </ng-container>
+      <ng-template #loadedButtons>
+        <button mat-button color="accent" *ngIf="nom!==undefined && !nom.valid" disabled>Enregistrer</button>
+         <button mat-button color="accent" *ngIf="nom!==undefined && nom.valid" (click)="saveAccountName()">Enregistrer</button>
+                </ng-template>
+    </mat-action-row> -->
+  </mat-expansion-panel>
+
+</mat-accordion>

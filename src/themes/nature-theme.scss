@@ -1,0 +1,9 @@
+$adf-nature-primary: mat-palette($mat-brown, 700, 300, 900);
+$adf-nature-accent: mat-palette($mat-deep-purple, 300);
+$adf-nature-warn: mat-palette($mat-red, 600);
+
+$adf-nature-theme: mat-light-theme(
+  $adf-nature-primary,
+  $adf-nature-accent,
+  $adf-nature-warn
+);

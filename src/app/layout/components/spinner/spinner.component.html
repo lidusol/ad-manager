@@ -1,0 +1,50 @@
+
+
+
+
+
+    
+          <ejs-dialog id='dialog' #ejDialog [visible]="visible" [target]="target" [position]='position'
+  [isModal]='isModal' style="top: 3rem; max-width: 500px; width: auto; height: 150px;">
+   <ng-template #header>
+            <img class="img2" src="assets/logo/logo-white.png" style="display: inline-block;" alt="header image"/>
+       
+        </ng-template>
+      <ng-template #content>
+        <div class="dialog-content">
+
+      
+      <div class="row">
+        <div class="col-md-12 text-center pl-0 pr-0">
+          <mat-card style="box-shadow: none !important;" class="mt-md-3">
+            <mat-card-header style="text-align: left;">
+            
+            </mat-card-header>
+            <mat-card-content>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <span *ngIf="!isPublication">{{message}}</span>
+                        <span class="dialogText" *ngIf="isPublication">{{progressValue}}% {{message}}</span>
+                
+            <div class="row mt-1" *ngIf="isPublication">
+                <div class="col-md-12 text-center">
+
+                    <mat-progress-bar mode="determinate" class="d-inline-block" [value]="progressValue"></mat-progress-bar>
+                </div>
+            </div>
+                    </div>
+                </div>
+
+            </mat-card-content>
+     
+        </mat-card>  
+          
+        </div>
+      </div>
+    </div>
+
+        
+      </ng-template>
+      </ejs-dialog>
+
+  

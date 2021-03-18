@@ -1,0 +1,21 @@
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}
+
+.example-radio-button {
+  margin: 5px;
+}
+
+.mat-radio-button{
+  padding-bottom: 5px;
+}
+
+.invite-user{
+  position: absolute;
+  z-index: 3;
+  top: -16px;
+  left: -12px;
+}
+

@@ -1,0 +1,52 @@
+mat-accordion{
+    width: 100%;
+}
+
+.zones-field{
+    width: 80%;
+
+}
+
+#demographic-expansion .mat-expanded .mat-expansion-panel-header .mat-expansion-panel-header-title{
+    max-width: 150px;
+    padding-top: 1.2rem !important;
+}
+#demographic-expansion .mat-expansion-panel-header .mat-expansion-panel-header-title{
+    max-width: 150px;
+    text-align: center;
+    align-items: center;
+    align-content: center;
+    display: contents;
+    padding: Opx !important;
+}
+
+#demographic-expansion .mat-expansion-panel-header-description{
+    text-align: center;
+    align-items: center;
+    align-content: center;
+}
+
+.text-demographic-header{
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    color: rgba(32,33,36,.86) !important;
+
+}
+
+.toolbar-demog-header{
+    height: 30px;
+}
+
+.mat-expanded .mat-expansion-panel-header{
+        padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+.panel-footer{
+    box-sizing: border-box;
+    border-top: 1px rgba(0,0,0,.12) solid;
+    padding: 13px 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+}

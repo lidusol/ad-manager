@@ -1,0 +1,135 @@
+// @import "../../../../assets/scss/components/chat";
+
+:host {
+  margin-left: -5px;
+  margin-right: -5px;
+  margin-top: -5px;
+  display: block;
+}
+
+:host {
+
+  .mat-sidenav,
+  .mat-drawer-content {
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  md-toolbar+hr,
+  md-card-content+hr {
+    margin-left: -5px;
+    margin-right: -5px;
+  }
+}
+
+$mat-toolbar-height-desktop: 64px !default;
+$mat-toolbar-height-mobile-portrait: 56px !default;
+$mat-toolbar-height-mobile-landscape: 48px !default;
+
+.mat-card-top {
+  // margin-top: -($mat-toolbar-height-desktop);
+}
+
+
+
+textarea::-webkit-scrollbar, .message-fixed-section::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+textarea, .message-fixed-section {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.chat-wrapper{
+  position: fixed;
+  bottom: 4rem;
+  right: 5rem;
+  z-index: 100;
+  max-width: 460px;
+  width: 100%;
+  box-shadow: 0px 10px 13px -6px rgba(0, 0, 0, 0.2), 0px 20px 31px 3px rgba(0, 0, 0, 0.14), 0px 8px 38px 7px rgba(0, 0, 0, 0.12) !important;
+  border-radius: 8px !important;
+  max-height: 500px;
+  height: 100%;
+  mat-card-content{
+    background: whitesmoke;
+    margin-bottom: 0px !important;
+  }
+}
+
+
+.chat-wrapper::after{
+  position: fixed;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  content: "";
+  border: 15px solid #fff;
+  border-top-color: transparent;
+  border-right-color: transparent;
+  right: 3.5rem;
+  bottom: 4rem;
+  z-index: 200;
+}
+#chat-wrapper > mat-card-header > div{
+display: none !important;
+}
+
+.chat-conversation-message:hover{
+  .delete-icon{
+    display: block !important;
+  }
+}
+
+.chat-visible{
+  display: block !important;
+}
+.chat-container{
+  display: none;
+}
+
+.fab-container {
+  position: fixed;
+  bottom: 0.5rem;
+  right: 2rem;
+  z-index: 100;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+
+  > div {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    margin-bottom: 5px;
+
+    button {
+      margin-bottom: 17px;
+    }
+  }
+}
+
+.fab-toggler {
+  float: right;
+  z-index: 100;
+}
+
+#fab-dismiss {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+}
+
+.icon-avatar{
+      width: 40px;
+    height: 40px;
+    position: absolute;
+    left: 0;
+    top: 0.4rem;
+    left: 0.5rem;
+}

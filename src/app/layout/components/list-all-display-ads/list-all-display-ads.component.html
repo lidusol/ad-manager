@@ -1,0 +1,310 @@
+
+        <div class="container-fluid">
+          <div class="row mt-5 pt-md-5 mb-5">
+            <div class="col-md-12">
+                <mat-card class="pt-5 mt-3">
+                  <div class="add-new-ad" *ngIf="user_access!==undefined">
+                    <button mat-mini-fab class="add-new-ad-btn-icon" (click)="createAdDialog.show()" [disabled]='user_access.readOnly'><mat-icon>add</mat-icon></button>
+                    <button mat-raised-button class="add-new-ad-btn d-none" style="border-radius: 20px !important;" color="accent" (click)="createAdDialog.show()" [disabled]='user_access.readOnly'><mat-icon>add</mat-icon> Nouvelle annonce</button>
+
+                  </div>
+                    <mat-card-header>
+                        <mat-card-title>Annonces</mat-card-title>
+                        <mat-card-subtitle>Liste de toutes les annonces</mat-card-subtitle>
+                    </mat-card-header><mat-toolbar color="accent" *ngIf="gridAds!==undefined && gridAds.getSelectedRecords().length>0">
+      <button mat-button (click)="triggerDeletion()">Supprimer</button>
+    </mat-toolbar>
+                    <mat-card-content>
+                      
+                     <ejs-grid locale="fr" id="grid-images" #gridAds [dataSource]='ads' height="auto" [allowPaging]="true" [locale]="'fr'" [pageSettings]='initialPage' (rowSelected)='rowSelected($event)'>
+                            <e-columns>
+                              <e-column type='checkbox' width='50' textAlign='Left'></e-column>
+                              <e-column field='url_image' width='150' headerText='Images' textAlign='Left' matTooltip="Images">
+                                <ng-template #template let-data>
+                                  
+                                  <div class="d-flex justify-content-between" style="flex-shrink: 0; align-items: center;">
+                                   <button mat-icon-button  *ngIf="data.status==='PAUSED'" [matMenuTriggerFor]="menu"><mat-icon class="icon-status" >pause_circle_filled</mat-icon></button>
+                                    
+                                 <button mat-icon-button *ngIf="data.status==='ENABLED'" [matMenuTriggerFor]="menu"><mat-icon class="icon-status text-success">play_circle_filled</mat-icon></button>
+                                    
+                                  <!--  <mat-divider
+                                       [vertical]="true">
+                                   </mat-divider>
+                                   <mat-divider
+                                       [vertical]="true">
+                                   </mat-divider> -->
+                                   <!-- <button mat-icon-button disabled><mat-icon>icon_name</mat-icon></button> -->
+                                 
+                                    
+                                     
+                                     
+                                       
+                                        <ejs-tooltip  cssClass='e-tooltip-css' position='BottomCenter'  style="cursor: pointer;">
+                                          <img src={{data.url_image}} class="img-fluid ml-3" style="width: 30%;">
+                                           <ng-template #content >
+                 <img src={{data.url_image}} class="img-fluid" >
+              </ng-template>
+                                        </ejs-tooltip>
+                                     
+
+                         
+                                    
+                                    <mat-menu #menu="matMenu" xPosition='after'>
+                                      <ng-container *ngIf="data.status==='ENABLED'">
+                                        <ng-container>
+                                          <button mat-menu-item disabled>
+                                            <mat-icon class="icon-status" >play_circle_filled</mat-icon>
+                                            <span class="ml-1" >Activer le visuel</span>
+                                          </button>
+                                          <button
+                                            
+                                            mat-menu-item (click)="changeAdStatus(data.id, data.ad_id, data.status, data.ad_group_id)">
+                                            <mat-icon class="icon-status" >pause_circle_filled</mat-icon>
+                                            <span class="ml-1">Mettre en veille le visuel</span>
+                                          </button>
+                                        </ng-container>
+                                      </ng-container>
+                                      <ng-container *ngIf="data.status==='PAUSED'">
+                                        <ng-container>
+                                          <button mat-menu-item disabled>
+                                            <mat-icon class="icon-status" >pause_circle_filled</mat-icon>
+                                            <span class="ml-1">Mettre en veille le visuel </span>
+                                          </button>
+                                          <button
+                                            
+                                            mat-menu-item>
+                                           <mat-icon class="icon-status text-success" >play_circle_filled</mat-icon>
+                                            <span class="ml-1" (click)="changeAdStatus(data.id, data.ad_id, data.status, data.ad_group_id)">Activer le visuel</span>
+                                          </button>
+                                        </ng-container>
+                                      </ng-container>
+                                      <button mat-menu-item (click)="deleteAd(data.id, data.ad_id, data.ad_group_id)">
+                                       <mat-icon class="icon-status text-danger" >close</mat-icon>
+                                        <span class="ml-1">Supprimer le visuel</span>
+                                      </button>
+                                    </mat-menu>
+                                  </div>
+                                </ng-template>
+                              </e-column>
+                              <e-column field='status' headerText='Etat' textAlign='Center' matTooltip="Status">
+                                <ng-template #template let-data>
+                                  <div *ngIf="data.status==='PAUSED'">
+                                    En veille
+                                  </div>
+                                  <div *ngIf="data.status==='ENABLED'">
+                                    Activée
+                                  </div>
+                                </ng-template>
+                              </e-column>
+                              <e-column field='ad_group_id' headerText='Campagne' textAlign='Center' matTooltip="Campagne" width='100'>
+                                <ng-template #template let-data>
+                                {{data.ad_group_id | campaignNameFromAdGroupId: data.owner | async}}
+                                </ng-template>
+                              </e-column>
+                              <e-column  matTooltip="Images" width='100'>
+                                <ng-template #headerTemplate let-data>
+                                  <span>Clics</span>
+                                </ng-template>
+                                
+                                <ng-template #template let-data>
+                                  <ng-container *ngIf="data.client_customer_id===undefined">
+                                     {{data.ad_group_id | getAdsSummuryReport: defaulClientCustomerId:data.ad_id:'clicks' | async}}
+                                  </ng-container>
+                                  
+                                </ng-template>
+                                
+                              </e-column>
+                              <e-column  headerText='Coût' width='100'>
+                                <ng-template #template let-data>
+                                  <ng-container *ngIf="data.client_customer_id===undefined">
+                                     {{data.ad_group_id | getAdsSummuryReport: defaulClientCustomerId:data.ad_id:'costs' | async}}
+                                  </ng-container>
+                                  
+                                </ng-template>
+                                
+                              </e-column>
+                              <e-column  headerText='Impressions' width='100'>
+                                <ng-template #template let-data>
+                                  <ng-container *ngIf="data.client_customer_id===undefined">
+                                     {{data.ad_group_id | getAdsSummuryReport: defaulClientCustomerId:data.ad_id:'impressions' | async}}
+                                  </ng-container>
+                                  
+                                </ng-template>
+                                
+                              </e-column>
+                              <e-column  headerText='Conversions'>
+                                <ng-template #template let-data>
+                                  <ng-container *ngIf="data.client_customer_id===undefined">
+                                     {{data.ad_group_id | getAdsSummuryReport: defaulClientCustomerId:data.ad_id:'conversions' | async}}
+                                  </ng-container>
+                                  
+                                </ng-template>
+                                
+                              </e-column>
+                              <e-column  headerText='Taux Conv'>
+                                <ng-template #template let-data>
+                                  <ng-container *ngIf="data.client_customer_id===undefined">
+                                     {{data.ad_group_id | getAdsSummuryReport: defaulClientCustomerId:data.ad_id:'ctr' | async}}
+                                  </ng-container>
+                                  
+                                </ng-template>
+                                
+                              </e-column>
+                              <e-column field='combinedApprovalStatus' headerText='status' textAlign='Center'>
+                                <ng-template #template let-data>
+                                  <ng-container *ngIf="data.client_customer_id===undefined">
+                                      
+                <ng-container *ngIf="(data.ad_group_id | getAdsSummuryReport: defaulClientCustomerId:data.ad_id:'combinedApprovalStatus' | async) as result">
+                  <ng-container *ngIf="result==='disapproved'">
+                    <div style="font-size: 12px; height: 30px; cursor: pointer;" class="d-flex justify-content-center mt-2 text-danger"><mat-icon class="icon-status mt-2 mr-1">error_outline</mat-icon>Désapprouvée</div>
+                  </ng-container>
+                  <ng-container *ngIf="result==='under_review'">
+                    <div style="font-size: 12px; color: #202124; height: 30px; cursor: pointer;">En cours de révision</div>
+                  </ng-container>
+                  <ng-container *ngIf="result!=='disapproved' && result!=='under_review'">
+                    {{result}}
+                  </ng-container>
+                  
+                </ng-container>
+                                   </ng-container>
+
+                                </ng-template>
+                              </e-column>
+                              <e-column field='policy' headerText='Policy' textAlign='Center'>
+                                <ng-template #template let-data>
+                                  <ng-container *ngIf="(data.ad_group_id | getAdsSummuryReport: defaulClientCustomerId:data.ad_id:'policySummary' | async) as results">
+                                    <span class="text-danger">{{results}}</span>
+                                  </ng-container>
+                        
+                                </ng-template>
+                              </e-column>
+                            </e-columns>
+                            
+                          </ejs-grid>
+                    </mat-card-content>
+                   
+                </mat-card>
+             
+            </div>
+        </div>
+           <div class="row mt-4 mb-4" style="height: 100px;">
+        <div class="col-md-12 mb-4">
+        
+
+        </div>
+      </div>
+
+
+<adf-spinner *ngIf="loaderEdit"></adf-spinner>
+
+<adf-snackbar></adf-snackbar>
+        </div>
+
+
+
+            <ejs-dialog id='dialog' #createAdDialog [visible]="visible" [target]="target" [position]='position'
+  [isModal]='isModal' style="top: 3rem; max-width: 500px; width: auto; height: auto;" [position]='position'>
+      <ng-template #content>
+        <div class="dialog-content">
+
+      
+      <div class="row">
+        <div class="col-md-12 text-center pl-0 pr-0">
+          <mat-card style="box-shadow: none !important;" class="mt-md-3">
+            <mat-card-header style="text-align: left;">
+                <mat-card-title>Sélectionner une campagne</mat-card-title>
+                <mat-card-subtitle>
+                    
+                   </mat-card-subtitle>
+            </mat-card-header>
+            <mat-divider>
+                </mat-divider>
+            <mat-card-content style="max-height: 350px; overflow-x: hidden; overflow-y: auto;">
+              <div class="row pl-md-5 pr-md-5 mt-5">
+                <div class="col-md-12 pl-md-5 pr-md-5 text-center">
+                  <mat-selection-list role="option" class="p-0" [multiple]="'false'" (selectionChange)="onCampaignSelect($event)" *ngIf="campaigns.length>0; else noCampaigns">
+  <mat-list-option  [checkboxPosition]="'before'"  style="cursor: pointer; padding: 0px;" *ngFor="let campaign of campaigns" [value]="campaign">
+           <div fxLayout="row" fxLayoutGap=".5rem" fxLayoutAlign="start center">
+                <button mat-icon-button disabled *ngIf="campaign.type==='DISPLAY'">
+                  <mat-icon role="img" class="g-ads-icon">
+                    <img src="assets/svg/display.svg" >
+                  </mat-icon>
+                </button>
+                 <button mat-icon-button disabled *ngIf="campaign.type==='YOUTUBE'">
+                  <mat-icon role="img" class="g-ads-icon">
+                    <img src="assets/images/youtube.png" >
+                  </mat-icon>
+                </button>
+                 <div>{{campaign.name}}</div>
+              </div>
+
+  </mat-list-option>
+</mat-selection-list>
+<ng-template #noCampaigns>
+  <span style="color: #cccc; font-size: 15px; font-weight: 400;">Vous n'avez pas encore créé une campagne</span>
+  <br>
+  <br>
+  <button mat-raised-button color="accent" routerLink="/campaigns/new/select" > <mat-icon>add</mat-icon>&nbsp;Nouvelle campagne</button>
+</ng-template>
+
+                </div>
+              </div>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                 
+                 <button mat-button color="accent" (click)="createAdDialog.hide()" >ANNULER</button>
+      <button mat-button color="accent" [disabled]='btnContinueDisabled' *ngIf="selectedCampaign===null">CONTINUER</button>
+      <button mat-button color="accent" *ngIf="selectedCampaign!==null" (click)="goCreateAd()">CONTINUER</button>
+            </mat-card-actions>
+        </mat-card>  
+          
+        </div>
+      </div>
+    </div>
+
+        
+      </ng-template>
+      </ejs-dialog>
+
+
+      <ejs-dialog id='dialog' #confirmDeleteDialog [visible]="visible" [target]="target" [position]='position'
+  [isModal]='isModal' style="top: 3rem; max-width: 350px; width: auto; height: auto;" [position]='position'>
+      <ng-template #content>
+        <div class="dialog-content">
+
+      
+      <div class="row">
+        <div class="col-md-12 text-center pl-0 pr-0">
+          <mat-card style="box-shadow: none;" class="mt-md-3">
+            <mat-card-header style="text-align: left;">
+                <mat-card-title>Avertissement</mat-card-title>
+                <mat-card-subtitle>
+                    
+                   </mat-card-subtitle>
+            </mat-card-header>
+            <mat-divider>
+                </mat-divider>
+            <mat-card-content>
+              <div class="row pl-md-5 pr-md-5 mt-5">
+                <div class="col-md-12 pl-md-5 pr-md-5 text-center">
+                     <p>Vous aller supprimer {{adsPublishedToDelete.length}} annonces êtes vous sûr de votre action</p>
+                 
+                  
+                </div>
+              </div>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                 
+                 <button mat-button color="accent" (click)="confirmDeleteDialog.hide()" >ANNULER</button>
+      <button mat-button color="warn" (click)="confirmDelete()">SUPPRIMER</button>
+      
+            </mat-card-actions>
+        </mat-card>  
+          
+        </div>
+      </div>
+    </div>
+
+        
+      </ng-template>
+      </ejs-dialog>

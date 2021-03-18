@@ -1,0 +1,279 @@
+adf-cmp-name-edit{
+    width: 100%;
+}
+
+adf-cmp-landing-page-edit{
+    width: 100%;
+    margin-top: 2rem;
+}
+
+adf-cmp-zones-edit{
+    width: 100%;
+    margin-top: 2rem;
+}
+
+adf-cmp-demographic-target-edit{
+    width: 100%;
+    margin-top: 2rem;
+
+}
+adf-cmp-bids-edit{
+    width: 100%;
+    margin-top: 2rem;
+}
+adf-cmp-budget-edit{
+  width: 100%;
+    margin-top: 2rem;  
+}
+adf-cmp-dates-edit{
+     width: 100%;
+    margin-top: 2rem;
+}
+
+adf-youtube-channels-selector-edit{
+     width: 100%;
+    margin-top: 2rem;
+}
+adf-cmp-schedules-edit{
+      width: 100%;
+    margin-top: 2rem;
+}
+
+adf-cmp-pack-chooser-edit{
+    width: 100%;
+    margin-top: 2rem;
+}
+
+
+
+adf-cmp-ads-uploader-youtube-edit{
+   width: 100%;
+    margin-top: 2rem; 
+}
+
+.card-ads{
+   width: 100%;
+    margin-top: 2rem; 
+}
+
+.card-native{
+    width: 100%;
+    margin-top: 2rem;
+
+}
+
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  /* position: absolute; */
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+
+.review-toolbar{
+    height: 45px;
+    position: absolute;
+    top: 48px;
+    z-index: 3;
+    left: 0;
+    right: 0;
+}
+
+.selected{
+    background: #e8eaed;
+    outline: none;
+}
+
+.button-item{
+    font-size: 12px;
+}
+
+.area-status{
+    font-size: 12px;
+    color: #80868b;
+    left: -6px;
+    bottom: 1px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+     margin-left: 4px;
+    top: 0;
+}
+
+.area-status:hover{
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12), 0 1px 5px 0 rgba(0,0,0,.2);
+  z-index: 3;
+  background: whitesmoke;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-status{
+    width: 12px;
+    height: 12px;
+    font-size: 12px;
+}
+ .button-edit, .icon-edit{
+   font-size: 14px;  
+ }
+
+.toolbar-item-title{
+color: #5f6368;
+line-height: 40px;
+font-size: 12px;
+}
+
+.toolbar-item-content{
+    color: #202124;
+    line-height: 40px;
+    font-size: 12px;
+}
+
+
+.builder-is-mobile .review-toolbar{
+    top: 0px ;
+}
+
+.review-container{
+    margin-top: 105px;
+}
+
+.creator-preview{
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    cursor: pointer;
+    height: 50px;
+    overflow: visible;
+    position: relative;
+    width: 100px;
+}
+
+.creator-preview-container{
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    width: 100%;
+    overflow: hidden
+}
+
+.creator-img-preview{
+   /*  display: block;
+    margin: auto; */
+    max-height: 50px;
+    max-width: 100px;
+}
+
+.image-options{
+        position: absolute; 
+        display: none; 
+        width: 100%; 
+        /* background: rgba(24, 22, 22, 0.1);  */
+        background: whitesmoke; 
+        bottom: 0; left: 0; right: 0; height: 30px; 
+        justify-content: center; 
+        align-items: center;
+        span{
+            font-size: 12px;
+            font-weight: 500;
+        }
+    }
+
+
+.icon-status{
+    width: 14px;
+    height: 14px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.creator-preview:hover{
+    .image-options{
+        display: flex;
+    }
+
+}
+.actions-settings{
+    visibility: hidden;
+}
+
+.card-search-settings:hover{
+    .actions-settings{
+        visibility: visible !important;
+    }
+}
+
+.img-item{
+    width: auto; 
+    cursor: pointer;
+    max-width: 215px;
+    max-height: 150px;
+}
+
+.card-image-container{
+    background: whitesmoke;
+    box-shadow: none !important;
+}
+
+.card-image-item{
+    width: 250px;
+    height: 200px;
+    margin: 1rem;
+     max-width: 250px;
+}
+.card-image-item-1{
+    width: 100%;
+    height: 280px;
+    margin: 1rem;
+     max-width: 300px;
+}
+
+
+.toolbar-slides{
+ /*  position: absolute; */
+  bottom: 3rem;
+  left: 0;
+  right: 0;
+  background-color: white !important;
+}
+
+.ad-coll-label{
+color: rgba(0,0,0,.54);
+    height: 24px;
+    text-align: left;
+    font-size: 12px;
+}
+.ad-status-text{
+ font-size: 10px;
+}
+.ad-stats-text{
+  color: rgba(0,0,0,.87);
+    font-size: 14px;
+    font-weight: 400;
+   /*  height: 24px; */
+}
+
+.image-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 170px;
+}
+
+.action-card-block{
+    display: none;
+}
+.card-image-item-1:hover{
+    .action-card-block{
+        display: block !important;
+    }
+}

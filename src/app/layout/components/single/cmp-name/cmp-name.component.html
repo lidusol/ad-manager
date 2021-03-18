@@ -1,0 +1,58 @@
+<!-- 
+<mat-accordion>
+  <mat-expansion-panel  #nameExpansion  [expanded]="expanded"  hideToggle>
+    <mat-expansion-panel-header (click)="expandPanel($event)" class="panel-builder-single">
+      <mat-icon class="expansion-toggle pt-3" *ngIf="nameExpansion.expanded"
+        (click)="$event.stopPropagation(togglePanel($event))">expand_less</mat-icon>
+      <mat-icon class="expansion-toggle" *ngIf="!nameExpansion.expanded"
+        (click)="$event.stopPropagation(togglePanel($event))">expand_more</mat-icon>
+      <mat-panel-title>
+        <div>
+          Nom de la campagne
+
+        </div>
+      </mat-panel-title>
+      <mat-panel-description>
+             <ng-container *ngIf="expanded">
+            
+          </ng-container>
+          <ng-container *ngIf="!expanded">
+            {{nameControl.value}}
+          </ng-container>
+      </mat-panel-description>
+    </mat-expansion-panel-header>                   
+  </mat-expansion-panel>
+</mat-accordion>
+ -->
+
+<div>
+  <div class="p-2 d-flex justify-content-start align-items-center" *ngIf="!isEditing">
+    <span class="border-b border-dotted border-blue-600" (click)="triggerEdit()">{{newText}}</span>
+    <mat-icon class="text-success ml-2">check_circle_outline</mat-icon>
+  </div>
+  <div class="d-flex" *ngIf="isEditing">
+    <mat-form-field  class="name-field" appearance="legacy" [hintLabel]="'max_100_chars' | translate"
+      color="primary">
+      <input matInput #inputName [formControl]="nameControl" id="inputName" maxlength="100" placeholder="" autofocus
+        autocomplete="off">
+      <mat-error *ngIf="nameControl.hasError('required')">{{ 'required' | translate }}</mat-error>
+      <mat-error *ngIf="!nameControl.hasError('required') && nameExist">{{ 'name_exit' | translate }}</mat-error>
+      <mat-error *ngIf="!nameControl.hasError('required') && nameControl.hasError('minlength')">{{ 'min_lenth_chars' | translate }}
+      </mat-error>
+      <mat-error *ngIf="!nameControl.hasError('required') && !nameExist && !nameControl.hasError('minlength') && error.length>0">{{error | translate}}</mat-error>
+      <mat-hint align="end">{{inputName.value?.length || 0}}/100</mat-hint>
+    </mat-form-field>
+    <button  class="p-2 ml-2" mat-icon-button (click)="cancel()"><mat-icon>close</mat-icon></button>
+    <button  class="p-2 ml-2" mat-icon-button (click)="save()"><mat-icon>done</mat-icon></button>
+  </div>
+</div>
+<!-- <mat-form-field class="name-field" appearance="legacy" hintLabel="Max 100 caractères" color="primary">
+  <input matInput #inputName [formControl]="nameControl" id="inputName" maxlength="100" placeholder="" autofocus
+    autocomplete="off">
+  <mat-error *ngIf="nameControl.hasError('required')">Ce champ ne peut être vide.</mat-error>
+  <mat-error *ngIf="!nameControl.hasError('required') && nameExist">Ce nom existe déjà</mat-error>
+  <mat-error *ngIf="!nameControl.hasError('required') && nameControl.hasError('minlength')">Minimum 3 caractères
+  </mat-error>
+
+  <mat-hint align="end">{{inputName.value?.length || 0}}/100</mat-hint>
+</mat-form-field> -->

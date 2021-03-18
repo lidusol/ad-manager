@@ -1,0 +1,136 @@
+adf-cmp-name-edit{
+    width: 100%;
+}
+
+adf-cmp-landing-page-edit{
+    width: 100%;
+    margin-top: 2rem;
+}
+
+adf-cmp-zones-edit{
+    width: 100%;
+    margin-top: 2rem;
+}
+
+adf-cmp-demographic-target-edit, adf-cmp-user-interest, adf-cmp-device-target{
+    width: 100%;
+    margin-top: 2rem;
+
+}
+adf-cmp-bids-edit{
+    width: 100%;
+    margin-top: 2rem;
+}
+adf-cmp-budget-edit{
+  width: 100%;
+    margin-top: 2rem;  
+}
+adf-cmp-dates-edit{
+     width: 100%;
+    margin-top: 2rem;
+}
+
+adf-cmp-placement-target-edit{
+     width: 100%;
+    margin-top: 2rem;
+}
+adf-cmp-schedules-edit{
+      width: 100%;
+    margin-top: 2rem;
+}
+
+adf-cmp-pack-chooser-edit{
+    width: 100%;
+    margin-top: 2rem;
+}
+
+adf-cmp-placements-edit{
+    width: 100%;
+    margin-top: 2rem;
+}
+
+adf-cmp-ads-uploader-edit{
+   width: 100%;
+    margin-top: 2rem; 
+}
+
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  /* position: absolute; */
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+
+.review-toolbar{
+    height: 45px;
+    position: absolute;
+    top: 48px;
+    z-index: 3;
+    left: 0;
+    right: 0;
+}
+
+.selected{
+    background: #e8eaed;
+    outline: none;
+}
+
+.button-item{
+    font-size: 12px;
+}
+
+.area-status{
+    font-size: 12px;
+    color: #80868b;
+    left: -6px;
+    bottom: 1px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+     margin-left: 4px;
+    top: 0;
+}
+
+.area-status:hover{
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12), 0 1px 5px 0 rgba(0,0,0,.2);
+  z-index: 3;
+  background: whitesmoke;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-status{
+    width: 12px;
+    height: 12px;
+    font-size: 12px;
+}
+ .button-edit, .icon-edit{
+   font-size: 14px;  
+ }
+
+.toolbar-item-title{
+color: #5f6368;
+line-height: 40px;
+font-size: 12px;
+}
+
+.toolbar-item-content{
+    color: #202124;
+    line-height: 40px;
+    font-size: 12px;
+}
+
+
+.builder-is-mobile .review-toolbar{
+    top: 0px ;
+}
+
+.review-container{
+    margin-top: 105px;
+}

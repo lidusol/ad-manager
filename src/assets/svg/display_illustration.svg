@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 19.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
+     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100px" height="80px"
+     viewBox="-549 275 100 80" style="enable-background:new -549 275 100 80;" xml:space="preserve">
+<style type="text/css">
+  .st0{fill:#FFFFFF;}
+  .st1{fill:#E8E8E8;}
+  .st2{fill:none;}
+  .st3{fill:#E7E7E7;}
+  .st4{fill:#F5F5F5;}
+  .st5{fill:#C0C0C0;}
+  .st6{fill:#FFC107;}
+</style>
+<g id="Page-1_2_" sketch:type="MSPage">
+  <g id="display_2_" sketch:type="MSLayerGroup">
+    <g id="Page-1_1_" sketch:type="MSShapeGroup">
+      <g id="display_1_">
+        <g id="Page-1">
+          <g id="display">
+            <rect id="Rectangle-9" x="-549" y="291" class="st0" width="100" height="64"/>
+            <path id="Rectangle-8" class="st1" d="M-547,275h96c1.1,0,2,0.9,2,2v12c0,1.1-0.9,2-2,2h-96c-1.1,0-2-0.9-2-2v-12
+                                                  C-549,275.9-548.1,275-547,275z"/>
+            <path id="Shape_1_" class="st2" d="M-543,277h11.4v11.4H-543V277L-543,277z"/>
+            <path id="Rectangle-10-Copy" class="st3" d="M-541,331h38c1.1,0,2,0.9,2,2v2c0,1.1-0.9,2-2,2h-38c-1.1,0-2-0.9-2-2v-2
+                                                        C-543,331.9-542.1,331-541,331z"/>
+            <path id="Rectangle-10-Copy-2" class="st3" d="M-541,341h38c1.1,0,2,0.9,2,2v2c0,1.1-0.9,2-2,2h-38c-1.1,0-2-0.9-2-2v-2
+                                                          C-543,341.9-542.1,341-541,341z"/>
+            <path id="Fill-6" class="st4" d="M-497,297h42v30h-42V297L-497,297z"/>
+            <path id="Rectangle-10" class="st3" d="M-541,297h38c1.1,0,2,0.9,2,2v26c0,1.1-0.9,2-2,2h-38c-1.1,0-2-0.9-2-2v-26
+                                                   C-543,297.9-542.1,297-541,297z"/>
+            <path id="Fill-7" class="st5" d="M-491,301h28v4h-28V301L-491,301z"/>
+            <path id="Fill-8" class="st3" d="M-491,317h28v4h-28V317L-491,317z"/>
+            <path id="Fill-9" class="st3" d="M-479,310h16v4h-16V310L-479,310z"/>
+            <rect id="Rectangle-10-Copy-3" x="-491" y="308" class="st6" width="10" height="6"/>
+            <rect id="Rectangle-7" x="-549" y="289" class="st1" width="100" height="2"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</g>
+</svg>

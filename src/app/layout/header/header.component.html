@@ -1,0 +1,179 @@
+
+<ng-container *ngIf="currentMessage.getValue()!==null">
+  <mat-card class="card-info-notification-top animate__animated  animate__backInRight animate__delay-2s" style="max-width: 350px; max-height: 120px;" >
+    <mat-card-header>
+        <img mat-card-avatar  src="assets/logo/favicon-adafri.png" class="img-fluid" style="width: 32px !important; height: 32px !important;">
+      <mat-card-title class="pt-1 pl-3">{{ (currentMessage | async)?.notification.title }}</mat-card-title>
+    </mat-card-header>
+    <mat-icon (click)="hideMessage()" style="position: absolute; top: 10px; right: 5px; cursor: pointer; font-size: 18px; top: 20px" mat-ripple>clear</mat-icon>
+    <mat-card-content>
+      <div class="pl-5 w-100 justify-content-start align-items-center overflow-hidden nowrap" style="text-overflow: ellipsis; max-width: 300px; max-height: 80px; font-size: 12px;">
+        {{ (currentMessage | async)?.notification.body }}
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+</ng-container>
+<!-- , 'primary-dark-bg': toolbarFixed || isLoading -->
+<mat-toolbar   class="main-toolbar main-header position-absolute"   [ngClass]="{'main-toolbar-fixed': toolbarFixed}" #header id="header">
+  <ng-container *ngIf="isLoading; else loaded">
+    
+<!--     <div lySkeleton [width]=".10" [height]="30">
+                        {{ '\u00A0' }}
+                      </div>
+                      <div lySkeleton [width]=".20" class="ml-2" [height]="30">
+                        {{ '\u00A0' }}
+                      </div>
+                      <div lySkeleton class="ml-auto" [width]=".20" [height]="30">
+                        {{ '\u00A0' }}
+                      </div> -->
+                    
+                  
+              </ng-container>
+              <ng-template #loaded>
+                <div class="toolbar-container justify-content-between" >
+                 <div class="d-flex justify-content-center align-items-center" style="flex-direction: row-reverse; max-width: 50%">
+                   <!-- User box -->
+                    <div  class="d-flex justify-content-center align-items-center overflow-hidden">
+                      <adf-theme-selector (themeSelect)='themeSelect($event)'></adf-theme-selector>
+                      <!-- <adf-langs-selector></adf-langs-selector> -->
+                    <!-- <div class="d-flex flex-column pr-2" mat-ripple>
+                         <ng-container *ngIf="currentPath!=='/accounts/setup'">
+              
+               
+                        
+                      <ng-container *ngIf="CURRENT_ACCOUNT!==null">
+                   <div class="d-flex align-items-center ml-3" [matTooltip]='CURRENT_ACCOUNT.name'  matTooltipPosition="above"
+                        [matTooltipPosition]="'below'">
+                           <div class="d-flex flex-column justify-content-center align-items-end overflow-hidden" >
+                            <span style="font-size: 12px; overflow: hidden; text-overflow: ellipsis; max-height: 25px;" class="account-name">{{CURRENT_ACCOUNT.id}}&nbsp;{{CURRENT_ACCOUNT.name}}</span>
+                          
+                            <span style="font-size: 11px; overflow: hidden; text-overflow: ellipsis; margin-top: -.2rem;" class="account-id">{{USER_EMAIL}}</span>
+                          </div>
+                     
+                      </div>
+                   
+                      </ng-container>
+                    </ng-container>
+                    </div> -->
+                    <div class="d-md-none d-sm-flex justify-content-center align-items-center" *ngIf="showUserBadge">
+                      <div class="user-avatar d-flex justify-content-center align-items-center p-1 cursor-pointer" style="border-radius: 100%; width: 40px; height: 40px; background-color: #fff;" [matMenuTriggerFor]="userMenu"  [matTooltip]='USER_EMAIL'
+                        matTooltipPosition="right"
+                        [matTooltipPosition]="'below'"
+                        matTooltipClass="tooltip-wrapped"> 
+                        <img [src]="USER_PHOTO_PROFIL" alt="User profile image" class="img-fluid" style="border-radius: 100%; ">
+                       
+                
+
+                      </div>
+                     <mat-menu #userMenu="matMenu" [class]="'user-menu'" role="menu">
+                        <div class="user-menu-header">
+                          <div class="header-container" fxLayout="row" fxLayoutGap=".5rem" fxLayoutAlign="start center">
+                              <div class="avatar-container" fxLayout="column" fxLayoutAlign="center center">
+                                  <img [src]="USER_PHOTO_PROFIL" alt="User profile image">
+                              </div>
+                              <div class="user-container" fxFlex="1 1 auto">
+                                  <div class="user-name">{{USER_NAME}}</div>
+                                  <div class="user-email">{{USER_EMAIL}}</div>
+                              </div>
+                          </div>
+                        </div>
+                        <mat-divider></mat-divider>
+                      <button mat-menu-item routerLink="/accounts/profile">
+                        <mat-icon>settings</mat-icon>
+                        <span>Paramètres</span>
+                      </button>
+                      <mat-divider></mat-divider>
+                      <button mat-menu-item (click)="logout()">
+                        <mat-icon>exit_to_app</mat-icon>
+                        <span>Déconnexion</span>
+                      </button>
+                      <ng-container *ngIf="CURRENT_ACCOUNT!==null && user_access!==undefined && user_access.admin">
+                        <mat-divider class="d-md-none d-sm-block"></mat-divider>
+                        <button mat-menu-item   color="primary" routerLink="/accounts/addFunds" [matTooltip]="CURRENT_ACCOUNT.account_value | currency" [matTooltipPosition]="'above'" class="d-md-none d-sm-flex">{{CURRENT_ACCOUNT.account_value | currency}}</button>
+                      </ng-container>
+
+                      <adf-select-account [showAutoComplete]="false"></adf-select-account>
+                
+                    
+                      
+                    </mat-menu>
+                    </div>
+                  </div>
+                 <!--  <div class="user-avatar">
+                    <button mat-icon-button mat-card-avatar [matMenuTriggerFor]="userMenu" aria-label="Menu user infos">
+                      <mat-icon>account_circle</mat-icon>
+                    </button>
+                   
+                  </div> -->
+                  <!-- End User box -->
+              
+                  <!-- Notifications box -->
+                 
+                  <!-- <mat-icon [matBadge]="links_notifications.length" matBadgeColor="warn"  [matMenuTriggerFor]="notificationsMenu" class="mr-3 cursor-pointer notifications-icon" >notifications</mat-icon> -->
+                   
+                    <button mat-flat-button color="primary" isButtonIcon="true" style="box-shadow: none !important;"  *ngIf="CURRENT_ACCOUNT!==null && user_access!==undefined && user_access.admin"  routerLink="/accounts/addFunds" [matTooltip]="CURRENT_ACCOUNT.account_value | currency" [matTooltipPosition]="'above'" class="d-md-block d-none mr-4"> <mat-icon>account_balance_wallet</mat-icon>&nbsp;{{CURRENT_ACCOUNT.account_value | currency}}</button>
+                     <mat-menu #notificationsMenu="matMenu" class="notifications-menu">
+                        <div class="notifications-menu-header">
+                          <div class="header-container" fxLayout="row" fxLayoutGap=".5rem" fxLayoutAlign="start center">
+                              <div class="icon-container" fxLayout="column" fxLayoutAlign="center center">
+                                 <mat-icon>notifications</mat-icon>
+                              </div>
+                              <div class="notification-label-container" fxFlex="1 1 auto">
+                                 Notifications
+                              </div>
+                          </div>
+                        </div>
+                        <mat-divider></mat-divider>
+                         <div class="notifications-content" *ngIf="links_notifications.length===0">
+                          <div class="notifications-empty" >
+                              <div>
+                                  <img [src]="NOTIFICATIONS_ICON_EMPTY">
+                                  <div class="no-notifications-text">Aucune notification</div>
+              
+                              </div>
+                          </div>
+                          <ng-container >
+                            
+                          </ng-container>
+                          
+                        </div>
+                        <div class="notifications-content" *ngIf="links_notifications.length>0">
+                          <a mat-menu-item *ngFor="let notif of links_notifications" style="display: flex; flex-direction: column; height: 60px;">
+                           <span style="font-size: 12px;">{{notif.content}}</span> 
+                           <div class="d-flex flex-row justify-content-between">
+                             <span style="font-size: 10px; margin-top: -2rem">{{notif.createdAt.seconds | dateAgo}}</span> 
+                             <button mat-button style="width: 12px; margin-top: -1rem;" (click)="setRead(notif)">Lu</button>
+              
+                           </div>
+                          </a>
+                          
+                        </div>
+                    </mat-menu>
+                    
+                    <!-- <button mat-raised-button color="primary">
+                      <div class="d-flex"><mat-icon>waccount_balance</mat-icon>10000</div>
+                    </button> -->
+                    <!-- End Notifications box -->
+                 </div>
+              
+                 <div class="d-flex justify-content-start align-items-center overflow-hidden">
+                   <ng-container *ngIf="s_b">
+                    <button mat-icon-button class="ml-md-1 ml-5" (click)="goBack()"><mat-icon class="bgb">keyboard_backspace</mat-icon></button>
+                  </ng-container>
+                  <!-- <button mat-icon-button (click)="toggleNav()" *ngIf="!s_b"><mat-icon>menu</mat-icon></button> -->
+                  <!-- <img [src]="LOGO_WHITE" class="logo-white-app"> -->
+                   
+                    
+                 
+                  <div class="logo-container google-ads-logo mb-1" *ngIf='!showUserBadge'></div>
+                  <div class="nav-title ml-2  align-items-center" mat-ripple>{{title | translate}}</div>
+                
+                  
+                  
+                 </div>
+                 
+              
+                </div>
+                </ng-template>
+</mat-toolbar>

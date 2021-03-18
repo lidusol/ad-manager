@@ -1,0 +1,40 @@
+<div class="row date-container">
+  <div class="col-md-4">
+
+  </div>
+  <div class="col-md-4">
+        <mat-form-field class="date-field pl-2" color="primary">
+<input matInput #startDateInput (click)="pickerStart.open()"class="input-date" [matDatepicker]="pickerStart" placeholder="Date de début"  [formControl]="dateStartCtrl" [min]="minDateStart">
+<mat-datepicker-toggle matSuffix [for]="pickerStart">
+<mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+</mat-datepicker-toggle>
+<mat-datepicker #pickerStart></mat-datepicker>
+</mat-form-field>  
+<br>
+<div  class="alert alert-warning mt-5" *ngIf="showDateModifiedMessage">
+      <div class="d-flex">
+        <span style="font-size: 12px;">Cliquez sur enregistrer pour mettre à jour la date de votre campagne, sinon vous ne pourrez pas procéder à sa publication</span>
+      </div>
+  </div>
+
+  </div>
+</div>
+<div class="row">
+<div class="col-md-4">
+
+</div>
+<div class="col-md-4">
+  </div>
+
+</div> 
+<div class="panel-footer">
+  <mat-spinner
+      [mode]="'indeterminate'" color="primary" [diameter]="25" *ngIf="spinnerUpdate" class="mr-4">
+  </mat-spinner>
+  <ng-container *ngIf="!spinnerUpdate && user_access!==undefined">
+      <button mat-button color="primary" (click)="updateDates()" [disabled]="user_access.readOnly">Enregistrer</button>
+      <button mat-button color="primary" (click)="$event.stopPropagation(togglePanel($event))">Annuler</button>
+
+  </ng-container>
+  
+</div>   

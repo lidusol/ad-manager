@@ -1,0 +1,60 @@
+<!-- 
+<mat-accordion>
+  <mat-expansion-panel #urlExpansion id="url-expansion" [expanded]="expanded" class="panel-builder-single" hideToggle>
+    <mat-expansion-panel-header (click)="expandPanel($event)">
+      <mat-icon class="expansion-toggle pt-3" *ngIf="urlExpansion.expanded"
+        (click)="$event.stopPropagation(togglePanel($event))">expand_less</mat-icon>
+      <mat-icon class="expansion-toggle" *ngIf="!urlExpansion.expanded"
+        (click)="$event.stopPropagation(togglePanel($event))">expand_more</mat-icon>
+      <mat-panel-title>
+        Page de destination
+      </mat-panel-title>
+      <mat-panel-description>
+        <ng-container *ngIf="expanded">
+            <mat-form-field class="url-field" appearance="legacy" hintLabel="Exemple: https://monsite.com">
+    <input matInput #inputUrl  [formControl]="urlControl" id="url" placeholder=""  autofocus>
+    <mat-error *ngIf="urlControl.hasError('required')">Ce champ ne peut Ãªtre vide.</mat-error>
+    <mat-error *ngIf="!urlControl.hasError('required') && urlControl.invalid">Url invalide</mat-error>
+  </mat-form-field>
+          </ng-container>
+          <ng-container *ngIf="!expanded && urlControl.value!==''">
+            {{urlControl.value}}
+          </ng-container>
+           <ng-container *ngIf="!expanded && urlControl.value===''">
+            Saisir l'url de destination
+          </ng-container>
+      </mat-panel-description>
+    </mat-expansion-panel-header> 
+     <div class="panel-footer">
+        <mat-spinner
+            [mode]="'indeterminate'" color="primary" [diameter]="25" *ngIf="spinnerUpdate" class="mr-4">
+        </mat-spinner>
+        <ng-container *ngIf="!spinnerUpdate && user_access!==undefined">
+            <button mat-button color="primary" (click)="updateLandingPage()" [disabled]="user_access.readOnly">Enregistrer</button>
+            <button mat-button color="primary" (click)="$event.stopPropagation(togglePanel($event))">Annuler</button>
+
+        </ng-container>
+        
+    </div>                 
+  </mat-expansion-panel>
+</mat-accordion>
+
+ -->
+
+ <mat-form-field class="url-field" appearance="legacy" hintLabel="Exemple: https://monsite.com" color="primary">
+  <input matInput #inputUrl  [formControl]="urlControl" id="url" placeholder=""  autofocus>
+  <mat-error *ngIf="urlControl.hasError('required')">Ce champ ne peut Ãªtre vide.</mat-error>
+  <mat-error *ngIf="!urlControl.hasError('required') && urlControl.invalid">Url invalide</mat-error>
+</mat-form-field>
+
+<div class="panel-footer">
+  <mat-spinner
+      [mode]="'indeterminate'" color="primary" [diameter]="25" *ngIf="spinnerUpdate" class="mr-4">
+  </mat-spinner>
+  <ng-container *ngIf="!spinnerUpdate && user_access!==undefined">
+      <button mat-button color="primary" (click)="updateLandingPage()" [disabled]="user_access.readOnly">Enregistrer</button>
+      <button mat-button color="primary" (click)="$event.stopPropagation(togglePanel($event))">Annuler</button>
+
+  </ng-container>
+  
+</div> 

@@ -1,0 +1,139 @@
+// =========================
+// Carousel
+// =========================
+
+:host {
+  flex: 1;
+}
+
+.carousel {
+  position: relative;
+  height: 300px;
+  width: 100%;
+  overflow: visible;
+  border: none;
+  box-shadow: none !important;
+}
+
+.slide {
+  position: absolute;
+  /* height: 100%; */
+  object-fit: cover;
+  // zoom effect on hover
+  transition: transform 150ms cubic-bezier(0.25, 0.46, 0.45, 0.84);
+  max-width: 150px;
+  max-height: 150px;
+}
+
+.slide:hover {
+  transform: scale(1.025);
+}
+.toolbar-slides{
+  position: absolute;
+  // bottom: 1rem;
+  left: 0;
+  right: 0;
+  background-color: white !important;
+}
+
+.ad-coll-label{
+color: rgba(0,0,0,.54);
+    height: 24px;
+    text-align: left;
+    font-size: 12px;
+}
+.ad-status-text{
+ font-size: 10px;
+}
+.ad-stats-text{
+  color: rgba(0,0,0,.87);
+    font-size: 18px;
+    font-weight: 400;
+   /*  height: 24px; */
+}
+
+.selected{
+    background: #e8eaed;
+    outline: none;
+}
+
+.button-item{
+    font-size: 12px;
+}
+
+.icon-status{
+    width: 12px;
+    height: 12px;
+    font-size: 12px;
+    margin-right: .3rem;
+}
+
+// =========================
+// Next and Prev buttons
+// =========================
+.control {
+/*   border: none;
+  background-color: transparent; */
+  outline: 0; // remove blue outline border, but make sure they are still focussable for accessibility
+  position: absolute;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* padding: 0.5em;
+  color: white; */
+  font-weight: bold;
+  font-size: 3em;
+  user-select: none;
+ /*  height: 100%; */
+  opacity: 80%;
+  // opacity effect on hover
+  transition: opacity 150ms cubic-bezier(0.25, 0.46, 0.45, 0.84);
+
+  &:hover,
+  &:focus {
+    opacity: 1;
+  }
+
+  /* Position the buttons */
+  &.next {
+    right: 0;
+    top: 5rem;
+  }
+  &.prev {
+    top: 5rem;
+  }
+}
+
+/* style the arrows */
+/* .arrow {
+  display: block;
+  border-left: 0.1em solid white;
+  border-bottom: 0.1em solid white;
+  width: 0.5em;
+  height: 0.5em;
+
+  &.left {
+    transform: rotate(45deg);
+  }
+  &.right {
+    transform: rotate(225deg);
+  }
+} */
+
+.area-status:hover{
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12), 0 1px 5px 0 rgba(0,0,0,.2);
+}
+
+.pager-ads{
+  position: absolute;
+   bottom: 8px;
+    left: 0;
+     z-index: 5
+}
+
+.campaign-info-block{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

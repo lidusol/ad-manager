@@ -1,0 +1,58 @@
+<div class="row selector-schedule-container">
+  <div class="col-md-9 pl-5">
+    <!-- <mat-radio-group #schedulesOption aria-labelledby="Calendrier de diffusion" class="example-radio-group"
+      [(ngModel)]="scheduleOptionSelected" color="primary" (change)="register($event)">
+      <mat-radio-button class="example-radio-button fs-12" value="none">
+        Par défaut diffuser 24h/24 - 7j/7
+      </mat-radio-button>
+      <mat-radio-button class="example-radio-button fs-12" value="custom">
+        Personnaliser les jours et heures de diffusion
+      </mat-radio-button>
+    </mat-radio-group> -->
+    <ng-container *ngIf="scheduleOptionSelected==='custom'">
+      <ng-container *ngFor="let skill of skills.controls; index as i">
+        <form [formGroup]="skill" style="max-height: 40px;" class="mt-3 mb-3" (mouseenter)="formOvered(i)" (mouseleave)="formLeaved(i)">
+          <mat-form-field color="primary" class="field-days">
+            <mat-select #selectDay formControlName="day" required>
+              <mat-option *ngFor="let day of DAYS" (onSelectionChange)="onDaySelect($event)"
+                [value]="{'id': day.id, 'fullDayFrench': day.fullDayFrench, 'fullDayEnglish': day.fullDayEnglish}">
+                {{day.fullDayFrench}}</mat-option>
+
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field color="accent" class="field-hours pl-1">
+            <mat-select formControlName="startHour" required [disabled]="skill['controls'].day.value===''">
+              <mat-option *ngFor="let hour of SCHEDULE" (onSelectionChange)="onStartHourSelect($event)"
+                [value]="{'id': hour.text, 'hour': hour.hour, 'minute': hour.minute, h: hour.h, m: hour.m}"
+                [disabled]="checkStartHourDisabledOrNot(hour.h, hour.m)">{{hour.text}}</mat-option>
+            </mat-select>
+          </mat-form-field>à
+          <mat-form-field color="primary" class="field-hours">
+            <mat-select formControlName="endHour"
+              [disabled]="skill['controls'].startHour.value===null || skill['controls'].startHour.value===undefined || skill['controls'].startHour.value===''"
+              required>
+              <mat-option *ngFor="let hour of SCHEDULE" (onSelectionChange)="onEndHourSelect($event)"
+                [value]="{'id': hour.text, 'hour': hour.hour, 'minute': hour.minute, h: hour.h, m: hour.m}"
+                [disabled]="skill['controls'].startHour.value===null || skill['controls'].startHour.value===undefined || skill['controls'].startHour.value==='' || ( hour.h<skill['controls'].startHour.value.h ) || (hour.h===skill['controls'].startHour.value.h&& hour.m<=skill['controls'].startHour.value.m)">
+                {{hour.text}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button mat-icon-button class="float-rignt d-none" [id]="i" (click)="removeSkill(i)">
+            <mat-icon style="font-size: 18px; ">close</mat-icon>
+          </button>
+        </form>
+      </ng-container>
+      <button mat-flat-button color="primary" (click)="addSkill()" class="mt-2">Ajouter</button>
+    </ng-container>
+
+
+
+
+  </div>
+  <div class="col-md-3">
+    <div class="schedule-info fs-12">
+      Définissez un calendrier de diffusion afin de choisir à quel moment vous souhaitez afficher vos annonces.
+      N'oubliez pas qu'elles ne sont diffusées que pendant ces périodes.
+    </div>
+  </div>
+</div>

@@ -1,0 +1,106 @@
+<!-- <adf-toolbar-filter [navigationLink]="'Comptes'"></adf-toolbar-filter> -->
+<div class="container-fluid p-0" style="margin-top: 12rem;">
+  <div class="row mb-5" >
+    <div class="col-md-12 pt-0">
+      <mat-toolbar>
+  
+        <button mat-flat-button color="primary" (click)="requestAccess()">
+          <mat-icon>add</mat-icon> Lier un compte adwords
+        </button>
+        <button mat-button color="primary" (click)="openDialogAccount()">
+          <mat-icon>menu</mat-icon>Select Accounts
+        </button>
+         <!-- <button mat-button color="accent" (click)="getActs()">
+          <mat-icon>menu</mat-icon>Show accounts
+        </button> -->
+      </mat-toolbar>
+      <adf-accounts-data-table #dataTableAccounts></adf-accounts-data-table>
+    </div>
+  </div>
+
+</div>
+
+
+
+<ejs-dialog id='dialogTreeAct' #dialogTreeAct [visible]="visible" [target]="target" [position]='position'
+  [isModal]='isModal' style="top: 3rem; max-width: 400px;">
+
+  <ng-template #content>
+    <div class="dialog-content">
+      <div class="row w-100">
+        <div class="col-md-12 text-center">
+          <h3 class="link-account-label w-100">Lier un compte adwords</h3>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="row mt-5" *ngIf="accountsPending.length===0">
+        <div class="col-md-12 p-5 text-center align-items-center">
+          <mat-spinner class="d-inline-block"
+             color="accent" [diameter]="50">
+          </mat-spinner>
+          <p class="mt-5" style="font-size: 18px; color: rgba(0,0,0,.54);">Recherche de comptes client...</p>
+        </div>
+      </div>
+      <div class="row p-4" *ngIf="accountsPending.length>0">
+        <div class="col-md-12 text-center pl-0 pr-0">
+          <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+            <!-- This is the tree node template for leaf nodes -->
+            <mat-tree-node  class="tree-accounts" *matTreeNodeDef="let node" matTreeNodePadding (click)="treeSingle(node.name, node.customerId, node.account)" [id]="node.customerId"  mat-ripple>
+              <div fxLayout="row" fxLayoutGap=".5rem" fxLayoutAlign="start center" class="tree-root-container">
+                <button mat-icon-button disabled>
+                  <mat-icon role="img" class="g-ads-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 192 192" fit=""
+                      preserveAspectRatio="xMidYMid meet" focusable="false">
+                      <path fill="#FBBC04" d="M11.93 127.998L70.595 26.39l50.808 29.335-58.665 101.608z"></path>
+                      <path fill="#4285F4"
+                        d="M180.07 127.99L121.4 26.38c-8.1-14.03-26.04-18.84-40.07-10.74-14.03 8.1-18.84 26.04-10.74 40.07l58.67 101.61c8.1 14.03 26.04 18.83 40.07 10.74 14.03-8.1 18.83-26.04 10.74-40.07z">
+                      </path>
+                      <circle fill="#34A853" cx="37.34" cy="142.66" r="29.33"></circle>
+                    </svg>
+                  </mat-icon>
+                </button>
+                <div class="customer-id" style="margin-right: 0.5rem;">{{node.customerId}}</div>
+                <div>{{node.name}}</div>
+
+              </div>
+              <!-- use a disabled button to provide padding for tree leaf -->
+            </mat-tree-node>
+            <!-- This is the tree node template for expandable nodes -->
+            <mat-tree-node  *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding (click)="treeRootClick(node.name, node.customerId)"  mat-ripple>
+              <div fxLayout="row" fxLayoutGap=".5rem" fxLayoutAlign="start center" class="tree-root-container">
+                <button FocusOrigin='program' mat-icon-button matTreeNodeToggle
+                  [attr.aria-label]="'toggle ' + node.name">
+                  <mat-icon class="mat-icon-rtl-mirror">
+                    {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                  </mat-icon>
+                </button>
+
+                <div class="customer-id" style="margin-right: 0.5rem;">{{node.customerId}}</div>
+                <div>{{node.name}}</div>
+              </div>
+            </mat-tree-node>
+          </mat-tree>
+
+        </div>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <mat-progress-bar mode="indeterminate" color="accent" *ngIf="showProgress">
+    </mat-progress-bar>
+    <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end">
+      <button mat-button (click)="dialogTreeAct.hide()">Annuler</button>
+      <button mat-button *ngIf="currentTreeSelectedId===''" disabled>Lier</button>
+      <button mat-button *ngIf="currentTreeSelectedId!==''" color="primary" (click)="linkAccountToManager()">Lier</button>
+    </div>
+
+
+
+
+
+
+
+  </ng-template>
+
+</ejs-dialog>
+
+<adf-snackbar #appSnackbar></adf-snackbar>

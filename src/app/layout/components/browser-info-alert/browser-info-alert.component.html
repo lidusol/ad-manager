@@ -1,0 +1,11 @@
+<mat-card class="card-device-alert" *ngIf="showCard">
+    <mat-card-header class="text-left">
+        <mat-card-title class="text-left"><span class="d-flex justify-content-center"> <mat-icon>important_devices</mat-icon>&nbsp; Important</span></mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="text-left">
+    <span>Pour éviter des erreurs ou des bugs utilisez google chrome. <img src="assets/images/chrome24x24.png"></span>
+    </mat-card-content>
+    <mat-card-actions align="end">
+        <button mat-button (click)="hidePopup()">Fermer</button>
+    </mat-card-actions>
+</mat-card>

@@ -1,0 +1,10 @@
+<mat-form-field class="url-field" appearance="fill" [hintLabel]="'my_website_example' | translate" color="primary">
+  <input matInput #inputUrl  [formControl]="urlControl" id="url" placeholder=""  autofocus>
+  <mat-error *ngIf="urlControl.hasError('required')">{{'required' | translate}}</mat-error>
+  <mat-error *ngIf="!urlControl.hasError('required') && urlControl.invalid">{{ 'url_invalid' | translate }}</mat-error>
+  <div matSuffix *ngIf="showSpinner" style="padding: 0; margin: 0; max-width: 30px; max-height: 30; height: 100%; width: 100%;" >
+    <mat-spinner
+      [mode]="'indeterminate'" [diameter]="15">
+    </mat-spinner>
+  </div>
+</mat-form-field>

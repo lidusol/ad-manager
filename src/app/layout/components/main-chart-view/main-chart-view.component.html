@@ -1,0 +1,72 @@
+<ng-container *ngIf="isLoading; else loaded"></ng-container>
+<ng-template #loaded>
+        <mat-card class="stat-frame p-0" [ngClass]="{'expanded': panelExpanded}">
+          <div class="stat-frame-header">
+            <div class="stat-frame-btn-container">
+              <div class="single-card-stat clicks-bg">
+                <div class="single-stat-header-name">
+                  <div class="name">
+                    Clics
+                  </div>
+                </div>
+                <div class="stat-value">
+                  <span>
+                    <ng-container *ngIf="selectedOptionStats1==='costs'"> {{totalSelect0 | shortNumber | currency}}
+                    </ng-container>
+                    <ng-container *ngIf="selectedOptionStats1!=='costs'"> {{totalSelect0 | shortNumber}}</ng-container>
+                  </span>
+                </div>
+              </div>
+              <div class="single-card-stat costs-bg">
+                <div class="single-stat-header-name">
+                  <div class="name">
+                    Coût
+                  </div>
+                </div>
+                <div class="stat-value red-stat-color">
+                  <span>
+                    <ng-container *ngIf="selectedOptionStats2==='costs'"> {{totalSelect2 | currency}}</ng-container>
+                    <ng-container *ngIf="selectedOptionStats2!=='costs'"> {{totalSelect2 | shortNumber}}</ng-container>
+                  </span>
+                </div>
+              </div>
+              <div class="single-card-stat impressions-bg">
+                <div class="single-stat-header-name">
+                  <div class="name">
+                    Impressions
+                  </div>
+                </div>
+                <div class="stat-value orange-stat-color">
+                  <span>
+                    <ng-container *ngIf="selectedOptionStats3==='costs'"> {{totalSelect1 | shortNumber | currency}}
+                    </ng-container>
+                    <ng-container *ngIf="selectedOptionStats3!=='costs'"> {{totalSelect1 | shortNumber}}</ng-container>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <adf-date-range-picker [iconBtn]="true" (selected)="rangeSelection($event)">
+            </adf-date-range-picker>
+            <button mat-icon-button (click)="togglePanel()">
+              <mat-icon *ngIf="!panelExpanded">expand_more</mat-icon>
+              <mat-icon *ngIf="panelExpanded">expand_less</mat-icon>
+            </button>
+          </div>
+          <div class="frame-chart main-chart-card">
+
+            <div class="d-flex w-100 justify-content-center align-items-center p-4" style="opacity: 0.8"
+              *ngIf="noChartFound">
+              <img src="assets/svg/line_chart_report.svg" alt="" style="max-width: 150px;">
+            </div>
+            <mat-spinner [mode]="'indeterminate'" color="primary" diameter="30" class="spinner-chart d-inline-block"
+              *ngIf="showSpinnerChart">
+            </mat-spinner>
+
+            <div *ngIf="!noChartFound" align='center' id="dashboard"
+              style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+              <div id="main_chart_view" class="w-100"></div>
+            </div>
+
+          </div>
+        </mat-card>
+</ng-template>

@@ -1,0 +1,52 @@
+.input-date{
+    cursor: pointer;
+}
+.date-field{
+  width: 50%;
+  -webkit-transition: width .35s ease-in-out !important;
+  transition: width .35s ease-in-out !important;
+}
+// .mat-form-field:focus-within {
+//   width: 75% !important;
+// }
+
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.example-radio-button {
+  margin: 5px;
+}
+
+.end-date-label{
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(0,0,0,.54);
+    display: block;
+    padding-left: 7px;
+}
+.start-date-label{
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(0,0,0,.54);
+    display: block;
+}
+
+.date-info{
+    font-size: 13px;
+    font-weight: 400;
+    word-break: keep-all;
+    box-sizing: border-box;
+    border-left: 1px solid rgba(0,0,0,.12);
+    color: rgba(0,0,0,.54);
+    flex: 1 1 30%;
+    line-height: 20px;
+    padding-left: 16px;
+    vertical-align: top;
+}
+
+.date-container{
+    margin-top: -40px;
+}
+

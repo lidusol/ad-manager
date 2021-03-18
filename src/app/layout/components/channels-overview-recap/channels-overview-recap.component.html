@@ -1,0 +1,103 @@
+
+
+<ng-container *ngIf="isLoading; else loaded">
+              
+                  <!--   <mat-card style="box-shadow: none;">
+                     
+                      <mat-card-content>
+             
+                      <div gutterBottom lySkeleton [width]="1" [height]="180">
+                        {{ '\u00A0' }}
+                      </div>
+                      </mat-card-content>
+                    
+                    </mat-card>
+                     -->
+                  
+              </ng-container>
+              <ng-template #loaded>
+                <mat-card style="box-shadow: none !important; padding: 0;">
+                  
+                    <ejs-grid #gridPlacementsRecap id='gridPlacementsRecap' [dataSource]='' allowTextWrap="true" [allowSelection]='true' [allowSorting]='true' (dataBound)='onDataBound($event)' [enableHover]='false' [selectionSettings]='selectionSettings' [filterSettings]='filterSettings' [allowSorting]='true' [allowFiltering]='false' [allowResizing]='true'  [gridLines]='gridLines'  [allowPaging]='true'
+                [pageSettings]='initialPage' style="overflow-y: hidden;" [toolbar]='toolbarOptions' [locale]='"fr"'  [contextMenuItems]="contextMenuItems"  [groupSettings]='groupOptions' [allowGrouping]='true' [showColumnChooser]= 'true' [showColumnMenu]= 'true' [searchSettings]='searchSettings'>
+                          <e-columns>
+                              <e-column field='displayName' [visible]='true'  [lockColumn]='true' [allowResizing]='false' headerText="Emplacements" width="200"  textAlign='Left'>
+                              </e-column>
+                             <e-column headerText='Type' width="70" field="id" [allowFiltering]='false' [allowSorting]='false' textAlign='Left' [showColumnMenu]= 'false'>
+                                       
+                
+                            <ng-template #template let-data>
+                             {{data.criteriaParams}}
+                            </ng-template>
+                          </e-column>
+                          <e-column headerText='Campagne' width="80" field="id" [allowFiltering]='false' [allowSorting]='false' textAlign='Left'  [showColumnMenu]= 'false'>
+                                       
+                
+                            <ng-template #template let-data>
+                              {{data.ad_group_id | campaignNameFromAdGroupId:uid_action | async}}     
+                             
+                            </ng-template>
+                          </e-column>
+                                    <e-column headerText='Interactions' width="80" field="interactions" [allowFiltering]='false' [allowSorting]='false' textAlign='Left' [showColumnMenu]= 'false' >
+                            <ng-template #template let-data>
+                             {{data.interactions | shortNumber}}
+                            </ng-template>
+                          </e-column>
+                          <e-column headerText='Coût' width="80" field="costs" [allowFiltering]='false' [allowSorting]='false'  textAlign='Left' [showColumnMenu]= 'false'>
+                  
+                                  <ng-template #template let-data>
+                                    
+                                    {{(PARSE_FLOAT(data.costs)*2/1000000).toFixed(2) | currency }}
+                            </ng-template> 
+                       
+                          </e-column>
+                          <e-column headerText='Affichages' field="impressions" width="80" textAlign='Left' [allowFiltering]='false' [allowSorting]='false' [showColumnMenu]= 'false'>
+                           
+                            <ng-template #template let-data>
+                              {{data.impressions | shortNumber}}
+                                   
+                            </ng-template>
+                          </e-column>
+                            <e-column headerText='Ctr' field="ctr" width="80" textAlign='Left' [allowFiltering]='false' [allowSorting]='false' [showColumnMenu]= 'false'>
+                           
+                            <ng-template #template let-data>
+                              {{data.ctr}}
+                                   
+                            </ng-template>
+                          </e-column>
+                          <e-column headerText='Conversions' field="conversions" width="80" textAlign='Left' [allowFiltering]='false' [allowSorting]='false' [showColumnMenu]= 'false'>
+                           
+                            <ng-template #template let-data>
+                              {{data.conversions}}
+                                   
+                            </ng-template>
+                          </e-column>
+                             
+                          <e-column headerText='Taux de conversion' field="convRate" width="100" textAlign='Left' [allowFiltering]='false' [allowSorting]='false' [showColumnMenu]= 'false'>
+                           
+                            <ng-template #template let-data>
+                              {{data.convRate}}
+                                   
+                            </ng-template>
+                          </e-column>
+                           <e-column headerText="Taux d'IntÃ©ractions" field="interactionRate" width="100" textAlign='Left' [allowFiltering]='false' [allowSorting]='false' [showColumnMenu]= 'false'>
+                           
+                            <ng-template #template let-data>
+                              {{data.interactionRate}}
+                                   
+                            </ng-template>
+                          </e-column>
+                          </e-columns>
+                      </ejs-grid> 
+                
+                </mat-card>   
+
+                </ng-template>
+
+
+
+   
+ 
+
+
+<adf-spinner *ngIf="loader"></adf-spinner>

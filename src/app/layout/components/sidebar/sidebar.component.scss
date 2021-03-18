@@ -1,0 +1,206 @@
+//@import '../../../../styles';
+.sidenav-container{
+    position: fixed;
+    width: 160px;
+    top: 0;
+    left: 0;
+    height: 100%;
+    overflow: auto;
+    overflow-x: hidden;
+ 
+
+}
+.nav-icon-container{
+    padding: 8px;
+    border-radius: 5px;
+}
+
+.navigation-toggler{
+    text-decoration: none !important;
+}
+.nav-header{
+    display: flex;
+    flex-direction: row-reverse;
+    height: 48px;
+    justify-content: center;
+    align-items: center;
+    
+
+}
+.google-ads-logo{
+    width: 6rem;
+    height: 2rem;
+    
+}
+
+.list-navigation{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    /* margin-top: 70px; */
+    overflow: hidden;
+}
+
+.list-navigation:hover{
+    overflow-y: auto !important;
+}
+.action-list .mat-list-item, .list-navigation .mat-list-item{
+    background-color: transparent;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    font-family: inherit;
+    position: relative;
+    font-size: 13px;
+    font-weight: 400;
+    word-break: keep-all;
+    box-sizing: border-box;
+    text-align: center;
+    align-items: center;
+    text-decoration: none;
+    
+    line-height: 16px;
+
+}
+.action-list .mat-list-item .mat-list-item-content{
+    text-align: center;
+    align-items: center;
+}
+
+.collapsed-logo-sidebar{
+    width: 24px;
+}
+
+.icon-status{
+    width: 14px;
+    height: 14px;
+    font-size: 14px;
+}
+ .button-edit, .icon-edit{
+   font-size: 14px;  
+ }
+
+ .add-new-cmp{
+   position: fixed;
+   z-index: 3;
+   bottom: 2rem;
+   left: 1.8rem;
+   width: 48px;
+   height: 48px;
+ }
+
+ .sidebar-footer{
+    position: absolute;
+    z-index: 3;
+    left: 0.5rem;
+    width: 100%;
+    display: none;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 11px;
+    bottom: 0.5rem;
+  }
+ .add-new-cmp-btn{
+     display: none;
+     width: 200px;
+     height: 40px;
+     border-radius: 33rem !important;
+     max-width: 200px;
+ }
+
+ .add-new-cmp:hover{
+    width: 120px;
+    height: 48px;
+   .add-new-cmp-btn-icon{
+     display: none !important;
+   }
+   .add-new-cmp-btn{
+     display: block !important;
+     
+   }
+   
+ }
+
+ .glow-on-hover {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 33rem !important;
+
+}
+
+.glow-on-hover:before {
+    content: '' !important;
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000) !important;
+    position: absolute !important;
+    top: -2px !important;
+    left:-2px !important;
+    background-size: 400% !important;
+    z-index: -1 !important;
+    filter: blur(5px) !important;
+    width: calc(100% + 4px) !important;
+    height: calc(100% + 4px) !important;
+    animation: glowing 20s linear infinite !important;
+    opacity: 0 !important;
+    transition: opacity .3s ease-in-out !important;
+    border-radius: 33rem !important;
+    
+}
+
+.glow-on-hover:active {
+    background: #fff !important;
+}
+
+.glow-on-hover:active:after {
+    background: #fff !important;
+}
+
+.glow-on-hover:hover:before {
+    opacity: 1 !important;
+}
+
+.glow-on-hover:after {
+    z-index: -1 !important;
+    content: '' !important;
+    position: absolute !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: #fff !important;
+    left: 0 !important;
+    top: 0 !important;
+    border-radius: 33rem !important;
+}
+
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}
+
+
+
+ 
+.pulse-button {
+
+    position: relative;
+    border: none;
+    box-shadow: 0 0 0 0 rgba(232, 76, 61, 0.7);
+    border-radius: 50%;
+    transition: inherit !important;
+    cursor: pointer;
+    -webkit-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+    -moz-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+    -ms-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+    animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+  }
+  .pulse-button:hover 
+  {
+    -webkit-animation: none;-moz-animation: none;-ms-animation: none;animation: none;
+  }
+  
+  @-webkit-keyframes pulse {to {box-shadow: 0 0 0 35px rgba(232, 76, 61, 0);}}
+  @-moz-keyframes pulse {to {box-shadow: 0 0 0 35px rgba(232, 76, 61, 0);}}
+  @-ms-keyframes pulse {to {box-shadow: 0 0 0 35px rgba(232, 76, 61, 0);}}
+  @keyframes pulse {to {box-shadow: 0 0 0 35px rgba(232, 76, 61, 0);}}

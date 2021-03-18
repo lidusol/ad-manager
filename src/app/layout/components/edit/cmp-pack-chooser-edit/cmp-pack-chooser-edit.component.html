@@ -1,0 +1,93 @@
+
+
+
+<!-- <div class="row">
+  <div class="col-md-4 text-center">
+      <mat-radio-group  aria-labelledby="Type de facturation de la campagne"
+        class="delivery-radio-group" [(ngModel)]="deliveryOptionSelected">
+        <mat-radio-button class="delivery-radio-button" *ngFor="let item of deliveryDataLabel" [value]="item.id">
+          {{item.label}}
+        </mat-radio-button>
+      </mat-radio-group>
+  </div>
+
+</div> -->
+            <ng-container *ngIf="deliveryOptionSelected==='pack'">
+              <div class="row " >
+             <div [ngClass]="packColClass">
+                <mat-card class="card-campaign-type" (click)="selectType('test')" id="test" >
+                  <button mat-mini-fab class="checked-icon"><mat-icon>done</mat-icon></button>
+        
+                <mat-card-header class="text-center w-100">
+                    <mat-card-title class="text-center w-100">Pack test</mat-card-title>
+                    <mat-card-subtitle>{{4 | currency}}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                <img src="assets/images/20K.png" style="width: 150px;">
+                </mat-card-content>
+                
+            </mat-card>
+           
+        </div>
+        <div [ngClass]="packColClass" >
+          <mat-card class="card-campaign-type" (click)="selectType('basic')" id="basic">
+            
+            <button mat-mini-fab class="checked-icon"><mat-icon>done</mat-icon></button>
+                <mat-card-header class="text-center w-100">
+                    <mat-card-title class="text-center w-100">Basic</mat-card-title>
+                    <mat-card-subtitle>{{17 | currency}}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                <img src="assets/images/100k.png" style="width: 150px;">
+                </mat-card-content>
+                
+            </mat-card>
+           
+        </div>
+         <div [ngClass]="packColClass" >
+           <mat-card class="card-campaign-type" (click)="selectType('premium')" id="premium" >
+            <button mat-mini-fab class="checked-icon"><mat-icon>done</mat-icon></button>
+                <mat-card-header class="text-center w-100">
+                    <mat-card-title class="text-center w-100">Premium</mat-card-title>
+                    <mat-card-subtitle>{{30 | currency}}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                <img src="assets/images/250k.png" style="width: 150px;">
+                </mat-card-content>
+                
+            </mat-card>
+        </div>
+         <div [ngClass]="packColClass" >
+           <mat-card class="card-campaign-type" (click)="selectType('pro')" id="pro">
+            <button mat-mini-fab class="checked-icon"><mat-icon>done</mat-icon></button>
+                <mat-card-header class="text-center w-100">
+                    <mat-card-title class="text-center w-100">Pro</mat-card-title>
+                    <mat-card-subtitle>{{50 | currency}}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                <img src="assets/images/500k.png" style="width: 150px;">
+                </mat-card-content>
+                
+            </mat-card>
+        </div>
+        </div>
+        </ng-container>
+        <ng-container *ngIf="deliveryOptionSelected==='custom'">
+    <div class="d-flex flex-column justify-content-center align-items-center" style="width: 100%">
+      <adf-cmp-bids (bidChanging)="bidChanging($event)"></adf-cmp-bids>
+      <adf-cmp-budget></adf-cmp-budget>
+    </div>
+  </ng-container>
+                      
+
+  <div class="panel-footer">
+    <mat-spinner
+        [mode]="'indeterminate'" color="primary" [diameter]="25" *ngIf="spinnerUpdate" class="mr-4">
+    </mat-spinner>
+    <ng-container *ngIf="!spinnerUpdate && user_access!==undefined">
+        <button mat-button color="primary" (click)="updatePack()" [disabled]="user_access.readOnly">Enregistrer</button>
+        <button mat-button color="primary" (click)="$event.stopPropagation(togglePanel($event))">Annuler</button>
+
+    </ng-container>
+    
+</div> 

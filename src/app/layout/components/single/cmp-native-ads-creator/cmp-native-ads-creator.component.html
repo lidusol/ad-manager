@@ -1,0 +1,1552 @@
+<mat-card style="box-shadow: none !important; overflow: hidden !important" class="pl-0 pr-0 pt-0">
+  <mat-card-content class="pl-0 pr-0 pb-0"  [ngClass]="{'mat-elevation-z1': adPanel}">
+    <div  [ngClass]="{'mat-elevation-z1': adPanel}" class="pb-4">
+          <div class="creator-title pl-3">
+      Créer des annonces
+    </div>
+    <div class="creator-description pl-3">
+      Créez une annonce maintenant. Votre campagne ne peut pas être diffusée sans annonce.
+    </div>
+    <div style="margin: 0; padding: 0" class="pl-3 mt-2">
+      <div class="d-flex flex-wrap" style="
+    overflow: auto;">
+    <div class="creator-new" [ngStyle]="{'border': (isNewAd && adPanel)?'2px solid #696969;':'1px solid #dadce0;'}" (click)="toggleAdNewAdPanel()">
+      <div class="creator-new-content">
+        <div class="d-flex justify-content-center align-items-center">
+          <mat-icon [ngStyle]="{'color': (isNewAd && adPanel)?'#696969':'#000', 'margin-right': '8px'}" >add</mat-icon>
+          <span [ngStyle]="{'color': (isNewAd && adPanel)?'#696969':'#000'}">Nouvelle annonce</span>
+        </div>
+      </div>
+    </div>
+    <!-- * -->
+    <div class="creator-preview ml-3" *ngFor="let item of native_before_upload" [id]="item.id">
+      <div clas="creator-preview-container">
+        <img class="creator-img-preview" (click)="editNativeBeforeUpload(item)" [src]="item.uploadedAssets[0].imageUrl" />
+       <!--  <img class="creator-img-preview" [src]="'assets/images/login-bg-2.jpg'" /> -->
+    </div>
+    <div class="image-options animate__animated animate__fadeInUp">
+       <button mat-icon-button matTooltip="Dupliquer" [matTooltipShowDelay]="'1000'"  (click)="duplicateAd(item)"> <mat-icon>content_copy</mat-icon> </button>
+      <button mat-icon-button  matTooltip="Supprimer" [matTooltipShowDelay]="'1000'" (click)="showDeleteAd(item)"> <mat-icon  >delete</mat-icon> </button>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <mat-card class="pt-0 pb-0 creator-main-container"   style="box-shadow: none !important; border-top: 1px solid rgba(0,0,0,.12);" *ngIf="adPanel">
+      
+      <div class="row native-ads" >
+        <div class="col-md-5 pt-5" style="border-right: 1px solid rgba(0,0,0,.12);">
+          <form [formGroup]="secondFormGroup">
+            <div id="creator-main-container">
+    
+              <section class="image-section mb-3">
+                <header class="d-flex flex-column align-items-start justify-content-center" style="text-align: left;">
+                  <span style="font-weight: 500; font-size: 13px">Images et logos</span>
+                  <span style="font-weight: 400; font-size: 12px">
+                    Ajoutez deux images ou plus (une au format carré et une au format paysage sont obligatoires)
+                  </span>
+                  <ng-container *ngIf="!rectangleExist && !squareExist && rectangleExist!==null && squareExist!==null">
+                    <span style="font-weight: 400; font-size: 12px" class="text-danger">
+                      Vous devez ajouter au moins une image en mode paysage
+                    </span>
+                    <span style="font-weight: 400; font-size: 12px" class="text-danger">
+                      Vous devez ajouter au moins une image carrée
+                    </span>
+                  </ng-container>
+                  <ng-container *ngIf="!rectangleExist && squareExist && rectangleExist!==null && squareExist!==null">
+                    <span style="font-weight: 400; font-size: 12px" class="text-danger">
+                      Vous devez ajouter au moins une image en mode paysage
+                    </span>
+                  </ng-container>
+                  <ng-container *ngIf="rectangleExist && !squareExist && rectangleExist!==null && squareExist!==null">
+                    <span style="font-weight: 400; font-size: 12px" class="text-danger">
+                      Vous devez ajouter au moins une image carrée
+                    </span>
+                  </ng-container>
+    
+    
+                </header>
+                <div class="image-slot-wrapper">
+                  <div class="image-slot-content">
+                    <ng-container
+                      *ngIf="finalCroppedImageFromWebsiteList.length>0 || finalCroppedImageList.length>0 || finalCroppedAssetList.length>0">
+                      <ng-container *ngFor="let item of allCombinedAssets">
+                        <ng-container *ngIf="item.usage==='image'">
+                          <ng-container *ngIf="item.images.imageRect.urlString!==''" >
+                            <div class="marketing-image-slot asset-slot" style="max-width: 110px;"  (click)="setImagePreview(item.images.imageRect.urlString)">
+                              <div class="slot-content">
+                                <div class="media-preview">
+                                  <img [src]="safeUrl(item.images.imageRect.urlString)" style="max-width: 100%">
+                                </div>
+                              </div>
+                            </div>
+                          </ng-container>
+                          <ng-container *ngIf="item.images.imageSqr.urlString!==''">
+                            <div class="marketing-image-slot asset-slot" style="max-width: 50px;">
+                              <div class="slot-content">
+                                <div class="media-preview">
+                                  <img [src]="safeUrl(item.images.imageSqr.urlString)" style="max-width: 100%">
+                                </div>
+                              </div>
+                            </div>
+                          </ng-container>
+                        </ng-container>
+                        <ng-container *ngIf="item.usage==='logo'">
+                          <ng-container *ngIf="item.images.imageRect.urlString!==''"  (click)="setLogoPreview(item.images.imageRect.urlString)">
+                            <div class="marketing-image-slot asset-slot" style="max-width: 50px;">
+                              <div class="slot-content">
+                                <div class="media-preview">
+                                  <img [src]="safeUrl(item.images.imageRect.urlString)" style="max-width: 100%">
+                                </div>
+                              </div>
+                            </div>
+                          </ng-container>
+                          <ng-container *ngIf="item.images.imageSqr.urlString!==''">
+                            <div class="marketing-image-slot asset-slot" style="max-width: 110px;">
+                              <div class="slot-content">
+                                <div class="media-preview">
+                                  <img [src]="safeUrl(item.images.imageSqr.urlString)" style="max-width: 100%">
+                                </div>
+                              </div>
+                            </div>
+                          </ng-container>
+                        </ng-container>
+    
+    
+    
+                      </ng-container>
+                      <div class="pl-2 pb-4 col-md-3">
+                        <button mat-icon-button (click)="responiveDisplayAdDialog.show()">
+                          <mat-icon>edit</mat-icon>
+                        </button>
+    
+                      </div>
+    
+                    </ng-container>
+    
+                  </div>
+    
+                  <button mat-button color="primary" (click)="responiveDisplayAdDialog.show()"
+                    *ngIf="allCombinedAssets.length===0" class="mt-2 mb-2 text-left"
+                    style="max-width: 200px; height: 35px;" >
+                    <mat-icon>add</mat-icon> IMAGES ET LOGOS
+                  </button>
+                </div>
+              </section>
+    
+              <section class="image-section mb-3 mt-4">
+                <header class="d-flex flex-column align-items-start justify-content-center" style="text-align: left;">
+                  <span style="font-weight: 500; font-size: 13px">Vidéos</span>
+                  <span style="font-weight: 400; font-size: 12px">
+                    facultatif, 5 au maximum
+                  </span>
+                </header>
+                <div class="image-slot-wrapper">
+                  <div class="image-slot-content">
+                     <ng-container
+                      *ngIf="finalVideosSelectedFromSearch.length>0 || finalVideosSelectedFromRecent.length">
+                      <ng-container *ngFor="let item of allCombinedVideos">
+                            <div class="marketing-image-slot asset-slot" style="max-width: 110px;" (click)="setVideoPreview(item.videoId)">
+                              <div class="slot-content">
+                                <div class="media-preview">
+                                  <img [src]="item.thumbnails" style="max-width: 100%" [id]="'video-preview-'+item.videoId">
+                                </div>
+                              </div>
+                            </div>
+                      </ng-container>
+                      <div class="pl-2 pb-4 col-md-3">
+                        <button mat-icon-button (click)="selectVideosAdDialog.show()">
+                          <mat-icon>edit</mat-icon>
+                        </button>
+    
+                      </div>
+    
+                    </ng-container>
+    
+                  </div>
+    
+                  <button mat-button color="primary" (click)="selectVideosAdDialog.show()"
+                    *ngIf="finalVideosSelectedFromSearch.length===0 && finalVideosSelectedFromRecent.length===0" class="mt-2 mb-2 text-left"
+                    style="max-width: 200px; height: 35px;">
+                    <mat-icon>add</mat-icon> VIDEOS
+                  </button>
+                </div>
+              </section>
+    
+              <div class="d-flex flex-column justify-content-start align-items-start mb-3" style="width: 100%">
+                <div class="d-flex justify-content-center align-items-start">
+                  <span style="font-weight: 500; font-size: 13px;">Titres (jusqu'à 5)</span>
+                  <mat-icon
+                    style="font-size: 18px; font-weight: 400;   cursor: pointer;  height: 1em; line-height: 1; color: rgba(0,0,0,.54);"
+                    [mdePopoverTriggerFor]="popoverHelperTitle" mdePopoverTriggerOn="hover">help_outline</mat-icon>
+                  <mde-popover #popoverHelperTitle="mdePopover" [mdePopoverOverlapTrigger]="false"
+                    [mdePopoverCloseOnClick]="false" [mdePopoverArrowWidth]=0 [mdePopoverPositionY]="'below'"
+                    [mdePopoverPositionX]='"after"' [mdePopoverEnterDelay]=1000>
+                    <mat-card class="card-helper mat-elevation-z4">
+    
+                      <mat-card-content>
+                        <div class="helper-topic">
+                          Le titre correspond à la première ligne de votre annonce. Il peut comprendre jusqu'à 30
+                          caractères. Vous pouvez ajouter jusqu'à trois titres qui seront combinés à vos autres éléments
+                          afin de générer des annonces. La longueur du titre affiché dépend du site sur lequel il apparaît.
+                          S'il doit être raccourci, il se termine par des points de suspension.
+                        </div>
+                      </mat-card-content>
+    
+                    </mat-card>
+                  </mde-popover>
+                </div>
+    
+                <ng-container *ngFor="let title of titlesItem.controls; index as i">
+                  <form [formGroup]="title" (mouseenter)="formOveredTitle('title-remove-'+i)" (mouseleave)="formLeaved('title-remove-'+i)" style="width: 100%">
+                    <mat-form-field [floatLabel]="'never'" appearance="legacy" >
+                      <input matInput #inputUrl [formControl]="title['controls'].title" placeholder="Titre" (keyup)="getTitles(i)" maxlength="30"
+                        autofocus>
+                      <mat-hint align="end">{{title['controls'].title.value?.length || 0}}/30</mat-hint>
+                      <button mat-icon-button matSuffix class="float-rignt d-none" [id]="'title-remove-'+i" (click)="removeTitles(i)">
+                        <mat-icon style="font-size: 18px; ">close</mat-icon>
+                      </button>
+                      <mat-error *ngIf="title!==undefined && title['controls'].title.hasError('required')">Ce champ ne peut
+                        être vide.</mat-error>
+                    </mat-form-field>
+    
+                  </form>
+    
+                </ng-container>
+                <button mat-button *ngIf="titlesItem.controls.length!==5" color="primary" class="mt-1" (click)="addTitles()">
+                  <mat-icon>add</mat-icon>&nbsp;TITRE
+                </button>
+    
+                <mat-form-field [floatLabel]="'never'" appearance="legacy"  class="mt-3">
+                  <input matInput #inputUrl [formControl]="longHeadline" placeholder="Titre long" maxlength="90" (keyup)="getLongHeadline()">
+                  <mat-hint align="end">{{longHeadline.value?.length || 0}}/90</mat-hint>
+                  <mat-icon matSuffix style="font-size: 18px; font-weight: 400;  color: rgba(0,0,0,.54); cursor: pointer"
+                    [mdePopoverTriggerFor]="popoverHelperLongHeadline" mdePopoverTriggerOn="hover">help_outline</mat-icon>
+                  <mat-error *ngIf="longHeadline.touched && longHeadline.hasError('required')">Ce champ ne peut être vide.</mat-error>
+                </mat-form-field>
+                <mde-popover #popoverHelperLongHeadline="mdePopover" [mdePopoverOverlapTrigger]="false"
+                  [mdePopoverCloseOnClick]="false" [mdePopoverArrowWidth]=0 [mdePopoverPositionY]="'below'"
+                  [mdePopoverPositionX]='"after"' [mdePopoverEnterDelay]=1000>
+                  <mat-card class="card-helper mat-elevation-z4">
+    
+                    <mat-card-content>
+                      <div class="helper-topic">
+                        Le titre long est la première ligne de votre annonce, il est affiché à la place de votre titre court
+                        dans les annonces plus grandes. Les titres longs peuvent inclure jusqu'à 90 caractères, et
+                        apparaissent avec ou sans votre description.
+                      </div>
+                    </mat-card-content>
+    
+                  </mat-card>
+                </mde-popover>
+              </div>
+              <div class="d-flex flex-column justify-content-start align-items-start mb-3 mt-5" style="width: 100%">
+                <div class="d-flex justify-content-center align-items-start">
+                  <span style="font-weight: 500; font-size: 13px;">Descriptions (jusqu'à 5)</span>
+                  <mat-icon style="font-size: 18px; font-weight: 400;  cursor: pointer;  height: 1em; line-height: 1;
+    width: 1em;  color: rgba(0,0,0,.54);" [mdePopoverTriggerFor]="popoverHelperDescription" mdePopoverTriggerOn="hover">
+                    help_outline</mat-icon>
+                  <mde-popover #popoverHelperDescription="mdePopover" [mdePopoverOverlapTrigger]="false"
+                    [mdePopoverCloseOnClick]="false" [mdePopoverArrowWidth]=0 [mdePopoverPositionY]="'below'"
+                    [mdePopoverPositionX]='"after"' [mdePopoverEnterDelay]=1000>
+                    <mat-card class="card-helper mat-elevation-z4">
+    
+                      <mat-card-content>
+                        <div class="helper-topic">
+                          La description s'ajoute au titre et fournit du contexte ou des détails supplémentaires. Elle peut
+                          comprendre jusqu'à 90 caractères et apparaître après le titre. Vous pouvez ajouter jusqu'à cinq
+                          descriptions qui seront combinées à l'un de vos titres pour générer vos annonces.
+                        </div>
+                      </mat-card-content>
+    
+                    </mat-card>
+                  </mde-popover>
+                </div>
+    
+                <ng-container *ngFor="let description of descriptionsItem.controls; index as i">
+                  <form [formGroup]="description" (mouseenter)="formOveredDescription('description-remove-'+i)" (mouseleave)="formLeaved('description-remove-'+i)"
+                    style="width: 100%">
+                    <mat-form-field [floatLabel]="'never'" appearance="legacy" >
+                      <input matInput #inputUrl (keyup)="getDescriptions(i)" [formControl]="description['controls'].description"
+                        placeholder="Description" maxlength="90" autofocus>
+                      <mat-hint align="end">{{description['controls'].description.value?.length || 0}}/90</mat-hint>
+                      <button mat-icon-button matSuffix class="float-rignt d-none" [id]="'description-remove-'+i"
+                        (click)="removeDescriptions(i)">
+                        <mat-icon style="font-size: 18px; ">close</mat-icon>
+                      </button>
+                      <mat-error
+                        *ngIf="description!==undefined && description['controls'].description.hasError('required')">Ce champ
+                        ne peut être vide.</mat-error>
+                    </mat-form-field>
+    
+                  </form>
+    
+                </ng-container>
+                <button mat-button color="primary" class="mt-1" (click)="addDescriptions()" *ngIf="descriptionsItem.controls.length!==5">
+                  <mat-icon>add</mat-icon>&nbsp;DESCRIPTION
+                </button>
+    
+    
+    
+    
+              </div>
+              <div class="d-flex flex-column justify-content-start align-items-start mb-3 mt-5" style="width: 100%">
+                <mat-form-field [floatLabel]="'never'" appearance="legacy"  class="mt-3">
+                  <input matInput #inputUrl [formControl]="brandItem" placeholder="Nom de l'entreprise" maxlength="25" (keyup)="getBrand()">
+                  <mat-hint align="end">{{brandItem.value?.length || 0}}/90</mat-hint>
+                  <mat-icon matSuffix style="font-size: 18px; font-weight: 400;  color: rgba(0,0,0,.54); cursor: pointer"
+                    [mdePopoverTriggerFor]="popoverHelperBrand" mdePopoverTriggerOn="hover">help_outline</mat-icon>
+                </mat-form-field>
+                <mde-popover #popoverHelperBrand="mdePopover" [mdePopoverOverlapTrigger]="false"
+                  [mdePopoverCloseOnClick]="false" [mdePopoverArrowWidth]=0 [mdePopoverPositionY]="'below'"
+                  [mdePopoverPositionX]='"after"' [mdePopoverEnterDelay]=1000>
+                  <mat-card class="card-helper mat-elevation-z4">
+    
+                    <mat-card-content>
+                      <div class="helper-topic">
+                        Le nom de l'établissement correspond au nom de votre entreprise ou de votre marque. Avec certaines
+                        mises en page, il peut être affiché dans le texte de vos annonces.
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
+                </mde-popover>
+    
+              </div>
+    
+    
+            </div>
+    
+          </form>
+        </div>
+        <div class="col-md-7 pl-0 pr-0" style="background: whitesmoke; overflow: auto">
+
+          <mat-accordion>
+  <mat-expansion-panel (opened)="panelEfficacityOpenState = true"
+                       (closed)="panelEfficacityOpenState = false" class="efficacity-panel" [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <span style="color: rgba(0,0,0,.54);font-size: 15px;">Efficacité de l'annonce</span>
+      </mat-panel-title>
+      <mat-panel-description>
+       <!--  Currently I am {{panelEfficacityOpenState ? 'open' : 'closed'}} -->
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+   <div class="d-flex" style="width: 100%;">
+    <div class="d-flex justify-content-center align-items-center" style="flex-basis: 30%;">
+      <mat-spinner 
+          [mode]="'determinate'" [diameter]="100" class="position-absolute spinner-null" [value]="100">
+      </mat-spinner>
+      <mat-spinner 
+          [mode]="'determinate'" [diameter]="100" class="position-absolute" color="primary" [value]="percent">
+      </mat-spinner>
+     <!--  <mat-spinner
+        [mode]="'determinate'" [value]="spinnerEfficacityValue" color="primary">
+      </mat-spinner> -->
+      <span style="color: rgba(0,0,0,.87);font-size: 15px;font-weight: 500; margin-top: 7rem">{{textStatusEfficacity}}</span>
+      </div>
+      <div class="d-flex flex-column justify-content-start align-items-center ml-md-2" style="flex-basis: 70%;">
+        <div class="d-flex justify-content-start align-items-center" style="border-width: 0 0 2px; width: 100%; border-color: rgba(0,0,0,.12);
+    border-style: solid;">
+          <div class="d-flex justify-content-start align-items-center" style="text-align: left; font-size: 13px; margin: 8px; min-width: 300px">
+           
+              <span *ngIf="itemsGuide[guidIndex]!==undefined">{{itemsGuide[guidIndex].text}}</span>
+    
+          </div>
+              <div class="d-flex justify-content-end align-items-center">
+                <button mat-icon-button  [disabled]="guidIndex===0" (click)="previousGuideItem()"><mat-icon>chevron_left</mat-icon></button>
+                <button mat-icon-button  [disabled]="guidIndex===itemsGuide.length-1" (click)="nextGuideItem()"><mat-icon>chevron_right</mat-icon></button>
+              </div>
+        </div>
+        <div class="d-flex flex-column justify-content-center align-items-start" style="width: 100%; margin: 8px">
+          <div class="d-flex justify-content-start align-items-center">
+            <mat-spinner
+              [mode]="'determinate'" [diameter]="20" color="primary" [value]="100" class="spinner-null">
+          </mat-spinner>
+          <ng-container *ngIf="getOnlyImageEvolution()===50">
+            <mat-spinner
+              [mode]="'determinate'" [diameter]="20" color="primary" [value]="50" class="position-absolute">
+          </mat-spinner>
+          </ng-container>
+          <ng-container *ngIf="getOnlyImageEvolution()===100">
+              <mat-icon class="text-success position-absolute" style="width: 20px; height: 20px; font-size: 20px">check_circle_outline</mat-icon>
+          </ng-container>
+      <span style="font-size: 12px;" class="ml-3">Images</span>
+          </div>
+          <div class="d-flex justify-content-start align-items-center">
+           <!-- <ng-container *ngIf="titlesAssets.length===0">
+         
+                 <mat-spinner
+          [mode]="'determinate'" [diameter]="20" class="spinner-null" [value]="100">
+      </mat-spinner>
+         
+              </ng-container> -->
+               <mat-spinner 
+          [mode]="'determinate'" [diameter]="20" class="spinner-null" [value]="100">
+      </mat-spinner>
+              <ng-container *ngIf="titlesAssets.length!==0">
+                <ng-container *ngIf="((titlesAssets.length*100)/5) as result">
+                  
+                  
+                  <ng-container *ngIf="result===20">
+                     <mat-spinner
+              [mode]="'determinate'" [diameter]="20" color="warn" [value]="result" class="position-absolute">
+          </mat-spinner>
+                  </ng-container>
+                   <ng-container *ngIf="result===40">
+                     <mat-spinner
+              [mode]="'determinate'" [diameter]="20" color="primary" [value]="result" class="position-absolute">
+         
+          </mat-spinner>
+                  </ng-container>
+                   <ng-container *ngIf="result===60">
+                     <mat-spinner
+              [mode]="'determinate'" [diameter]="20" color="primary" [value]="result" class="position-absolute">
+              
+          </mat-spinner>
+                  </ng-container>
+                   <ng-container *ngIf="result===80">
+                     <mat-spinner
+              [mode]="'determinate'" [diameter]="20" class="position-absolute success-spinner" [value]="result" >   
+          </mat-spinner>
+                  </ng-container>
+                   <ng-container *ngIf="result===100">
+                    <mat-icon class="text-success position-absolute" style="width: 20px; height: 20px; font-size: 20px">check_circle_outline</mat-icon>
+                  </ng-container>
+                 
+                </ng-container>
+
+              </ng-container>
+            <span style="font-size: 12px;" class="ml-3">Titres</span>
+          </div>
+          <div class="d-flex justify-content-start align-items-center">
+            <mat-spinner 
+          [mode]="'determinate'" [diameter]="20" class="spinner-null" [value]="100">
+      </mat-spinner>
+           <!--  <ng-container *ngIf="descriptionsAssets.length===0">
+              <mat-spinner
+          [mode]="'determinate'" [diameter]="20" class="spinner-null" [value]="100">
+      </mat-spinner>
+            </ng-container> -->
+             <ng-container *ngIf="descriptionsAssets.length!==0">
+               <ng-container *ngIf="((descriptionsAssets.length*100)/5) as result">
+                
+                  <ng-container *ngIf="result===20">
+                     <mat-spinner
+              [mode]="'determinate'" [diameter]="20" color="warn" [value]="result" class="position-absolute">
+          </mat-spinner>
+                  </ng-container>
+                   <ng-container *ngIf="result===40">
+                     <mat-spinner
+              [mode]="'determinate'" [diameter]="20" color="primary" [value]="result" class="position-absolute">
+         
+          </mat-spinner>
+                  </ng-container>
+                   <ng-container *ngIf="result===60">
+                     <mat-spinner
+              [mode]="'determinate'" [diameter]="20" color="primary" [value]="result" class="position-absolute">
+              
+          </mat-spinner>
+                  </ng-container>
+                   <ng-container *ngIf="result===80">
+                     <mat-spinner
+              [mode]="'determinate'" [diameter]="20"  [value]="result" class="position-absolute success-spinner">   
+          </mat-spinner>
+                  </ng-container>
+                   <ng-container *ngIf="result===100">
+                    <mat-icon class="text-success position-absolute" style="width: 20px; height: 20px; font-size: 20px">check_circle_outline</mat-icon>
+                  </ng-container>
+                 
+          </ng-container>
+
+            </ng-container>
+      <span style="font-size: 12px;" class="ml-3">Descriptions</span>
+          </div>
+        </div>
+
+        </div>
+   </div>
+  </mat-expansion-panel>
+</mat-accordion>
+<div class="preview-bar">
+  <div class="title">Prévisualiser</div>
+</div>
+         
+      
+          <adf-responsive-display-preview-simulation></adf-responsive-display-preview-simulation>
+          
+          </div>
+        </div>
+    </mat-card>
+    
+  </mat-card-content>
+  <mat-card-actions align="start" *ngIf="adPanel" class="pl-4 pt-0">
+                  <button mat-button (click)="saveNativeAd()"
+                    color="primary" *ngIf="!spinnerSaveNative">ENREGISTRER</button>
+                     <button mat-button (click)="abortOperation()"
+                    color="primary" *ngIf="!spinnerSaveNative">ANNULER</button>
+                    <mat-spinner
+                      [mode]="'indeterminate'" [diameter]="30" color="primary" *ngIf="spinnerSaveNative">
+                    </mat-spinner>
+                </mat-card-actions>
+
+ 
+
+</mat-card>
+
+
+
+ <ejs-dialog id='reponsiveDisplayAdDialog' (open)="reponsiveDiplayOpen($event)" #responiveDisplayAdDialog
+    showCloseIcon='true' [visible]="visible" [target]="target" [position]='position' [isModal]='isModal'
+    style="top: 3rem; max-width: 992px;">
+    <ng-template #footerTemplate>
+      <div class="row">
+        <div class="col-md-6 pl-5" style="text-align: left">
+          <p style="max-width: 600px; font-size: 12px">
+            En ajoutant une image, vous certifiez que vous détenez tous les droits légaux sur celle-ci et êtes autorisé
+            à
+            la partager avec Adafri et Google afin qu'elle soit utilisée en votre nom dans des annonces ou à d'autres
+            fins
+            commerciales.
+          </p>
+        </div>
+        <div class="col-md-6 pt-3" style="text-align: right">
+         
+          <div style="display: flex; justify-content: flex-end; align-items: center;">
+            <ng-container *ngIf="generalBlock">
+              <button mat-button (click)="responiveDisplayAdDialog.hide()">Annuler</button>
+              <button mat-raised-button color="primary"
+                *ngIf="croppedAssetList.length===0 && croppedImageFromWebsiteList.length===0 && croppedImageList.length===0"
+                disabled>Enregistrer</button>
+              <button mat-raised-button color="primary"
+                *ngIf="croppedAssetList.length>0 || croppedImageFromWebsiteList.length>0 || croppedImageList.length>0"
+                (click)='saveAddBeforeCreateAsset()'>Enregistrer</button>
+            </ng-container>
+            <ng-container *ngIf="cropperImageBlock">
+              <mat-spinner [mode]="'indeterminate'" [diameter]="20" color="primary" *ngIf="isSaving"></mat-spinner>
+              <button mat-button (click)="toggleGeneralBlock()" *ngIf=" !isSaving">RETOUR AUX RESULTATS</button>
+              <ng-container *ngIf="cropRect && cropSqr && !isSaving">
+                <button mat-button color="primary" (click)="saveRectangleAndSquareImage()">ENREGISTRER 2
+                  ELEMENTS</button>
+              </ng-container>
+              <ng-container *ngIf="cropRect && !cropSqr && !isSaving">
+                <button mat-button color="primary" (click)="saveRectangleImage()">ENREGISTRER 1 ELEMENT</button>
+              </ng-container>
+              <ng-container *ngIf="!cropRect && cropSqr && !isSaving">
+                <button mat-button color="primary" (click)="saveSquareImage()">ENREGISTRER 1 ELEMENT</button>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf="cropperLogoBlock">
+              <button mat-button (click)="toggleGeneralBlock()">Annuler</button>
+
+              <button mat-raised-button color="primary" (click)="saveCroppedOnLogoDialog()">Enregistrer</button>
+            </ng-container>
+
+
+          </div>
+
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #content>
+      <div id="canvasContent" *ngIf="generalBlock && !cropperImageBlock">
+        <ejs-tab #tab id="tab_responsive_display_ads" heightAdjustMode="None" (select)="tabSelected($event)"
+          (selecting)='selecting($event)' class="e-fill" enablePersistence=true>
+          <e-tabitems>
+            <e-tabitem [header]='headerText[0]'>
+              <ng-template #content>
+                <div class="upload-tab">
+                  <div class="header-upload">
+                    <div class="headline-upload">
+                      <h2 class="headline-text">Importer des images et des logos conformes à nos exigences ou pouvant
+                        être
+                        recadrés</h2>
+                    </div>
+                  </div>
+                  <div class="control-section-1">
+
+                    <div class="control_wrapper dropzone-container">
+                      <div class='imagepreview dropzone-sub-container'>
+                        <div id='dropArea' class="text-center dropzone-content" style='height: auto'>
+                          <input type="file" #upload id="file" (change)="onFileChange($event)" multiple hidden />
+                          <div class="initial-upload-content" *ngIf="imageList.length===0">
+                            <div class="text-center">
+                              <p style="font-size: 20px; font-weight: 500; color: #9aa0a6;">Importer ici vos éléments
+                              </p>
+                            </div>
+                            <button mat-raised-button color="primary" (click)="upload.click()">Sélectionner les fichiers
+                              à
+                              importer</button>
+                          </div>
+                          <div class="previews">
+                            <div class="gallery-selector-container mb-5 align-items-center">
+                              <mat-card class="card-asset" [ngClass]="{'selected': checkExist(asset.id)}"
+                                *ngFor="let asset of imageList; let i = index" id="asset-{{asset.id}}">
+                                <mat-card-content>
+                                  <div class="asset-container-preview">
+                                    <div class="asset-preview">
+                                      <img mat-card-img id="img-{{asset.id}}" [src]="asset.url" class="asset-img">
+                                    </div>
+                                  </div>
+                                  <div class="secondary-action-info-container">
+                                    <div class="asset-indicator">
+                                      <mat-icon class="btn-checked">check_circle</mat-icon>
+                                      <mat-icon class="btn-remove-checked" (click)="removeSelectedImageBase64(asset)">
+                                        cancel
+                                      </mat-icon>
+                                    </div>
+
+                                  </div>
+                                </mat-card-content>
+                                <mat-card-actions>
+                                  <div class="asset-info-container">
+
+                                    <div class="metadata-container">
+                                      <div class="image-asset-metadata">
+                                        <ng-container *ngIf="checkExist(asset.id) as exist">
+                                          <span *ngIf="checkTextToDisplay(asset.id) as result">{{result}}</span>
+                                        </ng-container>
+                                        <ng-container *ngIf="!checkExist(asset.id) as exist">
+                                          <span *ngIf="DOCUMENT.getElementById('asset-'+asset.id)!==null">{{DOCUMENT.getElementById('asset-'+asset.id).getElementsByTagName('img')[0]['naturalWidth']}}
+                                            x
+                                            {{DOCUMENT.getElementById('asset-'+asset.id).getElementsByTagName('img')[0]['naturalHeight']}}</span>
+
+                                        </ng-container>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="action-block">
+                                    <ng-container *ngIf="checkExist(asset.id) as exist">
+                                      <ng-container *ngIf="exist">
+                                        <span style="font-size: 13px; font-weight: 600; cursor: pointer;"
+                                          (click)="editImageBase64Usage(asset, DOCUMENT.getElementById('asset-'+asset.id).getElementsByTagName('img')[0]['naturalWidth'], DOCUMENT.getElementById('asset-'+asset.id).getElementsByTagName('img')[0]['naturalHeight'])">Modifier
+                                          la sélection</span>
+                                      </ng-container>
+                                    </ng-container>
+                                    <ng-container *ngIf="!checkExist(asset.id) as exist">
+                                      <span style="font-size: 13px; font-weight: 600; cursor: pointer;"
+                                        (click)="selectImageBase64Usage(asset, DOCUMENT.getElementById('asset-'+asset.id).getElementsByTagName('img')[0]['naturalWidth'], DOCUMENT.getElementById('asset-'+asset.id).getElementsByTagName('img')[0]['naturalHeight'])">Utiliser
+                                        l'image</span>
+                                    </ng-container>
+
+
+                                  </div>
+                                </mat-card-actions>
+                              </mat-card>
+                              <div class="add-button" title="Ajouter un fichier" *ngIf="imageList.length>0"
+                                (click)="upload.click()">
+                                <mat-icon style="font-size: 48px; width: 48px">add</mat-icon>
+                                <span class="mt-4">Ajouter</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </e-tabitem>
+            <e-tabitem [header]='headerText[1]'>
+              <ng-template #content>
+                <div class="gallery-selection-wrapper">
+                  <div class="gallery-selection-header">
+                    <div class="title">
+                      <h2>Sélectionnez des images et des logos que vous avez récemment utilisés dans votre compte, en
+                        veillant à ce qu'ils respectent les exigences</h2>
+                    </div>
+                  </div>
+                  <div class="gallery-body">
+                    <ng-container *ngIf="assets.length===0 && !spinnerSearchAsset">
+                      <div class="row mt-5 mb-2 w-100">
+                        <div class="col-md-12 p-5 d-flex w-100 justify-content-center align-items-center flex-column" >
+                          <img src="assets/svg/no-images.svg" style="opacity: 0.4;" alt="" srcset="" class="img-fluid" >
+                          <h5 class="mt-2" style="opacity: 0.4;">Aucune image dans votre gallerie</h5>
+                        </div>
+                      </div>
+                    </ng-container>
+                    <ng-container *ngIf="spinnerSearchAsset">
+                      <div class="row mt-5 mb-2 w-100">
+                        <div class="col-md-12 p-5 text-center">
+                          <mat-spinner class="d-inline-block" [diameter]="30" color="primary"></mat-spinner>
+                          <p>Recherche d'images en cours...</p>
+                        </div>
+                      </div>
+                    </ng-container>
+                    <div class="gallery-selector-container mb-5">
+                      <mat-card class="card-asset" [ngClass]="{'selected': checkExistAsset(asset.id)}"
+                        *ngFor="let asset of assets" id={{asset.id}}>
+                        <mat-card-content>
+                          <div class="asset-container-preview">
+                            <div class="asset-preview">
+                              <img mat-card-img [src]="asset.imageUrl" class="asset-img">
+                            </div>
+                          </div>
+                          <div class="secondary-action-info-container">
+                            <div class="asset-indicator">
+                              <mat-icon class="btn-checked">check_circle</mat-icon>
+                              <mat-icon class="btn-remove-checked" (click)="removeSelectedAsset(asset)">cancel
+                              </mat-icon>
+                            </div>
+
+                          </div>
+                        </mat-card-content>
+                        <mat-card-actions>
+                          <div class="asset-info-container">
+
+                            <div class="metadata-container">
+                              <div class="image-asset-metadata">
+                                <ng-container *ngIf="checkExistAsset(asset.id) as exist">
+                                  <span *ngIf="checkTextAssetToDisplay(asset.id) as result">{{result}}</span>
+                                </ng-container>
+                                <ng-container *ngIf="!checkExistAsset(asset.id) as exist">
+                                  <span>{{asset.width}}
+                                    x
+                                    {{asset.height}}</span>
+
+                                </ng-container>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="action-block">
+                            <ng-container *ngIf="checkExistAsset(asset.id) as exist">
+                              <ng-container *ngIf="exist">
+                                <span style="font-size: 13px; font-weight: 600; cursor: pointer;"
+                                  (click)="editImageUsage(asset, asset.width, asset.height)">Modifier la
+                                  sélection</span>
+                              </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="!checkExistAsset(asset.id) as exist">
+                              <span style="font-size: 13px; font-weight: 600; cursor: pointer;"
+                                (click)="selectImageUsage(asset, asset.width, asset.height)">Utiliser
+                                l'image</span>
+                            </ng-container>
+
+
+                          </div>
+                        </mat-card-actions>
+                      </mat-card>
+                    </div>
+                  </div>
+                </div>
+
+
+              </ng-template>
+            </e-tabitem>
+            <e-tabitem [header]='headerText[2]'>
+              <ng-template #content>
+                <div class="search-selection-wrapper">
+                  <div class="search-selection-header">
+                    <div class="search-title">
+                      <h2>Rechercher vos images</h2>
+                      <mat-form-field appearance="legacy" [floatLabel]="'never'" class="search-input"
+                        >
+                        <input matInput #inputSearch 
+                          placeholder="Copier/coller l'url de votre site web ou effectuez une recherche par mots" autocomplete="off"
+                          id="search" [formControl]="searchUrl" class="pl-3" />
+                       
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="search-body">
+
+
+                   
+                    <div class="scannner-container-default" *ngIf="imageSearchFromWebsite!==null &&  imageSearchFromWebsite.length===0 && !scannerBar">
+                      <img class="img-fluid" style="max-height: 250px;" [src]="'assets/images/website-preview.png'">
+                    </div>
+                  <!--   <ng-container *ngIf="websiteNotScannable">
+                      <div class="scannner-container-default">
+                        <div class="d-flex justify-content-center align-items-center" style="width: 100%">
+                          <h4>Site web inaccessible.</h4>
+                        </div>
+                      </div>
+                    </ng-container> -->
+                    <div class="scannner-container" *ngIf="scannerBar">
+                      <span class="scanner-bar"></span>
+                   
+                    </div>
+                    <div class="search-selector-container mb-5" *ngIf="!scannerBar">
+                      <ng-container *ngFor="let asset of imageSearchFromWebsite; let i=index">
+                   
+                        <mat-card class="card-asset" [ngClass]="{'selected': checkExistFromWebsite(asset.id)}"
+                           id="{{asset.id}}">
+                          <mat-card-content>
+                            <div class="asset-container-preview">
+                              <div class="asset-preview">
+  
+                                <img mat-card-img [src]="safeUrl(asset.url)" class="asset-img" id="image-{{asset.id}}">
+  
+                              </div>
+                            </div>
+                            <div class="secondary-action-info-container">
+                              <div class="asset-indicator">
+                                <mat-icon class="btn-checked">check_circle</mat-icon>
+                                <mat-icon class="btn-remove-checked" (click)="removeSelectedFromWebsite(asset)">cancel
+                                </mat-icon>
+                              </div>
+  
+                            </div>
+                          </mat-card-content>
+                          <mat-card-actions>
+                            <div class="asset-info-container">
+  
+                              <div class="metadata-container">
+                                <div class="image-asset-metadata">
+                                  <ng-container *ngIf="checkExistFromWebsite(asset.id) as exist">
+                                    <span *ngIf="checkTextToDisplayFromWebsite(asset.id) as result">{{result}}</span>
+                                  </ng-container>
+                                  <ng-container *ngIf="!checkExistFromWebsite(i) as exist">
+                                    <span *ngIf="DOCUMENT.getElementById(asset.id)!==undefined && DOCUMENT.getElementById(asset.id)!==null"><span>{{DOCUMENT.getElementById(asset.id).getElementsByTagName('img')[0]['naturalWidth']}}
+                                        x
+                                        {{DOCUMENT.getElementById(asset.id).getElementsByTagName('img')[0]['naturalHeight']}}</span></span>
+  
+                                  </ng-container>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="action-block">
+                              <ng-container *ngIf="checkExistFromWebsite(asset.id) as exist">
+                                <ng-container *ngIf="exist">
+                                  <span *ngIf="DOCUMENT.getElementById(asset.id)!==undefined && DOCUMENT.getElementById(asset.id)!==null"
+                                    (click)="editImageUsageFromWebsite(asset, DOCUMENT.getElementById(asset.id).getElementsByTagName('img')[0]['naturalWidth'],DOCUMENT.getElementById(asset.id).getElementsByTagName('img')[0]['naturalHeight'])"
+                                    style="font-size: 13px; font-weight: 600; cursor: pointer;">Modifier la
+                                    sélection</span>
+                                </ng-container>
+                              </ng-container>
+                              <ng-container *ngIf="!checkExistFromWebsite(asset.id) as exist">
+                                <span *ngIf="DOCUMENT.getElementById(asset.id)!==undefined && DOCUMENT.getElementById(asset.id)!==null"
+                                  (click)="selectImageUsageFromWebsite(asset, DOCUMENT.getElementById(asset.id).getElementsByTagName('img')[0]['naturalWidth'],DOCUMENT.getElementById(asset.id).getElementsByTagName('img')[0]['naturalHeight'])"
+                                  style="font-size: 13px; font-weight: 600; cursor: pointer;">Utiliser
+                                  l'image</span>
+                              </ng-container>
+  
+  
+                            </div>
+                          </mat-card-actions>
+                        </mat-card>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </e-tabitem>
+
+            <e-tabitem [header]='headerText[3]'>
+              <ng-template #content>
+                <div class="element-selection-wrapper">
+                  <div class="element-selection-header">
+                    <div class="element-title">
+                      <h2>Ces éléments sont sélectionnés pour votre annonce</h2>
+                    </div>
+                  </div>
+                  <div class="element-body">
+                    <div class="asset-container-first">
+                      <h2 class="sub-header">Images ({{ onlyImagesLength()}}/15)</h2>
+                      <div class="asset-container">
+                        <ng-container *ngIf="croppedImageList.length>0">
+                          <ng-container *ngFor="let asset of croppedImageList; let i=index">
+                            <ng-container *ngIf="asset.usage==='image'">
+                              <mat-card class="card-asset" [ngClass]="{'selected': checkExist(asset.id)}"
+                                id="asset-{{asset.id}}">
+                                <mat-card-content>
+                                  <div class="asset-container-preview">
+                                    <div class="asset-preview">
+                                      <img mat-card-img id="img-{{asset.id}}" [src]="asset.url" class="asset-img">
+                                    </div>
+                                  </div>
+                                  <div class="secondary-action-info-container">
+                                    <div class="asset-indicator">
+                                      <mat-icon class="btn-checked">check_circle</mat-icon>
+                                      <mat-icon class="btn-remove-checked" (click)="removeSelectedImageBase64(asset)">
+                                        cancel
+                                      </mat-icon>
+                                    </div>
+
+                                  </div>
+                                </mat-card-content>
+                                <mat-card-actions>
+                                  <div class="asset-info-container">
+
+                                    <div class="metadata-container">
+                                      <div class="image-asset-metadata">
+                                        <ng-container *ngIf="checkExist(asset.id) as exist">
+                                          <span *ngIf="checkTextToDisplay(asset.id) as result">{{result}}</span>
+                                        </ng-container>
+                                        <ng-container *ngIf="!checkExist(asset.id) as exist">
+                                          <span *ngIf="DOCUMENT.getElementById('asset-'+asset.id)!==undefined">{{DOCUMENT.getElementById('asset-'+asset.id).getElementsByTagName('img')[0]['naturalWidth']}}
+                                            x
+                                            {{DOCUMENT.getElementById('asset-'+asset.id).getElementsByTagName('img')[0]['naturalHeight']}}</span>
+
+                                        </ng-container>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="action-block">
+                                    <ng-container *ngIf="checkExist(asset.id) as exist">
+                                      <ng-container *ngIf="exist">
+                                        <span style="font-size: 13px; font-weight: 600; cursor: pointer;" *ngIf="DOCUMENT.getElementById('asset-'+asset.id)!==undefined"
+                                          (click)="editImageBase64Usage(asset, DOCUMENT.getElementById('asset-'+asset.id).getElementsByTagName('img')[0]['naturalWidth'], DOCUMENT.getElementById('asset-'+asset.id).getElementsByTagName('img')[0]['naturalHeight'])">Modifier
+                                          la sélection</span>
+                                      </ng-container>
+                                    </ng-container>
+                                    <ng-container *ngIf="!checkExist(asset.id) as exist">
+                                      <span style="font-size: 13px; font-weight: 600; cursor: pointer;" *ngIf="DOCUMENT.getElementById('asset-'+asset.id)!==undefined"
+                                        (click)="selectImageBase64Usage(asset, DOCUMENT.getElementById('asset-'+asset.id).getElementsByTagName('img')[0]['naturalWidth'], DOCUMENT.getElementById('asset-'+asset.id).getElementsByTagName('img')[0]['naturalHeight'])">Utiliser
+                                        l'image</span>
+                                    </ng-container>
+
+
+                                  </div>
+                                </mat-card-actions>
+                              </mat-card>
+                            </ng-container>
+                          </ng-container>
+
+                        </ng-container>
+                        <ng-container *ngIf="croppedImageFromWebsiteList.length>0">
+                          <ng-container *ngFor="let asset of croppedImageFromWebsiteList; let i=index">
+                            <ng-container *ngIf="asset.usage==='image'">
+                              <mat-card class="card-asset" [ngClass]="{'selected': checkExistFromWebsite(asset.id)}">
+                                <mat-card-content>
+                                  <div class="asset-container-preview">
+                                    <div class="asset-preview">
+
+                                      <img mat-card-img [src]="safeUrl(asset.url)" class="asset-img"
+                                        id="image-{{asset.id}}">
+
+                                    </div>
+                                  </div>
+                                  <div class="secondary-action-info-container">
+                                    <div class="asset-indicator">
+                                      <mat-icon class="btn-checked">check_circle</mat-icon>
+                                      <mat-icon class="btn-remove-checked" (click)="removeSelectedFromWebsite(asset)">
+                                        cancel
+                                      </mat-icon>
+                                    </div>
+
+                                  </div>
+                                </mat-card-content>
+                                <mat-card-actions>
+                                  <div class="asset-info-container">
+
+                                    <div class="metadata-container">
+                                      <div class="image-asset-metadata">
+                                        <ng-container *ngIf="checkExistFromWebsite(asset.id) as exist">
+                                          <span
+                                            *ngIf="checkTextToDisplayFromWebsite(asset.id) as result">{{result}}</span>
+                                        </ng-container>
+                                        <ng-container *ngIf="!checkExistFromWebsite(i) as exist">
+                                          <span *ngIf="DOCUMENT.getElementById(asset.id)!==undefined && DOCUMENT.getElementById(asset.id)!==null"><span>{{DOCUMENT.getElementById(asset.id).getElementsByTagName('img')[0]['naturalWidth']}}
+                                              x
+                                              {{DOCUMENT.getElementById(asset.id).getElementsByTagName('img')[0]['naturalHeight']}}</span></span>
+
+                                        </ng-container>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="action-block">
+                                    <ng-container *ngIf="checkExistFromWebsite(asset.id) as exist">
+                                      <ng-container *ngIf="exist">
+                                        <span *ngIf="DOCUMENT.getElementById(asset.id)!==undefined && DOCUMENT.getElementById(asset.id)!==null"
+                                          (click)="editImageUsageFromWebsite(asset, DOCUMENT.getElementById(asset.id).getElementsByTagName('img')[0]['naturalWidth'],DOCUMENT.getElementById(asset.id).getElementsByTagName('img')[0]['naturalHeight'])"
+                                          style="font-size: 13px; font-weight: 600; cursor: pointer;">Modifier la
+                                          sélection</span>
+                                      </ng-container>
+                                    </ng-container>
+                                    <ng-container *ngIf="!checkExistFromWebsite(asset.id) as exist">
+                                      <span *ngIf="DOCUMENT.getElementById(asset.id)!==undefined && DOCUMENT.getElementById(asset.id)!==null"
+                                        (click)="selectImageUsageFromWebsite(asset, DOCUMENT.getElementById(asset.id).getElementsByTagName('img')[0]['naturalWidth'],DOCUMENT.getElementById(asset.id).getElementsByTagName('img')[0]['naturalHeight'])"
+                                        style="font-size: 13px; font-weight: 600; cursor: pointer;">Utiliser
+                                        l'image</span>
+                                    </ng-container>
+
+
+                                  </div>
+                                </mat-card-actions>
+                              </mat-card>
+                            </ng-container>
+                          </ng-container>
+
+                        </ng-container>
+                        <ng-container *ngIf="croppedAssetList.length>0">
+
+                          <ng-container *ngFor="let asset of croppedAssetList; let i=index">
+                            <ng-container *ngIf="asset.usage==='image'">
+                              <mat-card class="card-asset" [ngClass]="{'selected': checkExistAsset(asset.id)}"
+                                id={{asset.id}}>
+                                <mat-card-content>
+                                  <div class="asset-container-preview">
+                                    <div class="asset-preview">
+                                      <img mat-card-img [src]="asset.url" class="asset-img">
+                                    </div>
+                                  </div>
+                                  <div class="secondary-action-info-container">
+                                    <div class="asset-indicator">
+                                      <mat-icon class="btn-checked">check_circle</mat-icon>
+                                      <mat-icon class="btn-remove-checked" (click)="removeSelectedAsset(asset)">cancel
+                                      </mat-icon>
+                                    </div>
+
+                                  </div>
+                                </mat-card-content>
+                                <mat-card-actions>
+                                  <div class="asset-info-container">
+
+                                    <div class="metadata-container">
+                                      <div class="image-asset-metadata">
+                                        <ng-container *ngIf="checkExistAsset(asset.id) as exist">
+                                          <span *ngIf="checkTextAssetToDisplay(asset.id) as result">{{result}}</span>
+                                        </ng-container>
+                                        <ng-container *ngIf="!checkExistAsset(asset.id) as exist">
+                                          <span>{{asset.width}}
+                                            x
+                                            {{asset.height}}</span>
+
+                                        </ng-container>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="action-block">
+                                    <ng-container *ngIf="checkExistAsset(asset.id) as exist">
+                                      <ng-container *ngIf="exist">
+                                        <span style="font-size: 13px; font-weight: 600; cursor: pointer;"
+                                          (click)="editImageUsage(asset, asset.width, asset.height)">Modifier la
+                                          sélection</span>
+                                      </ng-container>
+                                    </ng-container>
+                                    <ng-container *ngIf="!checkExistAsset(asset.id) as exist">
+                                      <span style="font-size: 13px; font-weight: 600; cursor: pointer;"
+                                        (click)="selectImageUsage(asset, asset.width, asset.height)">Utiliser
+                                        l'image</span>
+                                    </ng-container>
+
+
+                                  </div>
+                                </mat-card-actions>
+                              </mat-card>
+                            </ng-container>
+                          </ng-container>
+                        </ng-container>
+                      </div>
+                    </div>
+                    <div class="asset-container-last">
+                      <h2 class="sub-header">
+                        Logos ({{  onlyLogosLength()}}/5)</h2>
+                      <div class="asset-container">
+                        <ng-container *ngIf="croppedImageList.length>0">
+                          <ng-container *ngFor="let asset of croppedImageList; let i=index">
+                            <ng-container *ngIf="asset.usage==='logo'">
+                              <mat-card class="card-asset" [ngClass]="{'selected': checkExist(asset.id)}"
+                                id="asset-{{asset.id}}">
+                                <mat-card-content>
+                                  <div class="asset-container-preview">
+                                    <div class="asset-preview">
+                                      <img mat-card-img id="img-{{asset.id}}" [src]="asset.url" class="asset-img">
+                                    </div>
+                                  </div>
+                                  <div class="secondary-action-info-container">
+                                    <div class="asset-indicator">
+                                      <mat-icon class="btn-checked">check_circle</mat-icon>
+                                      <mat-icon class="btn-remove-checked" (click)="removeSelectedImageBase64(asset)">
+                                        cancel
+                                      </mat-icon>
+                                    </div>
+
+                                  </div>
+                                </mat-card-content>
+                                <mat-card-actions>
+                                  <div class="asset-info-container">
+
+                                    <div class="metadata-container">
+                                      <div class="image-asset-metadata">
+                                        <ng-container *ngIf="checkExist(asset.id) as exist">
+                                          <span *ngIf="checkTextToDisplay(asset.id) as result">{{result}}</span>
+                                        </ng-container>
+                                        <ng-container *ngIf="!checkExist(asset.id) as exist">
+                                          <span *ngIf="DOCUMENT.getElementById('asset-'+asset.id)!==undefined">{{DOCUMENT.getElementById('asset-'+asset.id).getElementsByTagName('img')[0]['naturalWidth']}}
+                                            x
+                                            {{DOCUMENT.getElementById('asset-'+asset.id).getElementsByTagName('img')[0]['naturalHeight']}}</span>
+
+                                        </ng-container>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="action-block">
+                                    <ng-container *ngIf="checkExist(asset.id) as exist">
+                                      <ng-container *ngIf="exist">
+                                        <span style="font-size: 13px; font-weight: 600; cursor: pointer;" *ngIf="DOCUMENT.getElementById('asset-'+asset.id)!==undefined"
+                                          (click)="editImageBase64Usage(asset, DOCUMENT.getElementById('asset-'+asset.id).getElementsByTagName('img')[0]['naturalWidth'], DOCUMENT.getElementById('asset-'+asset.id).getElementsByTagName('img')[0]['naturalHeight'])">Modifier
+                                          la sélection</span>
+                                      </ng-container>
+                                    </ng-container>
+                                    <ng-container *ngIf="!checkExist(asset.id) as exist">
+                                      <span style="font-size: 13px; font-weight: 600; cursor: pointer;" *ngIf="DOCUMENT.getElementById('asset-'+asset.id)!==undefined"
+                                        (click)="selectImageBase64Usage(asset, DOCUMENT.getElementById('asset-'+asset.id).getElementsByTagName('img')[0]['naturalWidth'], DOCUMENT.getElementById('asset-'+asset.id).getElementsByTagName('img')[0]['naturalHeight'])">Utiliser
+                                        l'image</span>
+                                    </ng-container>
+
+
+                                  </div>
+                                </mat-card-actions>
+                              </mat-card>
+                            </ng-container>
+                          </ng-container>
+
+                        </ng-container>
+                        <ng-container *ngIf="croppedImageFromWebsiteList.length>0">
+                          <ng-container *ngFor="let asset of croppedImageFromWebsiteList; let i=index">
+                            <ng-container *ngIf="asset.usage==='logo'">
+                              <mat-card class="card-asset" [ngClass]="{'selected': checkExistFromWebsite(asset.id)}"
+                                id="{{asset.id}}">
+                                <mat-card-content>
+                                  <div class="asset-container-preview">
+                                    <div class="asset-preview">
+
+                                      <img mat-card-img [src]="safeUrl(asset.url)" class="asset-img"
+                                        id="image-{{asset.id}}">
+
+                                    </div>
+                                  </div>
+                                  <div class="secondary-action-info-container">
+                                    <div class="asset-indicator">
+                                      <mat-icon class="btn-checked">check_circle</mat-icon>
+                                      <mat-icon class="btn-remove-checked" (click)="removeSelectedFromWebsite(asset)">
+                                        cancel
+                                      </mat-icon>
+                                    </div>
+
+                                  </div>
+                                </mat-card-content>
+                                <mat-card-actions>
+                                  <div class="asset-info-container">
+
+                                    <div class="metadata-container">
+                                      <div class="image-asset-metadata">
+                                        <ng-container *ngIf="checkExistFromWebsite(asset.id) as exist">
+                                          <span
+                                            *ngIf="checkTextToDisplayFromWebsite(asset.id) as result">{{result}}</span>
+                                        </ng-container>
+                                        <ng-container *ngIf="!checkExistFromWebsite(i) as exist">
+                                          <span *ngIf="DOCUMENT.getElementById(asset.id)!==undefined && DOCUMENT.getElementById(asset.id)!==null"><span>{{DOCUMENT.getElementById(asset.id).getElementsByTagName('img')[0]['naturalWidth']}}
+                                              x
+                                              {{DOCUMENT.getElementById(asset.id).getElementsByTagName('img')[0]['naturalHeight']}}</span></span>
+
+                                        </ng-container>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="action-block">
+                                    <ng-container *ngIf="checkExistFromWebsite(asset.id) as exist">
+                                      <ng-container *ngIf="exist">
+                                        <span
+                                        *ngIf="DOCUMENT.getElementById(asset.id)!==undefined && DOCUMENT.getElementById(asset.id)!==null"
+                                          (click)="editImageUsageFromWebsite(asset, DOCUMENT.getElementById(asset.id).getElementsByTagName('img')[0]['naturalWidth'],DOCUMENT.getElementById(asset.id).getElementsByTagName('img')[0]['naturalHeight'])"
+                                          style="font-size: 13px; font-weight: 600; cursor: pointer;">Modifier la
+                                          sélection</span>
+                                      </ng-container>
+                                    </ng-container>
+                                    <ng-container *ngIf="!checkExistFromWebsite(asset.id) as exist">
+                                      <span *ngIf="DOCUMENT.getElementById(asset.id)!==undefined && DOCUMENT.getElementById(asset.id)!==null"
+                                        (click)="selectImageUsageFromWebsite(asset, DOCUMENT.getElementById(asset.id).getElementsByTagName('img')[0]['naturalWidth'],DOCUMENT.getElementById(asset.id).getElementsByTagName('img')[0]['naturalHeight'])"
+                                        style="font-size: 13px; font-weight: 600; cursor: pointer;">Utiliser
+                                        l'image</span>
+                                    </ng-container>
+
+
+                                  </div>
+                                </mat-card-actions>
+                              </mat-card>
+                            </ng-container>
+                          </ng-container>
+
+                        </ng-container>
+                        <ng-container *ngIf="croppedAssetList.length>0">
+                          <ng-container *ngFor="let asset of croppedAssetList; let i=index">
+                            <ng-container *ngIf="asset.usage==='logo'">
+                              <mat-card class="card-asset" [ngClass]="{'selected': checkExistAsset(asset.id)}"
+                                id={{asset.id}}>
+                                <mat-card-content>
+                                  <div class="asset-container-preview">
+                                    <div class="asset-preview">
+                                      <img mat-card-img [src]="asset.url" class="asset-img">
+                                    </div>
+                                  </div>
+                                  <div class="secondary-action-info-container">
+                                    <div class="asset-indicator">
+                                      <mat-icon class="btn-checked">check_circle</mat-icon>
+                                      <mat-icon class="btn-remove-checked" (click)="removeSelectedAsset(asset)">cancel
+                                      </mat-icon>
+                                    </div>
+
+                                  </div>
+                                </mat-card-content>
+                                <mat-card-actions>
+                                  <div class="asset-info-container">
+
+                                    <div class="metadata-container">
+                                      <div class="image-asset-metadata">
+                                        <ng-container *ngIf="checkExistAsset(asset.id) as exist">
+                                          <span *ngIf="checkTextAssetToDisplay(asset.id) as result">{{result}}</span>
+                                        </ng-container>
+                                        <ng-container *ngIf="!checkExistAsset(asset.id) as exist">
+                                          <span>{{asset.width}}
+                                            x
+                                            {{asset.height}}</span>
+
+                                        </ng-container>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="action-block">
+                                    <ng-container *ngIf="checkExistAsset(asset.id) as exist">
+                                      <ng-container *ngIf="exist">
+                                        <span style="font-size: 13px; font-weight: 600; cursor: pointer;"
+                                          (click)="editImageUsage(asset, asset.width, asset.height)">Modifier la
+                                          sélection</span>
+                                      </ng-container>
+                                    </ng-container>
+                                    <ng-container *ngIf="!checkExistAsset(asset.id) as exist">
+                                      <span style="font-size: 13px; font-weight: 600; cursor: pointer;"
+                                        (click)="selectImageUsage(asset, asset.width, asset.height)">Utiliser
+                                        l'image</span>
+                                    </ng-container>
+
+
+                                  </div>
+                                </mat-card-actions>
+                              </mat-card>
+                            </ng-container>
+                          </ng-container>
+
+                        </ng-container>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </ng-template>
+            </e-tabitem>
+          </e-tabitems>
+        </ejs-tab>
+      </div>
+      <div id="canvasContent" *ngIf="cropperImageBlock">
+        <adf-cropper-rectangle-dialog (selectionStateRect)="selectionStateRect($event)"
+          (selectionStateSqr)="selectionStateSqr($event)" (saving)="saving($event)"></adf-cropper-rectangle-dialog>
+      </div>
+      <div id="canvasContent" *ngIf="cropperLogoBlock">
+        <adf-cropper-logo-dialog></adf-cropper-logo-dialog>
+      </div>
+    </ng-template>
+    <ng-template #header>
+      <div title="Sélectionnez 15 images et 5 logos à utiliser dans votre annonce
+" class="e-icon-settings dlg-template"> Sélectionnez 15 images et 5 logos à utiliser dans votre annonce
+      </div>
+    </ng-template>
+  </ejs-dialog>
+
+
+  <ejs-dialog id='selectVideosAdDialog' #selectVideosAdDialog showCloseIcon='true' [visible]="visible" [target]="target"
+    [position]='position' [isModal]='isModal' style="top: 3rem; max-width: 992px;">
+    <ng-template #footerTemplate>
+      <div class="row">
+        <div class="col-md-6 pl-5" style="text-align: left">
+          <p style="max-width: 600px; font-size: 12px">
+            En ajoutant une video, vous certifiez que vous détenez tous les droits légaux sur celle-ci et êtes autorisé
+            à
+            la partager avec Adafri et Google afin qu'elle soit utilisée en votre nom dans des annonces ou à d'autres
+            fins
+            commerciales.
+          </p>
+        </div>
+        <div class="col-md-6 pt-3" style="text-align: right">
+          <div style="display: flex; justify-content: flex-end; align-items: center;">
+              <button mat-button (click)="selectVideosAdDialog.hide()" color="primary">Annuler</button>
+              <button mat-flat-button color="primary"
+                *ngIf="videosSelectedFromSearch.length===0 && videosSelectedFromRecent.length===0"
+                disabled>Enregistrer</button>
+              <button mat-flat-button color="primary"
+                *ngIf="videosSelectedFromSearch.length>0 || videosSelectedFromRecent.length>0"
+                (click)='saveFinalVideos()'>Enregistrer</button>
+          </div>
+
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #content>
+      <div id="canvasContent">
+        <ejs-tab #tabVideo id="tab_responsive_display_ads" heightAdjustMode="None" (select)="tabSelected($event)"
+          (selecting)='selecting($event)' class="e-fill" enablePersistence=true>
+          <e-tabitems>
+            <e-tabitem [header]='headerTextVideo[0]'>
+              <ng-template #content>
+                <div class="search-selection-wrapper">
+                  <div class="search-selection-header">
+                    <div class="search-title">
+                      <mat-form-field  color=&primarappearance="legacy" [floatLabel]="'always'" class="search-input mt-2"
+                        style="max-width: 400px; min-width: 150px; width: 100%; font-size: 14px"  [matMenuTriggerFor]="menuVideosFinds"
+                      #triggerVideosMenu>
+                        <input matInput #inputSearch (keyup)="searchYoutubeVideo()"
+                          placeholder="Copier coller ici l'url youtube de la video à utiliser dans votre annonce"
+                          autocomplete="off" id="search" [formControl]="searchYoutubeControl" class="pl-3" />
+                      </mat-form-field>
+                      <!--  <mat-icon  style="font-size: 18px; font-weight: 400;   cursor: pointer;  height: 1em; line-height: 1; color: rgba(0,0,0,.54);">help_outline</mat-icon> -->
+                      <mat-menu #menuVideosFinds="matMenu" [class]="'videoSearchMenu'">
+                           <div class="d-flex justify-content-center align-items-center" style="width: 100%;"
+                            *ngIf="spinnerSearchVideos">
+                              <mat-spinner 
+                    [mode]="'indeterminate'" [diameter]="25" color="primary">
+                  </mat-spinner>
+                          </div>
+                          <div class="d-flex justify-content-center align-items-center"
+                            *ngIf="!spinnerSearchVideos && videosFinds.length>0">
+                            <mat-selection-list #matSelectionListVideos role="option" class="p-0" multiple='false'
+                              >
+                              <mat-list-option style="cursor: pointer" class="pl-2" *ngFor="let video of  videosFinds"
+                                [value]="video" [matTooltip]="video.name+'('+video.snippet+')'"
+                                [matTooltipShowDelay]="'1000'" [matTooltipPosition]="'after'"
+                                [checkboxPosition]="'before'" style="height: auto" (click)="onVideoSelect(video)">
+                                <div class="list-dynamic-item">
+                                  <div class="channel-suggestion">
+                                    <div class="channel-entry d-flex align-items-center">
+                                      <img [src]="video.thumbnails" style="width: 100px">
+                                      <div class="d-flex flex-column align-items-start">
+                                        <div class="channel-name pl-3">
+                                          {{video.name}}
+                                        </div>
+                                        <div class="channel-snippet pl-3">
+                                          {{video.snippet}}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </mat-list-option>
+                            </mat-selection-list>
+                          </div>
+                      </mat-menu>
+                     
+                    </div>
+                  </div>
+                  <div class="search-body">
+                    <div class="scannner-container-default" *ngIf="videosFindsFromSearch.length===0">
+                      <img class="img-fluid" style="max-height: 250px;" [src]="'assets/images/video-preview.png'">
+                    </div>
+                
+                    <div class="search-selector-container mb-5" *ngIf="videosFindsFromSearch.length>0">
+                      <mat-card class="card-asset" [ngClass]="{'selected': checkExistVideoFromSearch(video.videoId)}"
+                        *ngFor="let video of videosFindsFromSearch; let i=index" id="{{video.videoId}}">
+                        <mat-card-content>
+                          <div class="asset-container-preview">
+                            <div class="asset-preview">
+                              <!-- <adf-video-preview class="asset-img" [options]="{ autoplay: true, controls: true, sources: [{ [src]: video.previewUrl, type: 'video/mp4' }]}"></adf-video-preview> -->
+                              <img mat-card-img [src]="safeUrl(video.thumbnails)" class="asset-img" id="video-{{video.videoId}}">
+
+                            </div>
+                          </div>
+                          <div class="secondary-action-info-container">
+                            <div class="asset-indicator">
+                              <mat-icon class="btn-checked">check_circle</mat-icon>
+                              <mat-icon class="btn-remove-checked" (click)="removeSelectedVideos(video)">cancel
+                              </mat-icon>
+                            </div>
+
+                          </div>
+                        </mat-card-content>
+                        <mat-card-actions>
+                          <div class="video-info-container" (click)="selectVideo(video)">
+
+                            <div class="metadata-container">
+                              <div class="image-asset-metadata">
+                                <span>{{video.name}}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </mat-card-actions>
+                      </mat-card>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+
+            </e-tabitem>
+            <e-tabitem [header]='headerTextVideo[1]'>
+              <ng-template #content>
+                <div class="gallery-selection-wrapper">
+                  <div class="gallery-selection-header">
+                    <div class="title">
+                      <h2>Sélectionnez des vidéos récemments utilisées</h2>
+                    </div>
+                  </div>
+                  <div class="gallery-body" >
+                    <ng-container *ngIf="recentVideosAssets.length===0">
+                      <div class="row mt-5 mb-2 w-100">
+                        <div class="col-md-12 p-5 text-center">
+                  <div class="d-flex justify-content-center align-items-center">
+                    <img class="img-fluid" style="max-height: 250px;" [src]="'assets/images/video-preview.png'">
+
+                  </div>
+    
+                        </div>
+                      </div>
+                    </ng-container>
+                    <div class="gallery-selector-container mb-5">
+                      <mat-card class="card-asset" [ngClass]="{'selected': checkExistVideoFromRecent(video.id)}"
+                        *ngFor="let video of recentVideosAssets" id={{video.id}}>
+                        <mat-card-content>
+                          <div class="asset-container-preview">
+                            <div class="asset-preview">
+                              <img mat-card-img [src]="video.thumbnails" class="asset-img">
+                            </div>
+                          </div>
+                          <div class="secondary-action-info-container">
+                            <div class="asset-indicator">
+                              <mat-icon class="btn-checked">check_circle</mat-icon>
+                              <mat-icon class="btn-remove-checked" (click)="removeSelectedVideosFromRecent(video)">cancel
+                              </mat-icon>
+                            </div>
+
+                          </div>
+                        </mat-card-content>
+                        <mat-card-actions>
+                          <div class="video-info-container" (click)="selectVideoFromRecent(video)">
+
+                            <div class="metadata-container">
+                              <div class="image-asset-metadata">
+                                {{video.name}}
+                            </div>
+                          </div>
+                          </div>
+                        </mat-card-actions>
+                      </mat-card>
+                    </div>
+                  </div>
+                </div>
+
+
+              </ng-template>
+
+            </e-tabitem>
+            <e-tabitem [header]='headerTextVideo[2]'>
+              <ng-template #content>
+                <div class="element-selection-wrapper">
+                  <div class="element-selection-header">
+                    <div class="element-title">
+                      <h2>Ces éléments sont sélectionnés pour votre annonce</h2>
+                    </div>
+                  </div>
+                  <div class="video-recap-body">
+                    <div class="d-flex flex-column justify-content-center align-items-start">
+                      <h2 class="sub-header">Vidéos ({{videosSelectedFromSearch.length + videosSelectedFromRecent.length}}/5)</h2>
+                      <div class="d-flex flex-wrap justify-content-start align-items-center">
+                        <div class="asset-container">
+                        <ng-container *ngIf="videosSelectedFromSearch.length>0 || videosSelectedFromRecent.length>0">
+                          <ng-container *ngFor="let video of videosSelectedFromSearch; let i=index">
+                              <mat-card class="card-asset" [ngClass]="{'selected': checkExistVideoFromSearch(video.videoId)}"
+                                id="video-search-{{video.videoId}}">
+                                <mat-card-content>
+                                  <div class="asset-container-preview">
+                                    <div class="asset-preview">
+                                      <img mat-card-img id="img-thumb-{{video.videoId}}" [src]="video.thumbnails" class="asset-img">
+                                    </div>
+                                  </div>
+                                  <div class="secondary-action-info-container">
+                                    <div class="asset-indicator">
+                                      <mat-icon class="btn-checked">check_circle</mat-icon>
+                                      <mat-icon class="btn-remove-checked" (click)="removeSelectedVideos(video)">
+                                        cancel
+                                      </mat-icon>
+                                    </div>
+
+                                  </div>
+                                </mat-card-content>
+                                <mat-card-actions>
+                                  <div class="video-info-container">
+                                    <div class="metadata-container">
+                                      <div class="image-asset-metadata">
+                                        <span>{{video.name}}</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </mat-card-actions>
+                              </mat-card>
+                  
+                          </ng-container>
+                           <ng-container *ngFor="let video of videosSelectedFromRecent; let i=index">
+                              <mat-card class="card-asset" [ngClass]="{'selected': checkExistVideoFromRecent(video.videoId)}"
+                                id="video-search-{{video.videoId}}">
+                                <mat-card-content>
+                                  <div class="asset-container-preview">
+                                    <div class="asset-preview">
+                                      <img mat-card-img id="img-thumb-{{video.videoId}}" [src]="video.thumbnails" class="asset-img">
+                                    </div>
+                                  </div>
+                                  <div class="secondary-action-info-container">
+                                    <div class="asset-indicator">
+                                      <mat-icon class="btn-checked">check_circle</mat-icon>
+                                      <mat-icon class="btn-remove-checked" (click)="removeSelectedVideosFromRecent(video)">
+                                        cancel
+                                      </mat-icon>
+                                    </div>
+
+                                  </div>
+                                </mat-card-content>
+                                <mat-card-actions>
+                                  <div class="video-info-container">
+                                    <div class="metadata-container">
+                                      <div class="image-asset-metadata">
+                                        <span>{{video.name}}</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </mat-card-actions>
+                              </mat-card>
+                  
+                          </ng-container>
+                        </ng-container>
+                      </div>
+                      </div>
+                    </div>
+                    
+
+                  </div>
+                </div>
+              </ng-template>
+            </e-tabitem>
+          </e-tabitems>
+        </ejs-tab>
+      </div>
+
+    </ng-template>
+    <ng-template #header>
+      <div title="Sélectionnez des vidéos à utiliser dans votre annonce
+" class="e-icon-settings dlg-template"> Sélectionnez des vidéos à utiliser dans votre annonce
+      </div>
+    </ng-template>
+  </ejs-dialog>
+
+
+
+  <ejs-dialog id='dialog' #adConfirmDelete [visible]="visible" [target]="target" [position]='position'
+     [isModal]='isModal' style="top: 3rem; max-width: 300px; height: auto;">
+     <ng-template #content>
+       <div class="dialog-content">
+
+         <div class="row p-4 pb-0">
+           <div class="col-md-12 text-left pl-0 pr-0 d-flex flex-column" style="padding: 0 24px;">
+            <span style="font-size: 20px;font-weight: 500;color: rgba(0,0,0,.87);">Supprimer cette annonce ?</span> 
+            <span style="padding: 8px 0; font-size: 13px">Cette annonce sera supprimeé</span>
+
+           </div>
+         </div>
+       </div>
+       <!-- <mat-divider></mat-divider> -->
+       <div class="dialog-footer pt-0 pb-0" fxLayout="row" fxLayoutAlign="end">
+         <button mat-button (click)="deletionAborted()" color="primary">ANNULER</button>
+         <button mat-button color="primary" (click)="deletionConfirmed()">SUPPRIMER</button>
+         <!-- <button mat-button color="" cssClass="e-success e-flat" (click)="openDialogPromo()" class="pull-right">Utiliser un code promo</button> -->
+       </div>
+
+     </ng-template>
+   </ejs-dialog> 
+
+   <app-toast #toast></app-toast>

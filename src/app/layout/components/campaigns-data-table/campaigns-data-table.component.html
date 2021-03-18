@@ -1,0 +1,530 @@
+   <ng-container *ngIf="isLoading; else loaded">
+     <div class="row mt-3">
+       <div class="col-md-12">
+         <mat-card>
+           <mat-card-content>
+             <div gutterBottom lySkeleton [lyWidth]="50" [lyHeight]="10" class="mt-2">
+               {{ '\u00A0' }}
+             </div>
+             <div gutterBottom lySkeleton [lyWidth]="100" [lyHeight]="10" class="mt-2">
+               {{ '\u00A0' }}
+             </div>
+             <div gutterBottom lySkeleton [lyWidth]="200" [lyHeight]="10" class="mt-2">
+               {{ '\u00A0' }}
+             </div>
+             <div gutterBottom lySkeleton [lyWidth]="300" [lyHeight]="10" class="mt-2">
+               {{ '\u00A0' }}
+             </div>
+             <div gutterBottom lySkeleton [lyWidth]="400" [lyHeight]="10" class="mt-2">
+               {{ '\u00A0' }}
+             </div>
+             <div gutterBottom lySkeleton [lyWidth]="500" [lyHeight]="10" class="mt-2">
+               {{ '\u00A0' }}
+             </div>
+           </mat-card-content>
+         </mat-card>
+       </div>
+     </div>
+   </ng-container>
+
+
+   <ng-template #loaded>
+     <mat-toolbar color="primary" class="animate__animated animate__flipInX"
+       *ngIf="gridCampaigns.getSelectedRows().length>0">
+       <button mat-button>{{ 'cmp_data_table.remove_campaign' | translate }}</button>
+     </mat-toolbar>
+     <mat-toolbar class="animate__animated animate__flipInX w-100 campaign-filter-bar pl-md-2 pr-md-2 pl-0 pr-0">
+       <div class="d-flex justify-content-start align-items-center cursor-pointer overflow-hidden nowrap"
+         style="width: 50%; text-overflow: ellipsis" [matMenuTriggerFor]="menuFilter">
+         <mat-icon color="primary">filter_alt</mat-icon>&nbsp;<span class="accent-color f-13"
+           style="font-weight: 300">{{ 'cmp_data_table.status_filter' | translate }}:&nbsp;</span><span
+           class="f-13 accent-color font-weight-bold">{{selectedOptionFilterStatus.name | translate}}</span>
+       </div>
+       <div class="d-flex justify-content-end align-items-center" style="width: 50%;">
+         <button mat-icon-button color="primary" [matTooltip]="'cmp_data_table.new_campaign_tooltip' | translate"
+           [matTooltipShowDelay]="'1000'" [matTooltipPosition]="'after'" (click)="goSelectCampaign()">
+           <mat-icon>add</mat-icon>
+         </button>
+         <button mat-icon-button>
+           <mat-icon style="color: rgba(0,0,0,.54);" [matMenuTriggerFor]="menuSearch">search</mat-icon>
+         </button>
+         <mat-menu #menuSearch="matMenu" [class]="'campaign-search-menu'" [overlapTrigger]="true">
+           <div class="d-flex w-100 justify-content-start align-items-center header">
+             <mat-form-field appearance="legacy" [color]="'primary'" (click)="$event.stopPropagation()"
+               [floatLabel]="'never'">
+               <input matInput [placeholder]="'cmp_data_table.search_campaign_placeholder' | translate"
+                 (click)="$event.stopPropagation()" [formControl]="searchInput" #search autocomplete="off">
+               <mat-icon (click)="$event.stopPropagation()" class="mt-1 mr-1 ml-1" matPrefix>search</mat-icon>
+             </mat-form-field>
+           </div>
+           <div class="menu-body pt-2" (click)="$event.stopPropagation()">
+             <div class="d-flex flex-column justify-content-start align-items-center w-100">
+               <ng-container *ngIf="listFindFromSearch.length>0">
+                 <div *ngFor="let item of listFindFromSearch" class="campaign-label cursor-pointer"
+                   (click)="goReviewNotPublish(item.id, item.type, item.accountId)" mat-ripple>
+                   {{item.name}}
+                 </div>
+               </ng-container>
+               <ng-container *ngIf="listFindFromSearch.length===0">
+                 {{ 'cmp_data_table.no_cmp_found_on_search_filter' | translate }}
+               </ng-container>
+
+             </div>
+           </div>
+         </mat-menu>
+       </div>
+       <mat-menu #menuFilter="matMenu" [class]="'campaign-filter-menu'" [overlapTrigger]="true">
+         <div class="d-flex w-100 justify-content-start accent-bg align-items-center header">
+           <div class="header-text">
+             <span>{{ 'cmp_data_table.cmp_status_filter_label' | translate }}</span>
+           </div>
+           <div class="header-action">
+             <button mat-icon-button>
+               <mat-icon>clear</mat-icon>
+             </button>
+
+           </div>
+         </div>
+         <div class="menu-body pt-2">
+           <mat-selection-list role="option" class="p-0 w-100" [multiple]="'false'" [compareWith]="compareWith" #list>
+             <mat-list-option class="f-13" [checkboxPosition]="'before'"
+               style="cursor: pointer; padding: 0px; height: 35px" *ngFor="let item of MENU_FILTER_OPTION"
+               [value]="item" [selected]="selectedItem(item)" (click)="onOptionSelect(item)">
+               {{item.name | translate}}
+             </mat-list-option>
+           </mat-selection-list>
+         </div>
+       </mat-menu>
+     </mat-toolbar>
+     <mat-card style="margin-top: -15px; z-index: 3" class="pt-0 pl-0 pr-0">
+       <p id="msg"></p>
+       <ejs-grid #gridCampaigns id='gridCampaigns' [dataSource]='dataDisplayFiltered' allowTextWrap="true"
+         [allowSelection]='true' [allowSorting]='true' height='auto' (dataBound)='onDataBound($event)'
+         [enableHover]='false' [selectionSettings]='selectionSettings' [filterSettings]='filterSettings'
+         [allowSorting]='true' [allowFiltering]='false' [allowResizing]='true' [gridLines]='gridLines'
+         (rowSelected)="onSelectCampaign($event)" [locale]="'fr'" [allowPaging]='true' [pageSettings]='initialPage'
+         style="border-right: 0px; border-left: 0px; border-bottom: 0px; border-top: 0px">
+         <e-columns>
+           <e-column field='name' [visible]='true' [lockColumn]='true' [customAttributes]='customAttributes'
+             minWidth=270 width=270 maxWidth=270 [allowResizing]='false'>
+             <ng-template #headerTemplate let-data>
+               <div class="d-flex justify-content-center align-items-center">
+                <mat-icon>web</mat-icon>
+                 {{ 'cmp_data_table.campaigns_table_label' | translate }}
+               </div>
+             </ng-template>
+             <ng-template #template let-data>
+               <div class="d-flex justify-content-between entity-container align-items-center">
+                 <ng-container
+                   *ngIf="data.servingStatus==='SERVING' || data.servingStatus==='PENDING' || data.servingStatus==='SUSPENDED'">
+                   <ng-container *ngIf="!data.budgetEnded">
+                     <ng-container *ngIf="user_access!==undefined">
+                       <ng-container *ngIf="user_access.readOnly">
+                         <ng-container *ngIf="data.status==='PAUSED'">
+                           <div style="font-size: 12px; color: #202124; cursor: pointer;"
+                             [matTooltip]="'cmp_data_table.campaign_currently_paused' | translate"
+                             [matTooltipShowDelay]="'1000'" [matTooltipPosition]="'after'">
+                             <mat-icon class="icon-status">pause</mat-icon>
+                           </div>
+                         </ng-container>
+                         <ng-container *ngIf="data.status==='ENABLED'">
+                           <div style="font-size: 12px; color: #202124;"
+                             [matTooltip]="'cmp_data_table.campaign_currently_enable' | translate"
+                             [matTooltipShowDelay]="'1000'" [matTooltipPosition]="'after'">
+                             <mat-icon class="icon-status text-success">play_circle_filled</mat-icon>
+                           </div>
+                         </ng-container>
+                       </ng-container>
+                       <ng-container *ngIf="user_access.admin">
+                         <ng-container *ngIf="data.status==='PAUSED'">
+                           <span [matMenuTriggerFor]="statusMenu" class="area-status d-flex justify-content-center"
+                             [matTooltip]="'cmp_data_table.campaign_currently_paused' | translate"
+                             [matTooltipShowDelay]="'1000'" [matTooltipPosition]="'after'"
+                             (mouseenter)="buttonStatusEnter(data.id)" (mouseleave)="buttonStatusLeave(data.id)">
+                             <mat-icon class="icon-status mr-1 ">pause_circle_filled</mat-icon>
+                             <mat-icon class="icon-status-dropdown icon-status d-none" [id]='data.id'>arrow_drop_down
+                             </mat-icon>
+                           </span>
+                         </ng-container>
+
+                         <ng-container *ngIf="data.status==='ENABLED'">
+                           <span [matMenuTriggerFor]="statusMenu" class="area-status d-flex justify-content-center"
+                             [matTooltip]="'cmp_data_table.campaign_currently_enable' | translate"
+                             [matTooltipShowDelay]="'1000'" [matTooltipPosition]="'after'"
+                             (mouseenter)="buttonStatusEnter(data.id)" (mouseleave)="buttonStatusLeave(data.id)">
+                             <mat-icon class="icon-status mr-1 text-success">play_circle_filled</mat-icon>
+                             <mat-icon class="icon-status-dropdown icon-status d-none" [id]='data.id'>arrow_drop_down
+                             </mat-icon>
+                           </span>
+                         </ng-container>
+                         <mat-menu #statusMenu="matMenu" [overlapTrigger]="'true'">
+                           <button mat-menu-item class="button-item" disableRipple
+                             (click)="goReviewNotPublish(data.id, data.type, data.accountId)">
+                             <mat-icon class="icon-status">subject</mat-icon>
+                             <span>{{ 'cmp_data_table.see_infos_on_menu' | translate }}</span>
+                           </button>
+                           <ng-container *ngIf="data.status==='ENABLED'">
+                             <button mat-menu-item class="button-item selected"
+                               [matTooltip]="'cmp_data_table.campaign_currently_enable' | translate"
+                               [matTooltipShowDelay]="'1000'" [matTooltipPosition]="'after'" disableRipple>
+                               <mat-icon class="text-success icon-status">play_circle_filled</mat-icon>
+                               <span>{{ 'cmp_data_table.enabled' | translate }}</span>
+                             </button>
+                             <button mat-menu-item class="button-item"
+                               [matTooltip]="'cmp_data_table.pause_campaign' | translate" [matTooltipShowDelay]="'1000'"
+                               [matTooltipPosition]="'after'" disableRipple
+                               (click)="pauseCampaign(data.id, data.id_campagne, data.type, data.budgetEnded)">
+                               <mat-icon class="icon-status">pause_circle_filled</mat-icon>
+                               <span>{{ 'cmp_data_table.paused' | translate }}</span>
+                             </button>
+                             <button mat-menu-item [matTooltip]="'cmp_data_table.remove_campaign' | translate"
+                               [matTooltipShowDelay]="'1000'" [matTooltipPosition]="'after'"
+                               (click)="deleteSelectedCampain(data.id, data.id_campagne, data.type, data.ad_group_id_firebase, data.startDateEnglish, data.endDateEnglish, data.budget, data.dailyBudget, data.numberOfDays, data.isUsedPack, data.isUsePromoteCode)"
+                               class="button-item text-danger" disableRipple>
+                               <mat-icon class="icon-status" color="warn">cancel</mat-icon>
+                               <span>{{ 'cmp_data_table.remove_campaign' | translate }}</span>
+                             </button>
+                           </ng-container>
+                           <ng-container *ngIf="data.status==='PAUSED'">
+                             <button mat-menu-item class="button-item" disableRipple
+                               [matTooltip]="'cmp_data_table.enable_campaign' | translate"
+                               [matTooltipShowDelay]="'1000'" [matTooltipPosition]="'after'"
+                               (click)="activateCampaign(data.id, data.id_campagne, data.type, data.budgetEnded)">
+                               <mat-icon class="text-success icon-status">play_circle_filled</mat-icon>
+                               <span>{{ 'cmp_data_table.enabled' | translate }}</span>
+                             </button>
+                             <button mat-menu-item class="button-item selected"
+                               [matTooltip]="'cmp_data_table.campaign_currently_paused' | translate"
+                               [matTooltipShowDelay]="'1000'" [matTooltipPosition]="'after'" disableRipple>
+                               <mat-icon class="icon-status">pause_circle_filled</mat-icon>
+                               <span>{{ 'cmp_data_table.paused' | translate }}</span>
+                             </button>
+                             <button mat-menu-item [matTooltip]="'cmp_data_table.remove_campaign' | translate"
+                               [matTooltipShowDelay]="'1000'" [matTooltipPosition]="'after'"
+                               (click)="deleteSelectedCampain(data.id, data.id_campagne, data.type, data.ad_group_id_firebase, data.startDateEnglish, data.endDateEnglish, data.budget, data.dailyBudget, data.numberOfDays, data.isUsedPack, data.isUsePromoteCode)"
+                               class="button-item text-danger" disableRipple>
+                               <mat-icon class="icon-status" color="warn">cancel</mat-icon>
+                               <span>{{ 'cmp_data_table.remove_campaign' | translate }}</span>
+                             </button>
+                           </ng-container>
+                           <button mat-menu-item [matTooltip]="'cmp_data_table.duplicate_campaign' | translate"
+                             [matTooltipShowDelay]="'1000'" [matTooltipPosition]="'after'"
+                             (click)="triggerDuplication(data)" class="button-item" disableRipple>
+                             <mat-icon class="icon-status">copy_content</mat-icon>
+                             <span>{{ 'cmp_data_table.duplicate_campaign' | translate }}</span>
+                           </button>
+                         </mat-menu>
+                       </ng-container>
+                     </ng-container>
+                   </ng-container>
+
+                   <div *ngIf="data.budgetEnded">
+                     <ng-container *ngIf="user_access.readOnly">
+                       <div style="font-size: 12px; color: #202124;"
+                         [matTooltip]="'cmp_data_table_budget_ended_tooltip' | translate" [matTooltipShowDelay]="'1000'"
+                         [matTooltipPosition]="'after'">
+                         <mat-icon class="icon-status text-danger">work_off</mat-icon>
+                       </div>
+                     </ng-container>
+                     <ng-container *ngIf="user_access.admin">
+                       <span [matMenuTriggerFor]="statusMenu" class="area-status d-flex justify-content-center"
+                         [matTooltip]="'cmp_data_table_budget_ended_tooltip' | translate" [matTooltipShowDelay]="'1000'"
+                         [matTooltipPosition]="'after'" (mouseenter)="buttonStatusEnter(data.id)"
+                         (mouseleave)="buttonStatusLeave(data.id)">
+                         <mat-icon class="icon-status mr-1 text-danger">work_off</mat-icon>
+                         <mat-icon class="icon-status-dropdown icon-status d-none" [id]='data.id'>arrow_drop_down
+                         </mat-icon>
+                       </span>
+
+                       <mat-menu #statusMenu="matMenu" [overlapTrigger]="'true'">
+                         <button mat-menu-item class="button-item" disableRipple
+                           (click)="goReviewNotPublish(data.id, data.type, data.accountId)">
+                           <mat-icon class="icon-status">subject</mat-icon>
+                           <span>{{ 'cmp_data_table.see_infos_on_menu' | translate }}</span>
+                         </button>
+                         <button mat-menu-item [matTooltip]="'cmp_data_table.remove_campaign' | translate"
+                           [matTooltipShowDelay]="'1000'" [matTooltipPosition]="'after'"
+                           (click)="deleteSelectedCampain(data.id, data.id_campagne, data.type, data.ad_group_id_firebase, data.startDateEnglish, data.endDateEnglish, data.budget, data.dailyBudget, data.numberOfDays, data.isUsedPack, data.isUsePromoteCode)"
+                           class="button-item text-danger" disableRipple>
+                           <mat-icon class="icon-status" color="warn">cancel</mat-icon>
+                           <span>{{ 'cmp_data_table.remove_campaign' | translate }}</span>
+                         </button>
+                         <button mat-menu-item [matTooltip]="'cmp_data_table.duplicate_campaign' | translate"
+                           [matTooltipShowDelay]="'1000'" [matTooltipPosition]="'after'"
+                           (click)="duplicateCampaign(data)" class="button-item" disableRipple>
+                           <mat-icon class="icon-status">copy_content</mat-icon>
+                           <span>{{ 'cmp_data_table.duplicate_campaign' | translate }}</span>
+                         </button>
+                       </mat-menu>
+                     </ng-container>
+                   </div>
+                 </ng-container>
+
+                 <ng-container *ngIf="data.servingStatus===''">
+                   <ng-container *ngIf="user_access.readOnly">
+                     <ng-container *ngIf="data.status==='PAUSED'">
+                       <div style="font-size: 12px; color: #202124; cursor: pointer;"
+                         [matTooltip]="'cmp_data_table.cmp_not_published' | translate" [matTooltipShowDelay]="'1000'"
+                         [matTooltipPosition]="'after'">
+                         <mat-icon class="icon-status">send</mat-icon>
+                       </div>
+                     </ng-container>
+                     <ng-container *ngIf="data.status==='ENABLED'">
+                       <div style="font-size: 12px; color: #202124;"
+                         [matTooltip]="'cmp_data_table.cmp_not_published' | translate" [matTooltipShowDelay]="'1000'"
+                         [matTooltipPosition]="'after'">
+                         <mat-icon class="icon-status text-success">send</mat-icon>
+                       </div>
+                     </ng-container>
+                   </ng-container>
+                   <ng-container *ngIf="user_access.admin">
+                     <span [matMenuTriggerFor]="statusMenu" class="area-status d-flex justify-content-center"
+                       [matTooltip]="'cmp_data_table_click_here_to_publish' | translate" [matTooltipShowDelay]="'1000'"
+                       [matTooltipPosition]="'after'" (mouseenter)="buttonStatusEnter(data.id)"
+                       (mouseleave)="buttonStatusLeave(data.id)">
+                       <mat-icon class="icon-status mr-1 ">send</mat-icon>
+                       <mat-icon class="icon-status-dropdown icon-status d-none" [id]='data.id'>arrow_drop_down
+                       </mat-icon>
+                     </span>
+                     <mat-menu #statusMenu="matMenu" [overlapTrigger]="'true'">
+                       <button mat-menu-item class="button-item"
+                         [matTooltip]="'cmp_data_table.see_infos_on_menu' | translate" [matTooltipShowDelay]="'1000'"
+                         [matTooltipPosition]="'after'" disableRipple
+                         (click)="goReviewNotPublish(data.id, data.type, data.accountId)">
+                         <mat-icon class="icon-status">subject</mat-icon>
+                         <span>{{ 'cmp_data_table.see_infos_on_menu' | translate }}</span>
+                       </button>
+                       <button mat-menu-item class="button-item" disableRipple disabled>
+                         <mat-icon class="text-success icon-status">play_circle_filled</mat-icon>
+                         <span>{{ 'cmp_data_table.enabled' | translate }}</span>
+                       </button>
+
+                       <button mat-menu-item class="button-item" disableRipple disabled>
+                         <mat-icon class="icon-status">pause_circle_filled</mat-icon>
+                         <span>{{ 'cmp_data_table.paused' | translate }}</span>
+                       </button>
+                       <button mat-menu-item [matTooltip]="'cmp_data_table.remove_campaign' | translate"
+                         [matTooltipShowDelay]="'1000'" [matTooltipPosition]="'after'"
+                         (click)="deleteSelectedCampain(data.id, data.id_campagne, data.type, data.ad_group_id_firebase, data.startDateEnglish, data.endDateEnglish, data.budget, data.dailyBudget, data.numberOfDays, data.isUsedPack, data.isUsePromoteCode)"
+                         class="button-item text-danger" disableRipple>
+                         <mat-icon class="icon-status" color="warn">cancel</mat-icon>
+                         <span>{{ 'cmp_data_table.remove_campaign' | translate }}</span>
+                       </button>
+                       <button mat-menu-item [matTooltip]="'cmp_data_table.duplicate_campaign' | translate"
+                         [matTooltipShowDelay]="'1000'" [matTooltipPosition]="'after'" (click)="duplicateCampaign(data)"
+                         class="button-item" disableRipple>
+                         <mat-icon class="icon-status">copy_content</mat-icon>
+                         <span>{{ 'cmp_data_table.duplicate_campaign' | translate }}</span>
+                       </button>
+                     </mat-menu>
+                   </ng-container>
+                 </ng-container>
+                 <ng-container *ngIf="data.status==='ENABLED'">
+                   <a style="font-size: 13px; cursor: pointer" class="entity-name-text active-campaign"
+                     [mdePopoverTriggerFor]="popoverBrief" mdePopoverTriggerOn="hover">{{data.name}}</a>
+                 </ng-container>
+                 <ng-container *ngIf="data.status==='PAUSED'">
+                   <a style="font-size: 13px; cursor: pointer" class="entity-name-text paused-campaign"
+                     [mdePopoverTriggerFor]="popoverBrief" mdePopoverTriggerOn="hover">{{data.name}}</a>
+                 </ng-container>
+
+                 <mde-popover #popoverBrief="mdePopover" [mdePopoverOverlapTrigger]="true"
+                   [mdePopoverCloseOnClick]="false">
+                   <mat-card class="card-brief" style="max-width: 300px; max-height: 200px; border-radius: 0;">
+                     <ng-container *ngIf="data.id_campagne!==0 && !data.budgetEnded">
+                       <mat-card-header>
+                         <mat-card-title style="font-size: 12px;" class="accent-text">{{data.name}}</mat-card-title>
+                         <mat-card-subtitle>{{ 'cmp_data_table.cmp_status_card' | translate }}: <ng-container
+                             *ngIf="data.status==='ENABLED'">{{ 'cmp_data_table.enabled' | translate }}
+                           </ng-container>
+                           <ng-container *ngIf="data.status==='PAUSED'">{{ 'cmp_data_table.paused' | translate }}
+                           </ng-container>
+                         </mat-card-subtitle>
+                       </mat-card-header>
+                       <mat-card-actions align="start" class="pl-2">
+                         <button mat-raised-button color="primary"
+                           (click)="goReviewNotPublish(data.id, data.type, data.accountId)"
+                           style="font-size: 10px;">{{ 'cmp_data_table.view_review' | translate }}</button>
+                       </mat-card-actions>
+                     </ng-container>
+                     <ng-container *ngIf="data.id_campagne!==0 && data.budgetEnded">
+                       <mat-card-header>
+                         <mat-card-title style="font-size: 12px;" class="accent-text">{{data.name}}</mat-card-title>
+                         <mat-card-subtitle>{{ 'cmp_data_table.cmp_status_card' | translate }}:&nbsp;
+                           {{ 'cmp_data_table.cmp_budget_ended' | translate }}
+                         </mat-card-subtitle>
+                       </mat-card-header>
+                       <mat-card-actions align="start" class="pl-2">
+                         <button mat-button color="primary" style="font-size: 10px;"
+                           (click)="goReviewNotPublish(data.id, data.type, data.accountId)">{{ 'cmp_data_table.view_report_label' | translate }}</button>
+                       </mat-card-actions>
+                     </ng-container>
+                     <ng-container *ngIf="data.id_campagne===0">
+                       <mat-card-header>
+                         <mat-card-title style="font-size: 12px;" class="accent-text">{{data.name}}</mat-card-title>
+                         <mat-card-subtitle>
+                           {{ 'cmp_data_table.cmp_status_card' | translate }}:&nbsp;{{ 'cmp_data_table.cmp_pending_publication' | translate }}
+                         </mat-card-subtitle>
+                       </mat-card-header>
+                       <mat-card-actions align="start" class="pl-2">
+                         <button mat-raised-button color="primary" class="ml-3"
+                           (click)="goReviewNotPublish(data.id, data.type, data.accountId)"
+                           style="font-size: 10px;">{{ 'cmp_data_table.view_review' | translate }}</button>
+                       </mat-card-actions>
+                     </ng-container>
+                   </mat-card>
+                 </mde-popover>
+               </div>
+             </ng-template>
+           </e-column>
+
+           <e-column field='status' [visible]='true' [headerText]="'cmp_data_table.status_header_text' | translate" width="100" [allowFiltering]='false'
+             [allowSorting]='false'>
+             <ng-template #template let-data>
+               <ng-container *ngIf="data.budgetEnded">
+                 <span class="text-danger">{{ 'cmp_data_table.cmp_ended_status_label' | translate }}</span>
+               </ng-container>
+               <ng-container *ngIf="!data.budgetEnded">
+                 <ng-container *ngIf="data.status==='ENABLED'">
+                   <span>{{ 'cmp_data_table.enabled' | translate }}</span>
+                 </ng-container>
+                 <ng-container *ngIf="data.status==='PAUSED'">
+                   <span>{{ 'cmp_data_table.paused' | translate }}</span>
+                 </ng-container>
+               </ng-container>
+             </ng-template>
+           </e-column>
+
+  <!--          <e-column field="packType" headerText='Pack' [allowFiltering]='false' [allowSorting]='false' width="100"
+             textAlign='Center'>
+             <ng-template #template let-data>
+               <ng-container *ngIf="data.isUsedPack && data.packType==='0'">
+                 Test
+               </ng-container>
+               <ng-container *ngIf="data.isUsedPack && data.packType==='1'">
+                 Basic
+               </ng-container>
+               <ng-container *ngIf="data.isUsedPack && data.packType==='2'">
+                 Premium
+               </ng-container>
+               <ng-container *ngIf="data.isUsedPack && data.packType==='3'">
+                 Pro
+               </ng-container>
+               <ng-container *ngIf="data.isUsedPack && data.packType==='4'">
+                 Custom
+               </ng-container>
+             </ng-template>
+           </e-column> -->
+
+           <e-column field="realBudget" headerText='Budget' [allowFiltering]='false' [allowSorting]='false' width="100"
+             textAlign='Center'>
+             <ng-template #template let-data>
+               {{data.realBudget | currency}}
+             </ng-template>
+           </e-column>
+           <e-column [headerText]=" 'cmp_data_table.clicks_header_label' | translate" width="60" field="clicks" [allowFiltering]='false' [allowSorting]='false'
+             textAlign='Center'>
+             <ng-template #template let-data>
+               <ng-container *ngIf="data.id_campagne!==0">
+                 <ng-container
+                   *ngIf="(data.id_campagne | getCampaignsSummuryReport: DEFAULT_CLIENT_CUSTOMER_ID:'clicks' | async) as stat">
+                   <button mat-button color="" *ngIf="stat!=='0' && stat!=='--'" [matTooltip]="stat.toString()+' clics'"
+                     cssClass="e-info e-flat">{{stat}}</button>
+                   <ng-container *ngIf="stat==='0' || stat==='--' || stat==='0'">
+                     {{stat}}
+                   </ng-container>
+                 </ng-container>
+               </ng-container>
+               <ng-container *ngIf="data.id_campagne===0">
+                 0
+               </ng-container>
+               <div>
+               </div>
+             </ng-template>
+           </e-column>
+           <e-column [headerText]="'cmp_data_table.cost_header_label' | translate" width="60" field="costs" [allowFiltering]='false' [allowSorting]='false'
+             textAlign='Center'>
+             <ng-template #template let-data>
+               <ng-container *ngIf="data.id_campagne!==0">
+                 <ng-container
+                   *ngIf="(data.id_campagne | getCampaignsSummuryReport: DEFAULT_CLIENT_CUSTOMER_ID:'costs' | async) as stat">
+                   <button mat-button color="" *ngIf="stat!=='0' && stat!=='--' && stat!=='0.00'"
+                     matTooltip="{{stat | currency}} dépensés"
+                     cssClass="e-danger e-flat e-small">{{stat | currency}}</button>
+                   <ng-container *ngIf="stat==='0' || stat==='--' || stat==='0.00'">
+                     {{0 | currency}}
+                   </ng-container>
+                 </ng-container>
+               </ng-container>
+               <ng-container *ngIf="data.id_campagne===0">
+                 0
+               </ng-container>
+             </ng-template>
+           </e-column>
+           <e-column [headerText]="'cmp_data_table.impressions_header_label' | translate" field="impressions" width="85" textAlign='Center' [allowFiltering]='false'
+             [allowSorting]='false'>
+             <ng-template #template let-data>
+               <ng-container *ngIf="data.id_campagne!==0">
+                 <ng-container
+                   *ngIf="(data.id_campagne | getCampaignsSummuryReport: DEFAULT_CLIENT_CUSTOMER_ID:'impressions' | async) as stat">
+                   <button mat-button color="" cssClass="e-success e-flat" *ngIf="stat!=='0' && stat!=='--'">
+                     <ng-number-formatter [ngNumber]="stat"></ng-number-formatter>
+                   </button>
+                   <ng-container *ngIf="stat==='0' || stat==='--'">
+                     <ng-number-formatter [ngNumber]="0"></ng-number-formatter>
+                   </ng-container>
+                 </ng-container>
+               </ng-container>
+               <ng-container *ngIf="data.id_campagne===0">
+                 0
+               </ng-container>
+               <div>
+               </div>
+             </ng-template>
+           </e-column>
+         </e-columns>
+       </ejs-grid>
+     </mat-card>
+   </ng-template>
+
+
+   <ejs-dialog id='dialog' #campaignConfirmDelete [visible]="visible" [target]="target" [position]='position'
+     [isModal]='isModal' style="top: 3rem; max-width: 300px; height: auto;">
+     <ng-template #content>
+       <div class="dialog-content">
+         <div class="row p-4">
+           <div class="col-md-12 text-center">
+             <span class="text-large">{{ 'cmp_data_table.trying_to_delete_cmp_warning' | translate }}</span>
+
+           </div>
+         </div>
+       </div>
+       <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end">
+         <button mat-button (click)="campaignConfirmDelete.hide()">{{ 'cmp_data_table.cancel_label' | translate }}</button>
+         <button mat-raised-button color="warn" (click)="deletionConfirmed()">{{ 'cmp_data_table.delete_label' | translate }}</button>
+       </div>
+
+     </ng-template>
+   </ejs-dialog>
+
+   <ejs-dialog id='dialogConfirmDuplicate' #campaignConfirmDuplicate [visible]="visible" [target]="target"
+     [position]='position' [isModal]='isModal' style="top: 3rem; max-width: 300px; height: auto;">
+     <ng-template #content>
+       <div class="dialog-content">
+         <div class="row p-4">
+           <div class="col-md-12 text-center">
+             <span class="text-large">{{ 'cmp_data_table.trying_to_duplicate_campaign_warning' | translate }}</span>
+
+           </div>
+         </div>
+       </div>
+       <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end">
+         <button mat-button (click)="abortDuplication()">{{ 'cmp_data_table.cancel_label' | translate }}</button>
+         <button mat-raised-button color="warn" (click)="confirmDuplication()">{{ 'cmp_data_table.duplicate_label' | translate }}</button>
+       </div>
+     </ng-template>
+   </ejs-dialog>
+
+   <adf-spinner *ngIf="loader"></adf-spinner>
+   <adf-publish-campaign></adf-publish-campaign>
+   <adf-snackbar></adf-snackbar>

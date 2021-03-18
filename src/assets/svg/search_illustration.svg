@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="100px" height="80px" viewBox="0 0 100 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.3 (12081) - http://www.bohemiancoding.com/sketch -->
+    <title>search</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="search" sketch:type="MSLayerGroup">
+            <g id="Page-1" sketch:type="MSShapeGroup">
+                <rect id="Rectangle-8" fill="#E8E8E8" x="0" y="0" width="100" height="16" rx="2"></rect>
+                <rect id="Rectangle-9" fill="#FFFFFF" x="0" y="16" width="100" height="64"></rect>
+                <rect id="Rectangle-10-Copy" fill="#FFFFFF" x="19" y="4" width="56" height="8"></rect>
+                <path d="M8,25 L59,25 L59,29 L8,29 L8,25 L8,25 Z" id="Fill-7" fill="#C0C0C0"></path>
+                <path d="M8,57 L59,57 L59,61 L8,61 L8,57 L8,57 Z" id="Fill-7-Copy-5" fill="#C0C0C0"></path>
+                <path d="M22,35 L51,35 L51,39 L22,39 L22,35 L22,35 Z" id="Fill-9" fill="#E7E7E7"></path>
+                <path d="M8,43 L75,43 L75,47 L8,47 L8,43 L8,43 Z" id="Fill-9-Copy" fill="#E7E7E7"></path>
+                <path d="M8,65 L75,65 L75,69 L8,69 L8,65 L8,65 Z" id="Fill-9-Copy-2" fill="#E7E7E7"></path>
+                <rect id="Rectangle-10-Copy-3" fill="#FFC107" x="8" y="33" width="10" height="6"></rect>
+                <path d="M8,6.66666667 L10,6.66666667 L10,12 L8,12 L8,6.66666667 L8,6.66666667 Z" id="Fill-7-Copy" fill="#C0C0C0"></path>
+                <path d="M3,4 L7,4 L7,12 L3,12 L3,4 L3,4 Z" id="Fill-7-Copy-4" fill="#C0C0C0"></path>
+                <path d="M11,6.66666667 L13,6.66666667 L13,12 L11,12 L11,6.66666667 L11,6.66666667 Z" id="Fill-7-Copy-2" fill="#D8D8D8"></path>
+                <path d="M14,6.66666667 L16,6.66666667 L16,12 L14,12 L14,6.66666667 L14,6.66666667 Z" id="Fill-7-Copy-3" fill="#C0C0C0"></path>
+                <path d="M95,10.8295538 C95,11.4732992 94.4535312,12 93.7856248,12 L80.2143752,12 C79.5464688,12 79,11.4732992 79,10.8295538 L79,5.17044623 C79,4.5267008 79.5464688,4 80.2143752,4 L93.7856248,4 C94.4535312,4 95,4.5267008 95,5.17044623 L95,10.8295538" id="Fill-7" fill="#C0C0C0"></path>
+                <path d="M88.5731132,8.64445755 L88.3461085,8.64445755 L88.2670991,8.56603774 C88.5477594,8.24174528 88.7163915,7.82016509 88.7163915,7.35849057 C88.7163915,6.33195755 87.884434,5.5 86.8579009,5.5 C85.8313679,5.5 85,6.33195755 85,7.35849057 C85,8.38443396 85.8313679,9.21639151 86.8579009,9.21639151 C87.3195755,9.21639151 87.7411557,9.04775943 88.0660377,8.76886792 L88.1444575,8.84787736 L88.1444575,9.07370283 L89.5737028,10.5 L90,10.0742924 L88.5731132,8.64445755 L88.5731132,8.64445755 Z M86.8579009,8.64445755 C86.1474057,8.64445755 85.5713443,8.06839623 85.5713443,7.35849057 C85.5713443,6.64799528 86.1474057,6.07193396 86.8579009,6.07193396 C87.5683962,6.07193396 88.1444575,6.64799528 88.1444575,7.35849057 C88.1444575,8.06839623 87.5683962,8.64445755 86.8579009,8.64445755 L86.8579009,8.64445755 L86.8579009,8.64445755 Z" id="Fill-14" fill="#FFFFFF"></path>
+                <rect id="Rectangle-5" fill="#E8E8E8" x="0" y="14" width="100" height="2"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,76 @@
+<ng-container *ngIf="campaignId!==null && campaignId===0">
+    <mat-toolbar *ngIf="selectionNotPublished.hasValue() && selectionNotPublished.selected.length>0" class="d-flex justify-content-end align-items-center">
+        <button mat-flat-button color="warn" (click)="removeNotPublished()">Supprimer</button>
+    </mat-toolbar>
+    <table mat-table [dataSource]="dataSourceNotPublished" class="mat-elevation-z8" matSort>
+
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox class="mr-4" (change)="$event ? masterToggleNotPublished() : null"
+                          [checked]="selectionNotPublished.hasValue() && isAllSelectedNotPublished()"
+                          [indeterminate]="selectionNotPublished.hasValue() && !isAllSelectedNotPublished()"
+                          [aria-label]="checkboxLabelNotPublished()" [disabled]="checkboxDisabled">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selectionNotPublished.toggle(row) : null"
+                          [checked]="selectionNotPublished.isSelected(row)"
+                          [aria-label]="checkboxLabelNotPublished(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+      
+        <!-- Name Column -->
+        <ng-container matColumnDef="keyword">
+          <th mat-header-cell *matHeaderCellDef> Mot clés </th>
+          <td mat-cell *matCellDef="let element"> {{element}} </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+      (click)="selectionNotPublished.toggle(row)">
+  </tr>
+      </table>
+      <mat-paginator #notPublished [pageSizeOptions]="[5, 10, 25, 100]" class="mat-elevation-z8"></mat-paginator>
+</ng-container>
+
+<ng-container *ngIf="campaignId!==null && campaignId!==0">
+    <mat-toolbar *ngIf="selectionPublished.hasValue() && selectionPublished.selected.length>0" class="d-flex justify-content-end align-items-center">
+        <button mat-flat-button color="warn" (click)="removePublished()">Supprimer</button>
+    </mat-toolbar>
+    <table mat-table [dataSource]="dataSourcePublished" class="mat-elevation-z8" matSort>
+
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox class="mr-4" (change)="$event ? masterTogglePublished() : null"
+                          [checked]="selectionPublished.hasValue() && isAllSelectedPublished()"
+                          [indeterminate]="selectionPublished.hasValue() && !isAllSelectedPublished()"
+                          [aria-label]="checkboxLabelPublished()" [disabled]="checkboxDisabled">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selectionPublished.toggle(row) : null"
+                          [checked]="selectionPublished.isSelected(row)"
+                          [aria-label]="checkboxLabelPublished(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+      
+        <!-- Name Column -->
+        <ng-container matColumnDef="keyword">
+          <th mat-header-cell *matHeaderCellDef> Mot clés </th>
+          <td mat-cell *matCellDef="let element"> {{element.keyword}} </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+      (click)="selectionPublished.toggle(row)">
+    </tr>
+      </table>
+      <mat-paginator #published [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" class="mat-elevation-z8"></mat-paginator>
+</ng-container>
+
+
+

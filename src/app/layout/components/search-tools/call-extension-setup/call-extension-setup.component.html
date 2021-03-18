@@ -1,0 +1,33 @@
+<div class="d-flex flex-column w-100 justify-content-start align-items-center">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+        <ngx-intl-tel-input
+        [cssClass]="'custom'"
+        [preferredCountries]="preferredCountries"
+        [enableAutoCountrySelect]="true"
+        [enablePlaceholder]="false"
+        [searchCountryFlag]="true"
+        [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+        [selectFirstCountry]="false"
+        [selectedCountryISO]="selectedCountryISO"
+        [maxLength]="15"
+        [tooltipField]="TooltipLabel.Name"
+        [phoneValidation]="true"
+        [inputId]="'phone'"
+        name="phone"
+        [formControl]="phone"
+    ></ngx-intl-tel-input>
+    </div>
+    <!--  -->
+</div>
+<div class="panel-footer" *ngIf="showSaveBlock">
+    <mat-spinner
+        [mode]="'indeterminate'" color="accent" [diameter]="25" *ngIf="spinnerUpdate" class="mr-4">
+    </mat-spinner>
+    <ng-container *ngIf="!spinnerUpdate && user_access!==undefined">
+        <button mat-button color="accent" (click)="updateCallExtension()" [disabled]="user_access!==undefined && user_access.readOnly">Enregistrer</button>
+  
+    </ng-container>
+    
+  </div>
+
+  <adf-snackbar></adf-snackbar>

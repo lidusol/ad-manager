@@ -1,0 +1,46 @@
+.card-image-gallery{
+    max-width: 250px !important;
+    width: 250px !important;
+    max-height: 270px !important;
+    height: 270px !important;
+    .mat-card-content{
+        height: 150px;
+    }
+
+}
+
+.img-item{
+    width: auto; 
+    cursor: pointer;
+    max-width: 215px;
+    max-height: 150px;
+}
+
+.checked-icon{
+    position: absolute; 
+    top: -15px; 
+    right: -8px; 
+    z-index: 1050;
+     box-shadow: none;
+     display: none;
+     width: 30px;
+     height: 30px;
+     
+}
+.deselect-btn{
+    display: none;
+}
+.checked-icon mat-icon{
+    font-size: 15px;
+}
+
+.active .checked-icon{
+    display: block !important;
+}
+ .active .deselect-btn{
+     display: inline;
+ }
+
+.active .select-btn{
+    display: none;
+}

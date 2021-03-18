@@ -1,0 +1,19 @@
+.summary-card{
+    display: flex !important;
+    flex-direction: column !important;
+    margin-bottom: 16px !important;
+}
+.summary-header{
+    display: flex;
+    margin: 8px 8px 4px;
+}
+.summary-title{
+    font-size: 1.125rem;
+    line-height: 1.33333;
+    letter-spacing: normal;
+    font-weight: bold;
+    overflow-wrap: normal;
+    text-align: left;
+    color: rgba(0, 0, 0, 0.85);
+    display: inline-block;
+}

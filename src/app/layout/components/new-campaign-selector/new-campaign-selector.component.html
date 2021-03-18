@@ -1,0 +1,365 @@
+<div class="container-fluid app-bg-secondary">
+  <!-- <button mat-button (click)="openDialog(null, null, null)">text</button> -->
+  <div class="row" style="height: 100%;">
+    <div class="col-md-4 p-0 left-container-card">
+      <mat-card class="left-card">
+        <mat-card-content class="d-flex flex-column justify-content-center align-items-center">
+          <div class="d-flex w-100 justify-content-center align-items-center mt-2 mb-4">
+            <h5>{{ 'new_advertising_cmp' | translate }}</h5>
+          </div>
+          <img src="assets/images/def.png" *ngIf="frame1" alt="" class="img-fluid mb-md-5 mt-md-5 img-illustration">
+          <img src="assets/svg/Flat Illustration.svg" *ngIf="frame2" alt="" class="img-fluid mb-md-5 mt-md-5 img-illustration">
+          <img src="assets/svg/Marketing Promotion Illustration 03.svg" *ngIf="frame3" alt="" class="img-fluid mb-md-5 mt-md-5 img-illustration">
+          <ng-container *ngIf="frame4 && currentChannelSelected!==null && currentChannelSelected!==undefined">
+            <img src="assets/svg/Flat Illustration_1.svg" *ngIf="currentChannelSelected.obj_id==='display'" alt="" class="img-fluid mb-md-5 mt-md-5 img-illustration">
+            <img src="assets/images/rsdp.png" *ngIf="currentChannelSelected.obj_id==='native'" alt="" class="img-fluid mb-md-5 mt-md-5 img-illustration">
+            <img src="assets/images/sa.png" *ngIf="currentChannelSelected.obj_id==='search'" alt="" class="img-fluid mb-md-5 mt-md-5 img-illustration">
+
+          </ng-container>
+          
+          <div class="d-flex w-100 justify-content-center align-items-center mt-md-4 pt-3">
+            <ng-container *ngIf="frame1">   
+              <h6>{{ 'step_1' | translate }}</h6>
+            </ng-container>
+            <ng-container *ngIf="frame2">
+              <h6>{{ 'step_2' | translate }}</h6>
+            </ng-container>
+            <ng-container *ngIf="frame3">
+                <h6>{{ 'step_3' | translate }}</h6>
+            </ng-container>
+            <ng-container *ngIf="frame4">
+                <h6>{{ 'step_4' | translate }}</h6>
+            </ng-container>
+          </div>
+          <div class="d-flex w-100 justify-content-center align-items-center">
+            <div class="stepper-opt m-1" [ngClass]="{'stepper-opt-active': frame1}"></div>
+            <div class="stepper-opt m-1" [ngClass]="{'stepper-opt-active':frame2}"></div>
+            <div class="stepper-opt m-1" [ngClass]="{'stepper-opt-active':frame3}"></div>
+            <div class="stepper-opt m-1" [ngClass]="{'stepper-opt-active':frame4}"></div>
+          </div>
+        </mat-card-content>
+
+      </mat-card>
+    </div>
+    <div class="col-md-8 p-md-2 p-0 right-card" style="height: 100vh; overflow: auto;">
+      <button mat-button color="primary" (click)="cancelCampaign()" class="mt-md-3 mb-md-3 mat-2 mb-2">Annuler la campagne</button>
+      <div [ngStyle]="{'display': frame1?'block':'none'}" class="animate__animated animate__fadeInLeft density_content">
+        <div class="d-flex flex-nowrap w-100 mb-3 p-md-2 cmp-type-container" style="overflow-x: auto;">
+          <div class="obj-container" *ngFor="let obj of objectives" [id]="obj.obj_id" (click)="selectObjective(obj)">
+            <div class="obj-wrapper">
+              <div class="d-flex flex-column align-items-center justify-content-center p-card">
+                <mat-icon class="p-obj-ic">{{obj.primary.icon}}</mat-icon>
+                <span class="p-obj-title" style="font-size: 12px !important;">{{obj.primary.title}}</span>
+              </div>
+              <div class="d-none flex-column justify-content-between s-card">
+                <div class="s-header accent-color d-flex align-items-center" style="font-size: 15px;font-weight: 700;">
+                  <mat-icon>{{obj.secondary.icon}}</mat-icon>
+                  <span style="margin: 0 8px; font-size: 12px !important">{{obj.secondary.title}}</span>
+                </div>
+                <div class="s-body" style="font-size: 12px !important;">
+                  {{obj.secondary.description}}
+                </div>
+                <div class="s-footer">
+
+                </div>
+              </div>
+              <mat-icon class="checked-icon1 accent-color">check_circle</mat-icon>
+            </div>
+          </div>
+        </div>
+          <div class="d-flex flex-nowrap w-100 mb-3 cmp-type-container" style="margin-top: 3rem !important; overflow-x: auto;" *ngIf="currentObjectiveSelected!==undefined && currentObjectiveSelected!==null">
+            <ng-container *ngFor="let obj of ads_channel">
+              <div class="obj-container" *ngIf="canShowAdChannel(obj)" [id]="obj.obj_id" (click)="selectAdFormat(obj)">
+                <div class="obj-wrapper">
+                  <div class="d-flex flex-column align-items-center justify-content-center p-card">
+                    <img [src]="obj.primary.icon" alt="annonces du réseau de recherche" srcset=""
+                      style="max-height: 100px;">
+                    <!-- <mat-icon class="p-obj-ic">{{obj.primary.icon}}</mat-icon> -->
+                    <span class="p-obj-title">{{obj.primary.title}}</span>
+                  </div>
+                  <div class="d-none flex-column justify-content-between s-card">
+                    <div class="s-header accent-color d-flex align-items-center"
+                      style="font-size: 15px;font-weight: 700;">
+                      <mat-icon>{{obj.secondary.icon}}</mat-icon>
+                      <span style="margin: 0 8px; font-size: 12px !important;">{{obj.secondary.title}}</span>
+                    </div>
+                    <div class="s-body" style="font-size: 12px !important;">
+                      {{obj.secondary.description}}
+                    </div>
+                    <div class="s-footer">
+    
+                    </div>
+                  </div>
+                  <mat-icon class="checked-icon1 accent-color">check_circle</mat-icon>
+                </div>
+              </div>
+    
+            </ng-container>
+          </div>
+          <div class="d-flex flex-column justify-content-center align-items-start p-md-4 p-md-2 cmp-type-container" *ngIf="currentChannelSelected!==null">
+            <h6 class="mb-3">{{ 'cmp_name_label' | translate }}</h6>
+            <mat-card class="w-100">
+                <adf-cmp-name [ads_channel]="currentChannelSelected"></adf-cmp-name>
+            </mat-card>
+        </div>
+        <div class="d-flex flex-column justify-content-center align-items-start p-md-4 p-md-2 mt-1 cmp-type-container" *ngIf="currentChannelSelected!==null">
+            <h6 class="mb-2">{{ 'which_would_you_like_to_promote' | translate }}</h6>
+            <mat-card class="w-100">
+                <adf-cmp-landing-page (data_url)="onDataUrlEmitted($event)"></adf-cmp-landing-page>
+            </mat-card>
+          </div>
+          <div class="d-flex flex-column justify-content-center align-items-start p-md-4 p-md-2 mt-2 cmp-type-container"  *ngIf="currentChannelSelected!==null">
+            <h6 class="mb-2">{{ 'cmp_start_date' | translate }}</h6>
+            <mat-card class="w-100">
+                <adf-cmp-dates></adf-cmp-dates>
+            </mat-card>
+        </div>
+          <div id="ads-channel-container m-2"></div>
+          <div class="d-flex w-100 justify-content-start align-items-center mt-2 pl-4" id="submit-block"
+            *ngIf="currentChannelSelected!==null">
+            <button mat-flat-button class="m-1 mr-4" color="primary" (click)="goFrame2()">{{ 'next_label' | translate }}</button>
+            <!-- <button mat-flat-button class="m-1" color="accent" (click)="exitCreateCampaign()">Annuler</button> -->
+          </div>
+        </div>
+      <div [ngStyle]="{'display': frame2?'block':'none'}" class="animate__animated animate__fadeInLeft density_content
+      ">
+          <div class="d-flex flex-column justify-content-center align-items-start p-md-4 p-2 mt-2">
+            <h6 class="mb-2">{{ 'which_area_do_you_want' | translate }}</h6>
+            <mat-card class="w-100">
+                <adf-cmp-zones></adf-cmp-zones>
+            </mat-card>
+        </div>
+        <div class="d-flex flex-column justify-content-center align-items-start p-md-4 p-2 mt-2" *ngIf="(currentChannelSelected!==undefined && currentChannelSelected!==null) && (currentChannelSelected.obj_id==='display' || currentChannelSelected.obj_id==='native')">
+          <h6 class="mb-2">Centre d'intérêt (Optionnel)</h6>
+          <mat-card class="w-100">
+              <adf-cmp-user-interest></adf-cmp-user-interest>
+          </mat-card>
+      </div>
+
+      <div class="d-flex flex-column justify-content-center align-items-start p-md-4 p-2 mt-2" *ngIf="(currentChannelSelected!==undefined && currentChannelSelected!==null) && (currentChannelSelected.obj_id==='display' || currentChannelSelected.obj_id==='native' || currentChannelSelected.obj_id==='search')">
+        <h6 class="mb-2">Appareils</h6>
+        <mat-card class="w-100">
+            <adf-cmp-device-target></adf-cmp-device-target>
+        </mat-card>
+    </div>
+        <div class="d-flex flex-column justify-content-center align-items-start p-md-4 p-2 mt-2">
+            <h6 class="mb-2" *ngIf="(currentChannelSelected!==undefined && currentChannelSelected!==null) && (currentChannelSelected.obj_id==='display' || currentChannelSelected.obj_id==='native')">{{ 'age_gender_placement' | translate }}</h6>
+            <h6 class="mb-2" *ngIf="(currentChannelSelected!==undefined && currentChannelSelected!==null) && currentChannelSelected.obj_id==='search'">{{ 'keywords_and_schedules_and_extension' | translate }}</h6>
+            <mat-card class="w-100">
+                <div class="d-flex flex-column justify-content-center align-items-start">
+                    <ng-container *ngIf="(currentChannelSelected!==undefined && currentChannelSelected!==null) && (currentChannelSelected.obj_id==='display' || currentChannelSelected.obj_id==='native')">
+                        <mat-slide-toggle [checked]="defaultDemoConfig" color="primary" (change)="defaultDemoConfigChange($event)"> 
+                            <ng-container *ngIf="defaultDemoConfig"> <span class="fs-12">{{ 'target_all_demo_label' | translate }}</span> </ng-container>
+                            <ng-container *ngIf="!defaultDemoConfig"><span class="fs-12">{{ 'custom_label' | translate }}</span></ng-container>
+                        </mat-slide-toggle>
+                        <mat-slide-toggle [checked]="defaultPlacementsConfig" color="primary" (change)="defaultPlacementsConfigChange($event)"> 
+                            <ng-container *ngIf="defaultPlacementsConfig"><span class="fs-12">{{ 'target_all_websites_apps' | translate }}</span></ng-container>
+                            <ng-container *ngIf="!defaultPlacementsConfig"><span class="fs-12">{{ 'custom_label' | translate }}</span></ng-container>
+                        </mat-slide-toggle>
+
+                    </ng-container>
+
+                    <ng-container *ngIf="currentChannelSelected!==undefined && currentChannelSelected!==null && currentChannelSelected.obj_id==='search'">
+                        <mat-slide-toggle [checked]="defaultCallExtConfig" color="primary" (change)="defaultCallExtConfigChange($event)"> 
+                            <ng-container *ngIf="defaultCallExtConfig"> <span class="fs-12">{{ 'use_phone_number' | translate }}</span> </ng-container>
+                            <ng-container *ngIf="!defaultCallExtConfig"><span class="fs-12">{{ 'no_ad_call_ext' | translate }}</span></ng-container>
+                        </mat-slide-toggle>
+                    </ng-container>
+
+                    <mat-slide-toggle [checked]="defaultSchedulesConfig" color="primary" (change)="defaultSchedulesConfigChange($event)"> 
+                        <ng-container *ngIf="defaultSchedulesConfig"><span class="fs-12">{{ 'target_all_schedules' | translate }}</span></ng-container>
+                        <ng-container *ngIf="!defaultSchedulesConfig"><span class="fs-12">{{ 'custom_label_schedules' | translate }}</span></ng-container>
+                    </mat-slide-toggle>
+                    <div class="row mt-3 mb-5"  *ngIf="!defaultDemoConfig || !defaultPlacementsConfig || !defaultSchedulesConfig">
+                        <div class="col-md-12 p-md-3 d-flex flex-column " *ngIf="!defaultDemoConfig && (currentChannelSelected.obj_id==='display' || currentChannelSelected.obj_id==='native')">
+                            <adf-cmp-demographic-target></adf-cmp-demographic-target>
+                        </div>
+                        <div class="col-md-12 p-md-3 d-flex flex-column  mb-5" *ngIf="!defaultPlacementsConfig && ( currentChannelSelected.obj_id==='native')">
+                            <adf-youtube-channels-selector></adf-youtube-channels-selector>
+                        </div>
+                        <div class="col-md-12 p-md-3 d-flex flex-column mb-2" *ngIf="!defaultPlacementsConfig && ( currentChannelSelected.obj_id==='display')">
+                          <span class="font-weight-bold ml-md-4" style="font-size: 12px;">Sites web</span>  
+                          <adf-cmp-placement-target></adf-cmp-placement-target>
+                        </div>
+                        <div class="col-md-12 p-md-3 d-flex flex-column  mb-5" *ngIf="!defaultSchedulesConfig">
+                          <span class="font-weight-bold ml-md-4 mb-5" style="font-size: 12px;">Heures de diffusions</span>
+                            <adf-cmp-schedules #schedule></adf-cmp-schedules>
+                        </div>
+                    </div>
+                    <div class="row mt-3 mb-5" *ngIf="(currentChannelSelected!==undefined && currentChannelSelected!==null) && currentChannelSelected.obj_id==='search'">
+                        <div class="col-md-12 p-md-3 d-flex flex-column " >
+                          <span class="font-weight-bold ml-md-4 mb-5" style="font-size: 12px;">Mots clés</span>
+                            <adf-cmp-keywords-selector></adf-cmp-keywords-selector>
+                        </div>
+                    </div>
+                    <div class="row mt-3 mb-5" *ngIf="(currentChannelSelected!==undefined && currentChannelSelected!==null) && (currentChannelSelected.obj_id==='search' && defaultCallExtConfig)">
+                      <span class="font-weight-bold ml-md-4 mb-5" style="font-size: 12px;">Extension d'appel</span>
+                      <div class="col-md-12 p-md-3 d-flex flex-column " >
+                        <adf-call-extension-setup></adf-call-extension-setup>
+                      </div>
+                  </div>
+                </div>
+            </mat-card>
+        </div>
+          <div class="d-flex w-100 justify-content-start align-items-center mt-2 pl-4">
+            <button mat-button class="m-1" color="primary" (click)="goFrame1()">{{ 'prev_label' | translate }}</button>
+          <button mat-flat-button class="m-1 mr-4" color="primary" (click)="goFrame3()">{{ 'next_label' | translate }}</button>
+        </div>
+      </div>
+      <div [ngStyle]="{'display': frame3?'block':'none'}" class="animate__animated animate__fadeInLeft density_content">
+        <div class="d-flex flex-column justify-content-center align-items-start p-md-4 p-2 mt-2">
+            <h6 class="mb-2">{{ 'how_much_invest' | translate }}</h6>
+            <mat-card class="w-100">
+                <adf-cmp-pack-chooser></adf-cmp-pack-chooser>
+            </mat-card>
+        </div>
+        
+        <div class="d-flex w-100 justify-content-start align-items-center mt-2 pl-4" >
+          <button mat-button class="m-1" color="primary" (click)="goBackFrame2()">{{ 'prev_label' | translate }}</button>
+            <button mat-flat-button class="m-1 mr-4" color="primary" (click)="goFrame4()">{{ 'next_label' | translate }}</button>
+          </div>
+        </div>
+      <div [ngStyle]="{'display': frame4?'block':'none'}" class="animate__animated animate__fadeInLeft density_content">
+          <ng-container *ngIf="currentChannelSelected!==undefined && currentChannelSelected!==null && currentChannelSelected.obj_id==='display'">
+            <div class="p-4 d-flex flex-column w-100 justify-content-center align-items-start">
+              <h6 class="mb-2">{{ 'dsp_ads_imported' | translate }}</h6>
+              <adf-cmp-ads-uploader (uploadFinish)='detectUploadFinish($event)'></adf-cmp-ads-uploader>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="currentChannelSelected!==undefined && currentChannelSelected!==null && currentChannelSelected.obj_id==='native'">
+            <div class="p-4 d-flex flex-column w-100 justify-content-center align-items-start">
+              <adf-cmp-native-ads-creator></adf-cmp-native-ads-creator>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="currentChannelSelected!==undefined && currentChannelSelected!==null && currentChannelSelected.obj_id==='search'">
+          <div class="p-4 d-flex flex-column w-100 justify-content-center align-items-start">
+            <adf-cmp-search-ads-creator (askKeywords)="onKeywordsAsk($event)"></adf-cmp-search-ads-creator>
+          </div>
+        </ng-container>
+          
+        <div class="d-flex w-100 justify-content-start align-items-center mt-2 p-4" >
+          <button mat-button class="m-1" color="primary" (click)="goFrame3()">{{ 'prev_label' | translate }}</button>
+            <button mat-flat-button class="m-1 mr-4" color="primary" (click)="saveCampaign()">{{ 'next_label' | translate }}</button>
+          </div>
+        </div>
+
+      <!--  <mat-card class="w-100 mat-elevation-z8 card-elevation mt-3 mb-0" style=""
+        *ngIf="currentObjectiveSelected!==null">
+        <mat-card-header>
+          <mat-card-subtitle>Sélectionnez le type d'annonce</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="d-flex flex-wrap justify-content-between">
+          <ng-container *ngFor="let obj of ads_channel">
+            <mat-card *ngIf="canShowAdChannel(obj)" [id]="obj.obj_id" (click)="selectAdFormat(obj)"
+              style="max-width: 300px;" class="m-2 ads-container">
+              <mat-icon class="checked-ad-icon accent-color">check_circle</mat-icon>
+              <mat-card-content class="d-flex flex-column justify-content-center align-items-center">
+                <img [src]="obj.primary.icon" alt="annonces du réseau de recherche" srcset="" style="max-width: 100%;">
+                <div class="d-flex flex-column justify-content-center align-items-center pt-3 w-100"
+                  style="height: 200px;">
+                  <h3 style="font-size: 15px !important; color: #3c4043; font-weight: bold;" class="align-items-center">
+                    {{obj.primary.title}}</h3>
+                  <h6 style="font-size: 13px !important; color: #3c4043">{{obj.primary.description}}</h6>
+                </div>
+              </mat-card-content>
+              <mat-card-actions align="center">
+                <button mat-flat-button color="accent">Choisir</button>
+              </mat-card-actions>
+            </mat-card>
+
+          </ng-container>
+
+        </mat-card-content>
+      </mat-card> -->
+     
+    </div>
+  </div>
+</div>
+
+<div
+  style="width: 100%; height: 100; position: fixed; left: 0; right: 0; top: 0; bottom: 0; background-color: rgba(138, 138, 146, 0.3);  backdrop-filter: blur(5px) contrast(.1); z-index: 4;"
+  class="text-center align-items-center align-content-center" *ngIf="loaderSaving">
+  <mat-card style="width: 300px; height: 300px; margin-top: 10% !important;" class="d-flex justify-content-center align-items-center flex-column overflow-hidden m-auto">
+    <mat-card-header>
+      <mat-card-title>Publication de la campagne</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="d-flex justify-content-center align-items-center overflow-hidden">
+      <mat-spinner class="d-inline-block" color="primary" [diameter]="50" >
+      </mat-spinner>
+    </mat-card-content>
+  </mat-card>
+</div>
+<adf-snackbar #appSnackBar></adf-snackbar>
+<adf-publish-campaign></adf-publish-campaign>
+<!-- <div class="container-fluid pt-md-5 pb-5 pl-md-5 pr-md-5 app-bg-secondary">
+    <div class="d-flex w-100 mb-0 justify-content-center align-items-start pl-md-2 pr-md-2">
+       <mat-card class="w-100 mat-elevation-z8 card-elevation mb-0" style="margin-top: 3rem !important;">
+           <mat-card-header>
+               <mat-card-subtitle>Sélectionnez un objectif pour votre campagne</mat-card-subtitle>
+           </mat-card-header>
+           <mat-card-content class="d-flex flex-wrap">
+            <div class="obj-container" *ngFor="let obj of objectives" [id]="obj.obj_id" (click)="selectObjective(obj)">
+                <div class="obj-wrapper">
+                    <div class="d-flex flex-column align-items-center justify-content-center p-card">
+                        <mat-icon class="p-obj-ic">{{obj.primary.icon}}</mat-icon>
+                        <span class="p-obj-title">{{obj.primary.title}}</span>
+                    </div>
+                    <div class="d-none flex-column justify-content-between s-card">
+                        <div class="s-header accent-color d-flex align-items-center" style="font-size: 15px;font-weight: 700;">
+                            <mat-icon>{{obj.secondary.icon}}</mat-icon>
+                            <span style="margin: 0 8px;">{{obj.secondary.title}}</span>
+                        </div>
+                        <div class="s-body">
+                            {{obj.secondary.description}}
+                        </div>
+                        <div class="s-footer">
+
+                        </div>
+                    </div>
+                    <mat-icon class="checked-icon1 accent-color">check_circle</mat-icon>
+                </div>
+            </div>
+           </mat-card-content>
+       </mat-card>
+    
+      </div>
+      <div class="d-flex w-100 pt-4 justify-content-center align-items-start" *ngIf="currentObjectiveSelected!==null">
+        <mat-card class="w-100 mat-elevation-z8 card-elevation mb-0" style="">
+            <mat-card-header>
+                <mat-card-subtitle>Sélectionnez le type d'annonce</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content class="d-flex flex-wrap justify-content-between" >
+                <ng-container *ngFor="let obj of ads_channel">
+                    <mat-card *ngIf="canShowAdChannel(obj)"  [id]="obj.obj_id" (click)="selectAdFormat(obj)" style="max-width: 300px;" class="m-2 ads-container">
+                        <mat-icon class="checked-ad-icon accent-color">check_circle</mat-icon>
+                        <mat-card-content class="d-flex flex-column justify-content-center align-items-center">
+                            <img [src]="obj.primary.icon" alt="annonces du réseau de recherche" srcset="" style="max-width: 100%;">
+                            <div class="d-flex flex-column justify-content-center align-items-center pt-3 w-100" style="height: 200px;">
+                                <h3 style="font-size: 15px !important; color: #3c4043; font-weight: bold;" class="align-items-center">{{obj.primary.title}}</h3>
+                                <h6 style="font-size: 13px !important; color: #3c4043">{{obj.primary.description}}</h6>
+                            </div>
+                        </mat-card-content>
+                        <mat-card-actions align="center">
+                            <button mat-flat-button color="accent">Choisir</button>
+                        </mat-card-actions>
+                    </mat-card>
+                   
+                </ng-container>
+                
+            </mat-card-content>
+        </mat-card>
+     <div id="ads-channel-container"></div>
+       </div>
+<div class="d-flex w-100 justify-content-center align-items-start mt-2" id="submit-block" *ngIf="currentChannelSelected!==null"> 
+    
+        <button mat-flat-button class="m-1" color="primary" (click)="goCreateCampaign()">{{ 'next_label' | translate }}</button>
+         <button mat-flat-button class="m-1" color="accent"  (click)="exitCreateCampaign()">Annuler</button>
+    
+</div>
+   <div class="row mt-4 mb-4" style="height: 100px;">
+        <div class="col-md-12 mb-4">
+        
+
+        </div>
+      </div>
+</div> -->

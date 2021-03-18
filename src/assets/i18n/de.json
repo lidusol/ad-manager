@@ -1,0 +1,30 @@
+{
+  "cmp_zone_helper_1": "By default, your ads are likely to be shown to Internet users depending on their probable position or places that interest them. If you want, you can use these geographic options so that your ads only appear for one type of geographic area",
+  "ngxauthfirebaseui": {
+    "emailConfirmationText": "Eine Bestätigungs-E-Mail wurde an Sie gesendet.\n   Überprüfen Sie Ihren Posteingang und klicken Sie auf den Link \"Bestätigen Sie meine E-Mail\", um Ihre E-Mail-Adresse zu bestätigen.",
+    "emailConfirmationTitle": "Bestätigen Sie Ihre E-Mail-Adresse!",
+    "emailErrorPatternText": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+    "emailErrorRequiredText": "E-Mail ist erforderlich",
+    "emailText": "Email",
+    "forgotPasswordButtonText": "Passwort vergessen ?",
+    "guestButtonText": "als Gast fortfahren",
+    "loginButtonText": "Einloggen",
+    "nameErrorMaxLengthText": "Der Name ist zu lang!",
+    "nameErrorMinLengthText": "Der Name ist zu kurz!",
+    "nameErrorRequiredText": "Name ist erforderlich",
+    "nameText": "Name",
+    "passwordErrorRequiredText": "Passwort wird benötigt",
+    "passwordText": "Passwort",
+    "registerButtonText": "Registrieren",
+    "registerCardTitleText": "Anmeldung",
+    "registerTabText": "Registrieren",
+    "resetPasswordActionButtonText": "Zurücksetzen",
+    "resetPasswordErrorPatternText": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+    "resetPasswordErrorRequiredText": "Zum Zurücksetzen des Passworts ist eine E-Mail erforderlich!",
+    "resetPasswordInputText": "E-Mail-Adresse auf Passwort zurücksetzen",
+    "resetPasswordInstructionsText": "Zurücksetzen angefordert. Überprüfen Sie Ihre E-Mail-Anweisungen.",
+    "resetPasswordTabText": "E-Mail-Adresse auf Passwort zurücksetzen",
+    "signInCardTitleText": "Anmelden",
+    "signInTabText": "Einloggen"
+  }
+}

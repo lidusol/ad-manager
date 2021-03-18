@@ -1,0 +1,167 @@
+<!-- <ejs-grid (rowSelected)='rowSelected($event)' #gridCampaign [dataSource]='data' locale="fr" allowTextWrap="true" [enableHover]='false'
+        id="gridDisplay" [selectionSettings]='selectionOptions'  [toolbar]='toolbarOptions'
+        [allowPaging]="true" [allowResizing]='true' [allowSorting]="true" [gridLines]='gridLines'
+        [showColumnChooser]="true" [contextMenuItems]="contextMenuItems" showColumnMenu='true' width="auto"
+        height="auto">
+        <e-columns>
+         
+        </e-columns>
+         <e-aggregates>
+        <e-aggregate>
+            <e-columns>
+                <e-column field="name" type="count">
+                    <ng-template #footerTemplate let-data>Total: {{data.count}}</ng-template>
+                </e-column>
+              
+                <e-column field="budget" type="sum">
+                    <ng-template #footerTemplate let-data>{{data.sum.toFixed(2) | currency}}</ng-template>
+                </e-column>
+                 <e-column field="clicks" type="sum">
+                    <ng-template #footerTemplate let-data>{{data.sum}}</ng-template>
+                </e-column>
+                 <e-column field="costs" type="sum">
+                    <ng-template #footerTemplate let-data>{{data.sum | currency}}</ng-template>
+                </e-column>
+                  <e-column field="impressions" type="sum">
+                    <ng-template #footerTemplate let-data><ng-number-formatter [ngNumber]="data.sum"></ng-number-formatter></ng-template>
+                </e-column>
+            </e-columns>
+        </e-aggregate>
+    </e-aggregates>
+      </ejs-grid> -->
+      <mat-toolbar color="accent" class="animate__animated animate__flipInX" *ngIf="gridAccounts.getSelectedRows().length>0">
+          <button mat-button (click)="dialogConfirmDelete.show()">Supprimer le compte</button>
+      </mat-toolbar>
+      <mat-card class="p-0" style="margin-top: -15px;">
+          <p id="msg"></p>
+          <ejs-grid #gridAccounts id='gridAccounts' [dataSource]='data' allowTextWrap="true" [allowSelection]='true' [allowSorting]='true' height='300' (dataBound)='onDataBound($event)' [enableHover]='false' [selectionSettings]='selectionSettings' [filterSettings]='filterSettings' [allowSorting]='true' [allowFiltering]='true' [gridLines]='gridLines' (rowSelected)="selectedAccount($event)">
+          <e-columns>
+              <e-column type='checkbox' headerText='Compte' [allowFiltering]='false' [allowSorting]='false'>
+                       <ng-template #template let-data>
+                           <div fxLayout="row" fxLayoutAlign="start center" class="tree-root-container">
+                <button mat-icon-button class="icon-accounts" disabled>
+                  <mat-icon role="img" class="g-ads-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 192 192" fit=""
+                      preserveAspectRatio="xMidYMid meet" focusable="false">
+                      <path fill="#FBBC04" d="M11.93 127.998L70.595 26.39l50.808 29.335-58.665 101.608z"></path>
+                      <path fill="#4285F4"
+                        d="M180.07 127.99L121.4 26.38c-8.1-14.03-26.04-18.84-40.07-10.74-14.03 8.1-18.84 26.04-10.74 40.07l58.67 101.61c8.1 14.03 26.04 18.83 40.07 10.74 14.03-8.1 18.83-26.04 10.74-40.07z">
+                      </path>
+                      <circle fill="#34A853" cx="37.34" cy="142.66" r="29.33"></circle>
+                    </svg>
+                  </mat-icon>
+                </button>
+                <div>
+
+                    <div>{{data.name}}</div>
+                             <div class="customer-id">{{data.customerId}}</div>
+                </div>
+
+              </div>             
+                  </ng-template>
+              </e-column>
+             
+              <e-column field='currenyCode' [visible]='true' headerText='Devise'></e-column>
+     <!--          <e-column field='Designation' headerText='Designation' [filter]='filter' clipMode='EllipsisWithTooltip' width='170' ></e-column>
+              <e-column field='Mail' headerText='Mail' [filter]='filterSettings' width='230'></e-column>
+              <e-column field='Location' headerText='Location' [filter]='filter' width='140'>
+                  <ng-template #template let-data>
+                      <div class="loc">
+                          <img src="./assets/grid/images/Map.png" class="e-image" alt="{{data.Location}}" />
+                          <span id="locationtext">{{data.Location}}</span>
+                      </div>
+                  </ng-template>
+              </e-column>
+              <e-column field='Status' [filter]='filter' headerText='Status' width='150'>
+                  <ng-template #template let-data>                       
+                      <div *ngIf="data.Status === 'Active';else login" class="statustemp e-activecolor">                                          
+                              <span class="statustxt e-activecolor">{{data.Status}}</span>           
+                      </div>
+                      <ng-template #login>
+                          <div class="statustemp e-inactivecolor">
+                              <span class="statustxt e-inactivecolor">{{data.Status}}</span>
+                          </div>
+                          </ng-template>
+                  </ng-template>               
+              </e-column>
+              <e-column field='Trustworthiness' [filter]='filter' headerText='Trustworthiness' width='200'>
+                  <ng-template #template let-data>
+                      <div class="trust">
+                          <img style="width: 31px; height: 24px" src="./assets/grid/images/{{data.Trustworthiness}}.png" />                        
+                                  <span id="Trusttext">{{data.Trustworthiness}}</span>
+                      </div>
+                  </ng-template>
+              </e-column>
+              <e-column field='Rating' [allowFiltering]='false' headerText='Rating' width='160'>
+                  <ng-template #template let-data>
+                      <div class="rate">
+                          <div class="rating">
+                              <span *ngFor="let i of item" [ngClass]="{'checked': data.Rating >= i, 'star': true }"></span>
+                          </div>
+                      </div>                            
+              </ng-template>
+              </e-column>
+              <e-column field='Software' headerText='Software' [allowSorting]='false' [allowFiltering]='false' width='180'>
+                  <ng-template #template let-data>
+                      <div id="myProgress" class="pbar">
+                          <div id="myBar"  *ngIf="data.Status === 'Inactive';" [style.width.%]= data.Software class="bar progressdisable">
+                            <div id="label" class="barlabel">{{data.Software}}%</div>
+                          </div>    
+                          <div id="myBar"  *ngIf="data.Status === 'Active';" [style.width.%]= data.Software class="bar">
+                                  <div id="label" class="barlabel">{{data.Software}}%</div>
+                                </div>                               
+                        </div>                              
+                  </ng-template>
+              </e-column>
+              <e-column field='CurrentSalary' headerText='Current Salary' [filter]='filterSettings' format='C2' width='160'></e-column>
+              <e-column field='Address' headerText='Address' [filter]='filterSettings' clipMode='EllipsisWithTooltip' width='240'></e-column> -->
+          </e-columns>
+      </ejs-grid> 
+          
+      </mat-card>
+
+
+      <ejs-dialog id='dialogConfirmDelete' #dialogConfirmDelete [visible]="visible" [target]="target" [position]='position'
+  [isModal]='isModal' style="top: 3rem; max-width: 400px;">
+
+  <ng-template #content>
+    <div class="dialog-content">
+      <div class="row w-100">
+        <div class="col-md-12 text-center">
+          <h3 class="delete-account-label w-100">Supprimer le compte</h3>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="row mt-5" *ngIf="deletingAccounts">
+        <div class="col-md-12 p-5 text-center align-items-center">
+          <mat-spinner class="d-inline-block"
+             color="accent" [diameter]="50">
+          </mat-spinner>
+          <p class="mt-5" style="font-size: 18px; color: rgba(0,0,0,.54);">Suppression du compte en cours....</p>
+        </div>
+      </div>
+       <div class="row" *ngIf="!deletingAccounts">
+        <div class="col-md-12 p-5 text-center align-items-center">
+          <p style="font-size: 18px; color: rgba(0,0,0,.54);">Vous allez supprimer votre compte, êtes-vous sûr de vouloir continuer ?</p>
+        </div>
+      </div>
+     
+    </div>
+    <mat-divider></mat-divider>
+    <mat-progress-bar mode="indeterminate" color="accent" *ngIf="showProgress">
+    </mat-progress-bar>
+    <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end">
+      <button mat-button (click)="dialogConfirmDelete.hide()" [disabled]="buttonCancelDisabled">Annuler</button>
+      
+      <button mat-button color="warn" (click)="deleteAccounts()" [disabled]="buttonDeleteDisabled">Supprimer</button>
+    </div>
+
+
+
+
+
+
+
+  </ng-template>
+
+</ejs-dialog>

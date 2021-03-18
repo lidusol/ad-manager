@@ -1,0 +1,32 @@
+.field-days{
+    max-width: 110px;
+}
+
+.field-hours{
+    max-width: 65px;
+}
+
+.schedule-info{
+    font-size: 13px;
+    font-weight: 400;
+    word-break: keep-all;
+    box-sizing: border-box;
+    border-left: 1px solid rgba(0,0,0,.12);
+    color: rgba(0,0,0,.54);
+    flex: 1 1 30%;
+    line-height: 20px;
+    padding-left: 16px;
+    vertical-align: top;
+}
+
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.example-radio-button {
+  margin: 5px;
+}

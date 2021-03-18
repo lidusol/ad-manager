@@ -1,0 +1,57 @@
+.url-field{
+    width: 50%;
+    -webkit-transition: width .35s ease-in-out !important;
+    transition: width .35s ease-in-out !important;
+  }
+  .mat-form-field:focus-within {
+    // width: 80% !important;
+  }
+
+  textarea::-webkit-scrollbar, .message-fixed-section::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  textarea, .message-fixed-section {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+  table{
+      display: inline-table;
+  }
+
+  .fab-sm {
+    width: 24px;
+    height: 24px;
+    line-height: 14px;
+    font-size: 14px;
+
+    &::ng-deep .mat-button-wrapper{
+        line-height: 14px;
+        padding: 0;
+
+         .mat-icon {
+             font-size: 14px;
+             padding-right: 0px;
+             padding-top: 4px;
+         }
+   }
+}
+
+ngx-datatable{
+    box-shadow: none !important;
+}
+
+.panel-footer{
+  box-sizing: border-box;
+  // border-top: 1px rgba(0,0,0,.12) solid;
+  padding: 13px 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+adf-keywords-list-preview{
+  width: 100%;
+}

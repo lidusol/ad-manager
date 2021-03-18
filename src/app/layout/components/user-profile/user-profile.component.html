@@ -1,0 +1,25 @@
+<div class="container-fluid app-bg-secondary">
+    <div class="profile-container mb-3">
+        <div class="row p-0 " style="height: 300px;" >
+            <div class="col-md-12 p-0 text-center">
+            <mat-card style="width: 100px; height: 100px; border-radius: 100% !important;display: inline-block; margin-top: 3rem;" class="animate__backInDown animate__backInUp animate__backInLeft animate__backInRight animate__bounceOut mat-elevation-z8 p-0" >
+                <img *ngIf="user!==undefined" [src]="user.photoURL" style="width: 100px; height: 100px; border-radius: 100%;">
+            </mat-card>
+
+            <div *ngIf="user!==undefined"><h6 class="font-weight-bold" >{{user.email}}</h6>
+            <span >{{user.uid}}</span>
+            </div>
+            </div>
+        </div>
+        <div class="row p-0" >
+            <div class="col-md-12 pl-md-5 pr-md-5 text-center">
+                   <div class="row">
+                    <div class="col-md-12">
+                       <adf-user-settings></adf-user-settings>
+
+                    </div>
+                   </div>
+            </div>
+        </div>
+    </div>
+</div>

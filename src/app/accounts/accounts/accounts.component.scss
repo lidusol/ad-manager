@@ -1,0 +1,36 @@
+
+.tree-accounts{
+    padding-left: 0px;
+    cursor: pointer;
+    
+}
+.tree-root-container{
+    flex-direction: row; 
+    box-sizing: border-box; 
+    display: flex; 
+    place-content: center flex-start; 
+    align-items: center;
+}
+.mat-icon-rtl-mirror{
+    margin-right: 0.5rem;
+}
+
+
+
+
+
+
+
+
+
+
+.link-account-label{
+    font: 500 20px/32px Roboto,Helvetica Neue,sans-serif;
+    margin: 1rem 1rem 1rem 1rem;
+}
+
+.active{
+    background-color: rgba(0,0,0,.04);
+    box-shadow: inset .25rem 0 0 0 blue;
+    margin-left: 20px;
+}

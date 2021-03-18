@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>{{ 'dsp_review.proceed_to_publication' | translate }}</h1>
+<div mat-dialog-content>
+    <p class="p-3 mat-elevation-z3">{{ 'dsp_review.you_have_label' | translate }}&nbsp;:&nbsp;{{data.account_value | currency}}&nbsp;{{ 'dsp_review.in_your_account' | translate }}</p>
+    <div class="d-flex justify-content-start align-items-center w-100">
+        <div class="row mt-3">
+          <div class="col-md-12 col-sm-12 text-left">
+            <ng-container *ngIf="data.account_value>data.currentBudget">
+              <span>{{ 'dsp_review.by_clicking' | translate }}&nbsp;{{data.currentBudget | currency}}&nbsp;{{ 'dsp_review.will_be_debited' | translate }}.</span>
+            </ng-container>
+            <ng-container *ngIf="data.account_value<data.currentBudget">
+              <span>{{ 'dsp_review.will_be_debited' | translate }}{{data.currentBudget | currency}},&nbsp;{{ 'please_add_funds' | translate }}</span>
+            </ng-container>
+          </div>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions class="d-flex w-100 flex-end d-flex align-items-center">
+    <button mat-button color="primary" (click)="onNoClick()" class="mr-2" >{{ 'dsp_review.cancel' | translate }}</button>
+    <button mat-flat-button color="primary" (click)="dialogRef.close('publish')" [disabled]="data.currentBudget>data.account_value"
+        >{{ 'dsp_review.confirm_label' | translate }}</button>
+    <!-- <mat-spinner [mode]="'indeterminate'" color="accent" [diameter]="20" *ngIf="spinnerPublication"></mat-spinner> -->
+  </div>

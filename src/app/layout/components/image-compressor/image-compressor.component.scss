@@ -1,0 +1,80 @@
+// .card-image-gallery{
+//     width: 250px;
+//     height: 320px;
+
+// }
+
+// .img-item{
+    
+//     cursor: pointer;
+//     max-width: 215px;
+//     max-height: 150px;
+//     width: auto;
+    
+// }
+
+// .image-container{
+//     width: 215px;
+//     height: 150px;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+// }
+
+// .image-cropping-panel{
+//     align-items: center;
+//     max-height: 290px;
+//     justify-content: center;
+//     padding: 8px;
+//     position: relative;
+//     max-width: 490px;
+//     user-select: none;
+// }
+// .adf-crop{
+//    /*  position: absolute; */
+// }
+
+// ::ng-deep .cropper-container, ::ng-deep .cropper img {
+//   max-height: 252px !important;
+// }
+
+// .hide {
+//   opacity: .5;
+//   overflow: hidden;
+//   width: 0;
+//   height: 0;
+// }
+
+// .previews {
+//   margin: 1.25rem 0 0;
+//   text-align: center;
+//   .preview {
+//     display: inline-block;
+//     vertical-align: middle;
+//     border: 5px solid transparent;
+//     &:hover {
+//       cursor: pointer;
+//       box-shadow: 0px 7px 9px -4px rgba(0, 0, 0, 0.2), 0px 14px 21px 2px rgba(0, 0, 0, 0.14), 0px 5px 26px 4px rgba(0, 0, 0, 0.12) !important; 
+//     }
+//     .img-preview {
+//       overflow: hidden;
+//       width: 150px;
+//       height: 150px;
+//     }
+//   }
+// }
+
+
+// .card-size-selector{
+//   box-shadow: none !important; 
+//   width: 150px !important;
+//   height: 80px;
+//   max-width: 150px !important;
+//   transform: scaleY(0.9);
+//   cursor: pointer;
+//   border-style: groove;
+// }
+
+// .card-size-selector:hover{
+//   transform: scaleY(1) !important;
+// }

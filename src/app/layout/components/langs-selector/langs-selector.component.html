@@ -1,0 +1,13 @@
+<button mat-icon-button [matMenuTriggerFor]="menuColor" class="lang-picker-btn">
+    <mat-icon class="ml-auto">translate</mat-icon>
+</button>
+<mat-menu #menuColor="matMenu">
+    <mat-radio-group
+    aria-labelledby="lang-picker-group-label"
+    class="lang-picker-radio-group"
+    [(ngModel)]="selectedLang" (change)="langChanged($event)" color="primary">
+    <mat-radio-button class="lang-picker-radio-button" *ngFor="let lang of langs" [value]="lang">
+      {{lang}}
+    </mat-radio-button>
+  </mat-radio-group>
+</mat-menu>

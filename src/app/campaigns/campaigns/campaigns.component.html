@@ -1,0 +1,25 @@
+
+<!-- <adf-toolbar-filter [navigationLink]="'Mes campagnes'"></adf-toolbar-filter> -->
+<div class="container-fluid p-0 app-bg-secondary">
+  <div class="d-flex w-100 m-4 justify-content-center align-items-start flex-column pl-2">
+    <h4 class="mt-5">{{ 'campaigns.all_campaigns_label' | translate }}</h4>
+    <button mat-flat-button class="pl-2" color="primary" (click)="goSelectCampaign()"><mat-icon>add_circle</mat-icon>&nbsp;{{ 'campaigns.new_campaign_label' | translate }}</button>
+  </div>
+  <div class="row mb-3 mt-5" >
+    <div class="col-md-12 pl-md-5 pr-md-5">
+      <mat-tab-group mat-stretch-tabs class="mat-elevation-z4">
+        <mat-tab [label]="'campaigns.imported_ads_tab_label' | translate">
+          <adf-campaigns-data-table #dataTableCampaigns></adf-campaigns-data-table>
+        </mat-tab>
+        <mat-tab [label]="'campaigns.cmp_with_rsda_label_tab' | translate"> 
+          <adf-campaigns-data-table-youtube #dataTableCampaignsYoutube></adf-campaigns-data-table-youtube> </mat-tab>
+        <mat-tab [label]="'campaigns.cmp_with_sa_label_tab' | translate">
+          <adf-campaigns-data-table-search #dataTableCampaignsSearch></adf-campaigns-data-table-search>
+        </mat-tab>
+      </mat-tab-group>  
+    </div>
+  </div>
+
+</div>
+
+<!-- <adf-select-linked-account #selectLinkedAccountComponent (clientId)='onSelectAccount($event)'></adf-select-linked-account> -->

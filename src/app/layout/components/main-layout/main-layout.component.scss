@@ -1,0 +1,176 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  /* position: absolute; */
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+ /*  max-height: 100vh;
+  height: auto;
+  overflow: auto; */
+}
+
+.app-is-mobile .app-toolbar {
+  position: fixed;
+  /* Make sure the toolbar will stay on top of the content as it scrolls past. */
+  z-index: 2;
+}
+
+h1.app-app-name {
+  margin-left: 8px;
+}
+
+.app-sidenav-container {
+  /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
+     causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
+  flex: 1;
+  overflow: auto;
+  z-index: 0;
+}
+
+.app-is-mobile .app-sidenav-container {
+  /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
+     `<body>` to be our scrolling element for mobile layouts. */
+  flex: 1 0 auto;
+  margin-top: 0px !important;
+}
+
+.app-is-mobile .toolbar-authorization-request{
+    top: 0;
+    position: fixed;
+    z-index: 1050;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+}
+.request-text{
+  font-size: 12px; color: #424242;
+}
+.app-is-mobile .toolbar-authorization-request .request-text, .app-is-mobile .toolbar-authorization-request .request-action{
+  font-size: 10px;
+} 
+
+.adf-progress{
+    top: 60px;
+    position: sticky;
+    z-index: 70;
+
+}
+.parent-component-container{
+  overflow-y: auto;
+      overflow-x: hidden;
+    /*   display: flex; */
+      flex-grow: 1;
+      padding: 0 !important;
+        height: auto;
+       
+       
+}
+.parent-container-padding{
+  padding-bottom: 4rem !important;
+  padding-top: 4rem !important;
+}
+ mat-sidenav-content{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    
+      
+    }
+
+
+  .toolbar-authorization-request{
+     /* margin-top: 60px; */
+    z-index: 1050;
+    height: 50px;
+    /* background-color: #fff9c4; */
+  }
+
+  .card-information{
+    border-radius: 0px;
+    width: 350px;
+    height: 200px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 1rem;
+}
+
+
+.card-information-footer{
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+    right: 1rem;
+
+}
+
+
+.mat-sidenav{
+  
+  position: fixed !important;
+ /*  background: whitesmoke; */
+  border: none !important;
+  overflow-y: hidden !important;
+  overflow-x: hidden !important;
+   transition: 0.5s;
+   top: 0;
+   outline: none;
+   /* box-shadow: none !important; */
+   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .1) !important;
+    
+  /* max-width: 180px; */
+}
+
+
+
+.mat-sidenav{
+
+  &:focus{
+    outline: 0;
+  }
+  &:before{
+    content: '';
+    display: block;
+    position: absolute;
+    background: rgba(255,255,255,0.5);
+    width: 60px;
+    height: 100%;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    filter: blur(30px);
+    transform: translateX(-100px)  skewX(-15deg);
+  }
+  &:after{
+    content: '';
+    display: block;
+    position: absolute;
+    background: rgba(255,255,255,0.2);
+    width: 30px;
+    height: 100%;
+    left: 30px;
+    top: 0;
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateX(-100px) skewX(-15deg);
+  }
+  &:hover{
+    /* background: #338033; */
+    cursor: pointer;
+    &:before{
+      transform: translateX(300px)  skewX(-15deg);  
+      opacity: 0.6;
+      transition: 1s;
+    }
+    &:after{
+      transform: translateX(300px) skewX(-15deg);  
+      opacity: 1;
+      transition: 1s;
+    }
+  }
+}
+
+.mat-sidenav:hover{
+  overflow-y: auto;
+}

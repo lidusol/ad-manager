@@ -1,0 +1,24 @@
+<!--  <video #target class="video-js" controls muted playsinline preload="none"></video> -->
+<!-- <video
+    #target
+    id="vid1"
+    class="video-js vjs-default-skin"
+    controls
+    autoplay
+    
+    
+  >
+  </video> -->
+ <!--  <video
+    id="vid1"
+    class="video-js vjs-default-skin"
+    controls
+    autoplay
+    width="640" height="264"
+    data-setup='{ "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": "https://www.youtube.com/watch?v=xjS6SftYQaQ"}] }'
+  >
+  </video> -->
+  <youtube-player  [videoId]="videoId" [width]="width" [height]="height" [playerVars]="{'modestbranding': 1, 'autoplay': 1, 'rel': 0, 'controls': 0}" (onPlayerReady)="onPlayerReady()"></youtube-player>
+  <!-- application/x-mpegURL -->
+
+  <!-- data-setup='{ "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": "https://www.youtube.com/watch?v=xjS6SftYQaQ"}] }' -->

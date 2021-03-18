@@ -1,0 +1,563 @@
+<!-- 
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>title</mat-card-title>
+        <mat-card-subtitle>subtitle</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+    
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-button>Ok</button>
+    </mat-card-actions>
+</mat-card> -->
+<mat-accordion>
+  <mat-expansion-panel (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false" [expanded]="panelOpenState">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Annonces
+      </mat-panel-title>
+      <mat-panel-description>
+        <ng-container *ngIf="panelOpenState">
+          Toutes les annonces de cette Campagne
+
+        </ng-container>
+        <ng-container *ngIf="!panelOpenState">
+          voir vos annonces
+
+        </ng-container>
+        
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-toolbar color="primary" *ngIf="gridAds!==undefined && gridAds.getSelectedRecords().length>0">
+      <button mat-button (click)="triggerDeletion()">Supprimer</button>
+    </mat-toolbar>
+<ng-container *ngIf="campaignId!==0">
+<mat-card style="box-shadow: none !important;">
+    <mat-card-header>
+        <!-- <mat-card-title>Liste des annonce</mat-card-title>
+        <mat-card-subtitle>Toutes les annonces de cette campagne</mat-card-subtitle> -->
+    </mat-card-header>
+    <mat-card-content>
+     <ejs-grid locale="fr" id="grid-images" [dataSource]='ads' height="auto" [allowPaging]='true'
+[pageSettings]='initialPage' #gridAds (rowSelected)='rowSelected($event)'>
+                            <e-columns>
+                               <e-column type='checkbox' width='50' textAlign='Left'></e-column>
+                              <e-column field='url_image' width='150' headerText='Images' textAlign='Left'>
+                                <ng-template #template let-data>
+                                  
+                                  <div class="d-flex" style="flex-shrink: 0; align-items: center;">
+                                   
+                                    <mat-icon class="icon-status" *ngIf="data.status==='PAUSED'">pause_circle_filled</mat-icon>
+                                 
+                                    <mat-icon class="icon-status text-success" *ngIf="data.status==='ENABLED'">lens</mat-icon>
+                                   <mat-divider
+                                       [vertical]="true">
+                                   </mat-divider>
+                                    <button mat-icon-button [matMenuTriggerFor]="menu"
+                                      aria-label="Example icon-button with a menu">
+                                      <div class="ess-edit-icon ess-dropdown-icon ml-2" role="button"
+                                        aria-label="Modifier" aria-disabled="false"></div>
+                                    </button>
+                                    
+                                     
+                                     
+                                       
+                                        <ejs-tooltip  cssClass='e-tooltip-css' position='BottomCenter'  style="cursor: pointer;">
+                                          <img src={{data.url_image}} class="img-fluid" style="width: 30%;">
+                                           <ng-template #content >
+                 <img src={{data.url_image}} class="img-fluid" >
+              </ng-template>
+                                        </ejs-tooltip>
+                                     
+
+                         
+                                    
+                                    <mat-menu #menu="matMenu" xPosition='after'>
+                                      <ng-container *ngIf="data.status==='ENABLED'">
+                                        <ng-container>
+                                          <button mat-menu-item disabled>
+                                            <mat-icon class="icon-status" >lens</mat-icon>
+                                            <span class="ml-1" >Activer le visuel</span>
+                                          </button>
+                                          <button
+                                            
+                                            mat-menu-item (click)="changeAdStatus(data.id, data.ad_id, data.status, data.ad_group_id)">
+                                            <mat-icon class="icon-status" >pause_circle_filled</mat-icon>
+                                            <span class="ml-1">Mettre en veille le visuel</span>
+                                          </button>
+                                        </ng-container>
+                                      </ng-container>
+                                      <ng-container *ngIf="data.status==='PAUSED'">
+                                        <ng-container>
+                                          <button mat-menu-item disabled>
+                                            <mat-icon class="icon-status" >pause_circle_filled</mat-icon>
+                                            <span class="ml-1">Mettre en veille le visuel </span>
+                                          </button>
+                                          <button
+                                            
+                                            mat-menu-item>
+                                           <mat-icon class="icon-status text-success" >lens</mat-icon>
+                                            <span class="ml-1" (click)="changeAdStatus(data.id, data.ad_id, data.status, data.ad_group_id)">Activer le visuel</span>
+                                          </button>
+                                        </ng-container>
+                                      </ng-container>
+                                      <button mat-menu-item>
+                                       <mat-icon class="icon-status text-danger" >close</mat-icon>
+                                        <span class="ml-1">Supprimer le visuel</span>
+                                      </button>
+                                    </mat-menu>
+                                  </div>
+                                </ng-template>
+                              </e-column>
+                              <e-column field='status' headerText='Etat' textAlign='Center'>
+                                <ng-template #template let-data>
+                                  <div *ngIf="data.status==='PAUSED'">
+                                    En veille
+                                  </div>
+                                  <div *ngIf="data.status==='ENABLED'">
+                                    Activée
+                                  </div>
+                                </ng-template>
+                              </e-column>
+                              <e-column field='combinedApprovalStatus' headerText='Etat' textAlign='Center'>
+                                <ng-template #template let-data>
+                         
+                <ng-container *ngIf="(data.ad_group_id | getAdsSummuryReport: defaulClientCustomerId:data.ad_id:'combinedApprovalStatus' | async) as result">
+                  <ng-container *ngIf="result==='disapproved'">
+                    <div style="font-size: 12px; height: 30px; cursor: pointer;" class="d-flex justify-content-center mt-2 text-danger"><mat-icon class="icon-status mt-2 mr-1">error_outline</mat-icon>Désapprouvée</div>
+                  </ng-container>
+                  <ng-container *ngIf="result==='under_review'">
+                    <div style="font-size: 12px; color: #202124; height: 30px; cursor: pointer;" class="d-flex justify-content-center mt-2"><mat-icon class="icon-status mt-2 mr-1">watch_later</mat-icon>En cours de révision</div>
+                  </ng-container>
+                  <ng-container *ngIf="result!=='disapproved' && result!=='under_review'">
+                     
+                      {{result}}
+                  </ng-container>
+                  
+                </ng-container>
+                                </ng-template>
+                                
+                              </e-column>
+                              <e-column field='policy' headerText='Policy' textAlign='Center'>
+                                <ng-template #template let-data>
+                            <ng-container *ngIf="(data.ad_group_id | getAdsSummuryReport: defaulClientCustomerId:data.ad_id:'policySummary' | async) as results">
+                              <span class="text-danger">{{results}}</span>
+                              
+                                  </ng-container>
+                                 <!--  <div *ngFor="let item of data.policy | keyvalue">
+                                    <div *ngFor="let item2 of item.value | keyvalue">
+                                      <span class="text-danger">{{item2.value}}</span>
+
+                                    </div>
+</div> -->
+                                  <!--                                   {{data.policy[0].policyTopicName}} -->
+                                
+                                 <!--  <span *ngIf="data.combinedApprovalStatus.length===9">  {{data.policy}}</span>
+                                  <span  matTooltip="                                   Lorsque votre annonce a été désapprouvée supprimez l'annonce puis créez la encore.
+" *ngIf="data.combinedApprovalStatus.length!==9 && data.combinedApprovalStatus.length>0">
+                                   Lorsque votre annonce a été désapprouvée supprimez l'annonce puis créez la encore.
+                                  </span> -->
+                                </ng-template>
+                              </e-column>
+                            </e-columns>
+                            
+                          </ejs-grid>
+    </mat-card-content>
+    <mat-card-actions>
+<!--         <button mat-button>Ok</button> -->
+    </mat-card-actions>
+</mat-card>
+</ng-container>
+<ng-container *ngIf="campaignId===0">
+<mat-card style="box-shadow: none !important;" class="p-0">
+    <mat-card-header>
+      <!--   <mat-card-title>Liste des annonce</mat-card-title>
+        <mat-card-subtitle>Toutes les annonces de cette campagne</mat-card-subtitle> -->
+    </mat-card-header>
+    <mat-card-content>
+     <ejs-grid locale="fr" id="grid-images" [dataSource]='currentImagesDisplay' height="auto" [allowPaging]='true'
+[pageSettings]='initialPage' #gridAds (rowSelected)='rowSelected($event)'>
+        <e-columns>
+          <e-column type='checkbox' width='50' textAlign='Left'></e-column>
+                <e-column field='urls'  headerText='Images' textAlign='Left'>
+                    <ng-template #template let-data>
+                                  
+                                  <div class="d-flex" style="flex-shrink: 0; align-items: center;">
+
+                                       
+                                        <ejs-tooltip  cssClass='e-tooltip-css' position='BottomCenter'  style="cursor: pointer;">
+                                          <img src={{data.urls}} class="img-fluid" style="max-width: 38px;">
+                                           <ng-template #content >
+                 <img src={{data.urls}} class="img-fluid" >
+              </ng-template>
+                                        </ejs-tooltip>
+                                     
+
+                         
+                                    
+                                    
+                                  </div>
+                                </ng-template>
+                              </e-column>
+                                   <e-column field='urls' headerText='Etat' textAlign='Center'>
+                                 <ng-template #template let-data>
+                                   Campagne non publiée
+
+                                 </ng-template>
+                                 
+                              </e-column>
+                               <e-column field='width' headerText='Dimensions' textAlign='Center'>
+                                 <ng-template #template let-data>
+                                   {{data.width}} x {{data.height}}
+
+                                 </ng-template>
+                                 
+                              </e-column>
+                              <!--  <e-column field='image_content' headerText='action'  textAlign='Right'>
+                                 <ng-template #template let-data>
+                                   <button mat-button style="font-size: 12px;">VOIR</button>
+                                 </ng-template>
+                                 
+                               </e-column> -->
+                          
+
+                             <!--  <e-column field='mediaId' width='150' headerText='Supprimer' textAlign='Right'>
+                                 <ng-template #template let-data>
+                                  <button mat-icon-button class="text-danger" (click)="deleteImage(data)"><mat-icon>delete_forever</mat-icon></button>
+                                 </ng-template>
+                              </e-column> -->
+                         
+                             
+                            </e-columns>
+                            
+                          </ejs-grid>
+    </mat-card-content>
+    <mat-card-actions>
+      <ng-container *ngIf="deleted">
+        <button mat-raised-button color="primary" (click)="confirmDelete()">Confirmer la suppression</button>
+      </ng-container>
+      
+      
+      
+    </mat-card-actions>
+</mat-card>
+</ng-container>
+    
+  </mat-expansion-panel>
+
+</mat-accordion>
+
+
+
+<mat-card class="card-display-ads mt-2 mb-3">
+     <mat-card-header>
+        <mat-card-title>
+            <div class="d-flex w-100">
+                <div>
+                    Créez vos annonces
+
+                </div>
+                <div class="ml-auto">
+                   <button mat-mini-fab class="ml-auto mr-2" color="primary" (click)="dialogGalleryImages.show()"  matTooltip="Sélectionner depuis votre gallerie" [matTooltipShowDelay]="'1000'"
+                               [matTooltipPosition]="'after'"><mat-icon>collections</mat-icon></button>
+                    <button mat-mini-fab class="ml-auto" color="primary" (click)="toggleCropper()"  matTooltip="Redimensionner mes images" [matTooltipShowDelay]="'1000'"
+                               [matTooltipPosition]="'after'"><mat-icon>crop</mat-icon></button>
+                    
+                </div>
+            </div>
+
+        </mat-card-title>
+        <mat-card-subtitle>
+            <div class="row">
+                <div class="col-md-10">
+                     Avant d'importer votre contenu, assurez-vous que vous disposez de tous les droits légaux nécessaires à sa diffusion et qu'elle respecte les bonnes dimensions.&nbsp;<button mat-icon-button class="ml-auto" [mdePopoverTriggerFor]="popoverAdsFormat"  mdePopoverTriggerOn="click"  matTooltip="Voir la liste des formats supportés" [matTooltipShowDelay]="'1000'"
+                               [matTooltipPosition]="'after'"><mat-icon>help_outline</mat-icon></button>
+
+
+
+         <mde-popover  #popoverAdsFormat="mdePopover" [mdePopoverOverlapTrigger]="true" [mdePopoverCloseOnClick]="false"  id="popoverAdsFormat">
+           <mat-card style="max-width: 60rem;">
+               <mat-card-content>
+                   <img mat-card-img src="assets/images/adslist.png" class="img-fluid">
+               </mat-card-content>
+           </mat-card>
+           
+         </mde-popover>
+                   
+            </div>
+        </div>
+        </mat-card-subtitle>
+    </mat-card-header>
+  <mat-card-content>
+    
+      <div class="control-section ">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="control_wrapper">
+            <div class='imagepreview'>
+                <div id='dropArea' class="text-center" style='height: auto'>
+                  <ng-container *ngIf="dropElement!==undefined">
+                    <ejs-uploader #previewupload id='previewfileupload' [asyncSettings]='path'
+                        [dropArea]='dropElement'  (success)='onUploadSuccess($event)' (progress)='onFileUpload($event)' (failure)='onUploadFailed($event)'  [allowedExtensions]='allowExtensions' (selected)='onSelect($event)'
+                        (removing)='onFileRemove($event)' [maxFileSize]=150000>
+                    </ejs-uploader>
+
+                  </ng-container>
+                <ng-container *ngIf="filesDetails.length===0">
+                    <p style="color: #bbb;">ou</p>
+                    
+                    <h6 style="color: #bbb;">Faire glisser des fichiers ici pour importer vos annonces</h6>
+                </ng-container>
+                
+                    
+                </div>
+            </div>
+        </div>
+        <ng-container  *ngIf="selectedImagesFromGallery.length>0">
+
+      <ng-container *ngIf="selectedImagesFromGallery.length===1">
+         <div  class="alert alert-success mt-5">
+            <div class="d-flex">
+              <span style="font-size: 12px;">1 image sélectionnée depuis la gallerie (Cliquez sur enregistrer pour sauvegarder l'image).</span>
+            </div>
+        </div>
+        
+      </ng-container>
+      <ng-container *ngIf="selectedImagesFromGallery.length>1">
+        <div  class="alert alert-success mt-5">
+            <div class="d-flex">
+              <span style="font-size: 12px;">{{selectedImagesFromGallery.length}} images sélectonnées depuis la gallerie (Cliquez sur enregistrer pour sauvegarder les images)</span>
+            </div>
+        </div>
+        
+      </ng-container>
+      
+
+        </ng-container>
+        
+        
+         <ng-container *ngIf="errorsUploadSize.length>0">
+            <div class="row mb-3">
+                <div class="col-md-12" style="flex-direction: column;">
+                  <mat-card class="card-error">
+                      <button mat-icon-button color="warn" class="close-err" (click)="errorsUploadSize=[]"><mat-icon>cancel</mat-icon></button>
+                      <mat-card-content>
+                      <ng-container *ngFor="let error of errorsUploadSize" >
+                        <ng-container >
+                                 <ng-container *ngIf="error.invalid">
+                             <div  class="alert alert-danger mt-5">
+                                    <div class="d-flex">
+                                     <span style="font-size: 12px;">{{error.name}} est invalid</span>
+
+                                 </div>
+                                    </div>
+               
+                        </ng-container>
+                        <ng-container *ngIf="!error.invalid">
+                                <div  class="alert alert-danger mt-5">
+                                    <div class="d-flex">
+                                    <span style="font-size: 12px;">{{error.name}} a une taille de {{uploadObj.bytesToSize(error.size)}}. Veuillez importer une annonce ne dépassant pas 150 KB.</span>
+
+                                 </div>
+                                    </div>
+                         
+                        </ng-container>
+               
+                        </ng-container>
+                    </ng-container>
+                      </mat-card-content>
+                      
+                  </mat-card>
+                   
+                    
+                   
+
+                </div>
+            </div>
+        </ng-container>
+
+
+        <ng-container *ngIf="errorsUploadFormat.length>0">
+            <div class="row">
+                <div class="col-md-12" style="flex-direction: column;">
+                  <mat-card class="card-error">
+                      <button mat-icon-button color="warn" class="close-err" (click)="errorsUploadFormat=[]"><mat-icon>cancel</mat-icon></button>
+                      <mat-card-content>
+                      <ng-container *ngFor="let error of errorsUploadFormat" >
+                        <ng-container >
+                             <div  class="alert alert-danger">
+                                    <div class="d-flex">
+                                        <span style="font-size: 10px;">L'image {{error.name}} de dimensions {{error.width}}x{{error.height}} est invalide</span>
+                                        
+
+                                 </div>
+                                    </div>
+               
+                        </ng-container>
+                    </ng-container>
+                      </mat-card-content>
+                      
+                  </mat-card>
+                   
+                    
+                    
+                   
+
+                </div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="errorAds.length>0">
+          <div class="row mb-3">
+              <div class="col-md-12" style="flex-direction: column;">
+                <mat-card class="card-error">
+                    <button mat-icon-button color="warn" class="close-err" (click)="errorAds=[]"><mat-icon>cancel</mat-icon></button>
+                    <mat-card-content>
+                    <ng-container *ngFor="let error of errorAds" >
+                     <adf-ads-error-view [error]="error"></adf-ads-error-view>
+                  </ng-container>
+                    </mat-card-content>
+                    
+                </mat-card>
+                 
+                  
+                 
+
+              </div>
+          </div>
+      </ng-container>
+
+         
+        
+        
+    </div>
+    </div>
+</div>
+    
+    </mat-card-content>
+    <mat-card-actions align="end">
+        <button mat-raised-button color="primary" (click)="uploadDisplayImages()">Enregister</button>
+    </mat-card-actions>
+
+
+</mat-card>
+
+<mat-card *ngIf="showCropper" class="mt-5">
+    <button mat-icon-button color="warn" style="position: absolute; right: -12px; top: -17px" (click)="showCropper=false"><mat-icon>cancel</mat-icon></button>
+         <mat-card-header class="text-left">
+        <mat-card-title>Redimensionnez ici vos images</mat-card-title>
+        <mat-card-subtitle>Une fois vos images redimensionnées vous devrez les télécharger une à une et les remontées dans la section&nbsp;<strong>Annonces</strong>&nbsp;ci-dessus</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+    <div class="row" >
+        <div class="col-md-12 text-center">
+           
+                 <adf-image-compressor></adf-image-compressor>
+      
+        </div>
+       </div>
+    </mat-card-content>
+    <mat-card-actions align="end">
+        <button mat-button color='accent' (click)="toggleCropper()">fermer</button>
+    </mat-card-actions>
+</mat-card>
+<adf-spinner *ngIf="loaderEdit"></adf-spinner>
+
+<adf-snackbar></adf-snackbar>
+
+            <ejs-dialog id='dialog' #confirmDeleteDialog [visible]="visible" [target]="target" [position]='position'
+  [isModal]='isModal' style="top: 3rem; max-width: 350px; width: auto; height: auto;" [position]='position'>
+      <ng-template #content>
+        <div class="dialog-content">
+
+      
+      <div class="row">
+        <div class="col-md-12 text-center pl-0 pr-0">
+          <mat-card style="box-shadow: none;" class="mt-md-3">
+            <mat-card-header style="text-align: left;">
+                <mat-card-title>Avertissement</mat-card-title>
+                <mat-card-subtitle>
+                    
+                   </mat-card-subtitle>
+            </mat-card-header>
+            <mat-divider>
+                </mat-divider>
+            <mat-card-content>
+              <div class="row pl-md-5 pr-md-5 mt-5">
+                <div class="col-md-12 pl-md-5 pr-md-5 text-center">
+                  <ng-container *ngIf="campaignId===0">
+
+                    <p>Vous aller supprimer {{adsNotPublishedToDelete.length}} annonces êtes vous sûr de votre action</p>
+                  </ng-container>
+                  <ng-container *ngIf="campaignId!==0">
+                     <p>Vous aller supprimer {{adsPublishedToDelete.length}} annonces êtes vous sûr de votre action</p>
+                  </ng-container>
+                  
+                </div>
+              </div>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                 
+                 <button mat-button color="primary" (click)="confirmDeleteDialog.hide()" >ANNULER</button>
+      <button mat-button color="warn" (click)="confirmDelete()">SUPPRIMER</button>
+      
+            </mat-card-actions>
+        </mat-card>  
+          
+        </div>
+      </div>
+    </div>
+
+        
+      </ng-template>
+      </ejs-dialog>
+
+
+       <ejs-dialog id='dialogResizeImages' #dialogResizeImages [visible]="visible" [target]="target" [position]='position'
+     [isModal]='isModal' style="top: 3rem; max-width: 80%; height: auto;" showCloseIcon="true">
+     <ng-template #content>
+       <div class="dialog-content">
+       <div class="row">
+        <div class="col-md-12 text-center">
+            <div clas="d-inline-block">
+                 <adf-assets-cropper></adf-assets-cropper>
+            </div>
+        </div>
+       </div>
+         
+       </div>
+       <mat-divider></mat-divider>
+       <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end">
+         <button mat-button (click)="dialogResizeImages.hide()" color="primary">fermer</button>
+       
+       </div>
+
+     </ng-template>
+   </ejs-dialog>
+
+   
+       <ejs-dialog id='dialogGalleryImages' (open)='imageGalleryOpened($event)' #dialogGalleryImages [visible]="visible" [target]="target" [position]='position'
+     [isModal]='isModal' style="top: 3rem; max-width: 80%; height: auto;" showCloseIcon="true" header='Sélectionnez depuis votre gallerie'>
+     <ng-template #content>
+       <div class="dialog-content">
+       <div class="row" style="max-height: 500px; overflow: auto">
+        <div class="col-md-12 text-center">
+           
+                 <adf-images-gallery [galleryFor]="'DISPLAY'"></adf-images-gallery>
+            
+        </div>
+       </div>
+         
+       </div>
+       <mat-divider></mat-divider>
+       <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end">
+         <button mat-button (click)="dialogGalleryImages.hide()" color="primary" class="mr-2">fermer</button>
+         <button mat-flat-button color="primary" (click)="saveDisplayFromGallery()">Enregistrer</button>
+       
+       </div>
+
+     </ng-template>
+   </ejs-dialog>

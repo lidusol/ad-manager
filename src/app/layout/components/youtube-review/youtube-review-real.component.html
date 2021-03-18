@@ -1,0 +1,847 @@
+
+            <mat-toolbar class="review-toolbar" *ngIf="campaignData.length>0" #reviewToolbar>
+              <img src="assets/images/youtube.png" class="mr-3">
+             <ng-container *ngIf="user_access!==undefined">
+               <ng-container *ngIf="campaignData.length>0 && campaignData[0].status==='ENABLED' && campaignData[0].id_campagne!==0 && !campaignData[0].budgetEnded">
+                <button mat-button [matMenuTriggerFor]="statusMenu"
+                  style="font-size: 12px; color: #202124; width: 100px; display: flex; align-items: center; cursor: pointer;"
+                  class="ml-1" (mouseenter)="buttonStatusEnter()" (mouseleave)="buttonStatusLeave()" [disabled]="user_access.readOnly">
+                  <mat-icon class="icon-status text-success">lens</mat-icon>Activée<mat-icon
+                    class="icon-status-dropdown ml-2 icon-status d-none">arrow_drop_down</mat-icon>
+                </button>
+
+              </ng-container>
+              <ng-container *ngIf="campaignData.length>0 && campaignData[0].status==='PAUSED' && campaignData[0].id_campagne!==0 && !campaignData[0].budgetEnded">
+                <button mat-button [matMenuTriggerFor]="statusMenu" style="font-size: 12px; color: #202124;"
+                  class="mt-1" (mouseenter)="buttonStatusEnter()" (mouseleave)="buttonStatusLeave()" [disabled]="user_access.readOnly">
+                  <mat-icon class="icon-status">pause</mat-icon>Mise en veille<mat-icon
+                    class="icon-status-dropdown ml-2 icon-status d-none">arrow_drop_down</mat-icon>
+                </button>
+              </ng-container>
+             </ng-container>
+             
+              <mat-menu #statusMenu="matMenu" [overlapTrigger]="'true'">
+                <ng-container *ngIf="campaignData.length>0 && campaignData[0].status==='ENABLED'">
+                  <button mat-menu-item class="button-item selected" disableRipple>
+                    <mat-icon class="text-success icon-status">lens</mat-icon>
+                    <span>Activée</span>
+                  </button>
+
+                  <button mat-menu-item class="button-item" disableRipple (click)="pauseCampaign(campaignData[0].id, campaignData[0].id_campagne, campaignData[0].type, campaignData[0].budgetEnded)">
+                    <mat-icon class="icon-status">pause_circle_filled</mat-icon>
+                    <span>Mise en veille</span>
+                  </button>
+                </ng-container>
+                <ng-container *ngIf="campaignData.length>0 && campaignData[0].status==='PAUSED'">
+                  <button mat-menu-item class="button-item" disableRipple (click)="activateCampaign(campaignData[0].id, campaignData[0].id_campagne, campaignData[0].type, campaignData[0].budgetEnded)">
+                    <mat-icon class="text-success icon-status">lens</mat-icon>
+                    <span>Activée</span>
+                  </button>
+
+                  <button mat-menu-item class="button-item selected" disableRipple>
+                    <mat-icon class="icon-status">pause_circle_filled</mat-icon>
+                    <span>Mise en veille</span>
+                  </button>
+                </ng-container>
+              </mat-menu>
+              <div class="d-flex align-content-center align-items-center pt-1" style="width: 100px;">
+                <span class="toolbar-item-title">Type:</span>
+                &nbsp;
+                <span class="toolbar-item-content">{{campaignData[0].type}}</span>
+              </div>
+       <!--        <div class="d-flex align-content-center align-items-center" style="width: 100px;"
+                (mouseenter)="buttonEditEnter()" (mouseleave)="buttonEditLeave()">
+                <span class="toolbar-item-title">Budget:</span>
+                &nbsp;
+                <span class="toolbar-item-content">{{campaignData[0].dailyBudget}} $US/jour</span>
+
+                <button mat-icon-button [mdePopoverTriggerFor]="popover" mdePopoverTriggerOn="click"
+                  class="button-edit d-none">
+                  <mat-icon class="icon-edit">edit</mat-icon>
+                </button>
+                <mde-popover #popover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdePopoverCloseOnClick]="false"
+                  [mdePopoverOverlapTrigger]="'true'">
+                  <adf-cmp-budget-edit-popup (closePanel)="budgetPanelOutputAction($event)"></adf-cmp-budget-edit-popup>
+                </mde-popover>
+              </div> -->
+                     <div class="d-flex align-content-center align-items-center pt-1" style="width: 100px;">
+                <span class="toolbar-item-title">Pack:</span>
+                &nbsp;
+                 <ng-container *ngIf="campaignData[0].packType==='0'">
+                    <span class="toolbar-item-content">Test</span>
+                </ng-container>
+                <ng-container *ngIf="campaignData[0].packType==='1'">
+                    <span class="toolbar-item-content">Basic</span>
+                </ng-container>
+                <ng-container *ngIf="campaignData[0].packType==='2'">
+                     <span class="toolbar-item-content">Premium</span>
+                </ng-container>
+                <ng-container *ngIf="campaignData[0].packType==='3'">
+                     <span class="toolbar-item-content">Pro</span>
+                </ng-container>
+                
+                
+              </div>
+
+
+            </mat-toolbar>
+            <div class="review-container container-fluid pt-4 pl-md-5 pr-md-5">
+              <div class="row pt-3 pl-md-5 pr-md-5">
+                <div class="col-md-12 text-left pl-md-5 pr-md-5">
+                    <div class="row d-flex align-content-center align-items-center pl-md-3 pr-md-3">
+                        <div class="c-2">
+                          À propos de cette campagne
+                        </div>
+                         <ng-container *ngIf="isLoading; else loaded">
+                          <span [lyTyp]="'title'"
+                            gutterBottom
+                            lySkeleton
+                            [width]="'50%'"
+                          class="ml-auto">{{ '\u00A0' }}</span>
+    
+                          </ng-container>
+                          <ng-template #loaded>
+                            <ng-container *ngIf="user_access!==undefined">
+                              <div class="ml-auto d-flex pt-2">
+                              <button mat-raised-button color="accent" *ngIf="campaignData.length>0 && campaignData[0].id_campagne===0" (click)="publishCampaign(campaignData[0])" [disabled]="user_access.readOnly">Publier cette campagne</button>
+                                <button mat-button (click)="goSettings()" [disabled]="user_access.readOnly"><mat-icon>edit</mat-icon> Modifier la campagne</button>
+                            </div>
+                            </ng-container>
+
+                          </ng-template>
+                          
+
+                        
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                          <ng-container *ngIf="isLoading; else loadedRecap">
+                 
+                    <mat-card>
+                      
+                      <mat-card-content>
+             
+                      <div gutterBottom lySkeleton [width]="1" [height]="200">
+                        {{ '\u00A0' }}
+                      </div>
+                      </mat-card-content>
+                    
+                    </mat-card>
+                    
+                
+                          </ng-container>
+                          <ng-template #loadedRecap>
+                            <adf-cmp-display-recap [data]="campaignData" style="margin: 20px;"></adf-cmp-display-recap>
+
+                          </ng-template>
+                          
+
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <ng-container *ngIf="isLoading; else loadedAds">
+                <div class="row pl-md-5 pr-md-5 mb-5 mt-5">
+                  <div class="col-md-12 pl-md-5 pr-md-5">
+                    <div class="c-2 mb-2">
+                          Liste des annonces
+                        </div>
+                    <mat-card>
+                      <mat-card-header>
+                        <mat-card-subtitle>Toutes les annonce de cette campagne</mat-card-subtitle>
+                      </mat-card-header>
+                      <mat-card-content>
+             
+                      <div gutterBottom lySkeleton [width]="1" [height]="200">
+                        {{ '\u00A0' }}
+                      </div>
+                      </mat-card-content>
+                    
+                    </mat-card>
+                    
+                  </div>
+                    </div>
+              </ng-container>
+              <ng-template #loadedAds>
+                <div class="row pl-md-5 pr-md-5 mb-5 mt-2" *ngIf="campaignData.length>0 && campaignData[0].id_campagne!==0 && ads.length>0">
+                  <div class="col-md-12 pl-md-5 pr-md-5">
+                    <div class="c-2 mb-2">
+                          Liste des annonces
+                        </div>
+                    <mat-card class="card-image-container p-0">
+      <mat-card-header>
+          <mat-card-subtitle>Toutes les annonces de cette campagne</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="row">
+          <div class="col-md-4 pt-3" *ngFor="let img of ads">
+           
+          <mat-card class="text-center card-image-item-1">
+      <div class="image-container">
+        <picture>
+          <source media='(min-width:0px)' [srcset]="img.url_image" >
+          <img mat-card-image src="" [mdePopoverTriggerFor]="popoverAds"  mdePopoverTriggerOn="hover" [alt]="img.ad_name" class="img-item d-inline-block" >
+        </picture>
+        <mde-popover  #popoverAds="mdePopover" [mdePopoverOverlapTrigger]="true" [mdePopoverCloseOnClick]="false" >
+                        <mat-card class="card-brief" style="border-radius: 2px; height: auto; max-width: auto">
+                          <mat-card-content><img mat-card-img [src]="img.url_image" style="max-height: 352px; max-width: 352px"></mat-card-content>
+                        </mat-card>
+        </mde-popover>
+      </div>
+      <mat-card-content >
+     <mat-toolbar class="toolbar-slides pl-0 pr-0">
+              <div class="d-flex flex-column">
+                <span class="ad-coll-label">Annonce</span>
+                <ng-container *ngIf="(img.ad_group_id | getAdsSummuryReport: defaulClientCustomerId:img.ad_id:'combinedApprovalStatus' | async) as result">
+                  {{result}}
+                  <ng-container *ngIf="result==='disapproved'">
+                    <div style="font-size: 12px; height: 30px; cursor: pointer;" class="d-flex justify-content-center mt-2 text-danger"><mat-icon class="icon-status mt-2 mr-1">error_outline</mat-icon>Désapprouvée</div>
+                  </ng-container>
+                  <ng-container *ngIf="result==='under_review'">
+                    <div style="font-size: 12px; color: #202124; height: 30px; cursor: pointer;" class="d-flex justify-content-center mt-2"><mat-icon class="icon-status mt-2 mr-1">watch_later</mat-icon>En cours de révision</div>
+                  </ng-container>
+                  <ng-container *ngIf="result!=='disapproved' && result!=='under_review' && result!=='under review'">
+                     <ng-container *ngIf="img.status==='PAUSED'">
+                        <div style="font-size: 12px; color: #202124; height: 30px; cursor: pointer;" class="d-flex justify-content-center mt-2" matTooltip="Cette annonce est actuellement en veille"
+            [matTooltipShowDelay]="'1000'"  [matTooltipPosition]="'after'"><mat-icon class="icon-status mt-2 mr-1">pause</mat-icon>En veille</div>
+                    </ng-container>
+                    <ng-container *ngIf="img.status==='ENABLED'">
+                      <div 
+                      style="font-size: 12px; color: #202124; width: 100px; display: flex; align-items: center; cursor: pointer;  height: 40px;"
+                      class="ml-1" matTooltip="Cette annonce est actuellement activée"
+            [matTooltipShowDelay]="'1000'"  [matTooltipPosition]="'after'">
+                      <mat-icon class="icon-status text-success">lens</mat-icon>Activée
+                    </div>
+                    </ng-container>
+                  </ng-container>
+                  
+                </ng-container>
+                
+                   
+           
+                  
+                  
+  
+       
+                
+               
+               
+              </div>
+              
+              <div class="d-flex flex-column" style="width: 70px;">
+                  <mat-select class="card-stats-all-select ad-coll-label" [(ngModel)]="selectedOptionStats1"  [matTooltipPosition]="'after'" [matTooltip]="selectedOptionStats1.text"  [compareWith]="compareStats">
+                     <ng-container *ngFor="let option of statsOptions">
+                       <mat-option class="stats-select-options" [value]="option" style="font-size: 10px;">{{option.text}}</mat-option>
+                     </ng-container>
+                   </mat-select>
+                   
+                    <ng-container *ngIf="selectedOptionStats1.value==='costs'">
+                   <span class="ad-stats-text mt-2" style="height: 30px;">  
+                    {{img.ad_group_id | getAdsSummuryReport: defaulClientCustomerId:img.ad_id:selectedOptionStats1.value | async | currency}}</span>
+                    </ng-container>
+                      <ng-container *ngIf="selectedOptionStats1.value!=='costs'">
+                      <span class="ad-stats-text mt-2" style="height: 30px;">
+                    {{img.ad_group_id | getAdsSummuryReport: defaulClientCustomerId:img.ad_id:selectedOptionStats1.value | async}}</span>
+                    </ng-container>
+                    
+              </div>
+               <div class="d-none d-md-flex flex-column ml-3" style="width: 80px;">
+                  <mat-select class="card-stats-all-select ad-coll-label" [(ngModel)]="selectedOptionStats2"  [matTooltipPosition]="'after'" [matTooltip]="selectedOptionStats2.text" [compareWith]="compareStats">
+                     <ng-container *ngFor="let option of statsOptions">
+                       <mat-option class="stats-select-options" [value]="option" style="font-size: 10px;">{{option.text}}</mat-option>
+                     </ng-container>
+                   </mat-select>
+                   
+                    <ng-container *ngIf="selectedOptionStats2.value==='costs'">
+                   <span class="ad-stats-text mt-2" style="height: 30px;">  
+                    {{img.ad_group_id | getAdsSummuryReport: defaulClientCustomerId:img.ad_id:selectedOptionStats2.value | async | currency}}</span>
+                    </ng-container>
+                      <ng-container *ngIf="selectedOptionStats2.value!=='costs'">
+                      <span class="ad-stats-text mt-2" style="height: 30px;">
+                    {{img.ad_group_id | getAdsSummuryReport: defaulClientCustomerId:img.ad_id:selectedOptionStats2.value | async}}</span>
+                    </ng-container>
+                    
+              </div>
+              
+            </mat-toolbar>
+    
+    </mat-card-content> 
+  </mat-card>
+    
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+  
+      </mat-card-actions>
+  </mat-card>
+                  </div>
+                </div>
+                <div class="row pl-md-5 pr-md-5 mb-5" *ngIf="campaignData.length>0 && campaignData[0].id_campagne===0 && currentImagesDisplay.length>0">
+                  <div class="col-md-12 pl-md-5 pr-md-5">
+                    <div class="c-2 mb-2">
+                          Liste des annonces
+                        </div>
+                    <mat-card class="card-image-container p-0">
+      <mat-card-header class="pl-0">
+          <mat-card-subtitle>Toutes les annonces de cette campagne</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="row">
+          <div class="col-md-4 pt-3" *ngFor="let img of currentImagesDisplay">
+           
+          <mat-card class="text-center card-image-item">
+            <mat-card-content class="image-container">
+              <picture>
+                <source media='(min-width:0px)' [srcset]="img.urls" >
+                <img mat-card-image src="" [alt]="img.name" class="img-item d-inline-block" >
+              </picture>
+                      <mde-popover  #popoverAds="mdePopover" [mdePopoverOverlapTrigger]="true" [mdePopoverCloseOnClick]="false" >
+                        <mat-card class="card-brief" style="border-radius: 2px; height: auto; max-width: auto">
+                          <mat-card-content><img mat-card-img [src]="img.urls" style="max-height: 352px; max-width: 352px"></mat-card-content>
+                        </mat-card>
+                        </mde-popover>
+
+            </mat-card-content>
+  </mat-card>
+    
+          </div>
+        </div>
+        
+      </mat-card-content>
+      <mat-card-actions>
+        
+        
+        
+        
+      </mat-card-actions>
+  </mat-card>
+                  </div>
+                </div>
+                <ng-container *ngIf="campaignData.length>0 && campaignData[0].id_campagne===0 && currentImagesDisplay.length===0">
+                <div class="row pl-md-5 pr-md-5 mb-5 mt-5">
+                  <div class="col-md-12 pl-md-5 pr-md-5">
+                    <div class="c-2 mb-2">
+                          Liste des annonces
+                        </div>
+                    <mat-card>
+                      <mat-card-header>
+<!--                         <mat-card-subtitle>Toutes les annonce de cette campagne</mat-card-subtitle> -->
+                      </mat-card-header>
+                      <mat-card-content>
+             
+                        <div class="row">
+                          <div class="col-md-12 text-center">
+                            <h4>Cette campagne ne contient aucune annonce, veuillez en créer en pour qu'elle puisse diffuser</h4>
+                          </div>
+                        </div>
+                      </mat-card-content>
+                    
+                    </mat-card>
+                    
+                  </div>
+                    </div>
+              </ng-container>
+              <ng-container *ngIf="campaignData.length>0 && campaignData[0].id_campagne!==0 && ads.length===0">
+                <div class="row pl-md-5 pr-md-5 mb-5 mt-5">
+                  <div class="col-md-12 pl-md-5 pr-md-5">
+                    <div class="c-2 mb-2">
+                          Liste des annonces
+                        </div>
+                    <mat-card>
+                      <mat-card-header>
+                      <!--   <mat-card-subtitle>Toutes les annonce de cette campagne</mat-card-subtitle> -->
+                      </mat-card-header>
+                      <mat-card-content>
+             
+                        <div class="row">
+                          <div class="col-md-12 text-center">
+                            <h4>Cette campagne ne contient aucune annonce, veuillez en créer en pour qu'elle puisse diffuser</h4>
+                          </div>
+                        </div>
+                      </mat-card-content>
+                    
+                    </mat-card>
+                    
+                  </div>
+                    </div>
+              </ng-container>
+
+
+
+              <!-- <div class="row pl-md-5 pr-md-5 mb-5 mt-2" *ngIf="campaignData.length>0 && campaignData[0].id_campagne!==0 &&nativeAds.length>0">
+                  <div class="col-md-12 pl-md-5 pr-md-5">
+                    <div class="c-2 mb-2">
+                          Liste des annonces
+                        </div>
+                    <mat-card class="card-image-container p-0">
+      <mat-card-header>
+          <mat-card-subtitle>Toutes les annonces natives de cette campagne</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="row">
+          <div class="col-md-4 pt-3" *ngFor="let img of nativeAds">
+           
+          <mat-card class="text-center card-image-item-1">
+      <div class="image-container">
+        <picture>
+          <source media='(min-width:0px)' [srcset]="img.marketingImages[0].imageUrl" >
+          <img mat-card-image src="" [mdePopoverTriggerFor]="popoverAds"  mdePopoverTriggerOn="hover" [alt]="img.id" class="img-item d-inline-block" >
+        </picture>
+        <mde-popover  #popoverAds="mdePopover" [mdePopoverOverlapTrigger]="true" [mdePopoverCloseOnClick]="false" >
+                        <mat-card class="card-brief" style="border-radius: 2px; height: auto; max-width: auto">
+                          <mat-card-content><img mat-card-img [src]="img.marketingImages[0].imageUrl" style="max-height: 352px; max-width: 352px"></mat-card-content>
+                        </mat-card>
+        </mde-popover>
+      </div>
+      <mat-card-content >
+      <mat-toolbar class="toolbar-slides pl-0 pr-0">
+              <div class="d-flex flex-column">
+                <span class="ad-coll-label">Annonce</span>
+                <ng-container *ngIf="(img.ad_group_id | getAdsSummuryReport: defaulClientCustomerId:img.ad_id:'combinedApprovalStatus' | async) as result">
+                  <ng-container *ngIf="result==='disapproved'">
+                    <div style="font-size: 12px; height: 30px; cursor: pointer;" class="d-flex justify-content-center mt-2 text-danger"><mat-icon class="icon-status mt-2 mr-1">error_outline</mat-icon>Désapprouvée</div>
+                  </ng-container>
+                  <ng-container *ngIf="result==='under_review'">
+                    <div style="font-size: 12px; color: #202124; height: 30px; cursor: pointer;" class="d-flex justify-content-center mt-2"><mat-icon class="icon-status mt-2 mr-1">watch_later</mat-icon>En cours de révision</div>
+                  </ng-container>
+                  <ng-container *ngIf="result!=='disapproved' && result!=='under_review'">
+                     <ng-container *ngIf="img.status==='PAUSED'">
+                        <div style="font-size: 12px; color: #202124; height: 30px; cursor: pointer;" class="d-flex justify-content-center mt-2" matTooltip="Cette annonce est actuellement en veille"
+            [matTooltipShowDelay]="'1000'"  [matTooltipPosition]="'after'"><mat-icon class="icon-status mt-2 mr-1">pause</mat-icon>En veille</div>
+                    </ng-container>
+                    <ng-container *ngIf="img.status==='ENABLED'">
+                      <div 
+                      style="font-size: 12px; color: #202124; width: 100px; display: flex; align-items: center; cursor: pointer;  height: 40px;"
+                      class="ml-1" matTooltip="Cette annonce est actuellement activée"
+            [matTooltipShowDelay]="'1000'"  [matTooltipPosition]="'after'">
+                      <mat-icon class="icon-status text-success">lens</mat-icon>Activée
+                    </div>
+                    </ng-container>
+                  </ng-container>
+                  
+                </ng-container>
+                
+                   
+           
+                  
+                  
+  
+       
+                
+               
+               
+              </div>
+              
+              <div class="d-flex flex-column" style="width: 70px;">
+                  <mat-select class="card-stats-all-select ad-coll-label" [(ngModel)]="selectedOptionStats1"  [matTooltipPosition]="'after'" [matTooltip]="selectedOptionStats1.text"  [compareWith]="compareStats">
+                     <ng-container *ngFor="let option of statsOptions">
+                       <mat-option class="stats-select-options" [value]="option" style="font-size: 10px;">{{option.text}}</mat-option>
+                     </ng-container>
+                   </mat-select>
+                   
+                    <ng-container *ngIf="selectedOptionStats1.value==='costs'">
+                   <span class="ad-stats-text mt-2" style="height: 30px;">  
+                    {{img.ad_group_id | getAdsSummuryReport: defaulClientCustomerId:img.ad_id:selectedOptionStats1.value | async | currency}}</span>
+                    </ng-container>
+                      <ng-container *ngIf="selectedOptionStats1.value!=='costs'">
+                      <span class="ad-stats-text mt-2" style="height: 30px;">
+                    {{img.ad_group_id | getAdsSummuryReport: defaulClientCustomerId:img.ad_id:selectedOptionStats1.value | async}}</span>
+                    </ng-container>
+                    
+              </div>
+               <div class="d-none d-md-flex flex-column ml-3" style="width: 80px;">
+                  <mat-select class="card-stats-all-select ad-coll-label" [(ngModel)]="selectedOptionStats2"  [matTooltipPosition]="'after'" [matTooltip]="selectedOptionStats2.text" [compareWith]="compareStats">
+                     <ng-container *ngFor="let option of statsOptions">
+                       <mat-option class="stats-select-options" [value]="option" style="font-size: 10px;">{{option.text}}</mat-option>
+                     </ng-container>
+                   </mat-select>
+                   
+                    <ng-container *ngIf="selectedOptionStats2.value==='costs'">
+                   <span class="ad-stats-text mt-2" style="height: 30px;">  
+                    {{img.ad_group_id | getAdsSummuryReport: defaulClientCustomerId:img.ad_id:selectedOptionStats2.value | async | currency}}</span>
+                    </ng-container>
+                      <ng-container *ngIf="selectedOptionStats2.value!=='costs'">
+                      <span class="ad-stats-text mt-2" style="height: 30px;">
+                    {{img.ad_group_id | getAdsSummuryReport: defaulClientCustomerId:img.ad_id:selectedOptionStats2.value | async}}</span>
+                    </ng-container>
+                    
+              </div>
+              
+            </mat-toolbar>
+    
+    </mat-card-content> 
+  </mat-card>
+    
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+  
+      </mat-card-actions>
+  </mat-card>
+                  </div>
+                </div>
+                <div class="row pl-md-5 pr-md-5 mb-5" *ngIf="campaignData.length>0 && campaignData[0].id_campagne===0 && nativeAds.length>0">
+                  <div class="col-md-12 pl-md-5 pr-md-5">
+                    <div class="c-2 mb-2">
+                          Liste des annonces natives
+                        </div>
+                    <mat-card class="card-image-container p-0">
+      <mat-card-header class="pl-0">
+          <mat-card-subtitle>Toutes les annonces natives de cette campagne</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="row">
+          <div class="col-md-4 pt-3" *ngFor="let img of nativeAds">
+           
+          <mat-card class="text-center card-image-item">
+            <mat-card-content class="image-container">
+              <picture>
+                <source media='(min-width:0px)' [srcset]="img.marketingImages[0].imageUrl" >
+                <img mat-card-image src="" [alt]="img.marketingImages[0].id" class="img-item d-inline-block" >
+              </picture>
+                      <mde-popover  #popoverAds="mdePopover" [mdePopoverOverlapTrigger]="true" [mdePopoverCloseOnClick]="false" >
+                        <mat-card class="card-brief" style="border-radius: 2px; height: auto; max-width: auto">
+                          <mat-card-content><img mat-card-img [src]="img.marketingImages[0].imageUrl" style="max-height: 352px; max-width: 352px"></mat-card-content>
+                        </mat-card>
+                        </mde-popover>
+
+            </mat-card-content>
+  </mat-card>
+    
+          </div>
+        </div>
+        
+      </mat-card-content>
+      <mat-card-actions>
+        
+        
+        
+        
+      </mat-card-actions>
+  </mat-card>
+                  </div>
+                </div>
+                <ng-container *ngIf="campaignData.length>0 && campaignData[0].id_campagne===0 && nativeAds.length===0">
+                <div class="row pl-md-5 pr-md-5 mb-5 mt-5">
+                  <div class="col-md-12 pl-md-5 pr-md-5">
+                    <div class="c-2 mb-2">
+                          Liste des annonces 
+                        </div>
+                    <mat-card>
+                      <mat-card-header>
+
+                      </mat-card-header>
+                      <mat-card-content>
+             
+                        <div class="row">
+                          <div class="col-md-12 text-center">
+                            <h4>Cette campagne ne contient aucune annonce, veuillez en créer en pour qu'elle puisse diffuser</h4>
+                          </div>
+                        </div>
+                      </mat-card-content>
+                    
+                    </mat-card>
+                    
+                  </div>
+                    </div>
+              </ng-container>
+              <ng-container *ngIf="campaignData.length>0 && campaignData[0].id_campagne!==0 && nativeAds.length===0">
+                <div class="row pl-md-5 pr-md-5 mb-5 mt-5">
+                  <div class="col-md-12 pl-md-5 pr-md-5">
+                    <div class="c-2 mb-2">
+                          Liste des annonces natives
+                        </div>
+                    <mat-card>
+                      <mat-card-header>
+
+                      </mat-card-header>
+                      <mat-card-content>
+             
+                        <div class="row">
+                          <div class="col-md-12 text-center">
+                            <h4>Cette campagne ne contient aucune annonce, veuillez en créer en pour qu'elle puisse diffuser</h4>
+                          </div>
+                        </div>
+                      </mat-card-content>
+                    
+                    </mat-card>
+                    
+                  </div>
+                    </div>
+              </ng-container> -->
+              </ng-template>
+                 <div class="row pl-md-1 pr-md-1 mt-1 mb-5 pb-3">
+        <div class="col-md-12 pt-1 pl-md-1 pr-md-1" *ngIf="campaignData.length>0 && campaignData[0].id_campagne!==0">
+            <mat-card class="card-placement">
+                <mat-card-header>
+                    <mat-card-title>Emplacements où vos campagnes ont été diffusées</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <adf-channels-overview-recap></adf-channels-overview-recap>
+                </mat-card-content>
+                <mat-divider class="footer-divider">
+                </mat-divider>
+                <mat-card-actions class="position-absolute pl-3" style="bottom: 1rem; left: 0;" align="start">
+                  
+                </mat-card-actions>
+            </mat-card>
+            
+        </div>
+    </div>
+              
+
+            </div>
+
+                  <ejs-dialog id='dialogPublishChoose' #dialogPublishChoose [visible]="visible" [target]="target" [position]='position'
+  [isModal]='isModal' style="top: 3rem; max-width: 400px;">
+
+  <ng-template #content>
+      <ng-container  *ngIf="!currentCampaignIsUsedPack">
+        <div class="dialog-content">
+          <div class="row w-100">
+            <div class="col-md-12 text-center">
+              <h3 class="dialog-header-label w-100">Choisissez un mode de publication</h3>
+            </div>
+          </div>
+          <mat-divider></mat-divider>
+        
+            <div class="row p-4">
+            <div class="col-md-12 text-center pl-0 pr-0">
+              <ul class="mt-3" style="list-style: none; text-align: left;">
+                  <li>
+                      
+                      <ejs-radiobutton label="Argent dans mon compte" name="modeSelect" value="ac" [(ngModel)]="modeSelected"></ejs-radiobutton>
+                  </li>
+                        <li class="mt-2">
+                      
+                      <ejs-radiobutton label="Code promo" name="modeSelect" value="cp" [(ngModel)]="modeSelected"></ejs-radiobutton>
+                  </li>
+                  
+                       
+              </ul>
+              
+            </div>
+          </div>
+    
+          
+        </div>
+        <mat-divider></mat-divider>
+        <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end">
+           <button mat-button (click)="useAccountValue()" class="pull-right" *ngIf="modeSelected==='ac'">Suivant</button>
+                    <button mat-button  (click)="usePromoteCode()" class="pull-right" *ngIf="modeSelected==='cp'">Suivant</button>
+            
+              
+              <button mat-button (click)="dialogPublishChoose.hide()" class="pull-right">Publier après</button>
+        </div>
+
+      </ng-container>
+       <ng-container  *ngIf="currentCampaignIsUsedPack">
+        <div class="dialog-content">
+          <div class="row w-100">
+            <div class="col-md-12 text-center">
+              <h3 class="dialog-header-label w-100">Confirmez votre pack</h3>
+            </div>
+          </div>
+          <!-- <mat-divider></mat-divider> -->
+        
+            <div class="row p-4">
+            <div class="col-md-12 text-center pl-0 pr-0">
+             <div class="row mt-3" >
+        <div class="col-md-12 col-sm-12 text-center">
+          <span class="text-large">Vous disposez de : {{account_value | currency}} dans votre compte</span>
+          <br>
+          <span>Si vous avez assez de fonds pour valider ce pack cliquez sur confirmer</span>
+         
+        </div>
+
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-12 text-center">
+           <mat-card *ngIf="currentCampaignPackType==='0'"  style="width: 300px; display: inline-block;" class="card-pack">
+            <mat-card-header class="w-100">
+              <mat-card-title>Pack Test</mat-card-title>
+              <mat-card-subtitle>{{4 | currency}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content class="text-center">
+             <img mat-card-image src="assets/images/20K.png" style="display: inline-block; max-width: 150px; max-height: 200px;">
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-raised-button color="primary" (click)="useAccountValueForPack()" >Confirmer</button>
+              <!-- <button mat-raised-button color="primary"  *ngIf="account_value===0" disabled>Confirmer</button> -->
+            </mat-card-actions>
+          </mat-card>
+          <mat-card *ngIf="currentCampaignPackType==='1'"  style="width: 300px; display: inline-block;" class="card-pack">
+            <mat-card-header class="w-100">
+              <mat-card-title>Pack Basic</mat-card-title>
+              <mat-card-subtitle>{{17 | currency}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content class="text-center">
+             <img mat-card-image src="assets/images/100k.png" style="display: inline-block; max-width: 150px; max-height: 200px;">
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-raised-button color="primary" (click)="useAccountValueForPack()" >Confirmer</button>
+             <!--  <button mat-raised-button color="primary"  *ngIf="account_value===0" disabled>Confirmer</button> -->
+            </mat-card-actions>
+          </mat-card>
+       
+           <mat-card *ngIf="currentCampaignPackType==='2'"  style="width: 300px; display: inline-block;" class="card-pack">
+            <mat-card-header class="w-100">
+              <mat-card-title>Pack Premium</mat-card-title>
+              <mat-card-subtitle>{{30 | currency}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content class="text-center">
+             <img mat-card-image src="assets/images/250k.png" style="display: inline-block; max-width: 150px; max-height: 200px;">
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-raised-button color="primary" (click)="useAccountValueForPack()" >Confirmer</button>
+              <!-- <button mat-raised-button color="primary"  *ngIf="account_value===0" disabled>Confirmer</button> -->
+            </mat-card-actions>
+          </mat-card>
+           <mat-card *ngIf="currentCampaignPackType==='3'"  style="width: 300px; display: inline-block; max-width: 150px; max-height: 200px;" class="card-pack">
+            <mat-card-header class="w-100">
+              <mat-card-title>Pack Pro</mat-card-title>
+              <mat-card-subtitle>{{50 | currency}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content class="text-center">
+             <img mat-card-image src="assets/images/500k.png" style="display: inline-block">
+            </mat-card-content>
+            <mat-card-actions>
+             <button mat-raised-button color="primary" (click)="useAccountValueForPack()" >Confirmer</button>
+              <!-- <button mat-raised-button color="primary"  *ngIf="account_value===0" disabled>Confirmer</button> -->
+            </mat-card-actions>
+          </mat-card>
+
+        </div>
+      </div>
+              
+            </div>
+          </div>
+    
+          
+        </div>
+        <!-- <mat-divider></mat-divider> -->
+        <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end">
+           <button mat-button (click)="dialogPublishChoose.hide()" class="pull-right">annuler</button>
+        </div>
+
+      </ng-container>
+
+
+
+
+
+
+
+  </ng-template>
+
+</ejs-dialog>
+
+<!--       <ejs-dialog id='dialogSelectAccount' #dialogSelectAccount [visible]="visible" [target]="target" [position]='position'
+  [isModal]='isModal' style="top: 3rem; max-width: 400px;">
+
+  <ng-template #content>
+    <div class="dialog-content">
+      <div class="row w-100">
+        <div class="col-md-12 text-center">
+          <h3 class="dialog-header-label w-100">Choisissez un mode de publication</h3>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      
+      <div class="row p-4">
+        <div class="col-md-12 text-center pl-0 pr-0">
+
+          
+        </div>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end">
+     
+    </div>
+
+
+
+
+
+
+
+  </ng-template>
+
+</ejs-dialog> -->
+
+       
+ <ejs-dialog id='dialogNoEnoughFounds' #dialogNoEnoughFounds [visible]="visible" [target]="target" [position]='position'
+  [isModal]='isModal' style="top: 3rem; max-width: 300px; height: auto;">
+
+  <ng-template #content>
+    <div class="dialog-content">
+      <div class="row w-100">
+        <div class="col-md-12 text-center">
+          <h3 class="dialog-header-label w-100">Information</h3>
+        </div>
+      </div>
+      <!-- <mat-divider></mat-divider> -->
+      
+      <div class="row p-4 mt-2">
+        <div class="col-md-12 text-center pl-0 pr-0">
+           <span class="text-large text-danger">Le solde de votre compte est insuffisant pour diffuser cette campagne.</span>
+          <br>
+          <span>Ajoutez des fonds puis réessayer!</span>
+          
+        </div>
+      </div>
+    </div>
+    <!-- <mat-divider></mat-divider> -->
+    <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end">
+      <button mat-button (click)="hideDialog()" >annuler</button>
+      <button mat-button color="primary" (click)="goPayments()">Ajouter des fonds</button>
+           <!-- <button ejs-button cssClass="e-success e-flat" (click)="openDialogPromo()" class="pull-right">Utiliser un code promo</button> -->
+    </div>
+
+
+
+
+
+
+
+  </ng-template>
+
+</ejs-dialog>
+
+
+  <ejs-dialog id='dialog' #campaignConfirmDelete [visible]="visible" [target]="target" [position]='position'
+  [isModal]='isModal' style="top: 3rem; max-width: 300px; height: auto;">
+      <ng-template #content>
+        <div class="dialog-content">
+      <div class="row w-100">
+        <div class="col-md-12 text-center">
+          <h3 class="dialog-header-label w-100">Avertissement</h3>
+        </div>
+      </div>
+      <!-- <mat-divider></mat-divider> -->
+      
+      <div class="row p-4 mt-2">
+        <div class="col-md-12 text-center pl-0 pr-0">
+           <span class="text-large">Vous êtes sur le point de supprimer cette campagne, êtes-vous sûr de votre action ?</span>
+          
+        </div>
+      </div>
+    </div>
+    <!-- <mat-divider></mat-divider> -->
+    <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end">
+      <button mat-button (click)="campaignConfirmDelete.hide()"  >annuler</button>
+      <button mat-raised-button color="accent" (click)="deletionConfirmed()">Supprimer</button>
+           <!-- <button ejs-button cssClass="e-success e-flat" (click)="openDialogPromo()" class="pull-right">Utiliser un code promo</button> -->
+    </div>
+        
+      </ng-template>
+      </ejs-dialog>
+
+<adf-spinner *ngIf="loader"></adf-spinner>
+  <adf-publish-campaign *ngIf="publishComponent"></adf-publish-campaign>
+
+  <adf-snackbar></adf-snackbar>

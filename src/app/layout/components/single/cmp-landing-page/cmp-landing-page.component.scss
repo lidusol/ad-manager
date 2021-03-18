@@ -1,0 +1,26 @@
+mat-accordion{
+    width: 100%;
+}
+
+.url-field{
+  width: 100%;
+  -webkit-transition: width .35s ease-in-out !important;
+  transition: width .35s ease-in-out !important;
+}
+// .mat-form-field:focus-within {
+//   width: 80% !important;
+// }
+
+
+
+/* #url-expansion .mat-expanded .mat-expansion-panel-header .mat-expansion-panel-header-title{
+    max-width: 150px;
+    padding-top: 1.2rem !important;
+}
+#url-expansion .mat-expansion-panel-header .mat-expansion-panel-header-title{
+    max-width: 150px;
+    padding-top: 0px;
+    text-align: center;
+    align-items: center;
+    align-content: center;
+} */

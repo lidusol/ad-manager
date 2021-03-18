@@ -1,0 +1,165 @@
+<mat-toolbar class="d-flex justify-content-center align-items-center" style="width: 100%">
+    <mat-icon mat-ripple (click)='toggleMobileFormat()' style="cursor: pointer" [color]="mobileFormat?'primary':''">stay_current_portrait</mat-icon>
+    <mat-divider [vertical]="true">
+    </mat-divider>
+    <mat-icon mat-ripple (click)='toggleDesktopFormat()' style="cursor: pointer" [color]="desktopFormat?'primary':''">computer</mat-icon>
+</mat-toolbar>
+
+<div class="preview-section">
+    <div class="d-block">
+        <div class="preview-frame-container-mobile" *ngIf="mobileFormat">
+            <div class="preview-frame-wrapper" >
+                <!-- mobile -->
+                <div class="mobile-frame">
+                    <div class="mobile-camera"></div>
+                    <div class="mobile-banner"></div>
+                    <div class="mobile-content-wrapper">
+                        <div class="mobile-content">
+                            <div class="url-section">
+                                <span class="ad-badge">Annonce <span class="point-separator"></span></span>
+                                <span class="visible-url">
+                                    <div class="visible-url-preview">
+                                        <ng-container *ngIf="PATH_1!=='' && PATH_2!==''">
+                                            {{url_promote?url_promote+PATH_1+'/'+PATH_2:'www.exemple.com/'}}
+        
+                                        </ng-container>
+                                        <ng-container *ngIf="PATH_1!=='' && PATH_2===''">
+                                            {{url_promote?url_promote+PATH_1:'www.exemple.com/'}}
+        
+                                        </ng-container>
+                                        <ng-container *ngIf="PATH_1==='' && PATH_2!==''">
+                                            {{url_promote?url_promote+PATH_2:'www.exemple.com/'}}
+        
+                                        </ng-container>
+                                        <ng-container *ngIf="PATH_1==='' && PATH_2===''">
+                                            {{url_promote?url_promote:'www.exemple.com/'}}
+        
+                                        </ng-container>
+                                    </div>
+                                </span>
+                                <mat-icon class="url-right-icon">info</mat-icon>
+                            </div>
+                            <div class="head-section">
+                                <div class="head-section-group">
+                                    <div class="head-section-preview">
+                                        <span class="headline accent-text">
+                                            <ng-container *ngIf="title1ToDisplay.length>=12; else cas2">
+                                                {{title1ToDisplay}}&nbsp;|&nbsp;{{randomNumber===2?title2ToDisplay:title3ToDisplay}}
+
+                                                
+                                                
+                                            </ng-container>
+                                            <ng-template #cas2>
+                                                <ng-container *ngIf="title2ToDisplay.length>=12; else cas3">
+                                                    {{title2ToDisplay}}&nbsp;|&nbsp;{{randomNumber===2?title1ToDisplay:title3ToDisplay}}
+                                                </ng-container>
+                                                <ng-template #cas3>
+                                                    <ng-container *ngIf="title3ToDisplay.length>=12; else cas4">
+                                                        {{title3ToDisplay}}&nbsp;|&nbsp;{{randomNumber===2?title2ToDisplay:title1ToDisplay}}
+                                                    </ng-container>
+                                                    <ng-template #cas4>
+                                                        {{title1ToDisplay}}&nbsp;|&nbsp;{{title2ToDisplay}}&nbsp;|&nbsp;{{title3ToDisplay}}
+                                                    </ng-template>
+                                                    
+                                                </ng-template>
+                                                
+                                        
+                                            </ng-template>
+                                            
+                                           
+                                        </span>
+                                    </div>  
+                                </div>
+                            </div>
+                            <div class="description-section">
+                                <div class="description-section-group">
+                                    <div class="description-preview">
+                                        <span class="description-item">{{description1ToDisplay}}&nbsp;{{description2ToDisplay}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end mobilbe -->
+                
+                    
+                
+            </div>
+        </div>
+        <div class="preview-frame-container-desktop" *ngIf="desktopFormat">
+            <div class="preview-frame-wrapper" >
+                <div class="desktop-content" >
+                    <div class="url-section">
+                        <span class="ad-badge">Annonce <span class="point-separator"></span></span>
+                        <span class="visible-url">
+                            <div class="visible-url-preview">
+                                <ng-container *ngIf="PATH_1!=='' && PATH_2!==''">
+                                    {{url_promote?url_promote+PATH_1+'/'+PATH_2:'www.exemple.com/'}}
+
+                                </ng-container>
+                                <ng-container *ngIf="PATH_1!=='' && PATH_2===''">
+                                    {{url_promote?url_promote+PATH_1:'www.exemple.com/'}}
+
+                                </ng-container>
+                                <ng-container *ngIf="PATH_1==='' && PATH_2!==''">
+                                    {{url_promote?url_promote+PATH_2:'www.exemple.com/'}}
+
+                                </ng-container>
+                                <ng-container *ngIf="PATH_1==='' && PATH_2===''">
+                                    {{url_promote?url_promote:'www.exemple.com/'}}
+
+                                </ng-container>
+                                
+                            </div>
+                        </span>
+                        <mat-icon class="url-right-icon">info</mat-icon>
+                    </div>
+                    <div class="head-section">
+                        <div class="head-section-group-desktop">
+                            <div class="head-section-preview">
+                                <span class="headline primary-text">
+                                    <ng-container *ngIf="title1ToDisplay.length>=12; else cas2">
+                                        {{title1ToDisplay}}&nbsp;|&nbsp;{{randomNumber===2?title2ToDisplay:title3ToDisplay}}
+
+                                        
+                                        
+                                    </ng-container>
+                                    <ng-template #cas2>
+                                        <ng-container *ngIf="title2ToDisplay.length>=12; else cas3">
+                                            {{title2ToDisplay}}&nbsp;|&nbsp;{{randomNumber===2?title1ToDisplay:title3ToDisplay}}
+                                        </ng-container>
+                                        <ng-template #cas3>
+                                            <ng-container *ngIf="title3ToDisplay.length>=12; else cas4">
+                                                {{title3ToDisplay}}&nbsp;|&nbsp;{{randomNumber===2?title2ToDisplay:title1ToDisplay}}
+                                            </ng-container>
+                                            <ng-template #cas4>
+                                                {{title1ToDisplay}}&nbsp;|&nbsp;{{title2ToDisplay}}&nbsp;|&nbsp;{{title3ToDisplay}}
+                                            </ng-template>
+                                            
+                                        </ng-template>
+                                        
+                                
+                                    </ng-template>
+                                    
+                                   
+                                </span>
+                            </div>  
+                        </div>
+                    </div>
+                    <div class="description-section">
+                        <div class="description-section-group">
+                            <div class="description-preview">
+                                <span class="description-item">{{description1ToDisplay}}&nbsp;{{description2ToDisplay}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+        </div>
+        <div class="preview-frame-info">
+            Cet aperçu présente des annonces potentielles assemblées à l'aide de vos éléments. Toutes les combinaisons ne sont pas affichées. Les éléments peuvent s'afficher dans n'importe quel ordre. Par conséquent, assurez-vous qu'ils sont pertinents individuellement ou une fois combinés, et qu'ils respectent nos règles ou la réglementation locale. Il se peut également que le contenu soit raccourci dans le cas de certains formats.
+        </div>
+    </div>
+</div>

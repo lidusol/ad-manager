@@ -1,0 +1,31 @@
+{
+    "Nouvelle_Campagne": "label.new_cmp",
+    "ngxauthfirebaseui": {
+        "emailConfirmationText": "Se le ha enviado un correo electrónico de confirmación.\n   Revise su bandeja de entrada y haga clic en el enlace \"Confirmar mi correo electrónico\" para confirmar su dirección de correo electrónico.",
+        "emailConfirmationTitle": "¡Confirme su dirección de correo electrónico!",
+        "emailErrorPatternText": "Por favor, introduce una dirección de correo electrónico válida",
+        "emailErrorRequiredText": "Correo electronico es requerido",
+        "emailText": "Email",
+        "forgotPasswordButtonText": "Se te olvidó tu contraseña ?",
+        "guestButtonText": "continua como invitado",
+        "loginButtonText": "Iniciar sesión",
+        "nameErrorMaxLengthText": "¡El nombre es muy largo!",
+        "nameErrorMinLengthText": "¡El nombre es demasiado corto!",
+        "nameErrorRequiredText": "Se requiere el nombre",
+        "nameText": "Nombre",
+        "passwordErrorRequiredText": "se requiere contraseña",
+        "passwordText": "Contraseña",
+        "registerButtonText": "Registro",
+        "registerCardTitleText": "Registro",
+        "registerTabText": "Registro",
+        "resetPasswordActionButtonText": "Reiniciar",
+        "resetPasswordErrorPatternText": "Por favor, introduce una dirección de correo electrónico válida",
+        "resetPasswordErrorRequiredText": "Se requiere un correo electrónico para restablecer la contraseña!",
+        "resetPasswordInputText": "Restablecer la dirección de correo electrónico a la contraseña",
+        "resetPasswordInstructionsText": "Restablecimiento solicitado. Revise sus instrucciones de correo electrónico.",
+        "resetPasswordTabText": "Restablecer la dirección de correo electrónico a la contraseña",
+        "signInCardTitleText": "Iniciando sesión",
+        "signInTabText": "Registrarse"
+    },
+    "see_all_notifications": "All notifications"
+}

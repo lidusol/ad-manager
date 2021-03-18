@@ -1,0 +1,59 @@
+<div class="row"> 
+  <div class="col-md-12 text-center">
+    <div class="row">
+      <div class="col-md-8 d-flex flex-column justify-content-center align-items-start">
+        <mat-form-field class="mt-2" style="width: 100%; max-width: 200px" color="primary">
+          <mat-select [(value)]="selectedBid" [disabled]="selectDisabled" class="fs-12">
+           <mat-option class="fs-12" *ngFor="let bid of BIDS" [value]="bid.id" (click)="bidChange(bid.id)" [matTooltip]="bid.tooltip" [matTooltipPosition]="'after'">
+             {{bid.name}}
+           </mat-option>
+          </mat-select>
+          </mat-form-field>
+          <!-- <mat-form-field color="primary"  *ngIf="selectedBid==='CPM' || selectedBid==='CPC'" style="visibility: hidden;">
+            <input matInput placeholder="valeur de l'enchère" type="number" [formControl]="CPM_CPC_Control">
+            <span matSuffix>$US</span>
+            <mat-error *ngIf="CPM_CPC_Control.hasError('required')">
+              Saisir un montant pour le 
+              <ng-container *ngIf="selectedBid==='CPM'">CPM</ng-container>
+              <ng-container *ngIf="selectedBid==='CPC'">CPC</ng-container>
+            </mat-error>
+            <mat-error *ngIf="CPM_CPC_Control.hasError('minlength')">Le 
+              <ng-container *ngIf="selectedBid==='CPM'">CPM</ng-container>
+              <ng-container *ngIf="selectedBid==='CPC'">CPC</ng-container>
+              minimal d'une campagne display est de {{'0.1' | currency}}</mat-error>
+            <mat-error *ngIf="CPM_CPC_Control.hasError('maxlength')">Le 
+              <ng-container *ngIf="selectedBid==='CPM'">CPM</ng-container>
+              <ng-container *ngIf="selectedBid==='CPC'">CPC</ng-container>
+              ne peut dépasser {{10 | currency}}</mat-error>
+            </mat-form-field>
+            <mat-form-field color="primary" class="mt-2" *ngIf="selectedBid==='CPA'" style="visibility: hidden;">
+            <input matInput placeholder="valeur du CPA" type="number" [formControl]="CPA_Control">
+            <span matSuffix>$US</span>
+            <mat-error *ngIf="CPA_Control.hasError('required')">Saisir un montant pour le CPA</mat-error>
+            <mat-error *ngIf="CPA_Control.hasError('minlength')">Le CPA minimal d'une campagne display est de {{5.28 | currency}}</mat-error>
+            <mat-error *ngIf="CPA_Control.hasError('maxlength')">Le CPA ne peut dépasser {{50 | currency}}</mat-error>
+            </mat-form-field> -->
+      </div>
+      <div class="col-md-4 justify-content-center align-items-center">
+        <div class="strategie-info">
+            <ng-container *ngIf="selectedBid==='CPM'">
+              {{ 'cpm_desc' | translate }}
+            </ng-container>
+            <ng-container *ngIf="selectedBid==='CPC'">
+              {{ 'cpc_desc' | translate }}
+            </ng-container>
+            <ng-container *ngIf="selectedBid==='MC'">
+              {{ 'mc_desc' | translate }}
+            </ng-container>
+            <ng-container *ngIf="selectedBid==='CPA'">
+              {{ 'cpa_desc' | translate }}
+            </ng-container>
+         
+            </div>
+      </div>
+    </div>
+
+
+  </div>
+
+</div>

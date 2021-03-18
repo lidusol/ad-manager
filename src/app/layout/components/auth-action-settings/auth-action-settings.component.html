@@ -1,0 +1,8 @@
+<ng-container [ngSwitch]="mode">
+  <ng-container *ngSwitchCase="'resetPassword'">
+    <adf-reset-password></adf-reset-password>
+  </ng-container>
+  <ng-container *ngSwitchCase="'verifyEmail'">
+    <adf-email-verified></adf-email-verified>
+  </ng-container>
+</ng-container>

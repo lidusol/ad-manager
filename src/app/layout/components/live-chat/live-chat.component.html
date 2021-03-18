@@ -1,0 +1,231 @@
+<!-- <mat-toolbar color="primary">
+    <mat-toolbar-row></mat-toolbar-row>
+    <mat-toolbar-row></mat-toolbar-row>
+  </mat-toolbar> -->
+
+  <ng-container *ngIf="isLoading; else loaded">
+    <div class="fab-container">
+      
+      <button mat-fab class="fab-toggler" color="accent">
+        <div lySkeleton [lyWidth]="40" style="border-radius: 50px; position: absolute; top: 0.5rem; left: 0.5rem;"  [lyHeight]="40">
+                          {{ '\u00A0' }}
+                        </div>
+      </button>
+     
+    </div>
+  </ng-container>
+  <ng-template #loaded>
+    
+    <div class="fab-container">
+        <!-- <mat-icon  class="fab-toggler mat-elevation-z5"
+              (click)="onToggleFab()"><img src="assets/svg/avatar.svg" style="width: 4rem"></mat-icon> -->
+      <button mat-fab class="fab-toggler primary-dark-bg"
+              (click)="toggleChat()" >
+             
+       <!--  <i class="material-icons" *ngIf="buttons.length===0">keyboard_arrow_up</i>
+        <i class="material-icons" *ngIf="buttons.length>0">keyboard_arrow_down</i> -->
+        <mat-icon class="icon-avatar"><img src="assets/images/AVATAR.png" style="width: 40px;"></mat-icon>
+        
+       
+      </button>
+    </div>
+
+  </ng-template>
+  <div class="chat-container" [ngClass]="{'chat-visible': chatVisible}">
+    <div fxLayout="row" fxLayoutAlign="center start">
+      <div fxFlex.gt-md="100" fxFlex.gt-sm="100" fxFlex="100">
+        <mat-card class="p-0 chat-wrapper overflow-hidden" id="chat-wrapper">
+          <mat-sidenav-container [ngClass]="{ 'side-panel-opened': sidePanelOpened, 'side-panel-closed': !sidePanelOpened }">
+            <mat-sidenav #chatnav [mode]="isOver() ? 'over' : 'over'" [opened]="false" (openedStart)="sidePanelOpened = true"
+              (closedStart)="sidePanelOpened = false">
+              <mat-toolbar style="max-height: 53px;" *ngIf="agent!==undefined && agent!==null">
+                <div fxLayout="row" fxFlex="100" fxLayoutAlign="start center">
+                  <h2>Chat</h2>
+                  <!-- <a class="toolbar-avatar overflow-hidden" style="border-radius: 100%;" [matTooltipPosition]="'after'" matTooltip="{{agent.email}}">
+                    <img src="{{agent.photoURL}}" style="width: 2rem;">
+                  </a>
+                  &nbsp;
+                  <span style="font-size: 13px;">{{agent.email}}</span> -->
+                  <!-- <span fxFlex></span>
+                  <button mat-icon-button>
+                    <mat-icon>add</mat-icon>
+                  </button> -->
+                
+                </div>
+              </mat-toolbar>
+              <mat-nav-list>
+                <ng-container *ngFor="let message of messagesList">
+                  <ng-container *ngIf="(message.conversations.destination===agent.email?message.conversations.from:message.conversations.destination | getUser | async) as userData">
+                  <mat-list-item (click)="onSelect(message, userData)" >
+                      <div class="d-flex">
+                        <div class="d-flex justify-content-center align-items-center">
+                          <img mat-list-avatar src="{{userData.photoURL}}" alt="">
+    
+                        </div>
+                        <div class="d-flex flex-column justify-content-center align-items-start pl-1">
+                          <h3 matLine style="font-size: 13px; margin: 0;"> {{userData.email}} </h3>
+                          <p matLine style="font-size: 12px; margin: 0;"> {{defineDateAgo(message.timeStamp)}} </p>
+    
+                        </div>
+                      </div>
+                      
+                    </mat-list-item>
+                  </ng-container>
+  
+                </ng-container>
+                
+              </mat-nav-list>
+            </mat-sidenav>
+           <mat-sidenav-content style="max-height: 500px;" class="overflow-hidden">
+             <mat-toolbar *ngIf="selectedUser!==undefined && selectedUser!==null" class="mat-elevation-z3 justify-content-center w-100" color="primary" style="height: 53px; position: absolute; z-index: 200;" >
+               <div fxFlex="100" class="justify-content-center align-items-center">
+                 <!-- <button (click)="chatnav.toggle()" class="mr-1" mat-icon-button *ngIf="messagesList.length>0">
+                   <mat-icon>short_text</mat-icon>
+                 </button> -->
+                 <a class="toolbar-avatar overflow-hidden" style="border-radius: 100% !important;" [matTooltipPosition]="'after'" matTooltip="{{selectedUser.email}}">
+                   <img src="{{selectedUser.photoURL}}" style="width: 2rem;">
+                 </a>
+                 <div fxFlex></div>
+                 <button mat-icon-button (click)="hideChatUI()">
+                   <mat-icon>close</mat-icon>
+                 </button>
+               
+               </div>
+             </mat-toolbar>
+             
+             <mat-card-content class="pt-5 message-fixed-section mat-elevation-z3" style="max-height: 410px; min-height: 410px; height: 100%; overflow-y: scroll; overflow-x: hidden;">
+              <ng-container *ngIf="chatItem!==undefined && chatItem!==null && chatItem.length>0; else noMessages;">
+                <div *ngIf="showLoader" class="position-absolute w-100 d-flex justify-content-center align-items-center" style="z-index: 200; max-height: 100%; height: 100%;; top: 53px; left: 0; right: 0; bottom: 60px;  background-color:rgba(0,0,0,0.4);">
+                  <mat-spinner
+                    [mode]="'indeterminate'" [diameter]="30">
+                  </mat-spinner>
+                </div>
+                <div *ngFor="let chat of chatItem" class="pt-3">
+                  <ng-container *ngIf="chat.senderID===this.agent.uid">
+                      <div class="chat-conversation-user me">
+                        
+                        <div class="chat-conversation-message">
+                          <ng-container *ngIf="chat.images!==undefined && chat.images!==null && chat.images.length>0">
+                            <div class="d-flex flex-column justify-content-center align-items-start">
+                              <ng-container *ngFor="let image of chat.images">
+                                <img src="{{image.url}}" alt="" style="max-width: 150px; margin: .3rem;">
+                              </ng-container>
+                            </div>
+                          </ng-container>
+                            <p>{{chat.messageBody}}<span class="chat-date">{{ defineDateAgo(chat.timeStamp)}}</span></p>
+                            <!-- <mat-icon class="delete-icon" style="float: right; cursor: pointer; color: #e0e0e0; display: none;">delete</mat-icon> -->
+                          </div>
+                          
+                        </div>
+                  </ng-container>
+                  <ng-container *ngIf="chat.senderID!==this.agent.uid">
+                      <div class="chat-conversation-user them">
+                        <div class="chat-conversation-message">
+                          <ng-container *ngIf="chat.images!==undefined && chat.images!==null && chat.images.length>0">
+                            <div class="d-flex flex-column justify-content-center align-items-start" style="height: a;">
+                              <ng-container *ngFor="let image of chat.images">
+                                <img src="{{image.url}}" alt="" style="max-width: 150px; margin: .3rem;">
+                              </ng-container>
+                            </div>
+                          </ng-container>
+                            <p>{{chat.messageBody}}<span class="chat-date">{{ defineDateAgo(chat.timeStamp)}}</span></p>
+                            <!-- <mat-icon class="delete-icon" style="float: left; cursor: pointer; color: #e0e0e0; display: none;">delete</mat-icon> -->
+                          </div>
+                        </div>
+                  </ng-container>
+                  
+                </div>
+                <mat-card class="mb-5" style="width: 100%; height: 250px; overflow-y: scroll; background: whitesmoke; box-shadow: none !important;" *ngIf="showDropzone">
+                  <ngx-dropzone (change)="onSelectImage($event)" id="dropzone" accept="image/jpeg,image/jpg,image/png">
+                    <ngx-dropzone-label>Glisser déposez vos images ici</ngx-dropzone-label>
+                    <ngx-dropzone-image-preview  ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
+                      <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                    </ngx-dropzone-image-preview>
+                  </ngx-dropzone> 
+                  <mat-card-actions align="end">
+                    <button mat-button (click)="showDropzone = !showDropzone">fermer</button>
+                  </mat-card-actions>
+                </mat-card>
+              </ng-container>
+                  <ng-template #noMessages>
+                    <mat-card>
+                      <mat-card-header>
+                        <mat-card-title>Démarrez une discussion instantannée</mat-card-title>
+                        <mat-card-subtitle>Posez ici vos questions et nous vous répondrons.</mat-card-subtitle>
+                      </mat-card-header>
+                      <mat-card-content>
+                        
+                      </mat-card-content>
+                      <!-- <mat-card-actions>
+                        <button mat-button>Ok</button>
+                      </mat-card-actions> -->
+                    </mat-card>
+                  </ng-template>
+               
+             <!-- <div class="chat-conversation-user them">
+               <div class="chat-conversation-message">
+                 <p>Hey.<span class="chat-date">{{ 1427207139000 | date: 'fullDate' }}</span></p>
+               </div>
+             </div>
+             <div class="chat-conversation-user them">
+               <div class="chat-conversation-message">
+                 <p>How are the wife and kids, Taylor?<span class="chat-date">{{ 1427412725000 | date: 'fullDate' }}</span></p>
+               </div>
+             </div>
+             <div class="chat-conversation-user me">
+               <div class="chat-conversation-message">
+                 <p>Pretty good, Samuel.<span class="chat-date">{{ 1427546580000 | date: 'fullDate' }}</span></p>
+               </div>
+             </div>
+             <div class="chat-conversation-user them">
+               <div class="chat-conversation-message">
+                 <p>Curabitur blandit tempus porttitor.<span class="chat-date">{{ 1428275520000 | date: 'fullDate' }}</span></p>
+               </div>
+             </div>
+             <div class="chat-conversation-user me">
+               <div class="chat-conversation-message">
+                 <p>Goodnight!<span class="chat-date">{{ 1428830580000 | date: 'fullDate' }}</span></p>
+               </div>
+             </div>
+             <div class="chat-conversation-user them">
+               <div class="chat-conversation-message">
+                 <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.<span
+                     class="chat-date">{{ 1429363920000 | date: 'fullDate' }}</span></p>
+               </div>
+            </div> -->
+            
+           </mat-card-content>
+           <!-- <hr> -->
+           <mat-card-actions class="pl-2 pr-2">
+            
+             <div class="d-flex w-100 justify-content-start align-items-center pb-2">
+               
+               <mat-form-field class="mr-1 ml-1" style="padding: 0; margin: 0;" fxFlex>
+                 <textarea matInput
+               
+                 placeholder="Tapez votre message ici"
+                 [formControl]="messageControl"
+                 cdkTextareaAutosize
+                 #autosize="cdkTextareaAutosize"
+                 cdkAutosizeMinRows="1"
+                 cdkAutosizeMaxRows="5"></textarea>
+                 <button [disabled]="showLoader" mat-icon-button matSuffix (click)="showDropzoneFn()"><mat-icon>attachment</mat-icon></button>
+                 <button [disabled]="showLoader" mat-icon-button matSuffix><mat-icon
+                   (click)="toggled = !toggled"
+                   [(emojiPickerIf)]="toggled"
+                   [emojiPickerDirection]="'left'"
+                   (emojiPickerSelect)="handleSelection($event)">😄</mat-icon></button>
+               </mat-form-field>
+               <button [disabled]="showLoader" mat-mini-fab (click)="postMessage()" style="box-shadow: none !important;" class="mr-2" color="primary"><mat-icon>send</mat-icon></button>
+             
+             </div>
+           </mat-card-actions>
+  
+           </mat-sidenav-content> 
+      </mat-sidenav-container>
+        </mat-card>
+      </div>
+    </div>
+
+  </div>
+  

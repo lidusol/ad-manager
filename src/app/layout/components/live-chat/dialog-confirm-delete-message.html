@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Message</h2>
+<mat-dialog-content>
+  <p>Vous êtes sûr de vouloir supprimer ce message ?</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="abortDeletion()">Annuler</button>
+  <button mat-button  (click)="confirmDelete()" cdkFocusInitial>Supprimer</button>
+</mat-dialog-actions>
+
+

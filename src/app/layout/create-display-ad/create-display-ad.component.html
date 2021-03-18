@@ -1,0 +1,10 @@
+<div class="container-fluid pl-md-5 pr-md-5">
+    <div class="row pl-md-5 pr-md-5 mt-5 pt-5">
+        <div class="col-md-12 pt-3">
+            <h3 class="mb-2">Nouvelle annonce pour la campagne {{campaign_name}}</h3>
+            <adf-cmp-ads-uploader-edit [only]="only" *ngIf="campaign_type==='DISPLAY'|| campaign_type==='Display'"></adf-cmp-ads-uploader-edit>
+            <adf-cmp-native-ads-creator  *ngIf="campaign_type==='YOUTUBE' || campaign_type==='Youtube'"></adf-cmp-native-ads-creator>
+        </div>
+    </div>
+  
+</div>

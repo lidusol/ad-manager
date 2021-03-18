@@ -1,0 +1,128 @@
+<!-- 
+<div class="row justify-content-center align-items-center" id="container">
+
+
+   <button mat-raised-button  (click)="_fileInput.click()" color="accent" style="height: 35px;"  title="Importer de images">Importer des images</button>
+<input  accept=".jpg,.png,.jpeg, .gif" type="file" #_fileInput accept="image/*" multiple (change)='onFileChange($event)' id="file" hidden>
+
+
+<div class="d-flex w-100 justify-content-start align-items-center flex-wrap pl-5 pr-5">
+
+  <div class="previews" *ngIf="files!==undefined && files!==null && files.controls!==undefined && files.controls!==null && files.controls.length>0">
+    <div class="preview m-2" *ngFor="let f of files.controls; let i = index;">
+      <form [formGroup]="f" class="d-flex justify-content-center align-items-center position-relative"> 
+        <div class="img-preview" id="img-preview{{ i }}"  (click)="changeCropperFile(i)"></div>
+        <div class="position-absolute d-flex justify-content-center align-items-center"  style="top: -15px; right: -13px; width: 24px; height: 24px; border-radius: 100%; background: #fff;">
+          <button mat-icon-button color="warn" (click)="removeFile(i)"><mat-icon>cancel</mat-icon></button>
+        </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+
+ 
+  <br />
+  <div class="d-flex w-100 justify-content-center align-items-center mt-2">
+    <ng-container *ngIf="files!==undefined && files!==null && files.controls!==undefined && files.controls!==null && files.controls.length>0">
+        <div class="{{ 'previews-cropper ' + getCropperClassObservable(i) }}" *ngFor="let f of files.controls; let i = index;">
+       
+<div class="d-flex w-100  justify-content-center align-items-center flex-wrap">
+               <mat-form-field appearance="fill" class="m-1 mt-2">
+        <mat-label>Formats</mat-label>
+        <mat-select [(ngModel)]="selectedFormat" (selectionChange)="selectionChange($event)" [compareWith]="compareFormat" name="format">
+          <mat-option *ngFor="let format of FORMAT" [value]="format">
+            {{format.width}}x{{format.height}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-raised-button (click)="generate()" class="m-1"  color="accent" style="height: 35px;"  title="Télécharger l'image"><mat-icon>save_alt</mat-icon>&nbsp;Télécharger l'image </button>
+   <button mat-raised-button  (click)="generate(i)" class="m-1"  color="accent" style="height: 35px;"  title="Télécharger tous les images" *ngIf="files.controls.length>1"><mat-icon>cloud_download</mat-icon>&nbsp;Tout télécharger </button>
+</div>
+    
+      <form [formGroup]="f"> 
+        <div class="col-md-6 image-cropping-panel">
+                 <div class="" >
+                   <angular-cropper #angularCropper [cropperOptions]="configs[i]" [imageUrl]="f.controls.data.value.file"></angular-cropper>
+                   </div>
+                   </div>
+    
+    
+    </form>
+       
+        </div>
+            
+    
+    </ng-container>
+
+  </div>
+
+  <br/>
+
+
+
+
+</div>
+<div class="row mb-5" *ngIf="filesGenerated.length>0">
+    <div  *ngFor="let image of filesGenerated; let i=index" class="col-md-4 pt-3">
+        <mat-card class="card-image-gallery" style="overflow: hidden !important;">
+              <mat-card-header>
+                <mat-card-subtitle>
+                  Dimensions: {{image.width}} x {{image.height}}
+                </mat-card-subtitle>
+    </mat-card-header>
+            <mat-card-content class="d-flex justify-content-center align-items-center">
+                <picture>
+         <source media='(min-width:0px)' [srcset]="sanitize(image.file)" >
+         <img mat-card-image src=""  [mdePopoverTriggerFor]="popoverImage"  mdePopoverTriggerOn="hover" [alt]="''" #img   class="img-item d-inline-block"  style="max-height: 150px;">
+       </picture>
+ <mde-popover  #popoverImage="mdePopover" [mdePopoverOverlapTrigger]="true" [mdePopoverCloseOnClick]="false" >
+                        <mat-card class="card-brief" style="border-radius: 2px; height: auto; max-width: auto">
+                          <mat-card-content><img mat-card-img [src]="sanitize(image.file)" style="max-height: 352px; max-width: 352px"></mat-card-content>
+                        </mat-card>
+        </mde-popover>
+            </mat-card-content>
+            <mat-card-actions align="center">
+                <button mat-button clor="primary"><a [href]="sanitize(image.file)" [download]="image.name" >Télécharger</a></button>
+                <button mat-button color="warn" (click)="deleteCompressed(i)">Supprimer</button>
+            </mat-card-actions>
+  
+        </mat-card>
+    </div>
+</div> -->
+
+<div class="d-flex flex-wrap justify-content-start align-items-center">
+  <ng-container *ngFor="let item of FORMAT">
+    <mat-card class="d-flex justify-content-center align-items-center m-2 app-bg-secondary card-size-selector" [ngClass]="{'selected-format': isSelected(item)}"  (click)="selectFormat(item)">
+      <mat-card-header>
+        <mat-card-subtitle>{{item.name}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        
+      </mat-card-content>
+      <!-- <mat-card-actions>
+        <button mat-button>Ok</button>
+      </mat-card-actions> -->
+    </mat-card>
+  </ng-container>
+  
+</div>
+<div id="resizeContainer"></div>
+<div
+  style="width: 100%; height: 100; position: fixed; left: 0; right: 0; top: 0; bottom: 0; background-color: rgba(138, 138, 146, 0.3);  backdrop-filter: blur(5px) contrast(.1); z-index: 4;"
+  class="text-center align-items-center align-content-center" *ngIf="loader">
+  <mat-card style="width: 300px; height: 300px; margin-top: 10% !important;" class="d-flex justify-content-center align-items-center flex-column overflow-hidden m-auto">
+    <mat-card-content class="d-flex justify-content-center align-items-center overflow-hidden">
+      <mat-spinner class="d-inline-block" color="primary" [diameter]="50" >
+      </mat-spinner>
+    </mat-card-content>
+  </mat-card>
+</div>
+<!-- <ng-container *ngFor="let item of FORMAT">
+    <ng-container *ngIf="selectedFormat!==null && selectedFormat.width===item.width && selectedFormat.height===item.height">
+      <div class="db-btn-design-me" id="btn-resize"  [attr.data-db-width]="item.width" [attr.data-db-height]="item.height"
+      data-db-unit="px" data-db-title="Créer une bannière" data-db-action="create">
+       </div>    
+    </ng-container>
+  </ng-container> -->
+  

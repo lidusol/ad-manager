@@ -1,0 +1,237 @@
+<div class="row">
+  <div class="col-md-6 d-flex flex-column justify-content-center align-items-start">
+    <mat-radio-group color="primary" #zonesOption aria-labelledby="Sélectionnez les zones géographiques à cibler"
+      class="example-radio-group" [(ngModel)]="zonesOptionSelected" (change)="register($event)">
+      <mat-radio-button color="primary" class="example-radio-button fs-12" *ngFor="let default of zonesData"
+        [value]="default.id">
+        {{default.label | translate}}
+      </mat-radio-button>
+    </mat-radio-group>
+    <mat-accordion class="mt-2">
+      <mat-expansion-panel #optionTargetExpansion style="border: none !important; box-shadow: none !important"
+        class="option-target" hideToggle>
+        <mat-expansion-panel-header class="d-flex flex-row-reverse accent-color">
+          <mat-icon class="accent-color" *ngIf="optionTargetExpansion.expanded"
+            (click)="$event.stopPropagation(togglePanel($event))">expand_less</mat-icon>
+          <mat-icon class="accent-color" *ngIf="!optionTargetExpansion.expanded"
+            (click)="$event.stopPropagation(togglePanel($event))">expand_more</mat-icon>
+          <mat-panel-title class="ml-2 accent-color">
+            {{ 'dmg_trg_opt' | translate }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="option-target-label">
+          {{ 'target_label' | translate }} <mat-icon class="icon-helper" [mdePopoverTriggerFor]="popoverHelperTarget" mdePopoverTriggerOn="hover">
+            help_outline</mat-icon>
+        </div>
+        <div class="d-flex flex-column justify-content-center align-items-start w-100">
+          <mat-radio-group color="primary" aria-labelledby="Sélectionnez les zones géographiques à cibler" class="example-radio-group"
+            [(ngModel)]="zonesOptionTargetSelected">
+            <mat-radio-button class="example-radio-button fs-12" *ngFor="let default of zonesDataTargetOption"
+              [value]="default.id">
+              {{default.label | translate}}
+            </mat-radio-button>
+          </mat-radio-group>
+          <div class="option-target-label">
+            {{ 'exclude_label' | translate }} <mat-icon class="icon-helper" [mdePopoverTriggerFor]="popoverHelperExclude"
+              mdePopoverTriggerOn="hover">help_outline</mat-icon>
+          </div>
+          <mat-radio-group color="primary" aria-labelledby="Sélectionnez les zones géographiques à cibler" class="example-radio-group"
+            [(ngModel)]="zonesOptionExcludeSelected">
+            <mat-radio-button class="example-radio-button fs-12" *ngFor="let default of zonesDataExcludeOption"
+              [value]="default.id">
+              {{default.label | translate}}
+            </mat-radio-button>
+          </mat-radio-group>
+          <mde-popover #popoverHelperTarget="mdePopover" [mdePopoverOverlapTrigger]="false"
+            [mdePopoverCloseOnClick]="false" [mdePopoverArrowWidth]=0 [mdePopoverEnterDelay]='1000'
+            [mdePopoverPositionY]="'below'" [mdePopoverPositionX]='"after"'>
+            <mat-card class="card-helper">
+              <mat-card-content>
+                <div class="helper-topic">
+                 {{ 'cmp_zone_helper_1' | translate }}
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </mde-popover>
+          <mde-popover #popoverHelperExclude="mdePopover" [mdePopoverOverlapTrigger]="false"
+            [mdePopoverCloseOnClick]="false" [mdePopoverArrowWidth]=0 [mdePopoverPositionY]="'below'"
+            [mdePopoverPositionX]='"after"'>
+            <mat-card class="card-helper">
+              <mat-card-content>
+                <div class="helper-topic">
+                  {{ 'cmp_zone_helper_1' | translate }}
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </mde-popover>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <div class="col-md-6 d-flex flex-column justify-content-center align-items-center" *ngIf="zonesOptionSelected==='custom'">
+    <div class="row w-100" >
+      <div class="col-md-12 d-flex justify-content-center align-items-center">
+        <mat-form-field  color="primary" class="zones-field mb-3" appearance="legacy" [mdePopoverTriggerFor]="popover"
+          mdePopoverTriggerOn="click">
+          <input matInput #inputZonesQuery (keyup)="inputChange(inputZonesQuery.value)" [formControl]="searchLocation"
+            id="inputZones" placeholder="" autofocus autocomplete="off">
+          <mat-icon matPrefix>search</mat-icon>
+          <mat-hint style="font-size: 12px;">{{ 'cmp_zone_search_example_label' | translate }}</mat-hint>
+        </mat-form-field>
+        <mde-popover #popover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdePopoverCloseOnClick]="false"
+          [mdePopoverArrowWidth]=0 [mdeFocusTrapAutoCaptureEnabled]='false' [mdeFocusTrapEnabled]='false'
+          mdePopoverPositionY='below' mdePopoverPositionX='after'>
+          <mat-card class="card-search">
+            <mat-progress-bar mode="indeterminate" color="primary" *ngIf="showProgressSearchLocation">
+            </mat-progress-bar>
+            <mat-card-content>
+
+              <div class="row" *ngIf="locations.length>0">
+                <div class="col-md-12 text-center pl-0 pr-0">
+
+
+                  <mat-selection-list #matSelectionList role="option" class="p-0"
+                    (selectionChange)="onZoneSelect($event)" multiple='false'>
+
+                    <mat-list-option style="cursor: pointer; height: 24px"
+                      *ngFor="let loc of  LIST_LOCATIONS_ALL_READY_GET" [value]="loc">
+                      <div class="list-dynamic-item">
+                        <div class="location-suggestion">
+                          <div class="location-entry d-flex justify-content-between align-items-center">
+                            <div class="d-flex flex-column align-items-start">
+                              <div class="location-description">
+                                {{loc.canonicalName}}
+                              </div>
+                            </div>
+                            <div class="d-flex align-items-end">
+                              <button mat-button color="primary" class="button-target-option" style='font-size: 12px'
+                                (click)="addZonesTarget(loc)">
+                                Cibler
+                              </button>
+                              <button mat-button class="button-target-option" color="warn" style='font-size: 12px'
+                                (click)="excludeZonesTarget(loc)">
+                                Exclure
+                              </button>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </mat-list-option>
+                  </mat-selection-list>
+                </div>
+              </div>
+            </mat-card-content>
+
+          </mat-card>
+        </mde-popover>
+      </div>
+    </div>
+    <mat-card class="p-0 overflow-hidden" style="max-height: 200px;">
+      <adf-google-maps></adf-google-maps>
+    </mat-card>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12 text-center">
+    <ejs-grid #gridTargetedZones [dataSource]='LOCATIONS_TO_TARGET' *ngIf="LOCATIONS_TO_TARGET.length>0" locale="fr"
+      allowTextWrap="true" [enableHover]='"false"' id="gridDisplay" [allowResizing]='true' [allowSorting]="true"
+      [gridLines]='gridLines' width="auto" height="auto">
+      <e-columns>
+        <e-column field='locationName' [headerText]="'targeted_zones_label' | translate" [filter]='filter' clipMode='EllipsisWithTooltip'
+          width='170'></e-column>
+        <e-column field='id' headerText='Action' width='70'>
+          <ng-template #template let-data>
+            <button mat-icon-button (click)="removeLocationTargetedFromGrid(data)">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </ng-template>
+        </e-column>
+      </e-columns>
+    </ejs-grid>
+    <ejs-grid #gridExcludedZones [dataSource]='LOCATIONS_TO_EXCLUDE' locale="fr" allowTextWrap="true"
+      [enableHover]='"false"' id="gridDisplay" [allowResizing]='true' [allowSorting]="true" [gridLines]='gridLines'
+      width="auto" height="auto" *ngIf="LOCATIONS_TO_EXCLUDE.length>0">
+      <e-columns>
+        <e-column field='locationName' [headerText]="'excluded_zones_label' | translate" [filter]='filter' clipMode='EllipsisWithTooltip'
+          width='170'></e-column>
+        <e-column field='id' headerText='Action' width='70'>
+          <ng-template #template let-data>
+            <button mat-icon-button (click)="removeLocationTargetedFromGrid(data)">
+              <mat-icon (click)="removeLocationExcludedFromGrid(data)">cancel</mat-icon>
+            </button>
+          </ng-template>
+        </e-column>
+      </e-columns>
+    </ejs-grid>
+
+  </div>
+</div>
+
+
+<ejs-dialog id='dialogExcludeTargeted' #dialogExcludeTargeted [visible]="visible" [target]="target"
+  [position]='position' [isModal]='isModal' style="top: 3rem; max-width: 500px; z-index: 40;">
+  <ng-template #content>
+    <div class="dialog-content">
+      <div class="row w-100">
+        <div class="col-md-12 text-center">
+          <h4 class="dialog-header-label w-100">{{ 'cmp_zones_rm_el' | translate }}</h4>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="row mt-5" *ngIf="showProgressExcludeTargeted">
+        <div class="col-md-12 p-5 text-center align-items-center">
+          <mat-spinner class="d-inline-block" color="primary" [diameter]="50">
+          </mat-spinner>
+          <p class="mt-5" style="font-size: 18px; color: rgba(0,0,0,.54);">{{ 'excl_in_progress' | translate }}...</p>
+        </div>
+      </div>
+      <div class="row mt-5" *ngIf="!showProgressExcludeTargeted">
+        <div class="col-md-12 p-5 text-center align-items-center">
+          <p class="mt-5" style="font-size: 14px; color: rgba(0,0,0,.54);">{{ 'rm_targeted_for_excluded' | translate }}</p>
+        </div>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end">
+      <button mat-button (click)="dialogExcludeTargeted.hide()">{{ 'cancel' | translate }}</button>
+      <button mat-button color="primary" (click)="excludeLocationButtonAction()">{{ 'exclude_btn_label' | translate }}</button>
+    </div>
+  </ng-template>
+</ejs-dialog>
+
+<ejs-dialog id='dialogTargetExcluded' #dialogTargetExcluded [visible]="visible" [target]="target" [position]='position'
+  [isModal]='isModal' style="top: 3rem; max-width: 500px; z-index: 40;">
+  <ng-template #content>
+    <div class="dialog-content">
+      <div class="row w-100">
+        <div class="col-md-12 text-center">
+          <h4 class="dialog-header-label w-100">{{ 'target_element_label' | translate }}</h4>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="row mt-5" *ngIf="showProgressTargetExcluded">
+        <div class="col-md-12 p-5 text-center align-items-center">
+          <mat-spinner class="d-inline-block" color="primary" [diameter]="50">
+          </mat-spinner>
+          <p class="mt-5" style="font-size: 18px; color: rgba(0,0,0,.54);">{{ 'targeting_progress' | translate }}...</p>
+        </div>
+      </div>
+      <div class="row mt-5" *ngIf="!showProgressTargetExcluded">
+        <div class="col-md-12 p-5 text-center align-items-center">
+          <p class="mt-5" style="font-size: 14px; color: rgba(0,0,0,.54);">{{ 'rm_excl_for_targeted' | translate }}</p>
+        </div>
+      </div>
+
+    </div>
+    <mat-divider></mat-divider>
+    <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end">
+      <button mat-button (click)="dialogTargetExcluded.hide()">{{'cancel' | translate}}</button>
+      <button mat-button color="primary" (click)="targetLocationButtonAction()">{{ 'confirm' | translate }}</button>
+    </div>
+  </ng-template>
+</ejs-dialog>
+
+<adf-snackbar #appSnackBar></adf-snackbar>

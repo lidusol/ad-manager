@@ -1,0 +1,83 @@
+<!-- <mat-accordion>
+  <mat-expansion-panel #dateExpansion id="date-expansion" [expanded]="expanded" class="panel-builder-single" hideToggle>
+
+
+    <mat-expansion-panel-header (click)="expandPanel($event)">
+      <mat-icon class="expansion-toggle" *ngIf="dateExpansion.expanded"
+        (click)="$event.stopPropagation(togglePanel($event))">expand_less</mat-icon>
+      <mat-icon class="expansion-toggle" *ngIf="!dateExpansion.expanded"
+        (click)="$event.stopPropagation(togglePanel($event))">expand_more</mat-icon>
+      <mat-panel-title>
+        Dates de début
+      </mat-panel-title>
+      <mat-panel-description>
+          <ng-container *ngIf="!dateExpansion.expanded">
+              Date de début: {{startDateInput.value}}
+
+          </ng-container>
+          
+       
+      </mat-panel-description>
+    </mat-expansion-panel-header> 
+    <div class="row date-container">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+              <mat-form-field class="example-full-width pl-2">
+  <input matInput #startDateInput (click)="pickerStart.open()"class="input-date" [matDatepicker]="pickerStart" placeholder="Date de début"  [formControl]="dateStartCtrl" [min]="minDateStart">
+   <mat-datepicker-toggle matSuffix [for]="pickerStart">
+    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+  </mat-datepicker-toggle>
+  <mat-datepicker #pickerStart></mat-datepicker>
+</mat-form-field>  
+
+        </div>
+    </div>
+<div class="row">
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-4">
+
+        </div>
+       
+</div>    
+
+      
+  </mat-expansion-panel>
+</mat-accordion> -->
+
+ <!--  <mat-form-field class="example-full-width">
+  <input matInput (click)="pickerEnd.open()"class="input-date" [matDatepicker]="pickerEnd" placeholder="Date de fin" [min]="minDateEnd" [formControl]="dateEndCtrl">
+   <mat-datepicker-toggle matSuffix [for]="pickerEnd">
+    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+  </mat-datepicker-toggle>
+  <mat-datepicker #pickerEnd ></mat-datepicker>
+</mat-form-field> -->
+
+       <!--  <div class="end-date-label">Date de fin</div> -->
+<!--     <mat-radio-group #endDatesOption aria-labelledby=""
+              class="example-radio-group" [(ngModel)]="endDateType" (change)="radioSelectChange($event)">
+    <mat-radio-button class="example-radio-button" value="1">
+                Aucune
+    </mat-radio-button>
+    <mat-radio-button class="example-radio-button" value="2">
+               <mat-form-field class="example-full-width">
+  <input matInput (click)="pickerEnd.open()"class="input-date" [matDatepicker]="pickerEnd" placeholder="Sélectionner une date de fin" [min]="minDateEnd" [formControl]="dateEndCtrl">
+   <mat-datepicker-toggle matSuffix [for]="pickerEnd">
+    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+  </mat-datepicker-toggle>
+  <mat-datepicker #pickerEnd></mat-datepicker>
+</mat-form-field>
+    </mat-radio-button>
+</mat-radio-group> -->
+
+
+<mat-form-field class="example-full-width pl-2" color="primary">
+  <input matInput #startDateInput (click)="pickerStart.open()"class="input-date" [matDatepicker]="pickerStart" placeholder="Diffuser ton annonce à partir du:"  [formControl]="dateStartCtrl" [min]="minDateStart">
+   <mat-datepicker-toggle matSuffix [for]="pickerStart">
+    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+  </mat-datepicker-toggle>
+  <mat-datepicker #pickerStart></mat-datepicker>
+</mat-form-field>  

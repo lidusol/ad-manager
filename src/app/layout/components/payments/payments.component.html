@@ -1,0 +1,217 @@
+<div class="page-wrapper">
+    
+    <div id="add-funds-page">
+        <div class="heading">
+            <div class="heading-title">
+                <h3>Payments</h3>
+            </div>
+        </div>
+
+        <div class="row eq-col-heights m-b-lg">
+           <!--  <div class="col-xs-12 col-sm-6">
+                <div class="box-primary box-outer">
+                    <div class="box box-success box-inner">            
+                        <h5 class="m-b-md"><span class="text-success">Recommended</span>Automatic Payment</h5>
+                        <div class="row">
+                            <div class="col-md-7 col-sm-7 col-xs-8">
+                                Wallet balance budget will be automatically topped up according to your preferences.   
+                            </div>
+                            <div class="col-md-5 col-sm-5 col-xs-4">
+                                <a class="btn btn-success btn-rounded btn-lg pull-right" href="/adv_finance/add-funds/make-payment" data-pjax="0">
+                                    Enable
+                                </a>  
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+             -->
+            <div class="col-xs-12 col-sm-6">
+                <div class="box box-primary">
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-5 col-xs-5">
+                            <h5>Solde du compte</h5>
+                            {{accountValue | currency}}
+                        </div>
+                       <!--  <div class="col-lg-6 col-sm-7 col-xs-7">
+                            <a id="apply-voucher-link" class="bold pull-right text-align-right">
+                                Utiliser un code promo<i class="fa fa-gift m-l-xs"></i>
+                            </a>                  
+                        </div> -->
+                    </div>
+
+                    <div class="row v-align">
+                        <div class="col-md-8 col-xs-10">
+                            <h2 class="text-bold inline-block m-t-sm"></h2>
+                        </div>
+
+                        <div class="col-md-4 col-xs-2">
+                            <button ejs-button class="e-flat e-primary pull-right" routerLink="/dashboard/addFunds">
+                            Ajouter des fonds
+                            </button>        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-primary" *ngIf="noTransactions">
+            <div class="content-placeholder offset-md">
+                <i class="placeholder-icon fa fa-credit-card"></i>
+                <div class="bottom-margin-lg">
+                   Il n'y a actuellement aucune transaction à afficher.
+                </div>
+            </div>
+        </div>
+        <div class="e-card p-0" *ngIf="!noTransactions">
+           
+             <ejs-grid [dataSource]='dataTransactions' locale="fr" allowTextWrap='true'
+        id="gridDisplay" [selectionSettings]='selectionOptions'  [toolbar]='toolbarOptions'
+        [allowPaging]="true" [allowResizing]='true' [allowSorting]="true" [gridLines]='gridLines'
+        [showColumnChooser]="true" [contextMenuItems]="contextMenuItems" showColumnMenu='true' width="auto"
+        height="auto">
+                <e-columns>
+                    <e-column  headerText='Type de transactions' textAlign='Center'>
+                        <ng-template #template let-data>
+
+<ng-container *ngIf="data.type==='Rechargement'">
+Rechargement de compte
+</ng-container>
+<ng-container *ngIf="data.type==='debit'">
+Débit consommation <br>
+<span><strong>Campagne:</strong> {{data.campaign_name}}</span>
+</ng-container>
+                            
+                        </ng-template>
+                    </e-column>
+                    <e-column field='date' headerText='Date de la transaction' textAlign='Center'></e-column>
+                    <e-column  headerText='Valeur' textAlign='Center'>
+                        <ng-template #template let-data>
+                            {{data.value | currency}}
+                        </ng-template>
+                    </e-column>
+                    <e-column  headerText='Facture' textAlign='Center'>
+                        <ng-template #template let-data>
+                           <ng-container  *ngIf="data.type==='Rechargement'">
+                             <button ejs-button class="e-flat e-primary" (click)="openInvoice(data.value, data)" style="font-size: 12px;">
+                                     <i class="fas fa-file-invoice"></i> Voir la facture
+                                 </button>
+                        </ng-container>
+                        </ng-template>
+                    </e-column>
+                    <e-column headerText='Supprimer'  textAlign='Center' [commands]='commands'></e-column>
+                   
+                </e-columns>
+                </ejs-grid>   
+                <div #container class="root-container">
+                       <ejs-dialog  #dialogShowInvoice isModal='true' [visible]='visible' header='' [target]='targetElement'  >
+        <ng-template #content>
+    <div class = 'dialog-content row' >
+        <div id="invoice" class="col-md-12 pl-md-5 pr-md-5">
+
+    <div class="toolbar hidden-print">
+        <div class="text-right">
+            <button id="printInvoice" printSectionId="print-section" ngxPrint  printTitle="Facture Adafri"  styleSheetFile="assets/css/custom-ejs.css,assets/css/invoice.css" ejs-button (click)="print()" class="e-primary"><i class="fa fa-print"></i> Imprimer</button>
+<!--             <button class="btn btn-info"><i class="fa fa-file-pdf-o"></i> Export as PDF</button> -->
+        </div>
+        <hr>
+    </div>
+    <div class="invoice overflow-auto" id="print-section">
+        <div>
+            <header>
+                <div class="row">
+                    <div class="col">
+                        <a target="_blank" href="https://adafri.com">
+                            <img src="assets/images/logo-blue.png" data-holder-rendered="true" />
+                            </a>
+                    </div>
+                    <div class="col company-details">
+                        <h5 class="name">
+                           Adafri SAS 
+                        </h5>
+                        <div>Dakar, Sacrée coeur 10064</div>
+                        <div> +221 33 864 57 20</div>
+                        <div>contact@adafri.com</div>
+                    </div>
+                </div>
+            </header>
+            <main>
+                <div class="row contacts">
+                    <div class="col invoice-to">
+                        <div class="text-gray-light">Facture pour:</div>
+                        <h2 class="to">{{last_name}} {{first_name}}</h2>
+                        <div class="address">{{adresse}}</div>
+                         <div class="phone">{{telephone}}</div>
+                        <div class="email"><a href="mailto:{{email}}">{{email}}</a></div>
+                    </div>
+                    <div class="col invoice-details">
+                       <!--  <h1 class="invoice-id">INVOICE 3-2-1</h1> -->
+                        <div class="date">Date: {{dueDate}} </div>
+                     
+                    </div>
+                </div>
+                 <ejs-grid class="mb-5" [dataSource]='invoiceData' locale="fr" allowTextWrap='true'
+        id="gridDisplay" [selectionSettings]='selectionOptions'  [toolbar]='toolbarOptions'
+         [allowResizing]='true' [allowSorting]="true" [gridLines]='gridLines'
+        [showColumnChooser]="true" [contextMenuItems]="contextMenuItems" showColumnMenu='true' width="auto"
+        height="auto">
+                <e-columns>
+                    <e-column  headerText='Description' textAlign='Center'>
+                        <ng-template #template let-data>
+
+                            Ajout de fonds
+                        </ng-template>
+                    </e-column>
+                          <e-column  headerText='Date' textAlign='Center'>
+                        <ng-template #template let-data>
+                            {{data.date}}
+                            
+                        </ng-template>
+                    </e-column>
+                          <e-column  headerText='Montant' textAlign='Center'>
+                        <ng-template #template let-data>
+                            {{data.value | currency}}
+                            
+                        </ng-template>
+                    </e-column>
+                   
+                 
+                   
+                </e-columns>
+                </ejs-grid>   
+        
+                <!-- <div class="thanks">Merci à vous!</div> -->
+                <div class="w-100">
+                    <img src="assets/images/cachet.png" class="pull-right">
+                </div>
+            </main>
+            <footer>
+                <!-- Invoice was created on a computer and is valid without the signature and seal. -->
+            </footer>
+        </div>
+        <!--DO NOT DELETE THIS div. IT is responsible for showing footer always at the bottom-->
+        <div></div>
+    </div>
+</div>
+      <div class="row mt-5">
+        <div class="col-md-12 text-center">
+          
+         
+          <button ejs-button cssClass="e-flat e-danger" (click)="hideInvoice()" class="pull-right">fermer</button>
+
+        </div>
+      </div>
+      </div>
+        </ng-template>
+  </ejs-dialog>
+                </div>
+            
+
+        </div>
+    </div>
+
+   
+</div>
+
+<adf-publish-campaign *ngIf="publishComponent"></adf-publish-campaign>

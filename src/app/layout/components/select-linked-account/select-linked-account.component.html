@@ -1,0 +1,63 @@
+<ejs-dialog id='dialogSelectAccount' #dialogSelectAccount [visible]="visible" [target]="target" [position]='position'
+  [isModal]='isModal' style="top: 3rem; max-width: 400px;">
+
+  <ng-template #content>
+    <div class="dialog-content">
+      <div class="row w-100">
+        <div class="col-md-12 text-center">
+          <h3 class="dialog-header-label w-100">Séléctionner un compte</h3>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="row mt-5" *ngIf="linkedAccounts.length===0">
+        <div class="col-md-12 p-5 text-center align-items-center">
+          <mat-spinner class="d-inline-block"
+             color="accent" [diameter]="50">
+          </mat-spinner>
+          <p class="mt-5" style="font-size: 18px; color: rgba(0,0,0,.54);">Recherche de comptes client...</p>
+        </div>
+      </div>
+      <div class="row p-4" *ngIf="linkedAccounts.length>0">
+        <div class="col-md-12 text-center pl-0 pr-0">
+          <mat-selection-list role="option" class="p-0" [multiple]="'false'" (selectionChange)="onAccountSelect($event)">
+  <mat-list-option  [checkboxPosition]="'before'"  style="cursor: pointer; padding: 0px;" *ngFor="let account of linkedAccounts" [value]="account.customerId">
+           <div fxLayout="row" fxLayoutGap=".5rem" fxLayoutAlign="start center">
+                <button mat-icon-button disabled>
+                  <mat-icon role="img" class="g-ads-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 192 192" fit=""
+                      preserveAspectRatio="xMidYMid meet" focusable="false">
+                      <path fill="#FBBC04" d="M11.93 127.998L70.595 26.39l50.808 29.335-58.665 101.608z"></path>
+                      <path fill="#4285F4"
+                        d="M180.07 127.99L121.4 26.38c-8.1-14.03-26.04-18.84-40.07-10.74-14.03 8.1-18.84 26.04-10.74 40.07l58.67 101.61c8.1 14.03 26.04 18.83 40.07 10.74 14.03-8.1 18.83-26.04 10.74-40.07z">
+                      </path>
+                      <circle fill="#34A853" cx="37.34" cy="142.66" r="29.33"></circle>
+                    </svg>
+                  </mat-icon>
+                </button>
+                <div class="customer-id" style="margin-right: 0.5rem;">   {{account.customerId}}</div>
+                <div>   {{account.name}}</div>
+
+              </div>
+
+  </mat-list-option>
+</mat-selection-list>
+          
+        </div>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end">
+      <button mat-button (click)="dialogSelectAccount.hide()">Annuler</button>
+      <button mat-button *ngIf="customerToUse===0" disabled>Lier</button>
+      <button mat-button *ngIf="customerToUse!==0" color="primary" (click)="selectAccount()">Sélectionner</button>
+    </div>
+
+
+
+
+
+
+
+  </ng-template>
+
+</ejs-dialog>

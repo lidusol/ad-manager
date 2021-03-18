@@ -1,0 +1,9 @@
+$adf-black-primary: mat-palette($mat-grey, 700, 300, 900);
+$adf-black-accent: mat-palette($mat-blue-grey, 400);
+$adf-black-warn: mat-palette($mat-red, 500);
+
+$adf-black-theme: mat-dark-theme(
+  $adf-black-primary,
+  $adf-black-accent,
+  $adf-black-warn
+);

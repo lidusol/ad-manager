@@ -1,0 +1,157 @@
+
+<div class="container-fluid mt-2 pt-1 pb-5 app-bg-secondary">
+  <mat-toolbar class="mat-elevation-z2 mb-5" color="warn" *ngIf="!phoneValid">
+    <span style="font-size: 13px;">Veuillez mettre à jour votre numéro de téléphone pour procéder au paiement.</span>
+  </mat-toolbar>
+  <div class="pl-2">
+    <h3>{{ 'add_funds.header_label' | translate }}</h3>
+  </div>
+
+ <mat-card style="width: 80px; height: 56px; position: fixed; top: 2rem; left: 2rem; z-index: 9999999 !important;">
+   
+ </mat-card>
+ 
+  <!-- <ngx-paypal [config]="payPalConfig"></ngx-paypal> -->
+  <!-- <div class="row mt-2 mb-1">
+    <div class="w-100 text-left pl-4">
+      <h5 class="pull-left">{{ 'add_funds.source_countries' | translate }}</h5>
+    </div>
+    <div class="d-flex justify-content-center align-items-start pl-2">
+      <mat-card class="card-country-select country-img active pulse sn-card" (click)="selectCountry('SN')" id="SN">
+        <mat-icon class="checked-icon">check_circle_outline</mat-icon>
+      </mat-card>
+      <mat-card class="card-country-select country-img ci-card" (click)="selectCountry('CI')" id="CI">
+        <mat-icon class="checked-icon">check_circle_outlinChampe</mat-icon>
+      </mat-card>
+      <mat-card class="card-country-select country-img ml-card" (click)="selectCountry('ML')" id="ML" >
+        <mat-icon class="checked-icon">check_circle_outline</mat-icon>
+      </mat-card>
+    </div>
+  </div> -->
+
+  <div class="row mt-2 mb-1" *ngIf="phoneValid && currentCountrySelected!==''">
+    <div class="w-100 text-center pl-4 mt-5">
+      <h5 class="text-left">{{ 'add_funds.payments_method' | translate }}</h5>
+    </div>
+    <div class="d-flex flex-wrap justify-content-md-start justify-content-center align-items-center pl-2 w-100">
+      <mat-card *ngIf="currentCountrySelected==='SN' || currentCountrySelected==='ML'"
+        class="card-payment-select" (click)="selectPayment('PE')" id="PE" style="background-image: url(assets/images/payexpress.png);">
+        <mat-icon class="checked-icon">check_circle_outline</mat-icon>
+      </mat-card>
+      <ng-container *ngIf="hidden">
+
+        <!-- <mat-card *ngIf="currentCountrySelected==='SN' || currentCountrySelected==='CM' || currentCountrySelected==='BF'" class="card-payment-select" (click)="selectPaymentMobileMoney('BZ_om', 'orange')" id="BZ_om" style="background-image: url(assets/svg/OM.svg);">
+          <mat-icon class="checked-icon">check_circle_outline</mat-icon>
+        </mat-card>
+        <mat-card *ngIf="currentCountrySelected==='CI'" class="card-payment-select" (click)="selectPaymentMobileMoney('BZ_om_ci', 'Orange')" id="BZ_om_ci" style="background-image: url(assets/svg/OM.svg);">
+          <mat-icon class="checked-icon">check_circle_outline</mat-icon>
+        </mat-card> -->
+        <!-- <mat-card *ngIf="currentCountrySelected==='CI' || currentCountrySelected==='SN'" class="card-payment-select" (click)="selectPaymentMobileMoney('BZ_free', 'free')" id="BZ_free" style="background-image: url(assets/images/-logo-free-money-01.png);">
+          <mat-icon class="checked-icon">check_circle_outline</mat-icon>
+        </mat-card> -->
+        
+        <!-- <mat-card *ngIf="currentCountrySelected==='CI'" class="card-payment-select" (click)="selectPaymentMobileMoney('MV', 'moov')" id="MV" style="background-image: url(assets/images/logo-moov.png);">
+          <mat-icon class="checked-icon">check_circle_outline</mat-icon>
+        </mat-card> -->
+        <!-- <mat-card *ngIf="currentCountrySelected==='CI' || currentCountrySelected==='BN'"
+          class="card-payment-select" (click)="selectPayment('PA_1', 'no_card')" id="PA_1" style="background-image: url(assets/images/paydunya.png);">
+          <mat-icon class="checked-icon">check_circle_outline</mat-icon>
+        </mat-card> -->
+      </ng-container>
+      <!-- <mat-card *ngIf="currentCountrySelected==='SN' || currentCountrySelected==='CM' || currentCountrySelected==='BF'" class="card-payment-select" (click)="selectPaymentMobileMoney('BZ_om', 'orange')" id="BZ_om" style="background-image: url(assets/svg/OM.svg);">
+        <mat-icon class="checked-icon">check_circle_outline</mat-icon>
+      </mat-card> -->
+      <mat-card *ngIf="currentCountrySelected==='CI'"
+      class="card-payment-select" (click)="selectPayment('PA_om', 'orange-money-ci')" id="PA_om" style="background-image: url(assets/svg/OM.svg);">
+      <mat-icon class="checked-icon">check_circle_outline</mat-icon>
+    </mat-card>
+    <mat-card *ngIf="currentCountrySelected==='CI'"
+      class="card-payment-select" (click)="selectPayment('PA_mtn', 'mtn-ci')" id="PA_mtn" style="background-image: url(assets/images/mtn.png);">
+      <mat-icon class="checked-icon">check_circle_outline</mat-icon>
+    </mat-card>
+    <mat-card *ngIf="currentCountrySelected==='BN'"
+      class="card-payment-select" (click)="selectPayment('PA_mtn', 'mtn-benin')" id="PA_mtn" style="background-image: url(assets/images/mtn.png);">
+      <mat-icon class="checked-icon">check_circle_outline</mat-icon>
+    </mat-card>
+      <mat-card *ngIf="currentCountrySelected==='SN'"
+      class="card-payment-select" (click)="selectPayment('PA_om', 'orange-money-senegal')" id="PA_om" style="background-image: url(assets/svg/OM.svg);">
+      <mat-icon class="checked-icon">check_circle_outline</mat-icon>
+    </mat-card>
+      <mat-card *ngIf="currentCountrySelected==='SN'"
+      class="card-payment-select" (click)="selectPayment('PA_wave', 'wave-senegal')" id="PA_wave" style="background-image: url(assets/images/wave.png);">
+      <mat-icon class="checked-icon">check_circle_outline</mat-icon>
+    </mat-card>
+      <mat-card *ngIf="currentCountrySelected==='SN'" class="card-payment-select" (click)="selectPayment('PA_free', 'free-money-senegal')"  id="PA_free" style="background-image: url(assets/images/-logo-free-money-01.png);">
+        <mat-icon class="checked-icon">check_circle_outline</mat-icon>
+      </mat-card>
+      <mat-card *ngIf="currentCountrySelected==='SN'"
+        class="card-payment-select" (click)="selectPayment('PA_pa', 'paydunya')" id="PA_pa" style="background-image: url(assets/images/paydunya.png);">
+        <mat-icon class="checked-icon">check_circle_outline</mat-icon>
+      </mat-card>
+      <mat-card *ngIf="currentCountrySelected!==''"
+        class="card-payment-select" (click)="selectPayment('PA', 'card')" id="PA" style="background-image: url(assets/images/visa.png);">
+        <mat-icon class="checked-icon">check_circle_outline</mat-icon>
+      </mat-card>
+      <!-- <mat-card *ngIf="currentCountrySelected!==''"
+      class="card-payment-select" (click)="selectBizaoCard('BZ_card', 'card')" id="BZ_card" style="background-image: url(assets/images/visa.png);">
+      <mat-icon class="checked-icon">check_circle_outline</mat-icon>
+    </mat-card> -->
+    </div>
+  </div>
+
+  
+  <div class="card-billing app-bg-secondary d-flex justify-content-center align-items-center mt-5"
+    *ngIf="currentPaymentSelected!==''">
+    <div class="row w-100">
+      <div class="col-md-8 pl-2 d-flex justify-content-md-start justify-content-sm-center align-items-center">
+        <adf-user-settings (phone_state)="phone_sate_change($event)"></adf-user-settings>
+      </div>
+      <div class="col-md-4 d-flex justify-content-md-start justify-content-sm-center align-items-center" *ngIf="phoneValid">
+        <div class="row w-100">
+          <div class="col-md-12 align-items-center text-center">
+            <mat-card class="card-rechargement">
+              <mat-card-header>
+                <mat-card-title>{{ 'add_funds.add_funds_to_your_account' | translate }}</mat-card-title>
+                <mat-card-subtitle>{{ 'add_funds.amount_in_dollar' | translate }}</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <form [formGroup]="paymentForm">
+                  <mat-form-field>
+                    <mat-label>{{ 'add_funds.amount_to_credit' | translate }}</mat-label>
+                    <input matInput type="number" formControlName="amount">
+                    <mat-error
+                      *ngIf="paymentForm.controls.amount.touched && paymentForm.controls.amount.hasError('required')">
+                      {{ 'add_funds.required' | translate }}
+                    </mat-error>
+                    <mat-error
+                      *ngIf="paymentForm.controls.amount.touched && paymentForm.controls.amount.hasError('min')">
+                      {{ 'add_funds.low_amount' | translate }}
+                    </mat-error>
+                    <mat-error
+                      *ngIf="paymentForm.controls.amount.touched && paymentForm.controls.amount.hasError('max')">
+                      {{ 'add_funds.high_amount' | translate }}
+                    </mat-error>
+                  </mat-form-field>
+                  <br>
+                  <span *ngIf="paymentForm.controls.amount.value>100" class="text-warning">{{ 'add_funds.warning_amount' | translate }}</span>
+                </form>
+              </mat-card-content>
+              <mat-card-actions>
+                <button mat-button *ngIf="!paymentForm.valid" disabled>{{ 'add_funds.proceed_to_payment' | translate }}</button>
+                <button  mat-flat-button *ngIf="(paymentForm.valid) && (currentPaymentSelected==='PE' || currentPaymentSelected==='MV' || currentPaymentSelected==='BZ_free' || currentPaymentSelected==='BZ_free' || currentPaymentSelected==='BZ_om_ci' || currentPaymentSelected==='BZ_om' || currentPaymentSelected==='BZ_card')" color="accent" (click)="addFunds()">{{ 'add_funds.proceed_to_payment' | translate }}</button>
+                <button *ngIf="paymentForm.valid && (currentPaymentSelected==='PA' || currentPaymentSelected==='PA_1' || currentPaymentSelected==='PA_wave' || currentPaymentSelected==='PA_om' || currentPaymentSelected==='PA_free' || currentPaymentSelected==='PA_pa' || currentPaymentSelected==='PA_mtn')" mat-button id='paydunya_btn' class="pay" (click)="payWithPaydunya(this)" [attr.data-fullname]="first_name+' '+last_name" [attr.data-email]="currentEmail" [attr.data-phone]="phone">{{ 'add_funds.proceed_to_payment' | translate }}</button>
+                  <!-- <button mat-button class="cellulant-button" color="accent">Cellulant</button> -->
+              </mat-card-actions>
+            </mat-card>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+</div>
+</div>
+
+
+
+<adf-spinner *ngIf="showSpinner"></adf-spinner>

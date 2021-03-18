@@ -1,0 +1,324 @@
+// =========================
+// Carousel
+// =========================
+
+:host {
+    flex: 1;
+  }
+  
+  .carousel {
+    position: relative;
+    height: 300px;
+    width: 100%;
+    overflow: visible;
+    border: none;
+    box-shadow: none !important;
+  }
+  
+  .slide {
+    position: absolute;
+    /* height: 100%; */
+    object-fit: cover;
+    // zoom effect on hover
+    transition: transform 150ms cubic-bezier(0.25, 0.46, 0.45, 0.84);
+    max-width: 150px;
+    max-height: 150px;
+    
+  }
+  
+  .slide:hover {
+    transform: scale(1.025);
+  }
+  .toolbar-slides{
+    position: absolute;
+    // bottom: 1rem;
+    left: 0;
+    right: 0;
+    background-color: white !important;
+  }
+  
+  .ad-coll-label{
+  color: rgba(0,0,0,.54);
+      height: 24px;
+      text-align: left;
+      font-size: 12px;
+  }
+  .ad-status-text{
+   font-size: 10px;
+  }
+  .ad-stats-text{
+    color: rgba(0,0,0,.87);
+      font-size: 18px;
+      font-weight: 400;
+     /*  height: 24px; */
+  }
+  
+  .selected{
+      background: #e8eaed;
+      outline: none;
+  }
+  
+  .button-item{
+      font-size: 12px;
+  }
+  
+  .icon-status{
+      width: 12px;
+      height: 12px;
+      font-size: 12px;
+      margin-right: .3rem;
+  }
+  
+  // =========================
+  // Next and Prev buttons
+  // =========================
+  .control {
+  /*   border: none;
+    background-color: transparent; */
+    outline: 0; // remove blue outline border, but make sure they are still focussable for accessibility
+    position: absolute;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* padding: 0.5em;
+    color: white; */
+    font-weight: bold;
+    font-size: 3em;
+    user-select: none;
+   /*  height: 100%; */
+    opacity: 80%;
+    // opacity effect on hover
+    transition: opacity 150ms cubic-bezier(0.25, 0.46, 0.45, 0.84);
+  
+    &:hover,
+    &:focus {
+      opacity: 1;
+    }
+  
+    /* Position the buttons */
+    &.next {
+      right: 0;
+      top: 5rem;
+    }
+    &.prev {
+      top: 5rem;
+    }
+  }
+  
+  /* style the arrows */
+  /* .arrow {
+    display: block;
+    border-left: 0.1em solid white;
+    border-bottom: 0.1em solid white;
+    width: 0.5em;
+    height: 0.5em;
+  
+    &.left {
+      transform: rotate(45deg);
+    }
+    &.right {
+      transform: rotate(225deg);
+    }
+  } */
+  
+  .area-status:hover{
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12), 0 1px 5px 0 rgba(0,0,0,.2);
+  }
+  
+  .pager-ads{
+    position: absolute;
+     bottom: 8px;
+      left: 0;
+       z-index: 5
+  }
+  
+  .campaign-info-block{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+
+  .preview-ads-container{
+    display: flex;
+    justify-content: center;
+}
+
+.illustration-preview{
+    justify-content: start !important;
+}
+.illustration-component-1{
+        min-height: 160px;
+        background-color: #fff;
+}
+.illustration-component-1{
+        min-height: 120px;
+        background-color: #fff;
+}
+.illustration-component-2{
+        min-height: 120px;
+        background-color: #fff;
+}
+.illustration-component-3{
+        min-height: 250px;
+        background-color: #fff;
+}
+.illustration-component-4{
+        min-height: 90px;
+        background-color: #fff;
+}
+.preview-block{
+    align-items: center;
+    display: flex;
+    /* justify-content: center; */
+}
+
+.illustration-container{
+    margin: .2rem;
+     zoom: 75%;
+     background: whitesmoke;
+}
+
+.title-preview{
+    text-align: center;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-weight: 700;
+    line-height: 1.5em;
+    max-height: 6.0em;
+    font-size: 30px;
+}
+
+.title-preview-small{
+    text-align: left;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-weight: 700;
+    line-height: 1.5em;
+    max-height: 6.0em;
+    font-size: 20px;
+}
+
+.icon-ad-container{
+    background: #fff; width: 14px; height: 14px; position: absolute; top: 0; right:0; font-size: 14px; max-width: 100px; height: 14px;
+    z-index: 2;
+    .mat-icon{
+        font-size: 14px; width: 14px; height: 14px;
+    }
+    cursor: pointer;
+}
+
+.icon-ad-container:hover{
+    width: 90px;
+    justify-content: center;
+    align-items: center;
+    .ad-content-text{
+    display: block;
+    }
+    .mat-icon{
+        position: absolute;
+        right: 0;
+    }
+}
+
+.spinner-preview{
+    position: absolute; left: 20%; top: 40%; z-index: 2
+}
+
+.ad-content-text{
+    display: none;
+}
+
+
+
+.phone-wrapper{
+    background: #fff;
+    border: 1.5px solid #c3c2c2;
+    border-bottom-width: 0;
+    border-radius: 44px 44px 0 0;
+    box-sizing: border-box;
+    display: block;
+    height: 632px;
+    padding: 16px;
+    position: relative;
+    text-align: center;
+    width: 352px;
+}
+
+.phone-screen{
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.12);
+    border-bottom-width: 0;
+    height: 100%;
+    min-height: 240px;
+    overflow: hidden;
+    position: relative;
+    text-align: start;
+}
+
+.phone-camera{
+    border: 1px solid #c3c2c2;
+    border-radius: 50%;
+    display: inline-block;
+    height: 12px;
+    margin-bottom: 8px;
+    position: relative;
+    width: 12px;
+}
+
+.phone-navigator{
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    background-color: #e8eaed;
+    height: 32px;
+    color: #80868b;
+    
+}
+
+.navigator-headline{
+    background-color: #bdc1c6;
+    height: 8px;
+    width: 120px;
+}
+
+.screen-header{
+    display: flex;
+    flex-direction: column;
+    margin: 8px;
+}
+
+.screen-footer{
+    display: flex;
+    flex-direction: column;
+    margin: 8px;
+}
+
+.long-headline{
+    background-color: #e8eaed;
+    height: 7px;
+    margin: 4px 0;
+    width: 100%;
+}
+
+.short-headline{
+    background-color: #e8eaed;
+    height: 7px;
+    margin: 4px 0;
+    width: 70%;
+}
+
+.screen-body{
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

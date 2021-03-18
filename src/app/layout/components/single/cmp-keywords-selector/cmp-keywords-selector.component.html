@@ -1,0 +1,309 @@
+<div class="d-flex flex-column w-100 justify-content-center align-items-start">
+    <div class="d-flex w-100 jus align-items-center">
+        <mat-form-field color="primary">
+            <mat-select [formControl]="languageControl" placeholder="Languages" #singleSelect>
+              <adf-mat-select-search [formControl]="languageFilterCtrl"></adf-mat-select-search>
+              <mat-option *ngFor="let lang of filteredLanguages | async" [value]="lang">
+                {{lang.languageName}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field color="primary">
+            <mat-label>Nombre de mots à rechercher</mat-label>
+            <mat-select [(ngModel)]="numberOfResult" disableRipple>
+              <mat-option *ngFor="let item of counter(100); let i=index" [value]="i" [disabled]="i===0">{{i}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+    </div>
+    <div class="d-flex justify-content-start align-items-center w-100 mb-5" *ngIf="campaignId!==0">
+      <adf-keywords-list-preview></adf-keywords-list-preview>
+    </div>
+    <ul ngbNav #nav="ngbNav" class="nav-tabs">
+        <li ngbNavItem>
+          <a ngbNavLink>Mot clés par site</a>
+          <ng-template ngbNavContent>
+            <div class="d-flex w-100 flex-column justify-content-center align-items-start">
+                <mat-form-field color="primary" class="url-field mt-2" appearance="legacy" [floatLabel]="'never'">
+                    <input matInput #inputUrl  [formControl]="websiteControl" placeholder="Saisir l'url d'une page Web connexe"  autofocus>
+                    <mat-icon matPrefix class="mr-2">attachment</mat-icon>
+                    <mat-error *ngIf="websiteControl.invalid">Url invalide</mat-error>
+                    <button mat-mini-fab class="fab-sm mb-1" matSuffix (click)="searchKeywordByUrl()" [disabled]="!websiteControl.valid || spinnerUrl"><mat-icon>search</mat-icon></button>
+                  </mat-form-field>
+                  <mat-progress-bar
+                  color="primary"
+                      mode="indeterminate" style="max-width: 300px;" class="mat-elevation-z3" *ngIf="spinnerUrl"
+                      >
+                  </mat-progress-bar>
+                  <mat-toolbar [ngClass]="{'mat-elevation-z4': selectedFromWebPage?.length}" class="d-flex w-100 justify-content-end align-items-center" style="z-index: 2;" *ngIf="keywordsFromWebPage.length>0 && !spinnerUrl">
+                        <button mat-button color="primary" [disabled]="!selectedFromWebPage?.length" (click)="addFromWebPage()">Ajouter à la liste</button>
+                        <button mat-button color="warn" [disabled]="!selectedFromWebPage?.length" (click)="removeFromWebPage()">Supprimer</button>
+                  </mat-toolbar>
+                  <ngx-datatable  style="width: 100%;" class="material" [rows]="keywordsFromWebPage"  [columnMode]="'force'"
+                  [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"  [sortType]="'multi'" [limit]="10" *ngIf="keywordsFromWebPage.length>0 && !spinnerUrl"     
+                  [selected]="selectedFromWebPage"
+                  [selectionType]="'checkbox'"
+                  [selectAllRowsOnPage]="false"
+                  (activate)="onActivateFromWebPage($event)"
+                  (select)="onSelectFromWebPage($event)"
+                    >
+                  
+                    <ngx-datatable-column
+                    [width]="30"
+                    [sortable]="false"
+                    [canAutoResize]="false"
+                    [draggable]="false"
+                    [resizeable]="false"
+                  >
+                    <ng-template
+                      ngx-datatable-header-template
+                      let-value="value"
+                      let-allRowsSelected="allRowsSelected"
+                      let-selectFn="selectFn"
+                    >
+                      <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
+                    </ng-template>
+                    <ng-template
+                      ngx-datatable-cell-template
+                      let-value="value"
+                      let-isSelected="isSelected"
+                      let-onCheckboxChangeFn="onCheckboxChangeFn"
+                    >
+                      <input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)" />
+                    </ng-template>
+                    </ngx-datatable-column>
+                  <ngx-datatable-column name="Mots clés">
+                    <ng-template
+                    ngx-datatable-cell-template
+                    let-rowIndex="rowIndex"
+                    let-value="value"
+                    let-row="row"
+                    
+                  >
+                  <span style="font-size: 13px;">{{row.keyword}}</span>
+                  </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="Recherches du mois passé">
+                    <ng-template
+                    ngx-datatable-cell-template
+                    let-rowIndex="rowIndex"
+                    let-value="value"
+                    let-row="row"
+                  >
+                  <span style="font-size: 13px;">{{row.volume | number}}</span>
+                  </ng-template>
+                  </ngx-datatable-column>
+                </ngx-datatable>
+                  
+            </div>
+          </ng-template>
+        </li>
+        <li ngbNavItem>
+          <a ngbNavLink>Tester des mots clés</a>
+          <ng-template ngbNavContent>
+            <div class="d-flex w-100 flex-column justify-content-center align-items-start">
+                <mat-form-field color="primary" class="url-field mt-2" fxFlex>
+                    <textarea matInput
+                  
+                    placeholder="Tapez ici des mots séparés par des virgules"
+                    [formControl]="keywordsArea"
+                    cdkTextareaAutosize
+                    #autosize="cdkTextareaAutosize"
+                    cdkAutosizeMinRows="1"
+                    cdkAutosizeMaxRows="100"></textarea>
+                    <button mat-mini-fab class="fab-sm mb-1" matSuffix (click)="searchKeyword()" [disabled]="keywordsArea.value==='' || spinnerWords"><mat-icon>search</mat-icon></button>
+                  </mat-form-field>
+                  <mat-progress-bar
+                      mode="indeterminate" style="max-width: 300px;" class="mat-elevation-z3" *ngIf="spinnerWords"
+                      >
+                  </mat-progress-bar>
+                  <mat-toolbar [ngClass]="{'mat-elevation-z4': selectedFromWords?.length}" class="d-flex w-100 justify-content-end align-items-center" style="z-index: 2;" *ngIf="keywordsFromWords.length>0 && !spinnerUrl">
+                    <button mat-button color="primary" [disabled]="!selectedFromWords?.length" (click)="addFromWords()">Ajouter à la liste</button>
+                    <button mat-button color="warn" [disabled]="!selectedFromWords?.length" (click)="removeFromWords()">Supprimer</button>
+                </mat-toolbar>
+                <ngx-datatable  style="width: 100%;" class="material" [rows]="keywordsFromWords"  [columnMode]="'force'"
+                [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"  [sortType]="'multi'" [limit]="10" *ngIf="keywordsFromWords.length>0 && !spinnerUrl"     
+                [selected]="selectedFromWords"
+                [selectionType]="'checkbox'"
+                [selectAllRowsOnPage]="false"
+                (activate)="onActivateFromWords($event)"
+                (select)="onSelectFromWords($event)"
+                >
+                
+                <ngx-datatable-column
+                [width]="30"
+                [sortable]="false"
+                [canAutoResize]="false"
+                [draggable]="false"
+                [resizeable]="false"
+                >
+                <ng-template
+                  ngx-datatable-header-template
+                  let-value="value"
+                  let-allRowsSelected="allRowsSelected"
+                  let-selectFn="selectFn"
+                >
+                  <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
+                </ng-template>
+                <ng-template
+                  ngx-datatable-cell-template
+                  let-value="value"
+                  let-isSelected="isSelected"
+                  let-onCheckboxChangeFn="onCheckboxChangeFn"
+                >
+                  <input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)" />
+                </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Mots clés">
+                <ng-template
+                ngx-datatable-cell-template
+                let-rowIndex="rowIndex"
+                let-value="value"
+                let-row="row"
+                
+                >
+                <span style="font-size: 13px;">{{row.keyword}}</span>
+                </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Recherches du mois passé">
+                <ng-template
+                ngx-datatable-cell-template
+                let-rowIndex="rowIndex"
+                let-value="value"
+                let-row="row"
+                >
+                <span style="font-size: 13px;">{{row.volume | number}}</span>
+                </ng-template>
+                </ngx-datatable-column>
+                </ngx-datatable>
+                </div>
+          </ng-template>
+        </li>
+        <li ngbNavItem>
+          <a ngbNavLink>Mots clés par produits et services</a>
+          <ng-template ngbNavContent>
+            <div class="d-flex w-100 flex-column justify-content-center align-items-start">
+                <mat-form-field color="primary" class="url-field mt-2" [floatLabel]="'never'">
+                    <mat-chip-list #chipList aria-label="Fruit selection">
+                        <mat-chip
+                          *ngFor="let chip of chipData"
+                          [selectable]="selectable"
+                          [removable]="removable"
+                          (removed)="remove(chip)">
+                          {{chip.Category}}
+                          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                
+                      </mat-chip-list>
+                  <input matInput placeholder="Rechercher des mots clés par produits ou services" [matChipInputFor]="chipList"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                   [formControl]="searchControl" [matAutocomplete]="auto">
+                  <mat-autocomplete #auto="matAutocomplete" >
+                    <ng-container>
+                      <mat-option (click)="onSelect({'CriterionID': option.CriterionID, 'Category': option.Category})" *ngFor="let option of searchResult" [value]="{'CriterionID': option.CriterionID, 'Category': option.Category}">
+                        <span style="font-size: 12px;">{{ option.Category }}</span>
+                        
+                      </mat-option>                        
+                    </ng-container>
+                  </mat-autocomplete>
+                  <button mat-mini-fab class="fab-sm mb-1" matSuffix (click)="searchKeywordFromService()" [disabled]="chipData.length===0 || spinnerServiceProduct"><mat-icon>search</mat-icon></button>
+                </mat-form-field>
+                <mat-progress-bar
+                      mode="indeterminate" style="max-width: 300px;" class="mat-elevation-z3" *ngIf="spinnerServiceProduct"
+                      >
+                  </mat-progress-bar>
+                  <mat-toolbar [ngClass]="{'mat-elevation-z4': selectedFromProdSer?.length}" class="d-flex w-100 justify-content-end align-items-center" style="z-index: 2;" *ngIf="keywordsFromProdSer.length>0 && !spinnerUrl">
+                    <button mat-button color="primary" [disabled]="!selectedFromProdSer?.length" (click)="addFromProdSer()">Ajouter à la liste</button>
+                    <button mat-button color="warn" [disabled]="!selectedFromProdSer?.length" (click)="removeFromProdSer()">Supprimer</button>
+                </mat-toolbar>
+                <ngx-datatable  style="width: 100%;" class="material" [rows]="keywordsFromProdSer"  [columnMode]="'force'"
+                [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"  [sortType]="'multi'" [limit]="10" *ngIf="keywordsFromProdSer.length>0 && !spinnerUrl"     
+                [selected]="selectedFromProdSer"
+                [selectionType]="'checkbox'"
+                [selectAllRowsOnPage]="false"
+                (activate)="onActivateFromProdSer($event)"
+                (select)="onSelectFromProdSer($event)"
+                >
+                
+                <ngx-datatable-column
+                [width]="30"
+                [sortable]="false"
+                [canAutoResize]="false"
+                [draggable]="false"
+                [resizeable]="false"
+                >
+                <ng-template
+                  ngx-datatable-header-template
+                  let-value="value"
+                  let-allRowsSelected="allRowsSelected"
+                  let-selectFn="selectFn"
+                >
+                  <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
+                </ng-template>
+                <ng-template
+                  ngx-datatable-cell-template
+                  let-value="value"
+                  let-isSelected="isSelected"
+                  let-onCheckboxChangeFn="onCheckboxChangeFn"
+                >
+                  <input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)" />
+                </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Mots clés">
+                <ng-template
+                ngx-datatable-cell-template
+                let-rowIndex="rowIndex"
+                let-value="value"
+                let-row="row"
+                
+                >
+                <span style="font-size: 13px;">{{row.keyword}}</span>
+                </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Recherches du mois passé">
+                <ng-template
+                ngx-datatable-cell-template
+                let-rowIndex="rowIndex"
+                let-value="value"
+                let-row="row"
+                >
+                <span style="font-size: 13px;">{{row.volume | number}}</span>
+                </ng-template>
+                </ngx-datatable-column>
+                </ngx-datatable>
+            </div>
+          </ng-template>
+        </li>
+      </ul>
+      
+      <div [ngbNavOutlet]="nav" class="ml-4"></div>
+      
+      
+      
+      <br>
+          <mat-form-field color="primary" class="url-field mt-2" [floatLabel]="'always'" [appearance]="'outline'" fxFlex>
+            <textarea 
+            
+            placeholder="Tapez ici des mots séparés par des virgules"
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="10" id="keywordField" [(ngModel)]="inputValue" matNativeControl>{{inputValue}}</textarea>
+            
+          </mat-form-field>
+          <!-- <br>
+          <button mat-raised-button color="primary" (click)="getKeywords()">Sauvegarder les mots</button> -->
+
+     
+</div>
+
+<div class="panel-footer" *ngIf="showSaveBlock">
+  <mat-spinner
+      [mode]="'indeterminate'" color="primary" [diameter]="25" *ngIf="spinnerUpdate" class="mr-4">
+  </mat-spinner>
+  <ng-container *ngIf="!spinnerUpdate && user_access!==undefined">
+      <button mat-button color="primary" (click)="updateKeywords()" [disabled]="user_access.readOnly">Enregistrer</button>
+
+  </ng-container>
+  
+</div>

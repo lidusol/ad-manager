@@ -1,0 +1,384 @@
+/* adf-cmp-name{
+    width: 100%;
+}
+
+adf-cmp-landing-page{
+    width: 100%;
+    margin-top: 2rem;
+}
+adf-cmp-status{
+    width: 100%;
+    margin-top: 2rem;
+}
+adf-cmp-zones{
+    width: 100%;
+    margin-top: 2rem;
+}
+
+adf-cmp-demographic-target{
+    width: 100%;
+    margin-top: 2rem;
+
+} */
+adf-cmp-bids, adf-cmp-objective{
+    width: 100%;
+    margin-top: 2rem;
+}
+adf-cmp-budget{
+  width: 100%;
+    margin-top: 2rem;  
+}
+adf-cmp-dates{
+     width: 100%;
+    margin-top: 2rem;
+}
+adf-cmp-ads-uploader{
+    width: 100%;
+    margin-top: 2rem;
+}
+
+adf-cmp-placement-target{
+     width: 100%;
+    margin-top: 2rem;
+}
+adf-cmp-schedules{
+      width: 100%;
+    margin-top: 2rem;
+}
+
+adf-cmp-pack-chooser{
+     width: 100%;
+    margin-top: 2rem;
+}
+
+.main-builder{
+   /*  display: flex; */
+    position: absolute;
+    top: 100px;
+    right: 0;
+    left: 0;
+}
+
+.builder-layout-1{
+    flex-grow: 1;
+}
+
+.builder-reach-layout{
+    width: 304px;
+    margin-top: 2px;
+    ;
+}
+
+.reach-container{
+   border-left: 1px solid #dadce0;
+    box-sizing: border-box;
+    height: 100%;
+    padding: 8px 16px;
+    position: relative;
+}
+
+
+.builder-container {
+  display: flex;
+  flex-direction: column;
+  /* position: absolute; */
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.builder-is-mobile .builder-toolbar {
+  position: fixed;
+  /* Make sure the toolbar will stay on top of the content as it scrolls past. */
+  z-index: 2;
+}
+.builder-is-mobile mat-sidenav{
+    z-index: 4 !important;
+}
+
+
+
+
+h1.builder-builder-name {
+  margin-left: 8px;
+}
+
+.builder-sidenav-container {
+  /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
+     causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
+  flex: 1;
+  overflow: visible;
+  background: whitesmoke;
+}
+
+.builder-is-mobile .builder-sidenav-container {
+  /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
+     `<body>` to be our scrolling element for mobile layouts. */
+/*   flex: 1 0 auto; */
+
+}
+
+mat-sidenav-container{
+    background: whitesmoke;
+}
+ mat-sidenav-content{
+       /*  max-height: 100vh;
+        height: auto;
+     overflow: scroll; */
+     margin-top: 1rem;
+     background: whitesmoke;
+     z-index: initial !important;
+    
+     
+ }
+ 
+ mat-sidenav{
+    width: 304px;
+    position: fixed;
+    right: 0;
+    top: 110px;
+    z-index: 0 !important;
+    margin-right: .3rem;
+    
+  
+}
+
+.reach-title{
+    color: rgba(0,0,0,.87);
+    font: 400 15px/24px Roboto,Noto,sans-serif;
+    letter-spacing: .01em;
+}
+
+.impressions-estimation{
+    margin-top: 16px;
+}
+
+.impressions-container{
+    position: relative;
+}
+.reach-close-action{
+    position: fixed;
+    top: auto;
+    right: 20px;
+    z-index: 4;
+}
+
+mat-panel-title{
+    color: rgba(0,0,0,.87);
+    font: 400 13px/20px Roboto,Noto,sans-serif;
+    letter-spacing: .01em;
+    max-width: 23%;
+}
+
+
+
+.reach-action{
+    display: flex;
+}
+
+.reach-item-uderline{
+    border-bottom: 1px rgba(0,0,0,.54) dashed;
+    cursor: pointer;
+}
+
+.row-spinner{
+    position: absolute;
+    background: white;
+    width: 100%;
+    height: 100%;
+    opacity: 0.7;
+}
+
+
+.container-card{
+    display: flex;
+    width: 100%;
+    overflow: hidden !important;
+    height: 380px;
+}
+
+.card-left{
+    max-width: 400px;
+    width: 100%;
+    height: 100%;
+    /* height: 490px; */
+    /* margin-top: -3rem; */
+    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12) !important;
+    background: rgb(14,0,255);
+background: -moz-linear-gradient(180deg, rgba(14,0,255,1) 0%, rgba(14,0,255,0.6927813361672794) 35%, rgba(166,0,255,1) 100%);
+background: -webkit-linear-gradient(180deg, rgba(14,0,255,1) 0%, rgba(14,0,255,0.6927813361672794) 35%, rgba(166,0,255,1) 100%);
+background: linear-gradient(180deg, rgba(14,0,255,1) 0%, rgba(14,0,255,0.6927813361672794) 35%, rgba(166,0,255,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#0e00ff",endColorstr="#a600ff",GradientType=1);
+}
+
+
+
+
+a {
+    color: #1a237e;
+  }
+  
+  .mainLogin {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 1);
+    overflow: hidden;
+  }
+  
+  .backgroundLeft {
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    overflow: hidden;
+  }
+  
+  
+  .left-img {
+  
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    overflow: visible;
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  
+  .left-side-title {
+    position: absolute;
+    width: 331px;
+    height: 70%;
+    left: 10%;
+    top: 90px;
+    overflow: visible;
+    width: 306px;
+    white-space: nowrap;
+    text-align: left;
+    font-family: ProductSans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 42px;
+    color: rgba(255, 255, 255, 1);
+    letter-spacing: -0.25px;
+    font-weight: 500;
+  }
+  
+  .copyright-content {
+    left: 10%;
+    bottom: 1rem;
+    position: absolute;
+    overflow: visible;
+    width: 161px;
+    white-space: nowrap;
+    line-height: 26.399999618530273px;
+    margin-top: -6.199999809265137px;
+    text-align: left;
+    font-family: ProductSans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 1);
+    letter-spacing: -0.25px;
+  }
+  
+  .left-header-title {
+    position: absolute;
+    z-index: 2;
+    width: 97px;
+    height: 37px;
+    left: 10%;
+    top: 5%;
+    overflow: visible;
+    white-space: nowrap;
+    line-height: 36.33967208862305px;
+    margin-top: -3.1698360443115234px;
+    text-align: left;
+    font-family: ProductSans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 30px;
+    color: rgba(255, 255, 255, 1);
+    letter-spacing: -0.5px;
+  }
+  
+  
+  .title-label {
+    height: 102px;
+  }
+  
+  .login-label-text {
+    left: 0px;
+    top: 0px;
+    overflow: visible;
+    white-space: nowrap;
+    line-height: 60px;
+    margin-top: -12px;
+    text-align: left;
+    font-family: ProductSans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 36px;
+    color: rgba(17, 27, 96, 1);
+    letter-spacing: -0.25px;
+    font-weight: 500;
+    margin-top: .5rem;
+  }
+  
+  
+  .connect-with-id-label {
+    left: 0px;
+    top: 22px;
+    overflow: visible;
+    white-space: nowrap;
+    line-height: 28px;
+    margin-top: -6px;
+    text-align: left;
+    font-family: ProductSans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    color: rgba(114, 119, 143, 1);
+    letter-spacing: -0.25px;
+  }
+  
+  
+  #line{
+      fill: rgba(162, 166, 187, 1);
+  }
+  .line-separator {
+      overflow: visible;
+      width: 30px;
+      height: 1px;
+      left: 0px;
+      top: 0px;
+  }
+  
+  .credentials-form-group {
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  .login-action {
+    white-space: nowrap;
+    line-height: 21px;
+    text-align: left;
+    font-family: ProductSans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 1);
+    letter-spacing: -0.25px;
+    margin-left: auto;
+    margin-top: 5%;
+  
+  }
+  
+  mat-form-field {
+    font-size: 13px;
+  }
+  

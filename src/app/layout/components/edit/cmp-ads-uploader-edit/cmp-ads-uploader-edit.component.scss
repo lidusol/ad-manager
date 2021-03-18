@@ -1,0 +1,33 @@
+.card-display-ads{
+    border-radius: 0px;
+}
+
+.card-item{
+    border: none;
+    width: 215px;
+    height: 211px;
+    max-width: 215px;
+}
+
+.e-upload-file-list{
+    max-height: 260px;
+}
+
+.icon-status{
+    width: 14px;
+    height: 14px;
+    font-size: 14px;
+}
+ .button-edit, .icon-edit{
+   font-size: 14px;  
+ }
+
+ .card-error{
+    overflow: visible !important;
+}
+
+.close-err{
+    position: absolute;
+    top: -18px;
+    right: -12px;
+}

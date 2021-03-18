@@ -1,0 +1,79 @@
+.pack-info{
+    font-size: 13px;
+    font-weight: 400;
+    word-break: keep-all;
+    box-sizing: border-box;
+    border-left: 1px solid rgba(0,0,0,.12);
+    color: rgba(0,0,0,.54);
+    flex: 1 1 30%;
+    line-height: 20px;
+    padding-left: 16px;
+    vertical-align: top;
+}
+
+.pack-field{
+    width: 80%;
+}
+
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.example-radio-button {
+  margin: 5px;
+}
+
+.card-campaign-type{
+    display: inline-block;
+    width: 200px;
+    height: 302px;
+    cursor: pointer;
+    border-radius: 0px;
+    overflow: hidden;
+}
+
+
+.checked-icon{
+    position: absolute; 
+    top: 8px; 
+    right: 10px; 
+    z-index: 1050;
+     box-shadow: none !important;
+     display: none;
+     width: 30px;
+     height: 30px;
+     
+     
+}
+.checked-icon mat-icon{
+    font-size: 15px;
+    color: #ffff;
+}
+.active .checked-icon{
+    display: block !important;
+}
+
+.delivery-radio-group {
+  display: flex;
+  flex-direction: column;
+  /* margin: 15px 0;
+  padding-top: 2rem;
+  padding-bottom: 2rem; */
+}
+
+.delivery-radio-button {
+  margin: 5px;
+}
+
+adf-cmp-bids{
+    width: 100%;
+    margin-top: 1.4rem;
+}
+adf-cmp-budget{
+  width: 100%; 
+  margin-top: 1.4rem;
+}

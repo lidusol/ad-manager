@@ -1,0 +1,281 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mobile Money: ta publicité automatisée depuis ton salon |Ad'Afri</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- <script src="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth__fr.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.css" /> -->
+  <link rel="icon" type="image/x-icon" href="assets/logo/favicon.png">
+
+<link rel="stylesheet" type="text/css" href="https://paydunya.com/assets/psr/css/psr.paydunya.min.css">
+
+  <!-- <link
+  href="https://unpkg.com/video.js@7/dist/video-js.min.css"
+  rel="stylesheet"
+/> -->
+
+<!-- City -->
+
+<!-- <link
+  href="assets/css/loading-bar.min.css"
+  rel="stylesheet" type="text/css"
+/> -->
+
+<!-- <script src="assets/js/loading-bar.min.js" type="text/javascript"></script> -->
+
+  <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons&style=outline" rel="stylesheet"> -->
+  <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet"> -->
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"
+  />
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-146517321-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-146517321-1');
+
+</script>
+
+
+
+  <style>
+.cursor-pointer{
+  cursor: pointer;
+}
+html {
+  /* font-size: 62.5%; */ 
+ /*  font-size: 65%; */
+  scroll-behavior: smooth;
+   -webkit-tap-highlight-color: rgba(0,0,0,0); 
+}
+
+
+
+
+
+
+/* h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-size: 32px;
+    font-weight: 600;
+    color: #002d4f;
+    margin: 0;
+    font-family: Soleil,sans-serif !important;
+} */
+
+
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ellipsis div {
+  position: absolute;
+  top: 33px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #03a9f4;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis div:nth-child(1) {
+  left: 8px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(2) {
+  left: 8px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+
+#gridDisplay > div.e-gridheader.e-lib.e-droppable > div > table > thead > tr > th:nth-child(2) > div.e-headercelldiv > span:before{
+ background: url("assets/images/campaign-icon.svg");
+     background-color: transparent;
+    background-size: 12px 12px;
+    width: 12px;
+    height: 12px;
+}
+
+#gridDisplay > div.e-gridheader.e-lib.e-droppable > div > table > thead > tr > th:nth-child(1){
+  border-right: none !important;
+}
+.e-toolbar-items{
+  margin-top: 1% !important;
+  position: inherit;
+}
+.e-gridheader{
+  margin-top: 1%;
+}
+
+.container-fluid {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+
+    body{
+     overflow: hidden;
+     background: whitesmoke;
+      margin: 0; 
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    }
+    html, body { height: 100%; }
+
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,.26);
+    background-clip: initial;
+    cursor: pointer;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,.26);
+    background-clip: initial;
+}
+
+#cNkOZtVbwYoG {
+display: none;
+padding: 20px 10px;
+background: #D30000;
+text-align: center;
+font-weight: bold;
+color: #fff;
+position: fixed;
+bottom: 0;
+left: 0;
+right: 0;
+}
+
+#cNkOZtVbwYoT {
+display: none;
+padding: 20px 10px;
+background: #D75339;
+text-align: center;
+font-weight: bold;
+color: #fff;
+position: fixed;
+bottom: 0;
+left: 0;
+right: 0;
+}
+.cp-text{ color: rgba(0,0,0,.7); text-shadow: 0 1px rgba(255, 255, 255, 0.1);}
+
+  </style>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body class="mat-typograph light-theme" id="body" style="padding: 0;">
+  <div class="page" id="page">
+    <adf-root></adf-root>
+    <div id="loading" style=" display: block; position: absolute; top: 0;
+  left: 0; z-index: 9999; width: 100vw;height: 100vh; background-color: whitesmoke;">
+     <div class="container" style="width: 100%; height: 100%; flex-direction: column; text-align: center; align-items: center; justify-content: center; align-content: center; display: flex;">
+      <img src="assets/svg/Logo.svg" style="width: 9rem;" class="d-inline-block">
+      <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+     </div>
+    </div>
+</div>
+
+
+<div id="cNkOZtVbwYoG">
+  Votre ad blocker pourrait rendre l'utilisation de la plateforme impossible.<br>
+  Pour éviter des bugs veuillez désactiver votre ad blocker.
+</div>
+<div id="cNkOZtVbwYoT">
+ L'utilisation des cookies a été désactivée sur ce navigateur.<br>
+  Pour pouvoir vous connecter veuillez autoriser les cookies.
+</div>
+<script src="assets/js/dfp.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+if(!document.getElementById('TnqLIgEBVhKw')){
+  document.getElementById('cNkOZtVbwYoG').style.display='block';
+}
+
+if(typeof ga !=='undefined'){
+  ga('send','event','Blocking Ads',TnqLIgEBVhKw,{'nonInteraction':1});
+} else if(typeof _gaq !=='undefined'){
+  _gaq.push(['_trackEvent','Blocking Ads',TnqLIgEBVhKw,undefined,undefined,true]);
+}
+function checkCookie(){
+    var cookieEnabled = navigator.cookieEnabled;
+    if (!cookieEnabled){ 
+        document.cookie = "testcookie";
+        cookieEnabled = document.cookie.indexOf("testcookie")!=-1;
+    }
+    return cookieEnabled || showCookieFail();
+}
+
+function showCookieFail(){
+  document.getElementById('cNkOZtVbwYoT').style.display='block';
+  // do something here
+}
+
+try{
+  checkCookie();
+
+}catch(e){
+  console.log(e)
+}
+
+</script>
+
+
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://paydunya.com/assets/psr/js/psr.paydunya.min.js"></script>
+ <!-- <script src="assets/js/js-fluid-meter.js"></script> -->
+</body>
+
+
+</html>

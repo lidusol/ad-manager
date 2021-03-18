@@ -1,0 +1,14 @@
+{
+    "name": "Adafri76 Push Notification",
+    "short_name": "adafri76",
+    "gcm_sender_id": "702910555148",
+    "start_url": "/",
+    "display": "standalone",
+    "icons": [
+        {
+            "src": "https://cdn.pushalert.co/icons/default_icon-17086_2.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        }
+    ]
+}

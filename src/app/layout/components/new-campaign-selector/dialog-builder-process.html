@@ -1,0 +1,34 @@
+<h1 mat-dialog-title>Félicitation, campagne enregistrée avec succès</h1>
+<div mat-dialog-content>
+    <div class="d-flex w-100 justify-content-center align-items-center">
+      <div class="success-checkmark">
+        <div class="check-icon">
+          <span class="icon-line line-tip"></span>
+          <span class="icon-line line-long"></span>
+          <div class="icon-circle"></div>
+          <div class="icon-fix"></div>
+        </div>
+      </div>
+    </div>
+    <div class="row w-100" *ngIf="data.display!==null">
+      <div class="col-md-12">
+        <adf-cmp-display-recap [data]="[data.display]" [shadowed]="false"></adf-cmp-display-recap>
+      </div>
+    </div>
+    <div class="row w-100" *ngIf="data.native!==null">
+      <div class="col-md-12">
+        <adf-cmp-youtube-recap [data]="[data.native]" [shadowed]="false"></adf-cmp-youtube-recap>
+      </div>
+    </div>
+    <div class="row w-100" *ngIf="data.search!==null">
+      <div class="col-md-12">
+        <adf-cmp-search-recap [data]="[data.search]" [shadowed]="false"></adf-cmp-search-recap>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions class="d-flex w-100 flex-end d-flex align-items-center">
+    <button mat-button color="primary" (click)="onNoClick()">Voir le récap</button>
+    <button mat-raised-button color="primary" (click)="dialogRef.close('publish')" *ngIf="data.display!==null" [mat-dialog-close]="data.display" cdkFocusInitial>Publier la campagne</button>
+    <button mat-raised-button color="primary" (click)="dialogRef.close('publish')" *ngIf="data.native!==null" [mat-dialog-close]="data.native" cdkFocusInitial>Publier la campagne</button>
+    <button mat-raised-button color="primary" (click)="dialogRef.close('publish')"*ngIf="data.search!==null" [mat-dialog-close]="data.search" cdkFocusInitial>Publier la campagne</button>
+  </div>

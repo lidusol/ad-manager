@@ -1,0 +1,474 @@
+<mat-card style="box-shadow: none !important; overflow: hidden !important" class="pl-0 pr-0 pt-0">
+  <mat-card-content class="pl-0 pr-0 pb-0" [ngClass]="{'mat-elevation-z1': adPanel}">
+    <div [ngClass]="{'mat-elevation-z1': adPanel}" class="pb-4">
+      <div class="creator-title pl-3">
+        Créer des annonces
+      </div>
+      <div class="creator-description pl-3">
+        Créez une annonce maintenant. Votre campagne ne peut pas être diffusée sans annonce.
+      </div>
+      <div style="margin: 0; padding: 0" class="pl-3 mt-2">
+        <div class="d-flex justify-content-start align-items-center previews-container">
+          <ng-container *ngIf="isNewAd && !isEditAd">
+            <div class="creator-in-process">
+              <div class="creator-new-content">
+                <div class="d-flex justify-content-center align-items-center">
+                  <span class="in-process-text">En cours</span>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="!isNewAd && !isEditAd">
+            <div class="creator-new" (click)="toggleAdNewAdPanel()">
+              <div class="creator-new-content">
+                <div class="d-flex justify-content-center align-items-center">
+                  <mat-icon class="accent-text">add_circle</mat-icon>
+                  &nbsp;
+                  <span class="accent-text">Nouvelle annonce</span>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+          <!-- * -->
+          <div class="d-flex w-100 justify-content-start align-items-center"
+            style="overflow-x: auto; overflow-y: scroll">
+            <mat-card style="box-shadow: none !important; max-width: 300px; height: 150px;" class="p-2 m-2"
+              *ngFor="let item of search_before_upload; let i=index" [id]="item.id">
+              <mat-card-content class="d-flex justify-content-center align-items-center p-1 pb-0 mb-0"
+                style="height: 97px;">
+                <adf-ad-preview-mono [format1]="item"></adf-ad-preview-mono>
+              </mat-card-content>
+              <mat-card-actions align="end" class="pr-3">
+                <!-- <mat-icon style="cursor: pointer;" matTooltip="Modifier" [matTooltipShowDelay]="'1000'"  (click)="editSearchBeforeUpload(item)">edit</mat-icon> -->
+                <mat-icon style="cursor: pointer;" class="mr-2" matTooltip="Modifier" [matTooltipShowDelay]="'1000'"
+                  (click)="duplicateAd(item, i)">edit</mat-icon>
+                <mat-icon class="mr-2" style="cursor: pointer;" matTooltip="Supprimer" [matTooltipShowDelay]="'1000'"
+                  (click)="showDeleteAd(item)">delete</mat-icon>
+              </mat-card-actions>
+
+            </mat-card>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <mat-card class="pt-0 pb-0 creator-main-container"
+      style="box-shadow: none !important; border-top: 1px solid rgba(0,0,0,.12);" *ngIf="adPanel">
+
+      <div class="row native-ads">
+        <div class="col-md-5 pt-5" style="border-right: 1px solid rgba(0,0,0,.12);">
+          <form [formGroup]="secondFormGroup">
+            <div id="creator-main-container">
+
+              <div class="d-flex flex-column justify-content-start align-items-start mb-3" style="width: 100%">
+                <div class="d-flex justify-content-center align-items-start">
+
+
+                  <mde-popover #popoverHelperFinalUrl="mdePopover" [mdePopoverOverlapTrigger]="false"
+                    [mdePopoverCloseOnClick]="false" [mdePopoverArrowWidth]=0 [mdePopoverPositionY]="'below'"
+                    [mdePopoverPositionX]='"after"' [mdePopoverEnterDelay]=1000>
+                    <mat-card class="card-helper mat-elevation-z4">
+
+                      <mat-card-content>
+                        <div class="helper-topic">
+                          L'URL finale est celle à laquelle les utilisateurs accèdent après avoir cliqué sur votre
+                          annonce. Elle doit correspondre au contenu de cette dernière. Si vous utilisez une URL de
+                          redirection vers un autre domaine, indiquez-la dans un modèle de suivi.
+                        </div>
+                      </mat-card-content>
+
+                    </mat-card>
+                  </mde-popover>
+                </div>
+                <mat-form-field appearance="legacy" style="width: 100%;" color="primary">
+                  <input matInput placeholder="URL finale" [value]="finalURL" readonly>
+                  <mat-icon matSuffix
+                    style="font-size: 18px; font-weight: 400;   cursor: pointer;  height: 1em; line-height: 1; color: rgba(32,33,36,.71);"
+                    [mdePopoverTriggerFor]="popoverHelperFinalUrl" mdePopoverTriggerOn="hover">help_outline</mat-icon>
+                </mat-form-field>
+
+
+
+              </div>
+              <div class="d-flex flex-column justify-content-start align-items-start mb-3" style="width: 100%">
+                <div class="d-flex justify-content-center align-items-start">
+                  <span style="font-weight: 500; font-size: 13px;">Url à afficher</span>
+                  <mat-icon
+                    style="font-size: 18px; font-weight: 400;   cursor: pointer;  height: 1em; line-height: 1; color: rgba(32,33,36,.71);"
+                    [mdePopoverTriggerFor]="popoverHelperVisibleUrl" mdePopoverTriggerOn="hover">help_outline</mat-icon>
+
+                  <mde-popover #popoverHelperVisibleUrl="mdePopover" [mdePopoverOverlapTrigger]="false"
+                    [mdePopoverCloseOnClick]="false" [mdePopoverArrowWidth]=0 [mdePopoverPositionY]="'below'"
+                    [mdePopoverPositionX]='"after"' [mdePopoverEnterDelay]=1000>
+                    <mat-card class="card-helper mat-elevation-z4">
+
+                      <mat-card-content>
+                        <div class="helper-topic">
+                          Les champs "Chemin" font partie de votre URL à afficher (texte en vert sous votre titre). Ils
+                          peuvent comprendre jusqu'à 15 caractères chacun.
+                          <br>
+                          <br>
+                          Pour créer votre URL à afficher, Google Ads combine le domaine (par exemple, "google.com" dans
+                          "www.google.com/nonprofits") de votre URL finale au texte du chemin ("nonprofits"). L'URL à
+                          afficher permet à vos clients potentiels de bien identifier la page Web à laquelle ils
+                          accèdent lorsqu'ils cliquent sur votre annonce. Le texte du chemin doit donc décrire la page
+                          de destination de votre annonce.
+                        </div>
+                      </mat-card-content>
+
+                    </mat-card>
+                  </mde-popover>
+                </div>
+                <div class="d-flex justify-content-start align-items-center" style="color: rgba(32,33,36,.71);">
+                  <span
+                    style="color: rgba(32,33,36,.71); font-size: 13px;">{{visibleUrlDomain?visibleUrlDomain:'example.com'}}/</span>
+
+                  <mat-form-field appearance="legacy" style="max-width: 110px" class="ml-1 mr-1" color="primary">
+                    <input [formControl]="path1" maxlength="15" matInput #chemin1 placeholder="Chemin 1">
+                    <mat-hint align="end">{{chemin1.value?.length || 0}}/15</mat-hint>
+                  </mat-form-field>/
+                  <mat-form-field appearance="legacy" style="max-width: 110px" class="ml-1" color="primary">
+                    <input [formControl]="path2" maxlength="15" matInput #chemin2 placeholder="Chemin 2">
+                    <mat-hint align="end">{{chemin2.value?.length || 0}}/15</mat-hint>
+                  </mat-form-field>
+                </div>
+
+
+
+              </div>
+              <div class="d-flex flex-column justify-content-start align-items-start mb-3" style="width: 100%">
+                <div class="d-flex justify-content-center align-items-start">
+                  <span style="font-weight: 500; font-size: 13px; color: rgba(32,33,36,.86);">Titres (5 titres au
+                    minimum)</span>
+                  <mat-icon
+                    style="font-size: 18px; font-weight: 400;   cursor: pointer;  height: 1em; line-height: 1; color: rgba(32,33,36,.71);"
+                    [mdePopoverTriggerFor]="popoverHelperTitle" mdePopoverTriggerOn="hover">help_outline</mat-icon>
+                  <mde-popover #popoverHelperTitle="mdePopover" [mdePopoverOverlapTrigger]="false"
+                    [mdePopoverCloseOnClick]="false" [mdePopoverArrowWidth]=0 [mdePopoverPositionY]="'below'"
+                    [mdePopoverPositionX]='"after"' [mdePopoverEnterDelay]=1000>
+                    <mat-card class="card-helper mat-elevation-z4">
+
+                      <mat-card-content>
+                        <div class="helper-topic">
+                          Saisissez 5 à 15 titres. Les titres apparaissent en haut de votre annonce et peuvent
+                          comprendre jusqu'à 30 caractères.
+                          <br>
+                          <br>
+                          Vos titres et d'autres parties de votre annonce (y compris les extensions) peuvent s'afficher
+                          dans différentes configurations, en fonction de l'appareil utilisé par le client potentiel ou
+                          lorsque les prévisions de l'outil Google Ads indiquent que cela peut améliorer vos
+                          performances.
+                        </div>
+                      </mat-card-content>
+
+                    </mat-card>
+                  </mde-popover>
+                </div>
+
+                <ng-container *ngFor="let title of titlesItem.controls; index as i">
+                  <form [formGroup]="title" (mouseenter)="formOveredTitle('title-remove-'+i)"
+                    (mouseleave)="formLeaved('title-remove-'+i)" style="width: 100%">
+                    <mat-form-field [floatLabel]="'never'" appearance="legacy" color="primary">
+                      <input matInput #inputUrl [formControl]="title['controls'].title" placeholder="Titre"
+                        (keyup)="getTitles(i)" maxlength="30" autofocus>
+                      <mat-hint align="end">{{title['controls'].title.value?.length || 0}}/30</mat-hint>
+                      <button mat-icon-button matSuffix class="float-rignt d-none" [id]="'title-remove-'+i"
+                        (click)="removeTitles(i)">
+                        <mat-icon style="font-size: 18px; ">close</mat-icon>
+                      </button>
+                      <mat-error *ngIf="title!==undefined && title['controls'].title.hasError('required')">Ce champ ne
+                        peut
+                        être vide.</mat-error>
+                    </mat-form-field>
+
+                  </form>
+
+                </ng-container>
+                <div class="d-flex jus align-items-center flex-wrap">
+                  <button mat-button *ngIf="titlesItem.controls.length<15" color="primary" class="mt-1"
+                    (click)="addTitles()">
+                    <mat-icon>add</mat-icon>&nbsp;TITRE
+                  </button>
+                  <button mat-button [disabled]="titlesItem.controls.length===0" class="mt-1"
+                    *ngIf="titlesItem.controls.length<15" (click)="presetKeywords()">
+                    <mat-icon>subtitles</mat-icon>&nbsp;Utiliser les mots clés
+                  </button>
+
+                </div>
+              </div>
+              <div class="d-flex flex-column justify-content-start align-items-start mb-3 mt-5" style="width: 100%">
+                <div class="d-flex justify-content-center align-items-start">
+                  <span style="font-weight: 500; font-size: 13px; color: rgba(32,33,36,.86);">Descriptions</span>
+                  <mat-icon style="font-size: 18px; font-weight: 400;  cursor: pointer;  height: 1em; line-height: 1;
+      width: 1em;  color: rgba(32,33,36,.71);" [mdePopoverTriggerFor]="popoverHelperDescription"
+                    mdePopoverTriggerOn="hover">
+                    help_outline</mat-icon>
+                  <mde-popover #popoverHelperDescription="mdePopover" [mdePopoverOverlapTrigger]="false"
+                    [mdePopoverCloseOnClick]="false" [mdePopoverArrowWidth]=0 [mdePopoverPositionY]="'below'"
+                    [mdePopoverPositionX]='"after"' [mdePopoverEnterDelay]=1000>
+                    <mat-card class="card-helper mat-elevation-z4">
+
+                      <mat-card-content>
+                        <div class="helper-topic">
+                          Saisissez deux à quatre descriptions. La description de votre annonce apparaît en dessous de
+                          l'URL à afficher et peut comprendre jusqu'à 90 caractères.
+                          <br>
+                          <br>
+                          Vos descriptions et d'autres parties de votre annonce (y compris les extensions) peuvent
+                          s'afficher dans différentes configurations, en fonction de l'appareil utilisé par le client
+                          potentiel ou lorsque les prévisions de l'outil Google Ads indiquent que cela peut améliorer
+                          vos performances.
+                        </div>
+                      </mat-card-content>
+
+                    </mat-card>
+                  </mde-popover>
+                </div>
+
+                <ng-container *ngFor="let description of descriptionsItem.controls; index as i">
+                  <form [formGroup]="description" (mouseenter)="formOveredDescription('description-remove-'+i)"
+                    (mouseleave)="formLeaved('description-remove-'+i)" style="width: 100%">
+                    <mat-form-field [floatLabel]="'never'" appearance="legacy" color="primary">
+                      <input matInput #inputUrl (keyup)="getDescriptions(i)"
+                        [formControl]="description['controls'].description" placeholder="Description" maxlength="90"
+                        autofocus>
+                      <mat-hint align="end">{{description['controls'].description.value?.length || 0}}/90</mat-hint>
+                      <button mat-icon-button matSuffix class="float-rignt d-none" [id]="'description-remove-'+i"
+                        (click)="removeDescriptions(i)">
+                        <mat-icon style="font-size: 18px; ">close</mat-icon>
+                      </button>
+                      <mat-error
+                        *ngIf="description!==undefined && description['controls'].description.hasError('required')">Ce
+                        champ
+                        ne peut être vide.</mat-error>
+                    </mat-form-field>
+
+                  </form>
+
+                </ng-container>
+                <button mat-button color="primary" class="mt-1" (click)="addDescriptions()"
+                  *ngIf="descriptionsItem.controls.length!==4">
+                  <mat-icon>add</mat-icon>&nbsp;DESCRIPTION
+                </button>
+
+
+
+
+              </div>
+
+
+            </div>
+
+          </form>
+        </div>
+        <div class="col-md-7 pl-0 pr-0" style="background: whitesmoke; overflow: auto">
+
+          <mat-accordion>
+            <mat-expansion-panel (opened)="panelEfficacityOpenState = true" (closed)="panelEfficacityOpenState = false"
+              class="efficacity-panel" [expanded]="true">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <span style="color: rgba(0,0,0,.54);font-size: 15px;">Efficacité</span>
+                </mat-panel-title>
+                <mat-panel-description>
+                  <!--  Currently I am {{panelEfficacityOpenState ? 'open' : 'closed'}} -->
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <div class="d-flex" style="width: 100%;">
+                <div class="d-flex justify-content-center align-items-center" style="flex-basis: 30%;">
+                  <mat-spinner [mode]="'determinate'" [diameter]="80" class="position-absolute spinner-null"
+                    [value]="100">
+                  </mat-spinner>
+                  <mat-spinner [mode]="'determinate'" [diameter]="80" class="position-absolute" color="primary"
+                    [value]="percent">
+                  </mat-spinner>
+                  <!--  <mat-spinner
+          [mode]="'determinate'" [value]="spinnerEfficacityValue" color="primary">
+        </mat-spinner> -->
+                  <span
+                    style="color: rgba(0,0,0,.87);font-size: 15px;font-weight: 500; margin-top: 8rem">{{textStatusEfficacity}}</span>
+                </div>
+                <div class="d-flex flex-column justify-content-start align-items-center ml-md-2"
+                  style="flex-basis: 70%;">
+                  <div class="d-flex justify-content-start align-items-center" style="border-width: 0 0 2px; width: 100%; border-color: rgba(0,0,0,.12);
+      border-style: solid;">
+                    <div class="d-flex justify-content-start align-items-center"
+                      style="text-align: left; font-size: 13px; margin: 8px; min-width: 300px">
+
+                      <span *ngIf="itemsGuide[guidIndex]!==undefined">{{itemsGuide[guidIndex].text}}</span>
+
+                    </div>
+                    <div class="d-flex justify-content-end align-items-center">
+                      <button mat-icon-button [disabled]="guidIndex===0" (click)="previousGuideItem()">
+                        <mat-icon>chevron_left</mat-icon>
+                      </button>
+                      <button mat-icon-button [disabled]="guidIndex===itemsGuide.length-1" (click)="nextGuideItem()">
+                        <mat-icon>chevron_right</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="d-flex flex-column justify-content-center align-items-start"
+                    style="width: 100%; margin: 8px">
+                    <!-- <div class="d-flex justify-content-start align-items-center">
+              <mat-spinner
+                [mode]="'determinate'" [diameter]="20" color="primary" [value]="100" class="spinner-null">
+            </mat-spinner>
+            <ng-container *ngIf="getOnlyImageEvolution()===50">
+              <mat-spinner
+                [mode]="'determinate'" [diameter]="20" color="primary" [value]="50" class="position-absolute">
+            </mat-spinner>
+            </ng-container>
+            <ng-container *ngIf="getOnlyImageEvolution()===100">
+                <mat-icon class="text-success position-absolute" style="width: 20px; height: 20px; font-size: 20px">check_circle_outline</mat-icon>
+            </ng-container>
+        <span style="font-size: 12px;" class="ml-3">Images</span>
+            </div> -->
+                    <div class="d-flex justify-content-start align-items-center">
+                      <!-- <ng-container *ngIf="titlesAssets.length===0">
+           
+                   <mat-spinner
+            [mode]="'determinate'" [diameter]="20" class="spinner-null" [value]="100">
+        </mat-spinner>
+           
+                </ng-container> -->
+                      <mat-spinner [mode]="'determinate'" [diameter]="20" class="spinner-null" [value]="100">
+                      </mat-spinner>
+                      <ng-container *ngIf="titlesAssets.length!==0">
+                        <ng-container *ngIf="getInt(((titlesAssets.length*100)/15).toFixed(0)) as result">
+                          <ng-container *ngIf="result<=30">
+                            <mat-spinner [mode]="'determinate'" [diameter]="20" color="warn" [value]="result"
+                              class="position-absolute">
+                            </mat-spinner>
+                          </ng-container>
+                          <ng-container *ngIf="result<=60 && result>30">
+                            <mat-spinner [mode]="'determinate'" [diameter]="20" color="primary" [value]="result"
+                              class="position-absolute">
+
+                            </mat-spinner>
+                          </ng-container>
+                          <ng-container *ngIf="result<=90 && result>60">
+                            <mat-spinner [mode]="'determinate'" [diameter]="20" color="primary" [value]="result"
+                              class="position-absolute">
+
+                            </mat-spinner>
+                          </ng-container>
+                          <ng-container *ngIf="result<100  && result>=85">
+                            <mat-spinner [mode]="'determinate'" [diameter]="20"
+                              class="position-absolute success-spinner" [value]="result">
+                            </mat-spinner>
+                          </ng-container>
+                          <ng-container *ngIf="result===100">
+                            <mat-icon class="text-success position-absolute"
+                              style="width: 20px; height: 20px; font-size: 20px">check_circle_outline</mat-icon>
+                          </ng-container>
+
+                        </ng-container>
+
+                      </ng-container>
+                      <span style="font-size: 12px;" class="ml-3">Titres</span>
+                    </div>
+                    <div class="d-flex justify-content-start align-items-center">
+                      <mat-spinner  [mode]="'determinate'" [diameter]="20" class="spinner-null" [value]="100">
+                      </mat-spinner>
+                      <!--  <ng-container *ngIf="descriptionsAssets.length===0">
+                <mat-spinner
+            [mode]="'determinate'" [diameter]="20" class="spinner-null" [value]="100">
+        </mat-spinner>
+              </ng-container> -->
+                      <ng-container *ngIf="descriptionsAssets.length!==0">
+                        <ng-container *ngIf="((descriptionsAssets.length*100)/4) as result">
+
+                          <ng-container *ngIf="result===25">
+                            <mat-spinner [mode]="'determinate'" [diameter]="20" color="warn" [value]="result"
+                              class="position-absolute">
+                            </mat-spinner>
+                          </ng-container>
+                          <ng-container *ngIf="result===50">
+                            <mat-spinner [mode]="'determinate'" [diameter]="20" color="primary" [value]="result"
+                              class="position-absolute">
+
+                            </mat-spinner>
+                          </ng-container>
+                          <ng-container *ngIf="result===75">
+                            <mat-spinner [mode]="'determinate'" [diameter]="20" color="primary" [value]="result"
+                              class="position-absolute">
+
+                            </mat-spinner>
+                          </ng-container>
+                          <ng-container *ngIf="result===100">
+                            <mat-spinner [mode]="'determinate'" [diameter]="20" [value]="result"
+                              class="position-absolute success-spinner">
+                            </mat-spinner>
+                          </ng-container>
+                          <ng-container *ngIf="result===100">
+                            <mat-icon class="text-success position-absolute"
+                              style="width: 20px; height: 20px; font-size: 20px">check_circle_outline</mat-icon>
+                          </ng-container>
+
+                        </ng-container>
+
+                      </ng-container>
+                      <span style="font-size: 12px;" class="ml-3">Descriptions</span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <div class="preview-bar">
+            <div class="title">Prévisualiser</div>
+          </div>
+
+
+          <adf-search-ads-preview-simulation [url_promote]="visibleUrl"></adf-search-ads-preview-simulation>
+
+        </div>
+      </div>
+    </mat-card>
+
+  </mat-card-content>
+  <mat-card-actions align="start" *ngIf="adPanel" class="pl-4 pt-0">
+    <button mat-button (click)="saveSearchAd()" color="primary" *ngIf="!spinnerSaveSearch">ENREGISTRER</button>
+    <button mat-button (click)="abortOperation()" color="primary" *ngIf="!spinnerSaveSearch">ANNULER</button>
+    <mat-spinner [mode]="'indeterminate'" [diameter]="30" color="primary" *ngIf="spinnerSaveSearch">
+    </mat-spinner>
+  </mat-card-actions>
+
+
+
+</mat-card>
+
+
+
+
+
+
+
+
+
+<ejs-dialog id='dialog' #adConfirmDelete [visible]="visible" [target]="target" [position]='position' [isModal]='isModal'
+  style="top: 3rem; max-width: 300px; height: auto;">
+  <ng-template #content>
+    <div class="dialog-content">
+
+      <div class="row p-4 pb-0">
+        <div class="col-md-12 text-left pl-0 pr-0 d-flex flex-column" style="padding: 0 24px;">
+          <span style="font-size: 20px;font-weight: 500;color: rgba(0,0,0,.87);">Supprimer cette annonce ?</span>
+          <span style="padding: 8px 0; font-size: 13px">Cette annonce sera supprimeé</span>
+
+        </div>
+      </div>
+    </div>
+    <!-- <mat-divider></mat-divider> -->
+    <div class="dialog-footer pt-0 pb-0" fxLayout="row" fxLayoutAlign="end">
+      <button mat-button (click)="deletionAborted()" color="primary">ANNULER</button>
+      <button mat-button color="primary" (click)="deletionConfirmed()">SUPPRIMER</button>
+      <!-- <button mat-button color="" cssClass="e-success e-flat" (click)="openDialogPromo()" class="pull-right">Utiliser un code promo</button> -->
+    </div>
+
+  </ng-template>
+</ejs-dialog>
+
+<app-toast #toast></app-toast>

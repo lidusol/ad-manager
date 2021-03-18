@@ -1,0 +1,43 @@
+<div class="row mr-5 ml-5 mb-3">
+  <div class="col-md-6 pt-0 text-center pr-0 pl-0 pb-3" >
+      <mat-toolbar color="primary" class="toolbar-demog-header">
+      <span>Âges</span>
+    </mat-toolbar>
+     
+  <mat-selection-list #matSelectionListAges role="option" class="p-0" (selectionChange)="onAgeSelect($event)" color="primary">
+
+      <mat-list-option style="cursor: pointer; padding: 0px;" *ngFor="let age of  ages"
+        [value]="age" checkboxPosition="before" disableRipple>
+        <div fxLayout="row" fxLayoutGap=".5rem" fxLayoutAlign="start center" class="text-demographic-header">
+         {{age.name}}
+        </div>
+      </mat-list-option>
+    </mat-selection-list>
+  </div>
+  <div class="col-md-6 pt-0 pr-0 pl-0 text-center pb-3">
+    <mat-toolbar color="primary" class="toolbar-demog-header">
+      <span>Genres</span>
+    </mat-toolbar>
+      
+  <mat-selection-list #matSelectionListGenders role="option" class="p-0" (selectionChange)="onGenderSelect($event)" color="primary">
+
+      <mat-list-option style="cursor: pointer; padding: 0px;" *ngFor="let gender of  genders"
+        [value]="gender" checkboxPosition="before" disableRipple>
+        <div fxLayout="row" fxLayoutGap=".5rem" fxLayoutAlign="start center" class="text-demographic-header">
+         {{gender.name}}
+        </div>
+      </mat-list-option>
+    </mat-selection-list>
+  </div>
+</div>
+  <div class="panel-footer">
+  <mat-spinner
+      [mode]="'indeterminate'" color="primary" [diameter]="25" *ngIf="spinnerUpdate" class="mr-4">
+  </mat-spinner>
+  <ng-container *ngIf="!spinnerUpdate && user_access!==undefined">
+      <button mat-button color="primary" (click)="updateDemographicTarget()" [disabled]="user_access.readOnly">Enregistrer</button>
+      <button mat-button color="primary" (click)="$event.stopPropagation(togglePanel($event))">Annuler</button>
+
+  </ng-container>
+  
+</div>

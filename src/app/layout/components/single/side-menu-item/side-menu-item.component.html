@@ -1,0 +1,22 @@
+<a mat-list-item  (click)="onItemSelected(item)"
+   [ngClass]="{'active': item.route ? router.isActive(item.route, false): false, 'expanded': expanded}"
+   class="menu-list-item d-flex justify-content-center sidebar-item" (mouseenter)="showItemTextFn()" (mouseleave)="hideItemTextFn()">
+<!--   <mat-icon class="routeIcon">{{item.iconName}}</mat-icon> -->
+<!--   <span fxFlex='none' *ngIf="item.children && item.children.length">
+      
+      <mat-icon [@indicatorRotate]="expanded ? 'expanded': 'collapsed'" class="icon-expand material-icons-outlined">
+          chevron_right
+        </mat-icon>
+    </span> -->
+    <div class="icon-right-container">
+      <mat-icon class="icon-right mr-2" *ngIf="item.img===undefined">{{item.iconName}}</mat-icon>
+    </div>
+    <mat-icon  *ngIf="item.img!==undefined"><img [src]="item.img" [alt]="item.displayName" [srcset]="item.img" style="width: 24px; height: 24px; margin-top: -0.9rem"></mat-icon>
+    <span class="nav-item-text" *ngIf="showItemText || showText || isMobile">{{item.displayName | translate}} </span>
+    
+</a>
+<div *ngIf="expanded">
+  <adf-side-menu-item *ngFor="let child of item.children" [item]="child" [depth]="depth+1" >
+  </adf-side-menu-item>
+</div>
+

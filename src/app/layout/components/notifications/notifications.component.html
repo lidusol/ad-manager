@@ -1,0 +1,12 @@
+<mat-card class="pb-2">
+    <mat-card-header>
+        <mat-card-title>{{ 'notifications_label' | translate }}</mat-card-title>
+        <mat-icon class="ml-auto" style="cursor: pointer;" mat-ripple (click)="toggleNotifBlock()">{{ displayNotif?'expand_less':'expand_more' }}</mat-icon>
+    </mat-card-header>
+    <mat-card-content class="d-flex justify-content-start align-items-center pl-3" *ngIf="displayNotif">
+        <span>{{ 'no_notifications_label' | translate }}</span>
+    </mat-card-content>
+    <mat-card-actions align="start" class="pl-3 pb-2" *ngIf="displayNotif">
+        <button mat-flat-button color="accent">{{ 'see_all_notifications' | translate }}</button>
+    </mat-card-actions>
+</mat-card>

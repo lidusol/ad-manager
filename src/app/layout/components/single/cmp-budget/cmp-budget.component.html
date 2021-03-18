@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-md-8 d-flex flex-column justify-content-center align-items-start">
+    <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="10000" [value]="sliderValue" min="4" color="primary"
+      max="10000000" (change)="sliderChange($event)"></mat-slider>
+    <br>
+    <mat-form-field appearance="legacy" color="primary" class="mb-3">
+      <input matInput type="number" placeholder="Budget" [formControl]="budgetControl" autocomplete="false"
+        class="example-right-align" maxlength="5">
+      <mat-error *ngIf="budgetControl.hasError('required')">Budget de la campagne obligatoire.</mat-error>
+      <mat-error *ngIf="budgetControl.hasError('min')">Le budget minimal requis est de 100 $US</mat-error>
+      <span matSuffix>$US</span>
+      <mat-error
+        *ngIf="!budgetControl.hasError('required') && !budgetControl.hasError('min') && budgetControl.errors!==undefined && budgetControl.errors!==null">
+        Essayez plutôt {{budgetControl.errors.suggested | currency}}</mat-error>
+    </mat-form-field>
+
+
+    <div class="d-flex flex-column" style="width: 100%" *ngIf="budget_result!==null">
+      <ng-container *ngIf="budget_result.biddingScheme==='CPM'">
+        <span class="d-flex justify-content-center align-items-center fs-12" syle="max-width: 80%">Avec ce budget l'objectif
+          de votre campagn sera fixé entre&nbsp;<span class="font-weight-bold">
+            {{budget_result.impressions | shortNumber}} et
+            {{budget_result.impressions + 100000 | shortNumber}}</span>&nbsp;impressions.</span>
+      </ng-container>
+      <ng-container *ngIf="budget_result.biddingScheme==='CPC'">
+        <span class="d-flex justify-content-center align-items-center fs-12">Avec ce budget l'objectif de votre campagn sera
+          fixé entre&nbsp;<span class="font-weight-bold">{{budget_result.clics | shortNumber}} et
+            {{budget_result.clics + 100 | shortNumber}}</span>&nbsp;clics.</span>
+      </ng-container>
+      <ng-container *ngIf="budget_result.biddingScheme==='MC'">
+        <span class="d-flex justify-content-center align-items-center fs-12">Avec ce budget l'objectif de votre campagn sera
+          fixé entre&nbsp;<span class="font-weight-bold">{{budget_result.clics | shortNumber}} et
+            {{budget_result.clics + 100 | shortNumber}}</span>&nbsp;clics.</span>
+      </ng-container>
+    </div>
+  </div>
+</div>

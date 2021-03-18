@@ -1,0 +1,97 @@
+<!-- <mat-accordion>
+  <mat-expansion-panel #placementExpansion id="placement-expansion" [expanded]="expanded" class="panel-builder-single" hideToggle>
+
+
+    <mat-expansion-panel-header (click)="expandPanel($event)">
+      <mat-icon class="expansion-toggle" *ngIf="placementExpansion.expanded"
+        (click)="$event.stopPropagation(togglePanel($event))">expand_less</mat-icon>
+      <mat-icon class="expansion-toggle" *ngIf="!placementExpansion.expanded"
+        (click)="$event.stopPropagation(togglePanel($event))">expand_more</mat-icon>
+      <mat-panel-title>
+        Emplacement des annonces
+      </mat-panel-title>
+      <mat-panel-description>
+        <ng-container *ngIf="!placementExpansion.expanded">
+          Sites web où seront diffusées vos annonces
+
+        </ng-container>
+        
+      </mat-panel-description>
+    </mat-expansion-panel-header>    
+       <div class="row">
+      <div class="col-md-2">
+
+      </div>
+      <div class="col-md-6 pl-5">
+         <mat-radio-group #placementOption aria-labelledby="Sélectionnez les zones géographiques à cibler"
+              class="example-radio-group" [(ngModel)]="placementOptionSelected" (change)="register($event)">
+              <mat-radio-button class="example-radio-button" value="none">
+              Par défaut cibler tout les sites Web et application mobile
+              </mat-radio-button>
+               <mat-radio-button class="example-radio-button" value="custom">
+               Choisir vos propre site web (illimité)
+              </mat-radio-button>
+              
+            </mat-radio-group>
+            <ng-container *ngIf="placementOptionSelected==='custom'">
+              <ng-container *ngFor="let skill of skills.controls; index as i">
+                <form [formGroup]="skill" style="max-height: 40px;"  (mouseenter)="formOvered(i)" (mouseleave)="formLeaved(i)"> 
+        
+         <mat-form-field class="placement-field" appearance="legacy" hintLabel="Exemple: https://monsite.com">
+          <input matInput #inputUrl  [formControl]="skills.controls[i]" id="url" placeholder=""  autofocus>
+          <mat-error *ngIf="skills.controls[i].hasError('required')">Ce champ ne peut être vide.</mat-error>
+          <mat-error *ngIf="!skills.controls[i].hasError('required') && skills.controls[i].invalid">Url invalide</mat-error>
+        </mat-form-field>
+        <button mat-icon-button class="float-rignt d-none" [id]="i" (click)="removeSkill(i)"><mat-icon style="font-size: 18px; ">close</mat-icon></button>
+        </form>
+              </ng-container>
+                <button mat-button color="accent" class="mt-4" (click)="addSkill()">Ajouter</button>
+
+            </ng-container>
+            
+      </div>
+      <div class="col-md-3">
+        <div class="placement-info">
+              Par défaut vos annonces s'afficheront dans tous les sites du réseau display de google mais vous pourrez toujours spécifier ceux que vous voulez qu'ils soient prioritaires.
+            </div>
+      </div>
+    </div>                 
+  </mat-expansion-panel>
+</mat-accordion> -->
+
+
+<div class="row">
+  <div class="col-md-9 pl-5">
+     <!-- <mat-radio-group #placementOption aria-labelledby="Sélectionnez les zones géographiques à cibler"
+          class="example-radio-group" [(ngModel)]="placementOptionSelected" (change)="register($event)" color="primary">
+          <mat-radio-button class="example-radio-button" value="none">
+          Cibler tout les sites Web et application mobile
+          </mat-radio-button>
+           <mat-radio-button class="example-radio-button" value="custom">
+            Choisir des sites web spécifiques
+          </mat-radio-button>
+          
+        </mat-radio-group> -->
+        <ng-container *ngIf="placementOptionSelected==='custom'">
+          <ng-container *ngFor="let skill of skills.controls; index as i">
+            <form [formGroup]="skill" style="max-height: 40px;" class="mt-3 mb-3"  (mouseenter)="formOvered(i)" (mouseleave)="formLeaved(i)"> 
+    
+     <mat-form-field class="placement-field" appearance="legacy" hintLabel="Exemple: https://monsite.com" color="primary">
+      <input matInput #inputUrl  [formControl]="skills.controls[i]" id="url" placeholder=""  autofocus>
+      <mat-error *ngIf="skills.controls[i].hasError('required')">Ce champ ne peut être vide.</mat-error>
+      <mat-error *ngIf="!skills.controls[i].hasError('required') && skills.controls[i].invalid">Url invalide</mat-error>
+    </mat-form-field>
+    <button mat-icon-button class="float-rignt d-none" [id]="i" (click)="removeSkill(i)" color="primary"><mat-icon style="font-size: 18px; ">close</mat-icon></button>
+    </form>
+          </ng-container>
+            <button mat-flat-button color="primary" class="mt-4" (click)="addSkill()">Ajouter</button>
+
+        </ng-container>
+        
+  </div>
+  <div class="col-md-3">
+    <div class="placement-info">
+          Par défaut vos annonces s'afficheront dans tous les sites du réseau display de google mais vous pourrez toujours spécifier ceux que vous voulez qu'ils soient prioritaires.
+        </div>
+  </div>
+</div>  

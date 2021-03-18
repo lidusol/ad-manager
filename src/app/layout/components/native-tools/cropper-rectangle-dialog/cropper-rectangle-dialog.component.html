@@ -1,0 +1,156 @@
+<div class="cropper-container">
+  <div class="cropper-content-container">
+    <div class="cropper-options-container">
+      <div class="image-options-container">
+        Utilisez cette image comme
+      </div>
+      <mat-radio-group color="primary" class="image-cropper-option" (change)="imageSelectType($event)" aria-label="Select an option"
+        [(ngModel)]="imageUsageType">
+        <mat-radio-button *ngFor="let season of imageOption" [value]="season">
+          {{season}}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="image-container pl-4 pb-4">
+      <div class="row image-editing-container">
+        <div class="col-md-6 image-cropping-panel" *ngIf="imageUsageType==='image'">
+
+          <div class="adf-crop" [ngClass]="{'visible': cropperType==='imageRect'}">
+            <angular-cropper  [imageUrl]="imageBase64?imageBase64.url:''"
+              #angularCropperRect (imageLoaded)="imageLoaded($event)" (ready)="readyRect()"
+              (imageLoadError)="imageLoadError($event)" [cropperOptions]="configsRect[0]"></angular-cropper>
+            <!-- <mat-spinner [mode]="'indeterminate'" style="position: absolute; top: 100%; left: 50%" *ngIf="angularCropperRect===undefined || angularCropperRect===null || angularCropperRect.cropper === undefined || angularCropperRect.cropper === null || angularCropperRect.isLoading"  [diameter]="50"></mat-spinner> -->
+          </div>
+          <div class="adf-crop" [ngClass]="{'visible': cropperType==='imageSqr'}">
+            <angular-cropper  [imageUrl]="imageBase64?imageBase64.url:''"
+              #angularCropperSqr (imageLoaded)="imageLoaded($event)" (ready)="readySqr()"
+              (imageLoadError)="imageLoadError($event)" [cropperOptions]="configsSqr[0]"></angular-cropper>
+            <!-- <mat-spinner [mode]="'indeterminate'" style="position: absolute; top: 100%; left: 50%" *ngIf="angularCropperSqr===undefined || angularCropperSqr===null || angularCropperSqr.cropper === undefined || angularCropperSqr.cropper === null || angularCropperSqr.isLoading" [diameter]="50"></mat-spinner> -->
+          </div>
+
+        </div>
+        <div class="col-md-6 image-cropping-panel" *ngIf="imageUsageType==='logo'">
+          <div class="adf-crop" [ngClass]="{'visible': cropperType==='imageRect'}">
+            <angular-cropper  [imageUrl]="imageBase64?imageBase64.url:''"
+              #angularCropperRect (imageLoaded)="imageLoaded($event)" (ready)="readyRectLogo()"
+              (imageLoadError)="imageLoadError($event)" [cropperOptions]="configsRectLg[0]"></angular-cropper>
+            <!--  <mat-spinner [mode]="'indeterminate'" *ngIf="angularCropperRect===undefined || angularCropperRect===null ||angularCropperRect.cropper === undefined || angularCropperRect.cropper === null || angularCropperRect.isLoading" style="position: absolute; top: 100%; left: 50%" [diameter]="50"></mat-spinner> -->
+          </div>
+          <div class="adf-crop" [ngClass]="{'visible': cropperType==='imageSqr'}">
+            <angular-cropper  [imageUrl]="imageBase64?imageBase64.url:''"
+              #angularCropperSqr (imageLoaded)="imageLoaded($event)" (ready)="readySqrLogo()"
+              (imageLoadError)="imageLoadError($event)" [cropperOptions]="configsSqrLg[0]"></angular-cropper>
+            <!-- <mat-spinner [mode]="'indeterminate'" *ngIf="angularCropperSqr===undefined || angularCropperSqr===null || angularCropperSqr.cropper === undefined || angularCropperSqr.cropper === null || angularCropperSqr.isLoading" style="position: absolute; top: 100%; left: 50%" [diameter]="50"></mat-spinner> -->
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <div class="format-selectors-container ml-md-3">
+      <div class="d-flex format-thumbnail-selector-container selected" style="border-right: 1px solid #9aa0a6;">
+        <div class="w-100" id="imageRect" (click)="selectCropperType('imageRect')" mat-ripple>
+          <div class="format-thumbnail-selector">
+            <div class="image-wrapper-container">
+              <div class='image-wrapper' style="height: 28px; width: 53px;">
+                <mat-icon *ngIf="cropperRectDisabled && imageUsageType==='image'" class="icon-no-selected-rect-img">
+                  filter_hdr</mat-icon>
+                <mat-icon *ngIf="cropperRectDisabled && imageUsageType==='logo'" class="icon-no-selected-rect-lg">
+                  filter_hdr</mat-icon>
+                <div src="" id="preview-rect-0" *ngIf="imageUsageType==='image'"></div>
+                <div src="" id="preview-rect-1" *ngIf="imageUsageType==='logo'"></div>
+
+
+              </div>
+
+
+            </div>
+            <div class="format-label">
+              <span *ngIf="!cropperRectDisabled && imageUsageType==='image'">Format 1.91:1 sélectionné</span>
+              <span *ngIf="cropperRectDisabled && imageUsageType==='image'">Format 1.91:1 non sélectionné</span>
+              <span *ngIf="!cropperRectDisabled && imageUsageType==='logo'">Format 1:1 sélectionné</span>
+              <span *ngIf="cropperRectDisabled && imageUsageType==='logo'">Format 1:1 non sélectionné</span>
+            </div>
+          </div>
+
+        </div>
+        <div class="secondary-action-info-container-rect-img" *ngIf="!cropperRectDisabled && imageUsageType==='image'">
+          <div class="asset-indicator">
+            <ng-container *ngIf="!cropperRectDisabled">
+              <mat-icon class="btn-checked">check_circle</mat-icon>
+
+            </ng-container>
+            <mat-icon class="btn-remove-checked" style="cursor: pointer"
+              (click)="disableCropperRect()">cancel
+            </mat-icon>
+          </div>
+
+        </div>
+        <div class="secondary-action-info-container-rect-lg" *ngIf="!cropperRectDisabled && imageUsageType==='logo'">
+          <div class="asset-indicator">
+            <ng-container *ngIf="!cropperRectDisabled">
+              <mat-icon class="btn-checked">check_circle</mat-icon>
+
+            </ng-container>
+            <mat-icon class="btn-remove-checked" style="cursor: pointer" (click)="disableCropperRect()">cancel
+            </mat-icon>
+          </div>
+
+        </div>
+      </div>
+      <div class="d-flex format-thumbnail-selector-container selected">
+        <div class="w-100" id="imageSqr" (click)="selectCropperType('imageSqr')" mat-ripple>
+          <div class="format-thumbnail-selector">
+            <div class="image-wrapper-container">
+              <div class='image-wrapper' style="height: 28px; width: 53px;">
+                <mat-icon *ngIf="cropperSqrDisabled && imageUsageType==='image'" class="icon-no-selected-sqr-img">
+                  filter_hdr</mat-icon>
+                <mat-icon *ngIf="cropperSqrDisabled && imageUsageType==='logo'" class="icon-no-selected-sqr-lg">
+                  filter_hdr</mat-icon>
+                <div src="" id="preview-sqr-0" *ngIf="imageUsageType==='image'"></div>
+                <div src="" id="preview-sqr-1" *ngIf="imageUsageType==='logo'"></div>
+              </div>
+
+
+            </div>
+            <div class="format-label">
+              <span *ngIf="!cropperSqrDisabled && imageUsageType==='image'">Format 1:1 sélectionné</span>
+              <span *ngIf="cropperSqrDisabled  && imageUsageType==='image'">Format 1:1 non sélectionné</span>
+              <span *ngIf="!cropperSqrDisabled && imageUsageType==='logo'">Format 4:1 sélectionné</span>
+              <span *ngIf="cropperSqrDisabled  && imageUsageType==='logo'">Format 4:1 non sélectionné</span>
+            </div>
+          </div>
+        </div>
+        <div class="secondary-action-info-container-sqr-img" *ngIf="!cropperSqrDisabled  && imageUsageType==='image'">
+          <div class="asset-indicator">
+            <ng-container *ngIf="!cropperSqrDisabled">
+              <mat-icon class="btn-checked">check_circle</mat-icon>
+
+            </ng-container>
+            <mat-icon class="btn-remove-checked" style="cursor: pointer" (click)="disableCropperSqr()">cancel
+            </mat-icon>
+          </div>
+
+        </div>
+        <div class="secondary-action-info-container-sqr-lg" *ngIf="!cropperSqrDisabled  && imageUsageType==='logo'">
+          <div class="asset-indicator">
+            <ng-container *ngIf="!cropperSqrDisabled">
+              <mat-icon class="btn-checked">check_circle</mat-icon>
+
+            </ng-container>
+            <mat-icon class="btn-remove-checked" style="cursor: pointer" (click)="disableCropperSqr()">cancel
+            </mat-icon>
+          </div>
+
+        </div>
+      </div>
+
+
+
+
+    </div>
+
+  </div>
+  <mat-spinner style="margin-right: 5rem" class="d-inline-block" [diameter]='30' color="primary" *ngIf="showSpinner">
+  </mat-spinner>
+</div>

@@ -1,0 +1,110 @@
+<div class="row">
+  <div class="col-md-12">
+    <ejs-grid #gridSchedules [dataSource]='currentSchedules' locale="fr" allowTextWrap="true" [enableHover]='"false"'
+      id="gridDisplay" [allowResizing]='true' [allowSorting]="true" [gridLines]='gridLines' width="auto" height="auto"
+      *ngIf="currentSchedules.length>0">
+      <e-columns>
+        <e-column field='dayFR' headerText='Jour' clipMode='EllipsisWithTooltip' width="100"></e-column>
+        <e-column field='start_hour_text' headerText='Début' clipMode='EllipsisWithTooltip' width="80"></e-column>
+        <e-column field='end_hour_text' headerText='Fin' clipMode='EllipsisWithTooltip' width="80"></e-column>
+        <e-column field='criterionId' headerText='Action' width='70'>
+          <ng-template #template let-data>
+            <button mat-icon-button (click)="removeScheduleFromGrid(data)">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </ng-template>
+        </e-column>
+      </e-columns>
+    </ejs-grid>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-3">
+
+  </div>
+  <div class="col-md-6 pl-5">
+    <mat-radio-group #schedulesOption aria-labelledby="Calendrier de diffusion" class="example-radio-group"
+      [(ngModel)]="scheduleOptionSelected" (change)="register($event)" color="primary">
+      <mat-radio-button class="example-radio-button" value="none">
+        Par défaut diffuser 24h/24 - 7j/7
+      </mat-radio-button>
+      <mat-radio-button class="example-radio-button" value="custom">
+        Personnaliser les jours et heures de diffusion
+      </mat-radio-button>
+
+    </mat-radio-group>
+    <ng-container *ngIf="scheduleOptionSelected==='custom'">
+      <ng-container *ngFor="let skill of skills.controls; index as i">
+        <form [formGroup]="skill" style="max-height: 40px;" (mouseenter)="formOvered(i)" (mouseleave)="formLeaved(i)">
+
+          <mat-form-field class="field-days" color="primary">
+            <mat-select #selectDay [compareWith]="compareDays" formControlName="day"
+              [(ngModel)]="skill['controls'].day.value" required>
+
+
+              <mat-option *ngFor="let day of DAYS" (onSelectionChange)="onDaySelect($event)" [value]="day">
+                {{day.fullDayFrench}}</mat-option>
+
+            </mat-select>
+
+          </mat-form-field>
+          <mat-form-field class="field-hours pl-1" color="primary">
+            <mat-select formControlName="startHour" [compareWith]="compareStartHours"
+              [(ngModel)]="skill['controls'].startHour.value" required [disabled]="skill['controls'].day.value===''">
+
+
+              <mat-option *ngFor="let hour of SCHEDULE" (onSelectionChange)="onStartHourSelect($event)"
+                [value]="{'id': hour.text, 'hour': hour.hour, 'minute': hour.minute, h: hour.h, m: hour.m}"
+                [disabled]="checkStartHourDisabledOrNot(hour.h, hour.m)">{{hour.text}}</mat-option>
+
+            </mat-select>
+          </mat-form-field>à
+          <mat-form-field class="field-hours" color="primary">
+            <mat-select formControlName="endHour" [compareWith]="compareEndHours"
+              [(ngModel)]="skill['controls'].endHour.value" required
+              [disabled]="skill['controls'].startHour.value===null || skill['controls'].startHour.value===undefined || skill['controls'].startHour.value===''">
+
+              <!-- endScheduleTab -->
+
+              <mat-option *ngFor="let hour of SCHEDULE" (onSelectionChange)="onEndHourSelect($event)"
+                [value]="{'id': hour.text, 'hour': hour.hour, 'minute': hour.minute, h: hour.h, m: hour.m}"
+                [disabled]="skill['controls'].startHour.value===null || skill['controls'].startHour.value===undefined || skill['controls'].startHour.value==='' || ( hour.h<skill['controls'].startHour.value.h ) || (hour.h===skill['controls'].startHour.value.h&& hour.m<=skill['controls'].startHour.value.m)">
+                {{hour.text}}</mat-option>
+
+            </mat-select>
+          </mat-form-field>
+          <button mat-icon-button class="float-rignt d-none" attr.id="{{ 'schedule-' + i }}" (click)="removeSkill(i)">
+            <mat-icon style="font-size: 18px; ">close</mat-icon>
+          </button>
+
+        </form>
+
+
+      </ng-container>
+      <button mat-button color="primary" (click)="addSkill()">Ajouter</button>
+
+    </ng-container>
+
+
+
+
+  </div>
+  <div class="col-md-3">
+    <div class="schedule-info">
+      Définissez un calendrier de diffusion afin de choisir à quel moment vous souhaitez afficher vos annonces.
+      N'oubliez pas qu'elles ne sont diffusées que pendant ces périodes.
+    </div>
+  </div>
+</div>
+
+<div class="panel-footer">
+  <mat-spinner [mode]="'indeterminate'" color="primary" [diameter]="25" *ngIf="spinnerUpdate" class="mr-4">
+  </mat-spinner>
+  <ng-container *ngIf="!spinnerUpdate && user_access!==undefined">
+    <button mat-button color="primary" (click)="updateSchedules()"
+      [disabled]="user_access.readOnly">Enregistrer</button>
+    <button mat-button color="primary" (click)="$event.stopPropagation(togglePanel($event))">Annuler</button>
+
+  </ng-container>
+
+</div>

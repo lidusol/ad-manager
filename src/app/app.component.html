@@ -1,0 +1,36 @@
+<ng-template [ngIf]="loading">
+    <mat-progress-bar
+    *ngIf="loading" [color]="loaderColor" mode="indeterminate" class="adf-progress">
+    </mat-progress-bar>
+</ng-template>
+
+
+<!-- <mat-progress-bar
+*ngIf="loading" color="accent" mode="indeterminate" class="adf-progress">
+</mat-progress-bar>
+<router-outlet></router-outlet> -->
+<!-- <div class="row" style="overflow: hidden;">
+    <div class="col-md-12" style="overflow: hidden;">
+       <div class="row">
+    <div class="col-md-12">
+        <adf-header></adf-header>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+      
+
+
+    </div>
+</div>
+
+    </div>
+</div> -->
+
+    <adf-loader></adf-loader>
+    <adf-browser-info-alert [showCard]="showCard"></adf-browser-info-alert>
+    <adf-main-layout></adf-main-layout>
+
+
+

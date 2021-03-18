@@ -1,0 +1,30 @@
+ <mat-nav-list role="navigation" class="pt-0 list-navigation position-relative">
+   <ng-container *ngIf="isLoading; else loaded"></ng-container>
+   <ng-template #loaded>
+     <mat-toolbar class="nav-header justify-content-center align-items-center app-bg-secondary mb-5">
+       <div class="d-flex justify-content-center align-items-center nav-icon-container ml-auto " (click)="toggleSidenav()">
+         <mat-icon  class="navigation-toggler" style="box-shadow: none !important;">segment</mat-icon>
+       </div>
+       <h1 class="logo-title" *ngIf="showItemText" style="padding: 0 1.25rem !important; font-size: 1.75rem !important; white-space: nowrap !important;">Adafri</h1>
+       <!-- <div class="logo-container google-ads-logo mb-1"></div> -->
+       <!-- <img src="assets/logo/logo-blue.png" *ngIf="showItemText" class="google-ads-logo">
+       <img src="assets/logo/favicon.png" *ngIf="!showItemText" class="collapsed-logo-sidebar"> -->
+     </mat-toolbar>
+     <div class="d-none d-md-block">
+       <adf-select-account *ngIf="showItemText" [showAutoComplete]="true"></adf-select-account>
+     </div>
+     <img src="assets/logo/favicon.png" *ngIf="!showItemText" class="collapsed-logo-sidebar mb-4">
+     <adf-side-menu-item  *ngFor="let item of navItems" [item]="item" [showItemText]="showItemText" [isMobile]="isMobile"></adf-side-menu-item>
+     <!-- <a mat-list-item (click)="toggleSidenav()" class="d-flex justify-content-end align-items-center">
+       <mat-icon class="material-icons-outlined" *ngIf="!showItemText">chevron_right
+       </mat-icon>
+       <mat-icon class="material-icons-outlined" *ngIf="showItemText">chevron_left
+      </mat-icon>
+     </a> -->
+   </ng-template>
+ </mat-nav-list>
+<!--  <div class="add-new-cmp" *ngIf="user_access!==undefined">
+   <button mat-mini-fab class="add-new-cmp-btn-icon pulse-button" [matTooltip]="'create_new_cmp_label' | translate" [matTooltipPosition]="'right'" (click)="createCampaign()" color="accent" [disabled]='user_access.readOnly'><mat-icon>add</mat-icon></button>
+   <button mat-flat-button class="add-new-cmp-btn" color="accent" [matTooltip]="'create_new_cmp_label' | translate" [matTooltipPosition]="'right'" (click)="createCampaign()"  color="accent"   [disabled]='user_access.readOnly'><mat-icon>add</mat-icon> {{ 'new_cmp_btn_sidebar' | translate }}</button>
+  </div> -->
+  <div class="sidebar-footer">© Copyright 2021 Adafri. All rights reserved.</div>

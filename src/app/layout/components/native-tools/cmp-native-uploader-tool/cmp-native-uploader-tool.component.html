@@ -1,0 +1,141 @@
+<!-- <div class="control-section row">
+    <div class="col-md-12">
+        <div class="control_wrapper">
+            <div class='imagepreview'>
+                <div id='dropArea' style='height: auto'>
+                  
+                    <ejs-uploader #previewupload id='previewfileupload' [asyncSettings]='path'
+                        [dropArea]='dropElement' [allowedExtensions]='allowExtensions' (selected)='onSelect($event)'
+                        (success)='onUploadSuccess($event)' (progress)='onFileUpload($event)' (failure)='onUploadFailed($event)' (removing)='onFileRemove($event)' maxFileSize=600000>
+                    </ejs-uploader>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+ <ejs-dialog id='dialog'  #cropperNativeDialogImage showCloseIcon='true' [visible]="visible"  >
+      <ng-template #footerTemplate>
+           
+            <button id="sendButton" class="e-control e-btn e-primary sendButton float-right" data-ripple="true">Enregister</button>
+        </ng-template>
+        <ng-template #content>
+         <div class="row">
+            <div class="col-md-12">
+    
+            </div>
+      
+         </div>
+         
+        </ng-template>
+        <ng-template #header>
+         
+            <div title="Nancy" class="e-icon-settings dlg-template"> Redimensionner l'image </div>
+        </ng-template>
+      </ejs-dialog>
+
+       -->
+
+
+
+
+<input type="file" #upload id="file" (change)="onFileChange($event)" [disabled]="generating" multiple hidden />
+<button mat-raised-button color="accent" (click)="upload.click()" *ngIf="imageList.length===0">Importer</button>
+<div class="previews">
+  <div class="gallery-selector-container mb-5">
+    <mat-card class="card-asset" *ngFor="let asset of imageList; let i = index" id="asset-{{i}}">
+      <mat-card-content>
+        <div class="asset-container-preview">
+          <div class="asset-preview">
+            <img mat-card-img id="img-{{i}}" src={{asset.urls}} class="asset-img">
+          </div>
+        </div>
+        <div class="secondary-action-info-container">
+          <div class="asset-indicator">
+            <mat-icon class="btn-checked">check_circle</mat-icon>
+            <mat-icon class="btn-remove-checked" (click)="removeSelectedAsset(asset)">cancel</mat-icon>
+          </div>
+
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <div class="asset-info-container">
+
+          <div class="metadata-container">
+            <div class="image-asset-metadata">
+              <span>{{DOCUMENT.getElementById('asset-'+i).getElementsByTagName('img')[0].naturalWidth}} x
+                {{DOCUMENT.getElementById('asset-'+i).getElementsByTagName('img')[0].naturalHeight}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="action-block">
+          <ng-container
+            *ngIf="((asset.width===1200 && asset.height===630) || (asset.width===1200 && asset.height===1200)); else neededResize">
+            <ng-container *ngIf="asset.width===1200 && asset.height===630">
+
+              <button mat-button [matMenuTriggerFor]="imgUsageMenu">Utiliser comme&nbsp;<mat-icon>arrow_drop_down
+                </mat-icon> </button>
+              <mat-menu #imgUsageMenu="matMenu" [overlapTrigger]="'true'">
+                <button mat-menu-item class="button-item" disableRipple>
+                  <mat-icon class="icon-status">panorama</mat-icon>
+                  <span>Image (Format paysage)</span>
+                </button>
+                <button mat-menu-item class="button-item" disabled>
+                  <mat-icon class="icon-status">photo</mat-icon>
+                  <span>Logo</span>
+                </button>
+              </mat-menu>
+            </ng-container>
+            <ng-container *ngIf="asset.width===1200 && asset.height===1200">
+
+              <button mat-button [matMenuTriggerFor]="imgUsageMenu">Utiliser comme&nbsp;<mat-icon>arrow_drop_down
+                </mat-icon> </button>
+              <mat-menu #imgUsageMenu="matMenu" [overlapTrigger]="'true'">
+                <button mat-menu-item class="button-item">
+                  <mat-icon class="icon-status">panorama</mat-icon>
+                  <span>Image (Format carrée)</span>
+                </button>
+                <button mat-menu-item class="button-item" disableRipple>
+                  <mat-icon class="icon-status">photo</mat-icon>
+                  <span>Logo</span>
+                </button>
+              </mat-menu>
+            </ng-container>
+
+          </ng-container>
+          <ng-template #neededResize>
+
+            <button mat-button [matMenuTriggerFor]="imgUsageMenu">Utiliser comme&nbsp;<mat-icon>arrow_drop_down
+              </mat-icon> </button>
+            <mat-menu #imgUsageMenu="matMenu" [overlapTrigger]="'true'">
+              <button mat-menu-item class="button-item">
+                <mat-icon class="icon-status">panorama</mat-icon>
+                <span>Image</span>
+              </button>
+              <button mat-menu-item class="button-item">
+                <mat-icon class="icon-status">photo</mat-icon>
+                <span>Logo</span>
+              </button>
+            </mat-menu>
+          </ng-template>
+
+
+
+        </div>
+      </mat-card-actions>
+    </mat-card>
+    <div class="add-button mt-2" *ngIf="imageList.length>0" (click)="upload.click()">
+      <mat-icon>add</mat-icon>
+      <span>Ajouter</span>
+    </div>
+  </div>
+</div>
+
+<br />
+
+<!--  <div class="{{ 'previews-cropper ' + getCropperClassObservable(i) }}" formArrayName="files" *ngFor="let f of form.get('files').controls; let i = index;">
+    <div [formGroupName]="i">
+      <angular-cropper #angularCropper [cropperOptions]="configs[i]" [imageUrl]="f.value.data.file"></angular-cropper>
+    </div>
+  </div> -->

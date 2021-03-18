@@ -1,0 +1,27 @@
+<ng-container *ngIf="data.err===undefined && data.err===null">
+    <h1 mat-dialog-title>Procéder au paiement</h1>
+    
+    <div mat-dialog-content class="d-flex justify-content-center align-items-center p-0 overflow-hidden" style="width: 620px !important;">
+        <iframe src="" style="
+        width: 620px !important;
+        height: 500px;
+        border: none !important;
+        "></iframe>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="data.err!==undefined && data.err!==null">
+    <h1 mat-dialog-title>Erreur de paiment</h1>
+    
+    <div mat-dialog-content class="d-flex justify-content-center align-items-center p-0 overflow-hidden" style="width: 620px !important;">
+        <div class="d-flex justify-content-center align-items-center p-md-3">
+            <span>{{errors}}</span>
+
+        </div>
+    </div>
+</ng-container>
+
+
+<div mat-dialog-actions class="d-flex w-100 flex-end d-flex align-items-center" >
+    <button mat-button color="primary" (click)="onNoClick()">Fermer</button>
+  </div>

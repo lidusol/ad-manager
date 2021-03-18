@@ -1,0 +1,18 @@
+ <mat-form-field style="position: absolute;">
+     <input matInput #search disabled/>
+
+ </mat-form-field>
+ 
+ 
+ <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" id="map" #map>
+   <ng-container *ngIf="markers.length>0">
+     <agm-marker *ngFor="let marker of markers" [latitude]="marker.lat" [iconUrl]="marker.iconUrl" [longitude]="marker.lng" [markerDraggable]="false" iconCss="marker"></agm-marker>
+
+   </ng-container>
+   <ng-container *ngIf="markersExclude.length>0">
+     <agm-marker *ngFor="let marker of markersExclude" [latitude]="marker.lat" [iconUrl]="marker.iconUrl" [longitude]="marker.lng" [markerDraggable]="false" iconCss="marker"></agm-marker>
+
+   </ng-container>
+   
+   
+  </agm-map>

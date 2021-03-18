@@ -1,0 +1,65 @@
+<div class="d-flex flex-column flex-wrap justify-content-start align-items-start">
+    <mat-checkbox color="primary" (change)="desktopChange($event)" class="m-2" [checked]="targetDesktop">Ordinateur</mat-checkbox>
+    <mat-checkbox color="primary" (change)="mobileChange($event)" class="m-2" [checked]="targetMobile">Téléphone</mat-checkbox>
+    <mat-checkbox color="primary" (change)="tabletChange($event)" class="m-2" [checked]="targetTablet">Tablette</mat-checkbox>
+    <mat-checkbox color="primary" (change)="tvChange($event)" class="m-2" [checked]="targetTv">Smart Tv</mat-checkbox>
+        <!-- <mat-card style="max-width: 200px; height: 240px; box-shadow: none !important;" class="m-2 d-flex flex-column justify-content-center align-items-center" >
+            <mat-card-header>
+                <mat-card-title>Ordinateur</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="w-100 d-flex justify-content-center align-items-center">
+                        <img src="assets/svg/desktop_end.svg" alt="" class="img-fluid" style="height: 100px;">
+            </mat-card-content>
+            <mat-card-actions align="center">
+            </mat-card-actions>
+        </mat-card>
+        <mat-card style="max-width: 200px; height: 240px; box-shadow: none !important;" class="m-2 d-flex flex-column justify-content-center align-items-center" >
+            <mat-card-header>
+                <mat-card-title>Mobile</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="w-100 d-flex justify-content-center align-items-center">
+                        <img src="assets/svg/mobile_end.svg" alt="" class="img-fluid" style="height: 100px;">
+            </mat-card-content>
+            <mat-card-actions align="center">
+            </mat-card-actions>
+        </mat-card>
+        <mat-card style="max-width: 200px; height: 240px; box-shadow: none !important;" class="m-2 d-flex flex-column justify-content-center align-items-center" >
+            <mat-card-header>
+                <mat-card-title>Tablette</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="w-100 d-flex justify-content-center align-items-center">
+                        <img src="assets/svg/tablet_end.svg" alt="" class="img-fluid" style="height: 100px;">
+            </mat-card-content>
+            <mat-card-actions align="center">
+            </mat-card-actions>
+        </mat-card>
+        <mat-card style="max-width: 200px; height: 240px; box-shadow: none !important;" class="m-2 d-flex flex-column justify-content-center align-items-center" >
+            <mat-card-header>
+                <mat-card-title>Smart Tv</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="w-100 d-flex justify-content-center align-items-center">
+                        <img src="assets/svg/tv_end.svg" alt="" class="img-fluid" style="height: 100px;">
+
+            </mat-card-content>
+            <mat-card-actions align="center">
+            </mat-card-actions>
+        </mat-card>   -->
+        
+        <mat-toolbar class="d-flex w-100 justify-content-end align-items-center" *ngIf="creationStep!==undefined && !creationStep">
+            <button mat-button color="primary" (click)="saveDevices()">Enregistrer</button>
+        </mat-toolbar>
+</div>
+
+<div
+style="position: fixed; left: 0; right: 0; top: 0; bottom: 0; background-color: rgba(138, 138, 146, 0.3);  backdrop-filter: blur(5px) contrast(.1); z-index: 9999999;"
+class="text-center align-items-center align-content-center" *ngIf="spinnerSave">
+<mat-card style="width: 300px; height: 300px; margin-top: 10% !important;" class="d-flex justify-content-center align-items-center flex-column overflow-hidden m-auto">
+  <mat-card-header>
+    <mat-card-title>Ciblage de d'appareils en cours</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="d-flex justify-content-center align-items-center overflow-hidden">
+    <mat-spinner class="d-inline-block" color="primary" [diameter]="50" >
+    </mat-spinner>
+  </mat-card-content>
+</mat-card>
+</div>

@@ -1,0 +1,291 @@
+<div class="row">
+  <div class="col-md-12">
+    <mat-card style="border: 1px solid #e0e0e0; border-radius: 0px !important" class="card-search-youtube pl-0 pr-0 pt-0">
+      <mat-card-content>
+      <div class="row" style="overflow: hidden;">
+          <div class="col-md-6 pr-0 text-center" style="overflow-x: hidden;">
+            <div class="row mb-2" style=" border-bottom: 1px solid #e0e0e0; height: 48px;"> 
+              <div class="col-md-12">
+                <div class="d-flex justify-content-between">
+                  <mat-form-field appearance="legacy" [floatLabel]="'never'" class="search-input mt-2">
+            <input matInput #inputSearch placeholder="Copier/coller l'url d'un site web ou une url youtube" autocomplete="off" id="search" [formControl]="searchChannels"  class="pl-3"/>
+          </mat-form-field>
+          <mat-icon matSuffix mat-ripple style="cursor: pointer" class="mt-2 mr-1" (click)="search()">youtube_searched_for</mat-icon>
+          <mat-icon matSuffix mat-ripple style="cursor: pointer" class="mt-2 mr-1" (click)="resetSearch()" *ngIf="inputSearch.value.length>0">cancel</mat-icon>
+
+                </div>
+              </div>
+              
+            </div> 
+          
+            
+            <mat-spinner *ngIf="showProgressSearchChannels"
+              [mode]="'indeterminate'" [diameter]="25" style="display: inline-block;" color="accent" style="margin-top: 5rem; margin-left: 50%;">
+            </mat-spinner>
+          
+            <mat-selection-list role="option" class="p-0"
+      multiple='false' disableRipple *ngIf="!showProgressSearchChannels && generalPanel">
+      <mat-list-option style="cursor: pointer; height: 30px" (click)="toggleWebsitesPanel()">
+        <div class="d-flex justify-content-between">
+          <span style="font-size: 13px;">Sites Web&nbsp;<ng-container *ngIf="websitesFind.length>0">({{websitesFind.length}})</ng-container></span>
+          <mat-icon matSuffix mat-ripple style="cursor: pointer" class="" >chevron_right</mat-icon>
+        </div>
+      </mat-list-option>
+      <mat-list-option style="cursor: pointer; height: 30px" (click)="toggleChannelsPanel()">
+        <div class="d-flex justify-content-between">
+          <span style="font-size: 13px;">Chaînes youtubes&nbsp;<ng-container *ngIf="channelsFind.length>0">({{channelsFind.length}})</ng-container></span>
+          <mat-icon matSuffix mat-ripple style="cursor: pointer" class="" >chevron_right</mat-icon>
+        </div>
+                     </mat-list-option>
+                     <mat-list-option style="cursor: pointer; height: 30px" (click)="toggleVideosPanel()">
+        <div class="d-flex justify-content-between">
+          <span style="font-size: 13px;">Videos youtubes&nbsp;<ng-container *ngIf="videosFind.length>0">({{videosFind.length}})</ng-container></span>
+          <mat-icon matSuffix mat-ripple style="cursor: pointer" class="" >chevron_right</mat-icon>
+        </div>
+                     </mat-list-option>
+                     </mat-selection-list>
+                     <ng-container *ngIf="!showProgressSearchChannels && websitesPanel">
+              <div class="row mb-0" > 
+              <div class="col-md-12">
+                <div class="d-flex align-items-center"> 
+                  <button mat-button (click)="toggleGeneralPanel()"><mat-icon matSuffix mat-ripple style="cursor: pointer" class="mr-1" >keyboard_backspace</mat-icon></button>  
+                  <span>Sites Web</span>
+                </div>
+              </div>
+              
+            </div>
+            <div class="section-body"  *ngIf="websitesFind.length===0">
+                <div class="section-body-content">
+                  <div class="section-body-content-placeholder text-left pt-4">
+                   Copiez collez l'url d'un site web
+                </div>
+                </div>
+              </div>
+            <div class="row pr-0 pl-0 ml-0 mr-0" *ngIf="websitesFind.length>0"  style="height: 250px; overflow-y: auto;">
+  <div class="col-md-12 text-center pl-0 pr-0" >
+
+
+    <mat-selection-list #matSelectionListWebsites role="option" class="p-0"
+      multiple='true'  (selectionChange)="onWebsiteSelect($event)">
+
+      <mat-list-option style="cursor: pointer" class="pl-2" *ngFor="let site of  websitesFind"
+        [value]="site"  [matTooltip]="site.hostname" [matTooltipShowDelay]="'1000'"
+                     [matTooltipPosition]="'after'" [checkboxPosition]="'before'" style="height: auto">
+        <div class="list-dynamic-item">
+          <div class="channel-suggestion">
+            <div class="channel-entry d-flex align-items-center">
+              
+              <div class="d-flex align-items-start justify-content-center">
+              
+              <div class="channel-title pl-3">
+                 {{site.hostname}}
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-list-option>
+    </mat-selection-list>
+  </div>
+</div>
+            </ng-container>
+                         <ng-container *ngIf="!showProgressSearchChannels && channelsPanel">
+              <div class="row mb-0" > 
+              <div class="col-md-12">
+                <div class="d-flex align-items-center"> 
+                  <button mat-button (click)="toggleGeneralPanel()"><mat-icon matSuffix mat-ripple style="cursor: pointer" class="mr-1" >keyboard_backspace</mat-icon></button>  
+                  <span>Chaines Youtubes</span>
+                </div>
+              </div>
+              
+            </div>
+            <div class="section-body"  *ngIf="channelsFind.length===0">
+                <div class="section-body-content">
+                  <div class="section-body-content-placeholder text-left pt-4">
+                   Pour découvrir des suggestions d'emplacements sur des chaînes YouTube, vous devez effectuer une recherche
+                </div>
+                </div>
+              </div>
+            <div class="row pr-0 pl-0 ml-0 mr-0" *ngIf="channelsFind.length>0"  style="height: 250px; overflow-y: auto;">
+  <div class="col-md-12 text-center pl-0 pr-0" >
+
+
+    <mat-selection-list #matSelectionListChannels role="option" class="p-0"
+      multiple='true'  (selectionChange)="onChannelSelect($event)">
+
+      <mat-list-option style="cursor: pointer" class="pl-2" *ngFor="let channel of  channelsFind"
+        [value]="channel"  [matTooltip]="channel.name+'('+channel.snippet+')'" [matTooltipShowDelay]="'1000'"
+                     [matTooltipPosition]="'after'" [checkboxPosition]="'before'" style="height: auto">
+        <div class="list-dynamic-item">
+          <div class="channel-suggestion">
+            <div class="channel-entry d-flex align-items-center">
+              <img [src]="channel.thumbnails" style="width: 100px">
+              <div class="d-flex flex-column align-items-start">
+              <div class="channel-name pl-3">
+                 {{channel.name}}
+              </div>
+              <div class="channel-snippet pl-3">
+                 {{channel.snippet}}
+              </div>
+              </div>
+              
+              <!-- <button mat-button color="accent" (click)="selectChannel(channel)" class="button-target-option ml-auto" style='font-size: 12px'>
+            Choisir
+          </button> -->
+         
+            </div>
+          </div>
+        </div>
+      </mat-list-option>
+    </mat-selection-list>
+  </div>
+</div>
+            </ng-container>
+            <ng-container *ngIf="!showProgressSearchChannels && videosPanel">
+              <div class="row mb-0"> 
+              <div class="col-md-12">
+                <div class="d-flex align-items-center"> 
+                  <button mat-button (click)="toggleGeneralPanel()"><mat-icon matSuffix mat-ripple style="cursor: pointer" class="mr-1" >keyboard_backspace</mat-icon></button>  
+                  <span>Videos Youtubes</span>
+                </div>
+              </div>
+              
+            </div>
+            <div class="section-body"  *ngIf="videosFind.length===0">
+                <div class="section-body-content">
+                  <div class="section-body-content-placeholder text-left pt-4">
+                   Pour découvrir des suggestions d'emplacements sur des chaînes YouTube, vous devez effectuer une recherche
+                </div>
+                </div>
+              </div>
+            <div class="row pr-0 pl-0 ml-0 mr-0" *ngIf="videosFind.length>0" style="height: 200px; overflow-y: auto;">
+  <div class="col-md-12 text-center pl-0 pr-0" >
+
+
+    <mat-selection-list #matSelectionListVideos role="option" class="p-0 mb-5"
+      multiple='true' (selectionChange)="onVideoSelect($event)">
+
+      <mat-list-option style="cursor: pointer"  class="pl-2" *ngFor="let video of  videosFind"
+        [value]="video"  [matTooltip]="video.name+'('+video.snippet+')'" [matTooltipShowDelay]="'1000'"
+                     [matTooltipPosition]="'after'" [checkboxPosition]="'before'" style="height: auto">
+        <div class="list-dynamic-item">
+          <div class="channel-suggestion">
+            <div class="channel-entry d-flex align-items-center">
+              <img [src]="video.thumbnails" style="width: 100px">
+              <div class="d-flex flex-column align-items-start">
+              <div class="channel-name pl-3">
+                 {{video.name}}
+              </div>
+              <div class="channel-snippet pl-3">
+                 {{video.snippet}}
+              </div>
+              </div>
+              
+             <!--  <button mat-button color="accent" (click)="selectChannel(video)" class="button-target-option ml-auto" style='font-size: 12px'>
+            Choisir
+          </button> -->
+         
+            </div>
+          </div>
+        </div>
+      </mat-list-option>
+    </mat-selection-list>
+  </div>
+</div>
+            </ng-container>
+          </div>
+          <div class="col-md-6 pl-0" style="border-left: 1px solid #e0e0e0;">
+            <div class="section-wrapper">
+              <div class="section-header">
+                <div class="section-header-title text-left">
+                  <ng-container *ngIf="channels.length===0 &&  videos.length===0 && websites.length===0">
+                    Aucune sélection
+
+                  </ng-container>
+                  <ng-container *ngIf="channels.length>0 || videos.length>0 || websites.length>0">
+                    {{channels.length + videos.length + websites.length}} sélectionné(s)
+
+                  </ng-container>
+                </div>
+              </div>
+              <div class="section-body" *ngIf="channels.length===0 && videos.length===0 && websites.length===0">
+                <div class="section-body-content">
+                  <div class="section-body-content-placeholder text-left">
+                    Votre annonce peut être diffusée sur n'importe quel emplacement correspondant à vos autres critères de ciblage sur YouTube. Ajoutez des emplacements spécifiques afin d'affiner votre ciblage.
+                </div>
+                </div>
+              </div>
+              <div style="height: 250px; overflow-y: auto; border-top: 1px solid #e0e0e0;" *ngIf="channels.length>0 || videos.length>0 || websites.length>0">
+                <ng-container *ngIf="channels.length>0">
+                  <div class="row-container" mat-ripple *ngFor="let element of channels">
+                    <div class="sub-row">
+                      <div class="sub-row-container" >
+                        <div class="item-category">
+                          Chaîne Youtube
+                        </div>
+                        <div class="item-name">
+                          {{element.name}}
+                        </div>
+                      </div>
+                      <div class="render-cell">
+
+                      </div>
+                      <div class="icon-remove">
+                        <mat-icon style="cursor: pointer" (click)="removeSelectedChannel(element)">cancel</mat-icon>
+                      </div>
+                    </div>
+                  </div>
+
+                </ng-container>
+                <ng-container *ngIf="videos.length>0">
+                  <div class="row-container" mat-ripple *ngFor="let element of videos">
+                    <div class="sub-row">
+                      <div class="sub-row-container">
+                        <div class="item-category">
+                          Vidéo Youtube
+                        </div>
+                        <div class="item-name">
+                          {{element.name}}
+                        </div>
+                      </div>
+                      <div class="render-cell">
+
+                      </div>
+                      <div class="icon-remove">
+                        <mat-icon style="cursor: pointer"  (click)="removeSelectedVideo(element)">cancel</mat-icon>
+                      </div>
+                    </div>
+                  </div>
+
+                </ng-container>
+                <ng-container *ngIf="websites.length>0">
+                  <div class="row-container" mat-ripple *ngFor="let element of websites">
+                    <div class="sub-row">
+                      <div class="sub-row-container">
+                        <div class="item-category">
+                          Site web
+                        </div>
+                        <div class="item-name">
+                          {{element.hostname}}
+                        </div>
+                      </div>
+                      <div class="render-cell">
+
+                      </div>
+                      <div class="icon-remove">
+                        <mat-icon style="cursor: pointer"  (click)="removeSelectedWebsite(element)">cancel</mat-icon>
+                      </div>
+                    </div>
+                  </div>
+
+                </ng-container>
+                
+              </div>
+            </div>
+            
+          </div>
+      </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div> 

@@ -1,0 +1,31 @@
+
+#budget-expansion .mat-expanded .mat-expansion-panel-header .mat-expansion-panel-header-title{
+    max-width: 150px;
+    padding-top: 1.2rem !important;
+}
+#budget-expansion .mat-expansion-panel-header .mat-expansion-panel-header-title{
+    max-width: 150px;
+    padding-top: 0px;
+    text-align: center;
+    align-items: center;
+    align-content: center;
+}
+
+mat-slider {
+    max-width: 230px;
+    min-width: 200px;
+    width: 100%;
+  }
+
+.budget-info{
+    font-size: 13px;
+    font-weight: 400;
+    word-break: keep-all;
+    box-sizing: border-box;
+    border-left: 1px solid rgba(0,0,0,.12);
+    color: rgba(0,0,0,.54);
+    flex: 1 1 30%;
+    line-height: 20px;
+    padding-left: 16px;
+    vertical-align: top;
+}

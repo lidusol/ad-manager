@@ -1,0 +1,42 @@
+<form [formGroup]="form" class="pt-1 pl-5 periode-container">
+    <span class="range-title"> Toute la période</span>
+
+            <mat-form-field class="date-selector">
+                <input
+                    matInput
+                    ngxDaterangepickerMd
+                    formControlName="selected"
+                    [showCustomRangeLabel]="true"
+                    [alwaysShowCalendars]="form.get('alwaysShowCalendars').value"
+                    [ranges]="ranges"
+                    [showClearButton]="true"
+                    [showCancel]="true"
+                    [linkedCalendars]="false"
+                    [isTooltipDate]="isTooltipDate"
+                    [isInvalidDate]="isInvalidDate"
+                    [locale]="{ applyLabel: 'Done' }"
+                    [keepCalendarOpeningWithRange]="form.get('keepCalendarOpeningWithRange').value"
+                    [showRangeLabelOnInput]="form.get('showRangeLabelOnInput').value"
+                    (rangeClicked)="rangeClicked($event)"
+                    (datesUpdated)="datesUpdated($event)"
+                    readonly
+                />
+            
+            </mat-form-field>
+            {{ selected | json }}
+            <!-- <div>
+                <mat-checkbox formControlName="alwaysShowCalendars">
+                    alwaysShowCalendars
+                </mat-checkbox>
+            </div>
+            <div>
+                <mat-checkbox formControlName="keepCalendarOpeningWithRange">
+                    keepCalendarOpeningWithRange
+                </mat-checkbox>
+            </div>
+            <div>
+                <mat-checkbox formControlName="showRangeLabelOnInput">
+                    showRangeLabelOnInput
+                </mat-checkbox>
+            </div> -->
+        </form>
