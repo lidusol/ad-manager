@@ -69,7 +69,7 @@
     "country-flag-icons": "^1.2.8",
     "cropperjs": "^1.5.7",
     "crypto-js": "^4.0.0",
-    "firebase": "^6.2.0",
+    "firebase": "^7.13.2",
     "firebase-admin": "^8.12.1",
     "google-libphonenumber": "^3.2.13",
     "hammerjs": "^2.0.8",
@@ -77,7 +77,7 @@
     "is-url": "^1.2.4",
     "jquery": "^3.4.1",
     "js-video-url-parser": "^0.4.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "moment": "^2.19.3",
     "ng-number-formatter": "^1.5.0",
     "ngx-bootstrap": "^6.1.0",
@@ -98,6 +98,7 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
+    "@angular-devkit/architect": "<0.900 || ^0.900.0-0 || ^9.0.0-0",
     "@angular-devkit/build-angular": "~0.901.4",
     "@angular/cli": "~9.1.4",
     "@angular/compiler-cli": "~9.1.4",
@@ -111,6 +112,10 @@
     "@types/validator": "^13.1.3",
     "@types/video.js": "^7.3.10",
     "codelyzer": "^6.0.1",
+    "firebase-tools": "^7.12.0",
+    "fuzzy": "^0.1.3",
+    "inquirer": "^6.2.2",
+    "inquirer-autocomplete-prompt": "^1.0.1",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~5.0.0",
@@ -123,6 +128,6 @@
     "tslint": "~6.1.0",
     "twemoji": "^13.0.1",
     "typescript": "~3.8.3",
-    "video.js": "^7.8.4"
+    "video.js": "^7.15.0"
   }
 }
