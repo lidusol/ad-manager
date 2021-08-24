@@ -1,0 +1,36 @@
+<div class="container">
+    <div class="d-flex flex-column justify-content-center align-items-start p-md-4 p-md-2">
+        <div class="ad-preview-block">
+           <div class="preview-wrapper">
+              <div class="preview-header row">
+                  <div class="col col-md-2">
+                    <div class="ad-img-icon"></div>
+                  </div>
+                  <div class="header-title col col-md-8 ">
+                        <h6>{{ 'page_one' | translate }}</h6>
+                        <small>{{ 'sponsored' | translate}}</small>  
+                  </div>
+                  <div class="col col-md-2">
+                      <mat-icon>more_horiz</mat-icon>
+                  </div>
+              </div>
+              <div class="preview-img">
+                  <p>{{ headline? headline : 'Product. Brand' }}</p>
+                  <div class="img-placehoder" *ngIf="!adImage"></div>
+                  <img *ngIf="adImage" src="{{adImage}}"  width="100%" height="250px">
+              </div>
+              <div class="preview-footer row">
+                  <div class="col">
+                    <mat-icon>thumb_up</mat-icon><span>{{ 'like' | translate }}</span>
+                  </div>
+                  <div class="col">
+                    <mat-icon>chat_bubble_outline</mat-icon><span>{{ 'comment' | translate }}</span>
+                  </div>
+                  <div class="col">
+                    <mat-icon>share</mat-icon><span>{{ 'share' | translate }}</span>
+                  </div>
+              </div> 
+           </div>
+        </div>
+    </div>
+</div>
