@@ -23,6 +23,7 @@ import { ThemeService } from 'src/app/layout/components/theme.service';
 import { Subject } from 'rxjs';
 import { LangService } from 'src/app/layout/components/lang.service';
 import { DOCUMENT } from '@angular/common';
+import { NavItem } from '../../utils/data';
 
 @Component({
   selector: 'adf-dashboard',
@@ -981,9 +982,31 @@ export class DashboardComponent implements OnInit {
 /* 	getReport() {
 		this.displayService.getPlacementSummuryReport()
 	} */
-	createCampaign() {
+	campaigns: NavItem[] = [
+    {
+      displayName: 'Google',
+      iconName: 'add',
+      route: 'campaigns/new/select'
+    },
+    {
+      displayName: 'Facebook',
+      iconName: 'add',
+      route: 'campaigns/new/select-fb'
+    }
+  ];
 
-      this.router.navigate(['/campaigns/new/select'], {queryParams: {aacid: this.aacid, auid: this.uid}})
-    
+  createCampaign(value){
+    if(value.displayName === 'Google'){
+      this.router.navigate([value.route], {queryParams: {aacid: this.aacid, auid: this.uid}})
+    }else if(value.displayName === 'Facebook'){
+      this.router.navigate([value.route], {queryParams: {aacid: this.aacid, auid: this.uid}})
+    }else{
+       this.router.navigate(['campaigns/new/select'], {queryParams: {aacid: this.aacid, auid: this.uid}})
+    }
   }
+// 	createCampaign() {
+
+//       this.router.navigate(['/campaigns/new/select'], {queryParams: {aacid: this.aacid, auid: this.uid}})
+    
+//   }
 }

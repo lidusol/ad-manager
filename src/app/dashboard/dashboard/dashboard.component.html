@@ -15,10 +15,18 @@
                   </button>
                 </ng-container>
                 <ng-container *ngIf="user_access.admin">
-                  <button mat-flat-button
+                  <!-- <button mat-flat-button
                     class="mb-3 ml-md-1" color="primary" (click)="createCampaign()">
                     <mat-icon>add</mat-icon> Nouvelle Campagne
-                  </button>
+                  </button> -->
+                  <mat-form-field>
+                    <mat-label [ngStyle]="{ color: '#2A62FF' }"><mat-icon>add_circle</mat-icon>&nbsp;{{ 'campaigns.new_campaign_label' | translate }}</mat-label> 
+                    <mat-select (selectionChange)="createCampaign($event.value)">
+                      <mat-option  *ngFor="let campaign of campaigns" [value]="campaign">
+                        {{campaign.displayName}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
                 </ng-container>
         
               </ng-container>

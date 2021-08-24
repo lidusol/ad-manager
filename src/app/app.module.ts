@@ -1,24 +1,27 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from "@angular/material/form-field";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LayoutModule } from './layout/layout.module';
-import { FIREBASE_CREDENTIALS } from '../environments/environment';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule, AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireModule  } from '@angular/fire';
 import {AngularFireMessagingModule} from '@angular/fire/messaging'
 import {HttpClient, HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
-import { AuthModule } from './auth/auth.module';
-import { LayoutService } from './layout/layout.service';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
 import firebase from 'firebase/app';
-/*  import { DeviceDetectorModule } from 'ngx-device-detector'; */
-import { LoaderService } from './services/loader.service';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { LayoutModule } from './layout/layout.module';
+import { LayoutService } from './layout/layout.service';
 import { LoaderInterceptor } from './loader.interceptor';
 import { PresenceService } from './layout/presence.service';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { FIREBASE_CREDENTIALS } from '../environments/environment';
+import { AuthModule } from './auth/auth.module';
+import { LoaderService } from './services/loader.service';
+/*  import { DeviceDetectorModule } from 'ngx-device-detector'; */
+
 firebase.initializeApp(FIREBASE_CREDENTIALS)
 @NgModule({
   declarations: [
@@ -40,6 +43,9 @@ firebase.initializeApp(FIREBASE_CREDENTIALS)
     /*  UserIdleModule.forRoot({idle: 600, timeout: 300, ping: 120}), */
     AngularFireMessagingModule,
     AuthModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
     /* StoreModule,
     StoreRouterConnectingModule.forRoot(),
     AdfRouterModule */

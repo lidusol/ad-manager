@@ -56,7 +56,7 @@ export class SidebarComponent implements OnInit {
     },
      
               
-                   {
+        {
           displayName: 'profile',
           iconName: 'account_circle',
           route: 'accounts/profile',
@@ -79,12 +79,6 @@ export class SidebarComponent implements OnInit {
            route: 'accounts/addFunds',
           queryParams: {aacid: response.aacid, auid: response.auid},
         },
-                
-    
-        
-      
-  
-    
      
         {
           displayName: 'my_campaigns_label',
@@ -95,8 +89,22 @@ export class SidebarComponent implements OnInit {
         {
           displayName: 'new_cmp_label_side',
           iconName: 'add',
-          route: 'campaigns/new/select',
-          queryParams: {aacid: response.aacid, auid: response.auid},
+          // route: 'campaigns/new/select',
+          // queryParams: {aacid: response.aacid, auid: response.auid},
+          children: [
+            {
+              displayName: 'new_cmp_label_side',
+              iconName: 'add',
+              route: 'campaigns/new/select',
+              queryParams: {aacid: response.aacid, auid: response.auid},
+            },
+            {
+              displayName: 'new_fb_cmp_label_side',
+              iconName: 'add',
+              route: 'campaigns/new/select-fb',
+              queryParams: {aacid: response.aacid, auid: response.auid},
+            },
+          ],
         },
         {
           displayName: 'logout',
@@ -254,8 +262,22 @@ export class SidebarComponent implements OnInit {
         {
           displayName: 'new_cmp_label_side',
           iconName: 'add',
-          route: 'campaigns/new/select',
-          queryParams: {aacid: response.aacid, auid: response.auid},
+          // route: 'campaigns/new/select',
+          // queryParams: {aacid: response.aacid, auid: response.auid},
+          children: [
+            {
+              displayName: 'new_cmp_label_side',
+              iconName: 'add',
+              route: 'campaigns/new/select',
+              queryParams: {aacid: response.aacid, auid: response.auid},
+            },
+            {
+              displayName: 'new_fb_cmp_label_side',
+              iconName: 'add',
+              route: 'campaigns/new/select-fb',
+              queryParams: {aacid: response.aacid, auid: response.auid},
+            },
+          ],
         },
         {
           displayName: 'cmp_summary_main',
@@ -404,8 +426,22 @@ export class SidebarComponent implements OnInit {
         {
           displayName: 'new_cmp_label_side',
           iconName: 'add',
-          route: 'campaigns/new/select',
-          queryParams: {aacid: response.aacid, auid: response.auid},
+          // route: 'campaigns/new/select',
+          // queryParams: {aacid: response.aacid, auid: response.auid},
+          children: [
+            {
+              displayName: 'new_cmp_label_side',
+              iconName: 'add',
+              route: 'campaigns/new/select',
+              queryParams: {aacid: response.aacid, auid: response.auid},
+            },
+            {
+              displayName: 'new_fb_cmp_label_side',
+              iconName: 'add',
+              route: 'campaigns/new/select-fb',
+              queryParams: {aacid: response.aacid, auid: response.auid},
+            },
+          ],
         },
         {
           displayName: 'cmp_summary_main',
@@ -561,13 +597,6 @@ export class SidebarComponent implements OnInit {
            route: 'accounts/addFunds',
           queryParams: {aacid: response.aacid, auid: response.auid},
         },
-                
-    
-        
-      
-  
-    
-    
         {
           displayName: 'my_campaigns_label',
           iconName: 'list_alt',
@@ -577,8 +606,22 @@ export class SidebarComponent implements OnInit {
         {
           displayName: 'new_cmp_label_side',
           iconName: 'add',
-          route: 'campaigns/new/select',
-          queryParams: {aacid: response.aacid, auid: response.auid},
+          // route: 'campaigns/new/select',
+          // queryParams: {aacid: response.aacid, auid: response.auid},
+          children: [
+            {
+              displayName: 'new_cmp_label_side',
+              iconName: 'add',
+              route: 'campaigns/new/select',
+              queryParams: {aacid: response.aacid, auid: response.auid},
+            },
+            {
+              displayName: 'new_fb_cmp_label_side',
+              iconName: 'add',
+              route: 'campaigns/new/select-fb',
+              queryParams: {aacid: response.aacid, auid: response.auid},
+            },
+          ],
         },
         {
           displayName: 'cmp_summary_main',
@@ -697,7 +740,7 @@ export class SidebarComponent implements OnInit {
     },
      
               
-                   {
+        {
           displayName: 'profile',
           iconName: 'account_circle',
           route: 'accounts/profile',
@@ -720,13 +763,6 @@ export class SidebarComponent implements OnInit {
            route: 'accounts/addFunds',
           queryParams: {aacid: response.aacid, auid: response.auid},
         },
-                
-    
-        
-      
-  
-    
-
         {
           displayName: 'my_campaigns_label',
           iconName: 'list_alt',
@@ -736,8 +772,22 @@ export class SidebarComponent implements OnInit {
         {
           displayName: 'new_cmp_label_side',
           iconName: 'add',
-          route: 'campaigns/new/select',
-          queryParams: {aacid: response.aacid, auid: response.auid},
+          // route: 'campaigns/new/select',
+          // queryParams: {aacid: response.aacid, auid: response.auid},
+          children: [
+            {
+              displayName: 'new_cmp_label_side',
+              iconName: 'add',
+              route: 'campaigns/new/select',
+              queryParams: {aacid: response.aacid, auid: response.auid},
+            },
+            {
+              displayName: 'new_fb_cmp_label_side',
+              iconName: 'add',
+              route: 'campaigns/new/select-fb',
+              queryParams: {aacid: response.aacid, auid: response.auid},
+            },
+          ],
         },
         {
           displayName: 'cmp_summary_main',
@@ -805,9 +855,6 @@ export class SidebarComponent implements OnInit {
           queryParams: {aacid: response.aacid, auid: response.auid},
 
         },
-         
-      
- 
         {
           displayName: 'my_campaigns_label',
           iconName: 'list_alt',
@@ -872,13 +919,6 @@ export class SidebarComponent implements OnInit {
            route: 'accounts/addFunds',
           queryParams: {aacid: response.aacid, auid: response.auid},
         },
-                
-        
-        
-        
-        
-        
-        
         {
           displayName: 'my_campaigns_label',
           iconName: 'list_alt',
@@ -888,8 +928,22 @@ export class SidebarComponent implements OnInit {
         {
           displayName: 'new_cmp_label_side',
           iconName: 'add',
-          route: 'campaigns/new/select',
-          queryParams: {aacid: response.aacid, auid: response.auid},
+          // route: 'campaigns/new/select',
+          // queryParams: {aacid: response.aacid, auid: response.auid},
+          children: [
+            {
+              displayName: 'new_cmp_label_side',
+              iconName: 'add',
+              route: 'campaigns/new/select',
+              queryParams: {aacid: response.aacid, auid: response.auid},
+            },
+            {
+              displayName: 'new_fb_cmp_label_side',
+              iconName: 'add',
+              route: 'campaigns/new/select-fb',
+              queryParams: {aacid: response.aacid, auid: response.auid},
+            },
+          ],
         },
         {
           displayName: 'cmp_summary_main',
@@ -956,9 +1010,6 @@ export class SidebarComponent implements OnInit {
           queryParams: {aacid: response.aacid, auid: response.auid},
         
         },
-         
-        
-        
         {
           displayName: 'my_campaigns_label',
           iconName: 'list_alt',
@@ -1008,7 +1059,7 @@ export class SidebarComponent implements OnInit {
         },
         
               
-                   {
+        {
           displayName: 'profile',
           iconName: 'account_circle',
           route: 'accounts/profile',
@@ -1031,13 +1082,6 @@ export class SidebarComponent implements OnInit {
            route: 'accounts/addFunds',
           queryParams: {aacid: response.aacid, auid: response.auid},
         },
-                
-        
-        
-        
-        
-        
-        
         {
           displayName: 'my_campaigns_label',
           iconName: 'list_alt',
@@ -1047,8 +1091,22 @@ export class SidebarComponent implements OnInit {
         {
           displayName: 'new_cmp_label_side',
           iconName: 'add',
-          route: 'campaigns/new/select',
-          queryParams: {aacid: response.aacid, auid: response.auid},
+          // route: 'campaigns/new/select',
+          // queryParams: {aacid: response.aacid, auid: response.auid},
+          children: [
+            {
+              displayName: 'new_cmp_label_side',
+              iconName: 'add',
+              route: 'campaigns/new/select',
+              queryParams: {aacid: response.aacid, auid: response.auid},
+            },
+            {
+              displayName: 'new_fb_cmp_label_side',
+              iconName: 'add',
+              route: 'campaigns/new/select-fb',
+              queryParams: {aacid: response.aacid, auid: response.auid},
+            },
+          ],
         },
         {
           displayName: 'cmp_summary_main',
@@ -1116,9 +1174,6 @@ export class SidebarComponent implements OnInit {
           queryParams: {aacid: response.aacid, auid: response.auid},
         
         },
-         
-        
-        
         {
           displayName: 'my_campaigns_label',
           iconName: 'list_alt',
@@ -1171,16 +1226,6 @@ export class SidebarComponent implements OnInit {
           }else if (window.location.pathname==='/ads/create') {
             
           }
-          
-        
-            
-
-          
-        
-       
-      
-      
-			
 			   } else{
 				  
 			   }
@@ -1199,11 +1244,10 @@ export class SidebarComponent implements OnInit {
   }
 
   createCampaign() {
-
     this.router.navigate(['/campaigns/new/select'], {queryParams: {aacid: this.aacid, auid: this.auid}})
+  }
   
-}
-    @Output() sideNavToggled: EventEmitter<boolean> = new EventEmitter()
+  @Output() sideNavToggled: EventEmitter<boolean> = new EventEmitter()
   public toggle: boolean = true
   @Input() isMobile: boolean;
   @Input() showItemText: boolean = true
@@ -1224,8 +1268,5 @@ export class SidebarComponent implements OnInit {
         }
       }
     }
-    
   }
-  
-
 }

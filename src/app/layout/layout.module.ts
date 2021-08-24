@@ -160,6 +160,9 @@ import { CmpUserInterestComponent } from './components/cmp-user-interest/cmp-use
 import { CmpDeviceTargetComponent } from './components/cmp-device-target/cmp-device-target.component';
 import { SizeDetectorComponent } from './components/size-detector/size-detector.component';
 import { ResizeService } from './components/size-detector/resize.service';
+import { NewFbCampaignSelectorComponent } from './components/new-fb-campaign-selector/new-fb-campaign-selector.component';
+import { FbAdPreviewComponent } from './components/fb-ad-preview/fb-ad-preview.component';
+import { FbAdPlacementsComponent } from './components/fb-ad-placements/fb-ad-placements.component';
 const components = [
   HeaderComponent,
   ContentComponent,
@@ -172,6 +175,7 @@ const components = [
   SnackbarComponent,
   SelectLinkedAccountComponent,
   NewCampaignSelectorComponent,
+  NewFbCampaignSelectorComponent,
   DisplayBuilderComponent,
   CmpNameComponent,
   CmpStatusComponent,
@@ -252,7 +256,7 @@ const components = [
 
 
 @NgModule({
-  declarations: [...components, SizeDetectorComponent],
+  declarations: [...components, SizeDetectorComponent, FbAdPreviewComponent, FbAdPlacementsComponent],
   imports: [
     RouterModule,
     SharedModule,

@@ -230,6 +230,22 @@ export class MainLayoutComponent implements OnInit, AfterViewInit {
       image: '', // Image
       keywords: 'adafri campagne, campagne adafri, campagne publicitaire sénégal, plateforme de publicité, orange money, publicité orange money, publicité mobile money, publicité sénégal,' // Keywords
             });
+          }else if(window.location.pathname==='/campaigns/new/select-fb'){
+            this.headerTitle = 'new_fb_cmp_label_side'
+            this.opened = false
+            this.parentContainerPadding = false
+            this.hideSidenav()
+            this.canShowSideNav = false
+            this.showHeader = false
+            this.s_b = false
+            this.s_d = false
+            this.seo.setTags({
+              title: 'Adafri',
+              titleSuffix: '- Nouvelle campagne reseau de recherche',
+              description: 'Campagne Facebook',
+              image: '',
+              keywords: 'adafri campagne, campagne adafri, campagne publicitaire sénégal, plateforme de publicité, orange money, publicité orange money, publicité mobile money, publicité sénégal,'
+            })
           } else if (window.location.pathname==='/campaigns/list') {
             this.headerTitle = 'all_campaigns_main_label'
             this.parentContainerPadding = true

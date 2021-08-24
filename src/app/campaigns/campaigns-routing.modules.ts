@@ -6,6 +6,7 @@ import { CampaignsMainLayoutComponent } from '../layout/components/campaigns-mai
 import { DisplayReviewComponent } from '../layout/components/display-review/display-review.component';
 import { DisplaySettingsComponent } from '../layout/components/display-settings/display-settings.component';
 import { NewCampaignSelectorComponent } from '../layout/components/new-campaign-selector/new-campaign-selector.component';
+import { NewFbCampaignSelectorComponent } from '../layout/components/new-fb-campaign-selector/new-fb-campaign-selector.component';
 import { DisplayBuilderComponent } from '../layout/components/display-builder/display-builder.component';
 import { YoutubeBuilderComponent } from '../layout/components/youtube-builder/youtube-builder.component';
 import { YoutubeSettingsComponent } from '../layout/components/youtube-settings/youtube-settings.component';
@@ -64,6 +65,10 @@ const routes: Routes = [
             {
                 path: 'select',
                 component: NewCampaignSelectorComponent
+            },
+            {
+                path: 'select-fb',
+                component: NewFbCampaignSelectorComponent
             },
             {
                 path: 'display/create',

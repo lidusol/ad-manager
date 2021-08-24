@@ -10,13 +10,38 @@ import { FormBuilder } from '@angular/forms';
 import * as moment from 'moment';
 import { TranslateService } from '@ngx-translate/core';
 import { DEFAULT_LANG } from 'src/environments/environment';
+import { NavItem } from '../../utils/data';
 
 @Component({
   selector: 'adf-campaigns',
   templateUrl: './campaigns.component.html',
   styleUrls: ['./campaigns.component.scss']
 })
+
 export class CampaignsComponent implements OnInit {
+  campaigns: NavItem[] = [
+    {
+      displayName: 'Google',
+      iconName: 'add',
+      route: 'campaigns/new/select'
+    },
+    {
+      displayName: 'Facebook',
+      iconName: 'add',
+      route: 'campaigns/new/select-fb'
+    }
+  ];
+
+  createCampaign(value){
+    if(value.displayName === 'Google'){
+      this.router.navigate([value.route])
+    }else if(value.displayName === 'Facebook'){
+      this.router.navigate([value.route])
+    }else{
+       this.router.navigate(['campaigns/new/select'])
+    }
+  }
+
   aacid: string = ""
   uid: string = ""
   user_access: User_Role;
@@ -37,9 +62,8 @@ export class CampaignsComponent implements OnInit {
         '7 derniers jours': [moment().subtract(6, 'days'), moment()],
         '30 derniers jours': [moment().subtract(29, 'days'), moment()],
         'Ce mois': [moment().startOf('month'), moment().endOf('month')],
-      'Mois dernier': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-        'Personnaliser': [moment(), moment().add(10, 'days')],
-        
+        'Mois dernier': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+        'Personnaliser': [moment(), moment().add(10, 'days')],        
     };
     form = this.formBuilder.group({
         selected: {
