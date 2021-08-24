@@ -1,0 +1,24 @@
+.list-group-item{
+    list-style: none;
+}
+
+.check-placements {
+    border: 1px solid #00000014;
+    padding: 0.5rem 0.75rem;
+    width: 100%;
+    position: relative;
+
+    p {
+        margin-left: 0.5rem;
+    }
+    ul {
+        list-style-type: none;
+        margin-left: 0.75rem;
+    }
+
+    mat-icon {
+        cursor: pointer;
+        position: absolute;
+        right: 3%;
+    }
+}

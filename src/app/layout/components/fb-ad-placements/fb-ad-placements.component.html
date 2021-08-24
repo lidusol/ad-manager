@@ -1,0 +1,61 @@
+<!-- <div>
+  <p>{{ 'platforms_label' | translate }}</p>
+  <div class="d-flex flex-row flex-wrap justify-content-start align-items-start">
+    <mat-checkbox 
+      color="primary" 
+      class="m-2" 
+      value="fbChecked" 
+      [(ngModel)]="fbChecked" 
+      [indeterminate]="selectTag(fbChecked)" 
+      (ngModelChange)="selectAllByTag(facebookTag, $event)">
+      {{ 'facebook_label' | translate }}
+    </mat-checkbox>
+    <mat-checkbox 
+      color="primary" 
+      class="m-2" 
+      value="igChecked" 
+      [(ngModel)]="igChecked" 
+      [indeterminate]="selectTag(igChecked)" 
+      (ngModelChange)="selectAllByTag(instagramTag, $event)">
+      {{ 'instagram_label' | translate }}
+    </mat-checkbox>
+  </div>
+</div> -->
+<div>
+  <p class="mb-2">{{ 'placements_label_recap' | translate }}</p>              
+  <div class="check-placements" *ngFor="let placement of ad_placements">
+    <span>
+      <mat-checkbox 
+        color="primary" 
+        class="example-margin" 
+        [(ngModel)]="placement.checked"
+        [indeterminate]="oneChecked(placement)"
+        value="{{placement.id}}"
+        (ngModelChange)="selectPlacement(placement)">
+        {{placement.title}}
+      </mat-checkbox>
+    </span>
+    
+    <span (click)="expandCollapse(placement)">
+      <mat-icon *ngIf="placement.isClosed;else isCollapsed">expand_less</mat-icon>
+      <ng-template #isCollapsed>
+        <mat-icon>expand_more</mat-icon>
+      </ng-template>
+    </span>
+
+    <div [hidden]="placement.isClosed">
+      <ul>
+        <li *ngFor="let option of placement.options">
+          <mat-checkbox 
+            color="primary" 
+            class="example-margin" 
+            [(ngModel)]="option.checked"
+            value="{{option.id}}"
+            (ngModelChange)="selectOptions(placement)">
+            {{option.title}}
+          </mat-checkbox>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
