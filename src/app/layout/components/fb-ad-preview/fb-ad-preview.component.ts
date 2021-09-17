@@ -1,5 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { head } from 'lodash';
+import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'adf-fb-ad-preview',
@@ -9,13 +8,9 @@ import { head } from 'lodash';
 export class FbAdPreviewComponent implements OnInit {
   @Input() adImage: any
   @Input() headline: string
+  @Input() placement: any
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
-
-  ngAfterViewInit(): void {
-  }
-
+  ngOnInit(): void { }
 }
