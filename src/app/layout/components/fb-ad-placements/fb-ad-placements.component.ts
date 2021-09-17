@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {  PLACEMENTS, AD_PLACEMENTS } from 'src/app/utils/data';
 
 
@@ -8,16 +8,17 @@ import {  PLACEMENTS, AD_PLACEMENTS } from 'src/app/utils/data';
   styleUrls: ['./fb-ad-placements.component.scss']
 })
 export class FbAdPlacementsComponent implements OnInit {
-  ad_placements: PLACEMENTS[] = AD_PLACEMENTS;
+  @Input() ad_placements: PLACEMENTS[]
   fbChecked: boolean = false;
   igChecked: boolean = false;
   facebookTag: string = 'fb';
   instagramTag: string = 'ig';
 
-  ngOnInit(): void {
-  }
-
   constructor() { }
+
+  ngOnInit(): void {
+    console.log(this.ad_placements)
+  }
   
   selectAllByTag(tag: string, checked: boolean){
     this.ad_placements.filter(placement => {

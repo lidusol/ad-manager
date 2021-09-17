@@ -32,7 +32,7 @@
         [indeterminate]="oneChecked(placement)"
         value="{{placement.id}}"
         (ngModelChange)="selectPlacement(placement)">
-        {{placement.title}}
+        {{placement.name}}
       </mat-checkbox>
     </span>
     
@@ -52,7 +52,7 @@
             [(ngModel)]="option.checked"
             value="{{option.id}}"
             (ngModelChange)="selectOptions(placement)">
-            {{option.title}}
+            {{option.name}}
           </mat-checkbox>
         </li>
       </ul>
