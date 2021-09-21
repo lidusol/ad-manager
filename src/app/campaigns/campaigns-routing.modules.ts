@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { CampaignsComponent } from './campaigns/campaigns.component';
+import { FbCampaignsComponent } from './fb-campaigns/fb-campaigns.component';
 import { ContentComponent } from '../layout/content/content.component';
 import { CampaignsMainLayoutComponent } from '../layout/components/campaigns-main-layout/campaigns-main-layout.component';
 import { DisplayReviewComponent } from '../layout/components/display-review/display-review.component';
@@ -15,16 +16,21 @@ import { DisplaySearchBuilderComponent } from '../layout/components/display-sear
 import { SearchReviewComponent } from '../layout/components/search-review/search-review.component';
 import { SearchSettingsComponent } from '../layout/components/search-settings/search-settings.component';
 
+
 const routes: Routes = [
     {
         path: '',
         redirectTo: 'list'
-  },
+    },
     {
         path: 'list',
         component: CampaignsComponent,
-  },
-  {
+    },
+    {
+        path: 'fb-list',
+        component: FbCampaignsComponent
+    },
+    {
         path: 'review',
         children: [
             {
@@ -40,9 +46,9 @@ const routes: Routes = [
                 component: SearchReviewComponent
             }
         ]
-  },
-  
-  {
+    },
+    
+    {
         path: 'settings',
         children: [
             {
@@ -56,6 +62,10 @@ const routes: Routes = [
             {
                 path: 'search',
                 component: SearchSettingsComponent
+            },
+            {
+                path: 'fb',
+                component: NewFbCampaignSelectorComponent
             }
         ]
     },

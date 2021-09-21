@@ -7,11 +7,12 @@ import { CampaignsRoutingModule } from './campaigns-routing.modules';
 import { AccountsService } from '../accounts/accounts.service';
 import { RouterModule } from '@angular/router';
 import { LayoutService } from '../layout/layout.service';
+import { FbCampaignsComponent } from './fb-campaigns/fb-campaigns.component';
 
 
 
 @NgModule({
-  declarations: [CampaignsComponent],
+  declarations: [CampaignsComponent, FbCampaignsComponent],
   imports: [
     RouterModule,
     LayoutModule,

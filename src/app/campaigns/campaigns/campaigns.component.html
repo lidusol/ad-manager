@@ -2,16 +2,8 @@
 <!-- <adf-toolbar-filter [navigationLink]="'Mes campagnes'"></adf-toolbar-filter> -->
 <div class="container-fluid p-0 app-bg-secondary">
   <div class="d-flex w-100 m-4 justify-content-center align-items-start flex-column pl-2">
-    <h4 class="mt-5">{{ 'campaigns.all_campaigns_label' | translate }}</h4>
-    <!-- <button mat-flat-button class="pl-2" color="primary" (click)="goSelectCampaign()"><mat-icon>add_circle</mat-icon>&nbsp;{{ 'campaigns.new_campaign_label' | translate }}</button> -->
-    <mat-form-field>
-      <mat-label [ngStyle]="{ color: '#2A62FF' }"><mat-icon>add_circle</mat-icon>&nbsp;{{ 'campaigns.new_campaign_label' | translate }}</mat-label> 
-      <mat-select (selectionChange)="createCampaign($event.value)">
-        <mat-option  *ngFor="let campaign of campaigns" [value]="campaign">
-          {{campaign.displayName}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <h4 class="mt-5">{{ 'campaigns.all_google_campaigns_label' | translate }}</h4>
+    <button mat-flat-button class="pl-2" color="primary" (click)="goSelectCampaign()"><mat-icon>add_circle</mat-icon>&nbsp;{{ 'campaigns.new_campaign_label' | translate }}</button>
   </div>
   <div class="row mb-3 mt-5" >
     <div class="col-md-12 pl-md-5 pr-md-5">
