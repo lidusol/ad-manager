@@ -1,0 +1,18 @@
+table {
+  width: 100%;
+}
+
+tr {
+    cursor: pointer;
+}
+
+.delete-header-row {
+  font-weight: 500;
+  text-align: left;
+  font-size: 15px;
+  background: #EDF1F7;
+}
+
+.active {
+  color: #2A62FF;
+}
