@@ -1,0 +1,20 @@
+<div class="container">
+    <h6 class="mb-2 p-md-2">{{count}} Placements</h6>
+    <div class="row">
+        <div class="col preview-container">
+             <h6 class="mb-2 p-md-2">{{ selectedPlacement.name }}</h6>
+            <adf-fb-ad-preview [adImage]="dataimage" [headline]="headline" [placement]="selectedPlacement"></adf-fb-ad-preview>
+        </div>
+        <div class="col selector-container">
+            <div *ngFor="let placement of placements" >
+                <h6 class="mb-2 p-md-2">{{ placement.name }}</h6>
+                <div class="placement-selector">
+                    <div class="selector-item" [id]="option.name" *ngFor="let option of placement.options" (click)="selectPlacement(option)"
+                        matTooltip="{{option.name}}">
+                        <adf-fb-ad-preview [adImage]="dataimage" [placement]="option"></adf-fb-ad-preview>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

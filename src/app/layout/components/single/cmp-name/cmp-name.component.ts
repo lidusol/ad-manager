@@ -272,60 +272,6 @@ export class CmpNameComponent implements OnInit {
           this.isEditing = false
          return result;
         })
-      }else if (window.location.pathname === '/campaigns/new/select-fb' && (this.ads_channel!==undefined && this.ads_channel!==null)){
-        this.storageService.getUserIdAndAccountId().then(response=>{
-          if(response!==null && response!==undefined){
-            this.facebookService.getListCampaign(response.account.owner, response.account.id).subscribe(campaign=>{
-              let campaign_length: number = campaign.length
-              if(campaign.length<=0){
-                // setTimeout(() => {
-                  result = `New ${this.ads_channel.primary.title} Campaign - ` + 0;
-                // }, 500)
-                if(this.isEditing){
-                  this.nameControl.setValue(result)
-                  this.nameControl.updateValueAndValidity()
-                  this.isEditing = false
-                }
-                this.NAME = result
-                this.newText = this.NAME
-                this.componentReady = true
-                this.isEditing = false
-               return result;
-              }else{
-                // setTimeout(() => {
-                  result = `New ${this.ads_channel.primary.title} Campaign - ` + (campaign_length+1).toString();
-                // }, 500)
-                if(this.isEditing){
-                  this.nameControl.setValue(result)
-                  this.nameControl.updateValueAndValidity()
-                  this.isEditing = false
-                }
-                this.NAME = result
-                this.newText = this.NAME
-                this.componentReady = true
-                this.isEditing = false
-               return result;
-              }
-  
-            })
-          }else{
-            var characters  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            var charactersLength = characters.length;
-            for ( var i = 0; i < length; i++ ) {
-               result += characters.charAt(Math.floor(Math.random() * charactersLength));
-            }
-          }
-          if(this.isEditing){
-            this.nameControl.setValue(result)
-            this.nameControl.updateValueAndValidity()
-            this.isEditing = false
-          }
-          this.NAME = result
-          this.newText = this.NAME
-          this.componentReady = true
-          this.isEditing = false
-         return result;
-        })
       }
     }, 0);
   
@@ -432,31 +378,6 @@ export class CmpNameComponent implements OnInit {
                 }
               } else if (window.location.pathname === '/campaigns/new/search/create' || (this.ads_channel!==undefined && this.ads_channel!==null && this.ads_channel.obj_id==='search')) {
                if (this.NAME.length>3) { 
-                 this.searchService.getCampaignName(this.uid, name).subscribe(campaign => {
-                if (campaign.length > 0) {
-                  this.NAME = ""
-                  this.nameExist = true
-                  if (document.getElementsByClassName('name-field')[0]!==undefined && !document.getElementsByClassName('name-field')[0].classList.contains('mat-form-field-invalid')) {
-                    document.getElementsByClassName('name-field')[0].classList.add('mat-form-field-invalid')
-                    
-                  }
-                  resolve('duplicate')
-                } else {
-                  this.NAME = name
-                  this.nameExist = false
-                  if (document.getElementsByClassName('name-field')[0]!==undefined && document.getElementsByClassName('name-field')[0].classList.contains('mat-form-field-invalid')) {
-                    document.getElementsByClassName('name-field')[0].classList.remove('mat-form-field-invalid')
-                  }
-                  resolve('ok')
-                  
-                  }
-            
-                })
-              } else {
-                resolve('error')
-              }
-            }else if(window.location.pathname === '/campaigns/new/select-fb' || (this.ads_channel!==undefined && this.ads_channel!==null)){
-              if (this.NAME.length>3) { 
                  this.searchService.getCampaignName(this.uid, name).subscribe(campaign => {
                 if (campaign.length > 0) {
                   this.NAME = ""

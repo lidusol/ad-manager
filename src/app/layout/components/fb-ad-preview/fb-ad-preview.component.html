@@ -1,36 +1,115 @@
-<div class="container">
-    <div class="d-flex flex-column justify-content-center align-items-start p-md-4 p-md-2">
-        <div class="ad-preview-block">
-           <div class="preview-wrapper">
-              <div class="preview-header row">
-                  <div class="col col-md-2">
-                    <div class="ad-img-icon"></div>
-                  </div>
-                  <div class="header-title col col-md-8 ">
-                        <h6>{{ 'page_one' | translate }}</h6>
-                        <small>{{ 'sponsored' | translate}}</small>  
-                  </div>
-                  <div class="col col-md-2">
-                      <mat-icon>more_horiz</mat-icon>
-                  </div>
-              </div>
-              <div class="preview-img">
-                  <p>{{ headline? headline : 'Product. Brand' }}</p>
-                  <div class="img-placehoder" *ngIf="!adImage"></div>
-                  <img *ngIf="adImage" src="{{adImage}}"  width="100%" height="250px">
-              </div>
-              <div class="preview-footer row">
-                  <div class="col">
-                    <mat-icon>thumb_up</mat-icon><span>{{ 'like' | translate }}</span>
-                  </div>
-                  <div class="col">
-                    <mat-icon>chat_bubble_outline</mat-icon><span>{{ 'comment' | translate }}</span>
-                  </div>
-                  <div class="col">
-                    <mat-icon>share</mat-icon><span>{{ 'share' | translate }}</span>
-                  </div>
-              </div> 
-           </div>
+<div class=" p-md-4 p-md-2">
+  <div class="ad-preview feeds-preview-block" *ngIf="placement.parentTag==='feed'">
+      <div class="preview-wrapper">
+        <div class="wrapper-title" *ngIf="placement.tag==='ig'">
+          <p>Explore</p>
         </div>
+        <div class="preview-header row" [ngClass]="{'header-bottom':placement.apiName==='marketplace'}">
+            <div class="col col-md-2">
+              <div class="ad-img-icon" [ngClass]="{'icon-small': placement.apiName==='video_feeds'}"></div>
+            </div>
+            <div class="header-title col col-md-8 ">
+                  <p>{{ 'page_one' | translate }}</p>
+                  <small [ngStyle]="{'display': (placement.apiName==='marketplace')?'none':'contents'}">{{ 'sponsored' | translate}}</small>  
+            </div>
+            <div class="col col-md-2">
+                <mat-icon [ngStyle]="{'display': (placement.apiName==='marketplace')?'none':'block'}">more_horiz</mat-icon>
+            </div>
+        </div>
+        <div [ngClass]="{'headline-bottom':placement.tag==='ig'}" 
+            [ngStyle]="{'display':(placement.apiName==='marketplace')?'none':'block'}">
+          <p class="headline" id="headlineContainer">
+            {{ headline? headline : 'Product. Brand' }}
+          </p>
+        </div>
+        <div class="preview-img">
+            <div class="img-placehoder" *ngIf="!adImage"></div>
+            <img *ngIf="adImage" src="{{adImage}}"  width="100%" height="230px">
+        </div>
+        <div class="preview-footer row fb-footer" *ngIf="placement.tag==='fb'" [ngStyle]="{'display':(placement.apiName==='marketplace')?'none':'flex'}">
+            <div class="col">
+              <mat-icon>thumb_up</mat-icon><span>{{ 'like' | translate }}</span>
+            </div>
+            <div class="col">
+              <mat-icon>chat_bubble_outline</mat-icon><span>{{ 'comment' | translate }}</span>
+            </div>
+            <div class="col">
+              <mat-icon>share</mat-icon><span>{{ 'share' | translate }}</span>
+            </div>
+        </div> 
+        <div class="preview-footer row ig-footer" *ngIf="placement.tag==='ig'">
+          <div class="col col-2"><mat-icon>favorite_border</mat-icon></div>
+          <div class="col col-2"><mat-icon>chat_bubble_outline</mat-icon></div>
+          <div class="col col-2"><mat-icon>send</mat-icon></div>
+          <div class="col col-6" style="text-align: right;"><mat-icon>bookmark_border</mat-icon></div>
+        </div>
+      </div>
+  </div>
+
+  <div class="ad-preview stories-preview-block" *ngIf="placement.parentTag==='story'">
+      <div class="preview-wrapper">
+        <mat-progress-bar color="accent" mode="indeterminate" class="story-progress"></mat-progress-bar>
+        <div class="preview-header row">
+            <div class="col col-md-2">
+              <div class="ad-img-icon"></div>
+            </div>  
+            <div class="header-title col col-md-6">
+                  <p>{{ 'page_one' | translate }}</p>
+                  <small>{{ 'sponsored' | translate}}</small>  
+            </div>
+            <div class="col col-md-4">
+                <mat-icon>more_horiz</mat-icon>
+                <mat-icon>close</mat-icon>
+            </div>
+        </div>
+        <div class="preview-img">
+            <div class="img-placehoder" *ngIf="!adImage"></div>
+            <img *ngIf="adImage" src="{{adImage}}"  width="100%" height="230px">
+        </div>
+        <div class="preview-footer row">
+            <h6 class="headline" id="headlineContainer">{{ headline? headline : 'Product. Brand' }}</h6>
+        </div>
+      </div>
+  </div>
+
+  <div class="ad-preview search-preivew-block" *ngIf="placement.parentTag==='search'">
+      <div class="preview-wrapper">
+        <div class="preview-header row header-bottom">
+            <div class="col col-md-2">
+              <div class="ad-img-icon"></div>
+            </div>
+            <div class="header-title col col-md-10">
+              <p>{{ 'page_one' | translate }}</p>
+            </div>
+        </div>
+        <div class="preview-img">
+            <div class="img-placehoder" *ngIf="!adImage"></div>
+            <img *ngIf="adImage" src="{{adImage}}"  width="100%" height="230px">
+        </div>
+      </div>
+  </div>
+
+  <div class="ad-preview article-preview-block" *ngIf="placement.parentTag==='article'">
+    <div class="preview-wrapper">
+      <div class="preview-header row header-bottom">
+          <div class="col col-md-2">
+            <div class="ad-img-icon"></div>
+          </div>
+          <div class="header-title col col-md-4">
+              <p>{{ 'page_one' | translate }}</p>
+          </div>
+          <div class="col col-md-6">
+            <small>{{ 'sponsored' | translate}}</small>  
+            <mat-icon>more_horiz</mat-icon>
+          </div>
+      </div>
+      <div>
+        <p class="headline headline-bottom" id="headlineContainer">{{ headline? headline : 'Product. Brand' }}</p>
+      </div>
+      <div class="preview-img">
+          <div class="img-placehoder" *ngIf="!adImage"></div>
+          <img *ngIf="adImage" src="{{adImage}}"  width="100%" height="230px">
+      </div>
     </div>
+  </div>
 </div>

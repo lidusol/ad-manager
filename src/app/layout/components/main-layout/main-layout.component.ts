@@ -33,9 +33,9 @@ import { ResizeService } from '../size-detector/resize.service';
 export class MainLayoutComponent implements OnInit, AfterViewInit {
   toolbarFixed: boolean = false
 
-    loading = false
-    mobileQuery: MediaQueryList;
-    parentContainerPadding: boolean = true
+  loading = false
+  mobileQuery: MediaQueryList;
+  parentContainerPadding: boolean = true
   private _mobileQueryListener: () => void;
   @ViewChild('snav', { static: false }) snav: MatSidenav
   @ViewChild(SidebarComponent, {static: false}) sidebar: SidebarComponent
@@ -163,23 +163,23 @@ export class MainLayoutComponent implements OnInit, AfterViewInit {
        
           if (window.location.pathname === '/campaigns/new/select') {
             this.headerTitle = 'new_advertise_cmp_label'
-           this.hideSidenav()
+            this.hideSidenav()
             this.parentContainerPadding = false
-             this.canShowSideNav = false
+            this.canShowSideNav = false
             this.showHeader = false
             this.showPush = false
             this.s_b = true
             this.s_d = true
             this.seo.setTags({
-      title: 'Adafri', // Title
-      titleSuffix: '- Type de campagne', // Title Suffix
-      description: 'Campagnes google adwords', // Description
-      image: '', // Image
-      keywords: 'adafri campagne, campagne adafri, campagne publicitaire sénégal, plateforme de publicité, orange money, publicité orange money, publicité mobile money, publicité sénégal,' // Keywords
+              title: 'Adafri', // Title
+              titleSuffix: '- Type de campagne', // Title Suffix
+              description: 'Campagnes google adwords', // Description
+              image: '', // Image
+              keywords: 'adafri campagne, campagne adafri, campagne publicitaire sénégal, plateforme de publicité, orange money, publicité orange money, publicité mobile money, publicité sénégal,' // Keywords
             });
 
           
-    } else if(window.location.pathname==='/campaigns/new/display/create') {
+          } else if(window.location.pathname==='/campaigns/new/display/create') {
             this.headerTitle = 'new_dsp_cmp_label'
             this.opened = false
             this.parentContainerPadding = true
@@ -189,12 +189,12 @@ export class MainLayoutComponent implements OnInit, AfterViewInit {
             this.showPush = false
             this.s_b = true
             this.s_d = false
-             this.seo.setTags({
-      title: 'Adafri', // Title
-      titleSuffix: '- Nouvelle campagne display', // Title Suffix
-      description: 'Campagnes google adwords', // Description
-      image: '', // Image
-      keywords: 'adafri campagne, campagne adafri, campagne publicitaire sénégal, plateforme de publicité, orange money, publicité orange money, publicité mobile money, publicité sénégal,' // Keywords
+            this.seo.setTags({
+              title: 'Adafri', // Title
+              titleSuffix: '- Nouvelle campagne display', // Title Suffix
+              description: 'Campagnes google adwords', // Description
+              image: '', // Image
+              keywords: 'adafri campagne, campagne adafri, campagne publicitaire sénégal, plateforme de publicité, orange money, publicité orange money, publicité mobile money, publicité sénégal,' // Keywords
             });
           }else if(window.location.pathname==='/campaigns/new/native/create') {
             this.headerTitle = 'new_rsdp_cmp'
@@ -206,12 +206,12 @@ export class MainLayoutComponent implements OnInit, AfterViewInit {
             this.showPush = false
             this.s_b = true
             this.s_d = false
-             this.seo.setTags({
-      title: 'Adafri', // Title
-      titleSuffix: '- Nouvelle campagne youtube', // Title Suffix
-      description: 'Campagnes google adwords youtube', // Description
-      image: '', // Image
-      keywords: 'adafri campagne, campagne adafri, campagne publicitaire sénégal, plateforme de publicité, orange money, publicité orange money, publicité mobile money, publicité sénégal,' // Keywords
+            this.seo.setTags({
+              title: 'Adafri', // Title
+              titleSuffix: '- Nouvelle campagne youtube', // Title Suffix
+              description: 'Campagnes google adwords youtube', // Description
+              image: '', // Image
+              keywords: 'adafri campagne, campagne adafri, campagne publicitaire sénégal, plateforme de publicité, orange money, publicité orange money, publicité mobile money, publicité sénégal,' // Keywords
             });
           }else if(window.location.pathname==='/campaigns/new/search/create') {
             this.headerTitle = 'new_search_cmp_label'
@@ -223,12 +223,12 @@ export class MainLayoutComponent implements OnInit, AfterViewInit {
             this.showPush = false
             this.s_b = true
             this.s_d = false
-             this.seo.setTags({
-      title: 'Adafri', // Title
-      titleSuffix: '- Nouvelle campagne reseau de recherche', // Title Suffix
-      description: 'Campagnes google adwords youtube', // Description
-      image: '', // Image
-      keywords: 'adafri campagne, campagne adafri, campagne publicitaire sénégal, plateforme de publicité, orange money, publicité orange money, publicité mobile money, publicité sénégal,' // Keywords
+            this.seo.setTags({
+              title: 'Adafri', // Title
+              titleSuffix: '- Nouvelle campagne reseau de recherche', // Title Suffix
+              description: 'Campagnes google adwords youtube', // Description
+              image: '', // Image
+              keywords: 'adafri campagne, campagne adafri, campagne publicitaire sénégal, plateforme de publicité, orange money, publicité orange money, publicité mobile money, publicité sénégal,' // Keywords
             });
           }else if(window.location.pathname==='/campaigns/new/select-fb'){
             this.headerTitle = 'new_fb_cmp_label_side'
@@ -247,7 +247,7 @@ export class MainLayoutComponent implements OnInit, AfterViewInit {
               keywords: 'adafri campagne, campagne adafri, campagne publicitaire sénégal, plateforme de publicité, orange money, publicité orange money, publicité mobile money, publicité sénégal,'
             })
           } else if (window.location.pathname==='/campaigns/list') {
-            this.headerTitle = 'all_campaigns_main_label'
+            this.headerTitle = 'all_google_campaigns_main_label'
             this.parentContainerPadding = true
             this.canShowSideNav = true
                       setTimeout(() => {
@@ -265,11 +265,40 @@ export class MainLayoutComponent implements OnInit, AfterViewInit {
             this.showHeader = true
             this.s_b = false
             this.seo.setTags({
-      title: 'Adafri', // Title
-      titleSuffix: '- Toutes les campagnes', // Title Suffix
-      description: 'Campagnes google adwords', // Description
-      image: '', // Image
-      keywords: 'adafri campagne, campagne adafri, campagne publicitaire sénégal, plateforme de publicité, orange money, publicité orange money, publicité mobile money, publicité sénégal,' // Keywords
+              title: 'Adafri', // Title
+              titleSuffix: '- Toutes les campagnes', // Title Suffix
+              description: 'Campagnes google adwords', // Description
+              image: '', // Image
+              keywords: 'adafri campagne, campagne adafri, campagne publicitaire sénégal, plateforme de publicité, orange money, publicité orange money, publicité mobile money, publicité sénégal,' // Keywords
+            });
+            setTimeout(() => {
+              this.layoutService.appDrawer = this.snav;
+              this.sidebar.navigationChanged.next(true)
+            }, 500);
+          }else if(window.location.pathname==='/campaigns/fb-list'){
+            this.headerTitle = 'all_facebook_campaigns_main_label'
+            this.parentContainerPadding = true
+            this.canShowSideNav = true
+                      setTimeout(() => {
+            if(this.deviceService.isMobile() ||this.deviceService.isTablet()){
+              if(this.snav.opened){
+                this.opened = false
+                this.snav.close()
+              }
+            }else{
+              this.toggleSideNav(true)
+            }
+            
+          }, 200);
+            this.showPush = true
+            this.showHeader = true
+            this.s_b = false
+            this.seo.setTags({
+              title: 'Adafri', // Title
+              titleSuffix: '- Toutes les campagnes', // Title Suffix
+              description: 'Campagnes facebook Adwords', // Description
+              image: '', // Image
+              keywords: 'adafri campagne, campagne adafri, campagne publicitaire sénégal, plateforme de publicité, orange money, publicité orange money, publicité mobile money, publicité sénégal,' // Keywords
             });
             setTimeout(() => {
               this.layoutService.appDrawer = this.snav;

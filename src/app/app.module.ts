@@ -7,8 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule, AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireModule  } from '@angular/fire';
-import {AngularFireMessagingModule} from '@angular/fire/messaging'
-import {HttpClient, HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import { AngularFireMessagingModule } from '@angular/fire/messaging'
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import firebase from 'firebase/app';
 import { AppRoutingModule } from './app-routing.module';
@@ -20,6 +20,7 @@ import { PresenceService } from './layout/presence.service';
 import { FIREBASE_CREDENTIALS } from '../environments/environment';
 import { AuthModule } from './auth/auth.module';
 import { LoaderService } from './services/loader.service';
+import { AuthInterceptor } from './auth/auth.interceptor';
 /*  import { DeviceDetectorModule } from 'ngx-device-detector'; */
 
 firebase.initializeApp(FIREBASE_CREDENTIALS)
@@ -51,7 +52,11 @@ firebase.initializeApp(FIREBASE_CREDENTIALS)
     AdfRouterModule */
  
   ],
-  providers: [LayoutService, LoaderService, PresenceService, { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }],
+  providers: [LayoutService, LoaderService, PresenceService, { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }, {
+      provide : HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi   : true,
+    },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

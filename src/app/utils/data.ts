@@ -145,22 +145,6 @@ export interface BIZAO_SUCCESS{
     
 }
 
-export interface  AD_CATEGORIES {
-  id?: string,
-  icon?: string,
-  name: string,
-  description: string
-}
-
-export interface PLACEMENTS {
-  id: number,
-  tag?: string,
-  title: string,
-  description?: string,
-  checked: boolean,
-  isClosed?: boolean,
-  options?: PLACEMENTS[]
-}
 
 export const DEVICES_DATA: DEVICE_INTERFACE[] = [
   {
@@ -218,6 +202,7 @@ secondary:{
   description: string,
 }
 }
+
 
 export const OBJECTIVES_DATA: OBJECTIVES[] = [
   {
@@ -294,45 +279,6 @@ export const OBJECTIVES_DATA: OBJECTIVES[] = [
   },
 ]
 
-export const FB_OBJECTIVES_DATA: OBJECTIVES[] = [
-{
-    obj_id: '1',
-    primary: {
-      icon: 'campaign',
-      title: 'Awareness',
-    },
-    secondary: {
-      icon: 'campaign',
-      title: 'Awareness',
-      description: 'Awareness'
-    }
-  },
-  {
-    obj_id: '2',
-    primary: {
-      icon: 'ads_click',
-      title: 'Consideration',
-    },
-    secondary: {
-      icon: 'ads_click',
-      title: 'Consideration',
-      description: 'Consideration'
-    }
-  },
-  {
-    obj_id: '3',
-    primary: {
-      icon: 'language',
-        title: 'Conversion',
-      },
-    secondary: {
-      icon: 'language',
-      title: 'Conversion',
-      description: 'Conversion'
-    }
-  },
-]
-
 export const CHANNEL_DATA: CHANNEL_FORMAT[] = [
   {
     obj_id: 'search',
@@ -375,191 +321,230 @@ export const CHANNEL_DATA: CHANNEL_FORMAT[] = [
   },
 ]
 
-export const FB_CHANNEL_DATA: CHANNEL_FORMAT[] = [
-  {
-    obj_id: '1',
-    primary: {
-      icon: 'assets/gif/rsa.gif',
-      title: 'Brand Awareness',
-      description: "Show your ads to people who are most likely to remember them."
-    },
-    secondary: {
-      icon: 'campaign',
-      title: 'Brand Awareness',
-      description: "Show your ads to people who are most likely to remember them."
-    }
+/*
+  Facebook interfaces and data set
+*/
+
+export const CAMPAIGN_STATUS = {
+  ACTIVE: {
+    name: 'Active',
+    apiName: 'ACTIVE'
   },
-   {
-    obj_id: '1',
-    primary: {
-      icon: 'assets/gif/rsa.gif',
-      title: 'Reach',
-      description: "Show your ads to the maximum number of people."
-    },
-    secondary: {
+  PAUSED: {
+    name: 'Paused',
+    apiName: 'PAUSED'
+  },
+  DELETED: {
+    name: 'Deleted',
+    apiName: 'DELETED'
+  },
+  ARCHIVED: {
+    name: 'Archived',
+    apiName: 'ARCHIVED'
+  }
+}
+
+export interface FB_OBJECTIVE_FORMAT {
+    obj_id: string,
+    icon: string,
+    name: string,
+    apiName: string,
+    description: string
+} 
+
+export interface FB_OBJECTIVE {
+  type : FB_OBJECTIVE_FORMAT,
+  options : FB_OBJECTIVE_FORMAT[]
+}
+
+export interface  AD_CATEGORIES {
+  id?: string,
+  icon?: string,
+  name: string,
+  apiName: string,
+  description: string
+}
+
+export interface PLACEMENTS {
+  id: number,
+  tag: string,
+  parentTag?: string,
+  name: string,
+  apiName: string,
+  description?: string,
+  checked: boolean,
+  isClosed?: boolean,
+  options?: PLACEMENTS[]
+}
+
+export const FB_OBJECTIVES_DATA: FB_OBJECTIVE[] = [
+  {
+    type: {
+      obj_id: '1',
       icon: 'campaign',
-      title: 'Reach',
-      description: "Show your ads to the maximum number of people."
-    }
+      name: 'Awareness',
+      apiName: 'AWARENESS',
+      description: 'Awareness'
+    },
+    options: [
+      {
+        obj_id: '1_1',
+        icon: 'campaign',
+        name: 'Brand Awareness',
+        apiName: 'BRAND_AWARENESS',
+        description: 'Show your ads to people who are most likely to remember them.'
+      },
+      {
+        obj_id: '1_2',
+        icon: 'campaign',
+        name: 'Reach',
+        apiName: 'REACH',
+        description: 'Show your ads to the maximum number of people.'
+      }
+    ]
   },
   {
-    obj_id: '2',
-    primary: {
-      icon: 'assets/gif/rsa.gif',
-      title: 'Traffic',
-      description: "Send people to a destination, such as a website, app, Facebook event or Messenger conversation."
-    },
-    secondary: {
+    type: {
+      obj_id: '2',
       icon: 'ads_click',
-      title: 'Traffic',
-      description: "Send people to a destination, such as a website, app, Facebook event or Messenger conversation."
-    }
+      name: 'Consideration',
+      apiName: 'CONSIDERATION',
+      description: 'Consideration'
+    },
+    options: [
+      {
+        obj_id: '2_1',
+        icon: 'ads_click',
+        name: 'Traffic',
+        apiName: 'TRAFFIC',
+        description: 'Send people to a destination, such as a website, app, Facebook event or Messenger conversation.'
+      },
+      {
+        obj_id: '2_2',
+        icon: 'question_answer',
+        name: 'Egagement',
+        apiName: 'ENGAGEMENT',
+        description: 'Get more Page likes, event responses, or post reacts, comments or shares.'
+      },
+      {
+        obj_id: '2_3',
+        icon: 'get_app',
+        name: 'App Installs',
+        apiName: 'APP_INSTALLS',
+        description: 'Show your ad to people who are most likely to download and engage with your app'
+      },
+      {
+        obj_id: '2_4',
+        icon: 'video_camera_back',
+        name: 'Video Views',
+        apiName: 'VIDEO_VIEWS',
+        description: 'Show people video ads.'
+      },
+      {
+        obj_id: '2_5',
+        icon: 'highlight',
+        name: 'Lead Generation',
+        apiName: 'LEAD_GENERATION',
+        description: 'Collect leads for your business or brand.'
+      },
+      {
+        obj_id: '2_6',
+        icon: 'question_answer',
+        name: 'Messages',
+        apiName: 'MESSAGES',
+        description: 'Show people ads that allow them to engage with you on Messenger, WhatsApp or Instagram Direct.'
+      }
+    ]
   },
   {
-    obj_id: '2',
-    primary: {
-      icon: 'assets/gif/rsa.gif',
-      title: 'Egagement',
-      description: "Get more Page likes, event responses, or post reacts, comments or shares."
-    },
-    secondary: {
-      icon: 'question_answer',
-      title: 'Egagement',
-      description: "Get more Page likes, event responses, or post reacts, comments or shares."
-    }
-  },
-  {
-    obj_id: '2',
-    primary: {
-      icon: 'assets/gif/rsa.gif',
-      title: 'App Installs',
-      description: "Show your ad to people who are most likely to download and engage with your app."
-    },
-    secondary: {
-      icon: 'get_app',
-      title: 'App Installs',
-      description: "Show your ad to people who are most likely to download and engage with your app."
-    }
-  },
-  {
-    obj_id: '2',
-    primary: {
-      icon: 'assets/gif/rsa.gif',
-      title: 'Video Views',
-      description: "Show people video ads."
-    },
-    secondary: {
-      icon: 'video_camera_back',
-      title: 'Video Views',
-      description: "Show people video ads."
-    }
-  },
-  {
-    obj_id: '2',
-    primary: {
-      icon: 'assets/gif/rsa.gif',
-      title: 'Lead Generation',
-      description: "Collect leads for your business or brand."
-    },
-    secondary: {
-      icon: 'highlight',
-      title: 'Lead Generation',
-      description: "Collect leads for your business or brand."
-    }
-  },
-  {
-    obj_id: '2',
-    primary: {
-      icon: 'assets/gif/rsa.gif',
-      title: 'Messages',
-      description: "Show people ads that allow them to engage with you on Messenger, WhatsApp or Instagram Direct."
-    },
-    secondary: {
-      icon: 'question_answer',
-      title: 'Messages',
-      description: "Show people ads that allow them to engage with you on Messenger, WhatsApp or Instagram Direct."
-    }
-  },
-  {
-    obj_id: '3',
-    primary: {
-      icon: 'assets/gif/rsa.gif',
-      title: 'Conversions',
-      description: "Show your ads to people who are most likely to take valuable actions, such as making a purchase or adding payment info, on your website, app or in Messenger."
-    },
-    secondary: {
+    type: {
+      obj_id: '3',
       icon: 'language',
-      title: 'Conversions',
-      description: "Show your ads to people who are most likely to take valuable actions, such as making a purchase or adding payment info, on your website, app or in Messenger."
-    }
-  },
-  {
-    obj_id: '3',
-    primary: {
-      icon: 'assets/gif/rsa.gif',
-      title: 'Catalogue Sales',
-      description: "Use your target audience to show people ads with items from your catalogue."
+      name: 'Conversion',
+      apiName: 'CONVERSION',
+      description: 'Conversion'
     },
-    secondary: {
-      icon: 'shopping_cart',
-      title: 'Catalogue Sales',
-      description: "Use your target audience to show people ads with items from your catalogue."
-    }
-  },
-  {
-    obj_id: '3',
-    primary: {
-      icon: 'assets/gif/rsa.gif',
-      title: 'Store Traffic',
-      description: "Show your ad to people most likely to visit your physical stores when they're near them."
-    },
-    secondary: {
-      icon: 'store',
-      title: 'Store Traffic',
-      description: "Show your ad to people most likely to visit your physical stores when they're near them."
-    }
-  },
+    options: [
+      {
+        obj_id: '3_1',
+        icon: 'language',
+        name: 'Conversions',
+        apiName: 'CONVERSIONS',
+        description: 'Show your ads to people who are most likely to take valuable actions, such as making a purchase or adding payment info, on your website, app or in Messenger.'
+      },
+      {
+        obj_id: '3_2',
+        icon: 'shopping_cart',
+        name: 'Catalogue Sales',
+        apiName: 'CATALOGUE SALES',
+        description: 'Use your target audience to show people ads with items from your catalogue.'
+      },
+      {
+        obj_id: '3_3',
+        icon: 'store',
+        name: 'Store Traffic',
+        apiName: 'STORE_TRAFFIC',
+        description: "Show your ad to people most likely to visit your physical stores when they're near them."
+      }
+    ]
+  }
 ]
 
 export const SPECIAL_AD_CATEGORIES: AD_CATEGORIES[] = [
   {
-    id: "none", 
-    icon: "",
-    name: "None",
-    description: ""
+    id: "credit", 
+    icon: "credit_card",
+    name: "Credit",
+    apiName: "CREDIT",
+    description: "Ads for credit card offers, vehicle loans, long-term financing or other related opportunities."
+  },
+  {
+    id: "employment", 
+    icon: "work",
+    name: "Employment",
+    apiName: "EMPLOYMENT",
+    description: "Ads for job offers, internships, professional certification programmes or other related opportunities."
+  },
+  {
+    id: "housing", 
+    icon: "house",
+    name: "Housing",
+    apiName: "HOUSING",
+    description: "Ads for property listings, home insurance, mortgages or other related opportunities."
   },
   {
     id: 'social_politics',
     icon: 'campaign',
     name: 'Social issues, elections or politics',
+    apiName: "ISSUES_ELECTIONS_POLITICS",
     description: 'Ads about social issues (such as the economy, or civil and social rights), elections, or political figures or campaigns'
-  },
-  {
-    id: "employment", 
-    icon: "campaign",
-    name: "Employment",
-    description: ""
-  },
-  {
-    id: "housing", 
-    icon: "campaign",
-    name: "Housing",
-    description: ""
-  },
-  {
-    id: "credit", 
-    icon: "campaign",
-    name: "Credit",
-    description: ""
   }
 ]
 
-
+export const GENDERS_LIST = [
+  {
+    id: 0,
+    name: "All",
+    selected: true
+  },
+  {
+    id: 1,
+    name: "Men",
+    selected: false
+  },
+  {
+    id: 2,
+    name: "Women",
+    selected: false
+  }
+]
 
 export const AD_PLACEMENTS: PLACEMENTS[] = [
   {
     id: 1,
-    title: "Feeds",
+    tag: "feed",
+    name: "Feeds",
+    apiName: "",
     description: "Get high visibility for your business with ads in feeds",
     checked: false,
     isClosed: false,
@@ -567,44 +552,50 @@ export const AD_PLACEMENTS: PLACEMENTS[] = [
       {
         id: 1,
         tag: "fb",
-        title: "Facebook News Feed",
+        parentTag: "feed",
+        name: "Facebook News Feed",
+        apiName: "feed",
         checked: false,
       },
       {
         id: 2,
-        tag: "ig",
-        title: "Instagram feed",
-        checked: false,
+        tag: "fb",
+        parentTag: "feed",
+        name: "Facebook Marketplace",
+        apiName: "marketplace",
+        checked: false
       },
       {
         id: 3,
         tag: "fb",
-        title: "Facebook Marketplace",
+        parentTag: "feed",
+        name: "Facebook video feeds",
+        apiName: "video_feeds",
         checked: false
       },
-      {
-        id: 4,
-        tag: "fb",
-        title: "Facebook video feeds",
-        checked: false
-      },
-      {
-        id: 5,
-        tag: "fb",
-        title: "Facebook right column",
-        checked: false
-      },
+      // {
+      //   id: 4,
+      //   tag: "fb",
+      //   parentTag: "feed",
+      //   name: "Facebook right column",
+        // apiName: "right_hand_column",
+      //   checked: false
+      // },
        {
-        id: 6,
-        tag: "fb",
-        title: "Instagram Explore",
+        id: 5,
+        tag: "ig",
+        parentTag: "feed",
+        name: "Instagram Explore",
+        apiName: "explore",
         checked: false
       }
     ]
   },
   {
     id: 2,
-    title: "Stories and Reels",
+    tag: "story",
+    name: "Stories and Reels",
+    apiName: "",
     description: "Tell a rich, visual story with immersive, full-screen vertical ads",
     checked: false,
     isClosed: false,
@@ -612,47 +603,61 @@ export const AD_PLACEMENTS: PLACEMENTS[] = [
       {
         id: 1,
         tag: "ig",
-        title: "Instagram Stories",
+        parentTag: "story",
+        name: "Instagram Stories",
+        apiName: "story",
         checked: false,
       },
       {
         id: 2,
         tag: "fb",
-        title: "Facebook Stories",
+        parentTag: "story",
+        name: "Facebook Stories",
+        apiName: "story",
         checked: false,
       },
-      {
-        id: 3,
-        tag: "fb",
-        title: "Instagram Reels",
-        checked: false,
-      }
+      // {
+      //   id: 3,
+      //   tag: "ig",
+      //   parentTag: "story",
+      //   name: "Instagram Reels",
+      //   apiName: "",
+      //   checked: false,
+      // }
     ]
   },
-  {
-    id: 3,
-    title: "In-stream",
-    description: "Quickly capture people's attention while they're watching videos",
-    checked: false,
-    isClosed: false,
-    options: [
-      {
-        id: 1,
-        tag: "fb",
-        title: "Facebook in-stream videos",
-        checked: false,
-      },
-      {
-        id: 2,
-        tag: "ig",
-        title: "Instagram IGTV",
-        checked: false,
-      }
-    ]
-  },
+  // {
+  //   id: 3,
+  //   tag: "stream",
+  //   name: "In-stream",
+  //   apiName: "",
+  //   description: "Quickly capture peoples attention while theyre watching videos",
+  //   checked: false,
+  //   isClosed: false,
+  //   options: [
+  //     {
+  //       id: 1,
+  //       tag: "fb",
+  //       parentTag: "stream",
+  //       name: "Facebook in-stream videos",
+  //       apiName: "",
+  //       checked: false,
+  //     },
+  //     {
+  //       id: 2,
+  //       tag: "ig",
+  //       parentTag: "stream",
+  //       name: "Instagram IGTV",
+  //       apiName: "stream",
+  //       checked: false,
+  //     }
+  //   ]
+  // },
    {
     id: 4,
-    title: "Search",
+    tag: "search",
+    name: "Search",
+    apiName: "",
     description: "Get visibility for your business as people search on Facebook",
     checked: false,
     isClosed: false,
@@ -660,26 +665,206 @@ export const AD_PLACEMENTS: PLACEMENTS[] = [
       {
         id: 1,
         tag: "fb",
-        title: "Facebook search results",
+        parentTag: "search",
+        name: "Facebook search results",
+        apiName: "search",
         checked: false,
       }
     ]
   },
   {
     id: 5,
-    title: "In-article",
+    tag: "article",
+    name: "In-article",
+    apiName: "",
     description: "Engage with people who are reading content from publishers",
     checked: false,
     isClosed: false,
     options: [
       {
         id: 1,
-        tag: 'fb',
-        title: "Facebook Instant articles",
+        tag: "fb",
+        parentTag: "article",
+        name: "Facebook Instant articles",
+        apiName: "instant_article",
         checked: false
       }
     ]
   }
+]
+
+export const OPTIMIZATION_GOAL: any = [
+  // {
+  //   id: 1,
+  //   name: 'None',
+  //   apiName: "NONE",
+  //   description: "Only available in read mode for campaigns created pre v2.4."
+  // },
+  // {
+  //   id: 2,
+  //   name: 'App Installs',
+  //   apiName: "APP_INSTALLS",
+  //   description: "Optimize for people more likely to install your app."
+  // },
+  {
+    id: 3,
+    name: 'Ad recall lift',
+    apiName: "AD_RECALL_LIFT",
+    description: "Optimize for people more likely to remember seeing your ads."
+  },
+  // {
+  //   id: 4,
+  //   name: 'Engaged users',
+  //   apiName: "ENGAGED_USERS",
+  //   description: "Optimize for people more likely to take a particular action in your app."
+  // },
+  // {
+  //   id: 5,
+  //   name: 'Event responses',
+  //   apiName: "EVENT_RESPONSES",
+  //   description: "Optimize for people more likely to attend your event."
+  // },
+  // {
+  //   id: 6,
+  //   name: 'None',
+  //   apiName: "IMPRESSIONS",
+  //   description: "Show the ads as many times as possible."
+  // },
+  // {
+  //   id: 7,
+  //   name: 'Lead generation',
+  //   apiName: "LEAD_GENERATION",
+  //   description: "Optimize for people more likely to fill out a lead generation form."
+  // },
+  // {
+  //   id: 8,
+  //   name: 'Link clicks',
+  //   apiName: "LINK_CLICKS",
+  //   description: "Optimize for people more likely to click in the link of the ad."
+  // },
+  // {
+  //   id: 9,
+  //   name: 'Offer claims',
+  //   apiName: "OFFER_CLAIMS",
+  //   description: "Optimize for people more likely to claim the offer."
+  // },
+  // {
+  //   id: 10,
+  //   name: 'Offsite conversions',
+  //   apiName: "OFFSITE_CONVERSIONS",
+  //   description: "Optimize for people more likely to make a conversion in the site"
+  // },
+  // {
+  //   id: 11,
+  //   name: 'Page engagement',
+  //   apiName: "PAGE_ENGAGEMENT",
+  //   description: "Optimize for people more likely to engage with your page."
+  // },
+  // {
+  //   id: 12,
+  //   name: 'Page likes',
+  //   apiName: "PAGE_LIKES",
+  //   description: "Optimize for people more likely to like your page."
+  // },
+  // {
+  //   id: 13,
+  //   name: 'Post engagement',
+  //   apiName: "POST_ENGAGEMENT",
+  //   description: "Optimize for people more likely to engage with your post."
+  // },
+  // {
+  //   id: 14,
+  //   name: 'Reacg',
+  //   apiName: "REACH",
+  //   description: "Optimize to reach the most unique users of each day or interval specified in frequency control specs."
+  // },
+  // {
+  //   id: 15,
+  //   name: 'Social impressions',
+  //   apiName: "SOCIAL_IMPRESSIONS",
+  //   description: " Increase the number of impressions with social context."
+  // },
+  // {
+  //   id: 16,
+  //   name: 'Value',
+  //   apiName: "VALUE",
+  //   description: "Optimize for maximum total purchase value within the specified attribution window."
+  // },
+  // {
+  //   id: 17,
+  //   name: 'Thruplay',
+  //   apiName: "THRUPLAY",
+  //   description: "Optimize delivery of your ads to people who are more likely to play your ad to completion, or play it for at least 15 seconds."
+  // },
+  // {
+  //   id: 18,
+  //   name: 'Replies',
+  //   apiName: "REPLIES",
+  //   description: "Directs ads to people more likely to have a conversation with the business."
+  // },
+  // {
+  //   id: 19,
+  //   name: 'Derived events',
+  //   apiName: "DERIVED_EVENTS",
+  //   description: "Optimize for retention, which reaches people who are most likely to return to the app and open it again during a given time frame after installing. "
+  // },
+  // {
+  //   id: 20,
+  //   name: 'Visit instagram profile',
+  //   apiName: "VISIT_INSTAGRAM_PROFILE",
+  //   description: "Optimize for visits to the advertiser's instagram profile."
+  // }
+]
+
+export const BILLING_EVENT: any = [
+  // {
+  //   id: 1,
+  //   name: 'App installs',
+  //   apiName: "APP_INSTALLS",
+  //   description: "Pay when people install your app."
+  // },
+  {
+    id: 2,
+    name: 'Impressions',
+    apiName: "IMPRESSIONS",
+    description: "Pay when the ads are shown to people."
+  },
+  // {
+  //   id: 3,
+  //   name: 'Link clicks',
+  //   apiName: "LINK_CLICKS",
+  //   description: "Pay when people click on the link of the ad."
+  // },
+  // {
+  //   id: 4,
+  //   name: 'Offer claims',
+  //   apiName: "OFFER_CLAIMS",
+  //   description: "Pay when people claim the offer."
+  // },
+  // {
+  //   id: 5,
+  //   name: 'Page likes',
+  //   apiName: "PAGE_LIKES",
+  //   description: "Pay when people like your page."
+  // },
+  // {
+  //   id: 6,
+  //   name: 'Post engagement',
+  //   apiName: "POST_ENGAGEMENT",
+  //   description: "Pay when people engage with your post."
+  // },
+  // {
+  //   id: 7,
+  //   name: 'Video views',
+  //   apiName: "VIDEO_VIEWS",
+  //   description: "Pay when people watch your video ads for at least 10 seconds."
+  // },
+  // {
+  //   id: 8,
+  //   name: 'Thruplay',
+  //   apiName: "THRUPLAY",
+  //   description: "Pay for ads that are played to completion, or played for at least 15 seconds."
+  // }
 ]
 
 export const Range_Fr_Values: Range_Selector_Type[] = [
@@ -735,6 +920,7 @@ export const Range_Fr_Values: Range_Selector_Type[] = [
     rangeValue: [moment(),moment()],
   }
 ]
+
 export const rangesSelectorFr: any = {
   "Aujourd'hui": [moment(), moment()],
   'Hier': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
@@ -1620,26 +1806,6 @@ export const genders = () =>
     {id: 11, name: "Femme"},
     {id: 20, name: "Non renseignés à Google", info: "(il est recommandé de laisser cette option cochée)"},
   ];
-
-
-export const GENDERS_LIST = [
-  {
-    id: 1,
-    name: "All",
-    selected: true
-  },
-  {
-    id: 2,
-    name: "Men",
-    selected: false
-  },
-  {
-    id: 3,
-    name: "Women",
-    selected: false
-  }
-]
-
 
 export const ages = () =>
   [
