@@ -25,6 +25,10 @@ export const environment = {
 
 }
 
+export const ADAFRI_BUSINESS_ID: string = '906867576360885'
+export const FACEBOOK_ACCESS_TOKEN: string = "EAAb7opU2rPQBAHGKfCTIM79xr9PQhAt0zjE6SIVixtcKaNiu7tsZBDZBnOzmMN1oppA7PGDezU9ZADZBzjAVp8k6p5TFHeKcLOA4qYAHl855S78yWXLwWsgFbWGLETUz48xkP7xwjAid2yXJn3Dlo4ZCz1ppHCf2gDdND0efTZC7ZBHDZCMSOCzlKpi5DUSBXlm2a2x3h7DdZAMyCs19rIUZAC4OdqksOzO3Du4pDNY9mZC2M89WVzr4nQXSPo4fUztD98ZD"
+export const AD_ACCOUNT_ID: string = 'act_1540116306352957'
+
 export const CRYPTO_SHARE_KEY: string = 'vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3'
 export const CRYPTO_SHARE_ALGORITHM: string = 'aes-256-ctr'
 export const DEFAULT_LANG: string = 'fr'
