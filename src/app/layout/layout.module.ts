@@ -163,6 +163,9 @@ import { ResizeService } from './components/size-detector/resize.service';
 import { NewFbCampaignSelectorComponent } from './components/new-fb-campaign-selector/new-fb-campaign-selector.component';
 import { FbAdPreviewComponent } from './components/fb-ad-preview/fb-ad-preview.component';
 import { FbAdPlacementsComponent } from './components/fb-ad-placements/fb-ad-placements.component';
+import { FbAdPreviewSelectorComponent } from './components/fb-ad-preview-selector/fb-ad-preview-selector.component';
+import { ConvertToSpacePipe } from './pipes/convert-to-space.pipe';
+
 const components = [
   HeaderComponent,
   ContentComponent,
@@ -176,6 +179,10 @@ const components = [
   SelectLinkedAccountComponent,
   NewCampaignSelectorComponent,
   NewFbCampaignSelectorComponent,
+  ConvertToSpacePipe,
+  FbAdPreviewComponent, 
+  FbAdPlacementsComponent, 
+  FbAdPreviewSelectorComponent,
   DisplayBuilderComponent,
   CmpNameComponent,
   CmpStatusComponent,
@@ -256,7 +263,7 @@ const components = [
 
 
 @NgModule({
-  declarations: [...components, SizeDetectorComponent, FbAdPreviewComponent, FbAdPlacementsComponent],
+  declarations: [...components, SizeDetectorComponent],
   imports: [
     RouterModule,
     SharedModule,
