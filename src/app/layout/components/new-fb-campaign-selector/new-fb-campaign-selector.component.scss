@@ -287,3 +287,24 @@ adf-cmp-ads-uploader, adf-cmp-native-ads-creator{
   -webkit-transition: width .35s ease-in-out !important;
   transition: width .35s ease-in-out !important;
 }
+
+.ig-acc-container {
+    padding: 10px;
+    border: 2px dotted #808080a1;
+    border-radius: 5px;
+
+    img {
+        border-radius: 10px;
+    }
+
+    .ig-acc-username {
+        margin: 0 10px;
+    }
+
+    .acc-hint {
+        font-size: 14px;
+        color: #6d7077;
+        font-style: italic;
+        margin-bottom: 0;
+    }
+}

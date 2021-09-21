@@ -1,0 +1,50 @@
+<h5 mat-dialog-title>Congratulations, campaign saved successfully</h5>
+<div mat-dialog-content>
+    <div class="d-flex w-100 justify-content-center align-items-center">
+        <div class="success-checkmark">
+            <div class="check-icon">
+            <span class="icon-line line-tip"></span>
+            <span class="icon-line line-long"></span>
+            <div class="icon-circle"></div>
+            <div class="icon-fix"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex flex-column justify-content-center align-items-star p-md-2 cmp-type-container">
+        <div class="p-2">
+            <h6>Objective</h6>
+            <p style="font-size: 15px; color: #7b7373;">{{ data.objective }}</p>  
+        </div>
+        <div class="p-2">
+            <h6>Campaign Name</h6>
+            <p style="font-size: 15px; color: #7b7373;">{{ data.campaign_name }}</p>
+        </div>
+        <div class="p-2">
+            <h6>Budget & schedule</h6>
+            <p style="font-size: 15px; color: #7b7373;"><strong></strong>Daily budget - $   {{data.daily_budget / data.bid_amount}}</p>
+            <p style="font-size: 15px; color: #7b7373;">Start date - {{ data.start_date }}</p>
+        </div>
+        <div class="p-2">
+            <h6>Audience</h6>
+            <p style="font-size: 15px; color: #7b7373;">Age group - [{{ data.age.min }} - {{data.age.max}}]</p>
+            <p style="font-size: 15px; color: #7b7373;">Gender - {{data.gender}} </p>
+        </div>
+        <div class="p-2">
+            <h6>Placements</h6>
+            <p style="font-size: 15px; color: #7b7373;">Placements - {{data.placements.length}} selected</p>
+        </div>
+        <div class="p-2">
+            <h6>Optimization goal</h6>
+            <p style="font-size: 15px; color: #7b7373;">{{data.optimization_goal}}</p>
+        </div>
+        <div class="p-2">
+            <h6>Billing event</h6>
+            <p style="font-size: 15px; color: #7b7373;">{{data.billing_event}}</p>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions class="d-flex w-100 flex-end d-flex align-items-center">
+    <button (click)="onNoClick()" style="border: none;background: blue;color: #fff;padding: 10px 30px;border-radius: 4px; margin: 5px;">Save as draft</button>
+    <button (click)="dialogRef.close('publish')" style="border: none;background: blue;color: #fff;padding: 10px 30px;border-radius: 4px; margin: 5px;">Publish the campaign</button>
+</div>

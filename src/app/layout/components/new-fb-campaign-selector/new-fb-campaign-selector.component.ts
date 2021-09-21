@@ -1,16 +1,14 @@
-import { Component, OnInit, ViewChild, ElementRef, Inject } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { OBJECTIVES, FB_OBJECTIVES_DATA, CHANNEL_FORMAT, FB_CHANNEL_DATA, AD_CATEGORIES, SPECIAL_AD_CATEGORIES, PLACEMENTS, AD_PLACEMENTS, GENDERS_LIST } from 'src/app/utils/data';
-import { CmpNameComponent } from '../single/cmp-name/cmp-name.component';
-import { CmpLandingPageComponent } from '../single/cmp-landing-page/cmp-landing-page.component';
-import { CmpDatesComponent } from '../single/cmp-dates/cmp-dates.component';
+import { Component, OnInit, ViewChild, ElementRef, Inject } from '@angular/core'
+import { ActivatedRoute, Router } from '@angular/router'
+import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar'
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 
-import { FacebookService } from 'src/app/campaigns-management/services/facebook.service';
-
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { CmpBudgetComponent } from '../single/cmp-budget/cmp-budget.component';
+import { FB_OBJECTIVE_FORMAT, FB_OBJECTIVE, FB_OBJECTIVES_DATA, AD_CATEGORIES, SPECIAL_AD_CATEGORIES, CAMPAIGN_STATUS, PLACEMENTS, AD_PLACEMENTS, GENDERS_LIST, OPTIMIZATION_GOAL, BILLING_EVENT, User_Role, Account } from 'src/app/utils/data'
+import { FacebookService } from 'src/app/campaigns-management/services/facebook.service'
+import { Campaign, Adset, Creative, Ad } from 'src/app/campaigns-management/models/facebook.models'
+import { LocalStorageService } from '../../services/local-storage.service'
+import { reject } from 'lodash'
 
 @Component({
   selector: 'adf-new-fb-campaign-selector',
@@ -18,160 +16,295 @@ import { CmpBudgetComponent } from '../single/cmp-budget/cmp-budget.component';
   styleUrls: ['./new-fb-campaign-selector.component.scss']
 })
 export class NewFbCampaignSelectorComponent implements OnInit {
-  objectives: OBJECTIVES[] = FB_OBJECTIVES_DATA
-  ads_channel: CHANNEL_FORMAT[] = FB_CHANNEL_DATA
-  active_ads_channel: CHANNEL_FORMAT[]
-  public currentObjectiveSelected: OBJECTIVES = null
-  public currentChannelSelected: CHANNEL_FORMAT = null
+  @ViewChild('fileInput') fileInput: ElementRef | any
+ 
+  /* Data models definition */
+  objectives: FB_OBJECTIVE[] = FB_OBJECTIVES_DATA
   special_ad_categories: AD_CATEGORIES[] = SPECIAL_AD_CATEGORIES
-  ad_placements: PLACEMENTS[] = AD_PLACEMENTS
+  campaign_status: any  = CAMPAIGN_STATUS
   genders: any[] = GENDERS_LIST
-  genderAll: boolean = true
+  ad_placements: PLACEMENTS[] = AD_PLACEMENTS
+  optimization_goal: any[] = OPTIMIZATION_GOAL
+  billing_event: any[] = BILLING_EVENT
 
-  frame1: boolean = true ;
-  frame2: boolean = false;
-  frame3: boolean = false;
+  /*  */ 
+  currentObjectiveTypeSelected: FB_OBJECTIVE = null
+  objective_options: FB_OBJECTIVE_FORMAT[]
+  currentOptionSelected: FB_OBJECTIVE_FORMAT = null
+  currentPlacementsSelected: PLACEMENTS[] = null
+  
+  categoriesSelected: any =  []
+  minStartDate: Date = null
+  minEndDate: Date = null
+  options_channel: any = null
 
-  fileAttr: string = 'Choose File';
-  @ViewChild('fileInput') fileInput: ElementRef | any;
-  @ViewChild(CmpNameComponent, { static: false }) nameComponent: CmpNameComponent
-  @ViewChild(CmpLandingPageComponent, { static: false }) landingPageComponent: CmpLandingPageComponent
-  @ViewChild(CmpBudgetComponent, { static: false }) budgetComponent: CmpBudgetComponent
-  @ViewChild(CmpDatesComponent, { static: false }) datesComponent: CmpDatesComponent
+  facebook_pages: any[] = null
+  instagram_account: any = null
+ 
 
-  /* CAMPAIGN DATA */
-  NAME: string = ""
-  SPECIAL_AD_CATEGORY:string = ""
-  OBJECTIVE: OBJECTIVES = null 
-  CHANNEL: CHANNEL_FORMAT = null
-  DAILY_BUDGET: number = 0
-  TOTAL_BUDGET: number = 0
-  NUMBER_OF_DAYS: number = 0
-  START_DATE: string = ""
-  MIN_AGE: number = 13
-  MAX_AGE: number = 65
-  GENDER: string = ""
-
-  dataimage: any;
-  primaryText: string = "";
+  imgData: any = {}
+  primaryText: string = ""
   spinnerCreation: boolean = false
   loaderSaving: boolean = false
-  
-  categorySelected = new FormControl('', [
+  loaderError: boolean = false
+  isLoading: boolean = false
+
+  frame1: boolean = true 
+  frame2: boolean = false
+  frame3: boolean = false
+
+  aacid: string = ""
+  uid: string = ""
+
+  /* Form control data */
+  campaignNameCtr = new FormControl('', [
     Validators.required
-  ]);
+  ])
+
+  adCategoryCtr = new FormControl('', [])
+
+  adsetNameCtr = new FormControl('', [
+    Validators.required
+  ])
+
+  budgetAndDateForm = new FormGroup({
+    budgetCtr: new FormControl('', [
+      Validators.required,
+      Validators.min(1)
+    ]),
+    startDateCtr: new FormControl('', [
+      Validators.required
+    ]),
+    addEndDateCtr: new FormControl('', ),
+    endDateCtr: new FormControl('', )
+  })
 
   audienceForm = new FormGroup({
-    minAge: new FormControl('', [
+    minAgeCtr: new FormControl('', [
       Validators.required,
       Validators.pattern('[0-9]*'),
       Validators.min(13),
       Validators.max(65)
     ]),
-    maxAge: new FormControl('', [
+    maxAgeCtr: new FormControl('', [
       Validators.required,
       Validators.pattern('[0-9]*'),
       Validators.min(13),
-      Validators.maxLength(2)
+      Validators.max(65)
+    ]),
+    genderCtr: new FormControl('', [
+      Validators.required
     ])
-  });
+  })
 
-  get minAge() {
-    return this.audienceForm.get('minAge');
+  optimizationGoalCtr = new FormControl('', [
+    Validators.required
+  ])
+
+  billingEventCtr = new FormControl('', [
+    Validators.required
+  ])
+
+  adNameCtr = new FormControl('', [
+    Validators.required
+  ])
+
+  facebookPageCtr = new FormControl('', [
+    Validators.required
+  ])
+
+  get budgetCtr() {
+    return this.budgetAndDateForm.get('budgetCtr')
   }
-  get maxAge(){
-    return this.audienceForm.get('maxAge');
+  get startDateCtr() {
+    return this.budgetAndDateForm.get('startDateCtr')
   }
-   
+  get addEndDateCtr() {
+    return this.budgetAndDateForm.get('addEndDateCtr')
+  }
+  get endDateCtr() {
+    return this.budgetAndDateForm.get('endDateCtr')
+  }
+  get minAgeCtr() {
+    return this.audienceForm.get('minAgeCtr')
+  }
+  get maxAgeCtr(){
+    return this.audienceForm.get('maxAgeCtr')
+  }
+  get genderCtr(){
+    return this.audienceForm.get('genderCtr')
+  }
+
+  /* Campaign data  */
+  CAMPAIGN: Campaign = null
+  ADSET: Adset = null
+  AD: Ad = null
+
+  OBJECTIVE: string = "" 
+  CAMPAIGN_NAME: string = ""
+  SPECIAL_AD_CATEGORIES: string[] = []
+
+  AD_SET_NAME: string = ""
+  DAILY_BUDGET: number = 0
+  BID_AMOUNT: number = 100
+  START_DATE: string = ""
+  END_DATE: string = ""
+  LOCATION: any = null
+  MIN_AGE: number = 18
+  MAX_AGE: number = 65
+  GENDER: number[] = []
+  PLACEMENTS: any[] = []
+  OPTIMIZATION_GOAL: string = ""
+  BILLING_EVENT: string = ""
+
+  AD_NAME: string = ""
+  FACEBOOK_PAGE_ID: string = ""
+  INSTAGRAM_ACTOR_ID: string = ""
+  LINK_DATA: any = null
+  PLATFORM_CUSTOMIZATION: any = null
+
+  /* Editing mode */
+  edit_id: string = ""
+  isEditing: boolean = false
+
+  constructor(private _snackBar: MatSnackBar, private dialog: MatDialog, private router: Router, private route: ActivatedRoute, private storageService: LocalStorageService, private facebookService: FacebookService) { }
+
+  ngOnInit(): void { 
+    // this.route.queryParams.subscribe(params => {
+    //   console.log(params['campaignId'])
+    //   this.edit_id = params['campaignId']
+    //   if(this.edit_id){
+        
+    //     this.isEditing = true
+    //     this.fetchCampaign().then(campaign => {
+    //       this.CAMPAIGN = campaign
+    //       this.setCampaignDefaults()
+    //     })
+    //   }else {
+        
+    //     this.isEditing = false
+    //   }
+    // })
+  }
+
+  // fetchCampaign(){
+  //   return new Promise<Campaign>(resolve => {
+  //      this.facebookService.getCampaignById(this.edit_id).subscribe(data => {
+  //       resolve(data)
+  //     })
+  //   })
+  // }
+
+  generateName(nameTag: string): string{
+    return `New ${this.currentOptionSelected.name} ${nameTag}`
+  }
+
+  setCampaignDefaults(){
+    // if(this.isEditing){
+      // console.log(this.CAMPAIGN)
+      // this.currentObjectiveTypeSelected = FB_OBJECTIVES_DATA[0]
+      // this.currentOptionSelected = this.currentObjectiveTypeSelected.options[0]
+      // this.campaignNameCtr.setValue(this.CAMPAIGN.name)
+      // this.currentOptionSelected = campaignData.objective
+    // }else {
+      let cmpName = this.generateName('campaign')
+      this.campaignNameCtr.setValue(cmpName)
+
+      let adsetName = this.generateName('ad set')
+      this.adsetNameCtr.setValue(adsetName)
+
+      let adName = this.generateName('ad')
+      this.adNameCtr.setValue(adName)
+
+      this.budgetCtr.setValue(5)
+
+      let startDate = new Date()
+      this.minStartDate = startDate
+      this.startDateCtr.setValue(startDate)
+      let endDate = new Date()
+      endDate.setDate(endDate.getDate() + 2)
+      this.minEndDate = endDate
+      this.endDateCtr.setValue(endDate)
+      this.minAgeCtr.setValue(18)
+      this.maxAgeCtr.setValue(65)
+      this.genderCtr.setValue(this.genders[0])
+    // }
+  }
+
   openSnackbar(duration: number, content: string, action: string, style: string, horizontalPosition?: MatSnackBarHorizontalPosition, verticalPosition?: MatSnackBarVerticalPosition) {
     this._snackBar.open(content, action, {
           duration: duration * 1000,
           panelClass: [style],
           horizontalPosition: horizontalPosition,
-          verticalPosition: verticalPosition}); 
-  }
-
-
-  constructor(private _snackBar: MatSnackBar, private dialog: MatDialog, private router: Router, private facebookService: FacebookService) { }
-
-  ngOnInit(): void {
-    
+          verticalPosition: verticalPosition}) 
   }
 
   cancelCampaign(){
-    this.router.navigate(['/campaigns'])
+    this.router.navigate(['/campaigns/fb-list'])
+    this.currentPlacementsSelected = []
   }
 
-  selectObjective(obj: OBJECTIVES) {
-    if (this.currentObjectiveSelected!==null && this.currentObjectiveSelected.obj_id === obj.obj_id) {
-      return;
+  selectType(obj: FB_OBJECTIVE) {
+    if (this.currentObjectiveTypeSelected!==null && this.currentObjectiveTypeSelected.type.obj_id === obj.type.obj_id) {
+      return
     } else {
-      if(this.currentObjectiveSelected!==null){
-        document.getElementById(this.currentObjectiveSelected.obj_id).classList.remove('active', 'pulse')
+      if(this.currentObjectiveTypeSelected!==null){
+        document.getElementById(this.currentObjectiveTypeSelected.type.obj_id).classList.remove('active', 'pulse')
       }
+      document.getElementById(obj.type.obj_id).classList.add('active', 'pulse')
       
+      this.objective_options = this.objectives.filter(data => data.type.obj_id === obj.type.obj_id).flatMap(obj => obj.options)
+      this.currentObjectiveTypeSelected = obj
+    }
+    this.currentOptionSelected = null
+  }
+
+  selectObjectiveOption(obj: FB_OBJECTIVE_FORMAT){
+    if (this.currentOptionSelected !== null && this.currentOptionSelected.obj_id === obj.obj_id) {
+      return
+    } else {
+      if(this.currentOptionSelected!==null){
+        document.getElementById(this.currentOptionSelected.obj_id).classList.remove('active', 'pulse')
+      }
       document.getElementById(obj.obj_id).classList.add('active', 'pulse')
-      
-      this.active_ads_channel = this.ads_channel.filter((channel) => channel.obj_id === obj.obj_id); 
-      this.currentObjectiveSelected = obj;
-    }
-    this.currentChannelSelected = null
-  }
-
-  selectAdFormat(obj: CHANNEL_FORMAT){
-    if (this.currentChannelSelected!==null && this.currentChannelSelected.primary.title === obj.primary.title) {
-      return;
-    } else {
-      if(this.currentChannelSelected!==null){
-        document.getElementById(this.currentChannelSelected.primary.title).classList.remove('active', 'pulse')
+      this.currentOptionSelected = obj
+      this.options_channel = {
+        primary: {...obj}
       }
-      
-      document.getElementById(obj.primary.title).classList.add('active', 'pulse')
-      this.currentChannelSelected = obj
-    }
-    setTimeout(()=>{
-          this.nameComponent.generateName(8)
-        },500)
+      this.setCampaignDefaults()
+    } 
   }
 
-  getName(): Promise<string>{
+  getName(name): Promise<string>{
     return new Promise(resolve => {
-      this.nameComponent.verifyCampaignName().then(verified => {
-        if (verified === 'ok') {
-          this.NAME = this.nameComponent.NAME
+      if(name.valid){
         resolve('ok')
-        } else if(verified==='duplicate') {
-          this.openSnackbar(5, 'Nom de campagne déja utilisé !', '', 'snack-danger')
-          this.spinnerCreation = false
+      }else {
+        this.openSnackbar(5, 'Please enter name', 'Ok', 'snack-danger')
         resolve('error')
-        } else if(verified==='email') {
-          this.openSnackbar(5, 'Nom de campagne invalide !', '', 'snack-danger')
-           this.spinnerCreation = false
-        resolve('error')
-        } else {
-          this.openSnackbar(5, 'Nom de campagne invalide !', '', 'snack-danger')
-           this.spinnerCreation = false
-        resolve('error')
-        }
-      }).catch((e) => {
-        this.spinnerCreation = false
-        this.openSnackbar(5, 'Une erreur est survenue !', '', 'snack-danger')
-         resolve('error')
-      })
-      
+      }
     })
   }
 
- 
+  getSpecialAdCategory(): Promise<string>{
+    return new Promise(resolve => {
+      if(this.adCategoryCtr.value.length > 0){
+       this.adCategoryCtr.value.forEach(element => this.SPECIAL_AD_CATEGORIES.push(element.apiName))
+      }else{
+        this.SPECIAL_AD_CATEGORIES = []
+      }
+      resolve('ok')
+    })
+  }
+
   getBudget(): Promise<string> {
     return new Promise(resolve => {
-      if (this.budgetComponent.componentReady) {
-        this.DAILY_BUDGET = this.budgetComponent.budget
-        this.TOTAL_BUDGET = parseInt((this.DAILY_BUDGET * this.NUMBER_OF_DAYS).toFixed())
+      if(this.budgetCtr.valid){
+        // Daily budget is multiplied by 100 to give the exact amount entered after bid is applied
+        this.DAILY_BUDGET = this.budgetCtr.value * 100
         resolve('ok')
-      } else {
-        this.spinnerCreation = false
-         this.openSnackbar(5, 'Budget de la campagne invalide !', 'ok', 'snack-danger')
+      }else {
+        this.openSnackbar(5, 'Please enter a valid budget', 'Ok', 'snack-danger')
         resolve('error')
       }
     })
@@ -179,50 +312,330 @@ export class NewFbCampaignSelectorComponent implements OnInit {
 
   getDates(): Promise<string> {
     return new Promise(resolve => {
-      this.START_DATE = this.datesComponent.startDate
-      resolve('ok')
+      if(this.startDateCtr.valid){
+        this.START_DATE = this.startDateCtr.value
+        if(this.addEndDateCtr.value && this.endDateCtr.value !== ""){
+          this.END_DATE = this.endDateCtr.value
+        }
+        resolve('ok')
+      }else {
+        this.openSnackbar(5, 'Please enter a valid start date', 'Ok', 'snack-danger')
+        resolve('error')
+      }
     })
   }
   
-  getSpecialAdCategory(): Promise<string>{
-    return new Promise(resolve => {
-      if(this.categorySelected.value !== ""){
-        this.SPECIAL_AD_CATEGORY = this.categorySelected.value.name;
-        resolve('ok')
-      }else{
-        this.openSnackbar(5, 'Please select special ad category', '', 'snack-danger')
-        resolve('error')
-      }
-    });
-  }
-
   getAudience(): Promise<string>{
     return new Promise(resolve => {
-      if(this.minAge.value !== '' && this.maxAge.value !== '' && this.minAge.value < this.maxAge.value){
-        if(this.genders.some(gender => gender.selected === true)){
-          this.MIN_AGE = this.minAge.value;
-          this.MAX_AGE = this.maxAge.value;
-          this.GENDER = this.genders.filter((gender) => gender.selected === true).pop().name;
+      if(this.minAgeCtr.valid && this.maxAgeCtr.valid && this.minAgeCtr.value < this.maxAgeCtr.value){
+        this.MIN_AGE = this.minAgeCtr.value
+        this.MAX_AGE = this.maxAgeCtr.value
+        if(this.genderCtr.valid){
+          let gender_id = this.genderCtr.value.id
+          if(gender_id === 0){
+            this.GENDER = []
+          }else { 
+            this.GENDER.push(gender_id)
+          }
           resolve('ok')
         }else{
+          this.openSnackbar(3, 'Please select gender', 'OK', 'snack-danger')
           resolve('error')
         }
       }else{
-        this.openSnackbar(3, 'Please select valid age range', '', 'snack-danger')
+        this.openSnackbar(3, 'Please select valid age range', 'OK', 'snack-danger')
         resolve('error')
       }
-    });
+    })
   }
 
   getPlacement(): Promise<string>{
     return new Promise(resolve => {
-      if(this.ad_placements.some(placement =>  placement.options.some(option => option.checked === true))){
+      if(this.ad_placements.some(placement =>  placement.options.some(option => option.checked))){
+        this.currentPlacementsSelected = this.ad_placements
+          .map(placement => {
+            return {
+              ...placement, options: placement.options.filter(option => option.checked)
+            }
+          })
+          .filter(placement => placement.options.length > 0)
+          
+        this.PLACEMENTS = this.currentPlacementsSelected.flatMap(placement => placement.options.flatMap(option => {
+          return {
+            tag: option.tag,
+            apiName: option.apiName
+            }
+        }))
         resolve('ok')
       }else{
         resolve('error')
-        this.openSnackbar(3, 'Please select atleast one placement', '', 'snack-danger')
+        this.openSnackbar(3, 'Please select atleast one placement', 'Ok', 'snack-danger')
       }
-    });
+    })
+  }
+
+  getOptimizationAndBilling(): Promise<string>{
+    return new Promise(resolve => {
+      if(this.optimizationGoalCtr.valid){
+        this.OPTIMIZATION_GOAL = this.optimizationGoalCtr.value.apiName
+        if(this.billingEventCtr.valid){
+          this.BILLING_EVENT = this.billingEventCtr.value.apiName
+          resolve('ok')
+        }else {
+          this.openSnackbar(5, 'Please selct billing event', 'Ok', 'snack-danger')
+        }
+      }else{
+        this.openSnackbar(5, 'Please select optimization goal', 'Ok', 'snack-danger')
+        resolve('error')
+      }
+    })
+  }
+
+  fetchFacebookPages(){
+    this.facebookService.getClientPages().subscribe(
+      (obj) => {
+        this.facebook_pages = obj.data
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+
+  getPageAccessToken(fbPageId: string){
+    return new Promise<any>((resolve, reject) => {
+      this.facebookService.getPageAccessToken(fbPageId).subscribe(
+        (obj) => resolve(obj),
+        (error)=> reject(error)
+      )
+    })
+  }
+
+  fetchInstagramAccount(fbPageId: string, accessToken: string){
+    return new Promise<any>((resolve, reject) => {
+      this.facebookService.getConnectedInstagramAccount(fbPageId, accessToken).subscribe(
+        (obj) => { 
+          if(obj.data.length !== 0){
+            resolve(obj.data[0])
+          }else{
+            reject(obj)
+          }
+        },
+        (error) => reject(error)
+      )
+    })
+  }
+
+  getConnectedIgAcc(id: string){
+    this.isLoading = true
+    this.instagram_account = null
+    this.getPageAccessToken(id)
+          .then(obj => this.fetchInstagramAccount(obj.id, obj.access_token))
+          .then(data => {
+            this.isLoading = false
+            this.instagram_account = data
+            this.INSTAGRAM_ACTOR_ID = this.instagram_account.id
+          })
+          .catch((e) => {
+            this.isLoading = false
+            console.log(e)
+          })
+  }
+
+ 
+  uploadFileEvt(event: any) {
+    if (event.target.files && event.target.files[0]) {
+      let reader = new FileReader()
+      reader.onload = (e: any) => {
+        let image = new Image()
+        image.src = e.target.result
+        image.onload = (rs) => {
+          let imgBase64Path = e.target.result
+          this.imgData['path'] = imgBase64Path
+        }
+      }
+      reader.readAsDataURL(event.target.files[0])
+      this.imgData['file'] = event.target.files[0]
+      // Reset if duplicate image uploaded again
+      this.fileInput.nativeElement.value = ''
+    }
+  }
+
+  getFacebookPageId(){
+    return new Promise<string>((resolve) => {
+      if(this.facebookPageCtr.valid){
+        this.FACEBOOK_PAGE_ID = this.facebookPageCtr.value
+        resolve('ok')
+      }else {
+        this.openSnackbar(5, 'Please select facebook page', 'Ok', 'snack-danger')
+        resolve('error')
+      }
+    })
+  }
+
+  createCampaign(){
+    let campaign: Campaign = {
+      name: this.CAMPAIGN_NAME,
+      status: this.campaign_status.PAUSED.apiName,
+      objective: this.OBJECTIVE,
+      special_ad_categories: this.SPECIAL_AD_CATEGORIES
+    }
+    return new Promise<Campaign>((resolve, reject) => {
+      this.facebookService.createCampaign(campaign).subscribe(         
+        (data) => {
+            console.log(data)
+            resolve(data)
+        },
+        (error) => {
+          reject(error)
+        }
+      )
+    })
+  }
+
+  createAdset(campaign: Campaign){
+      let fbPlacementSelected: boolean = false
+      let igPlacementSelected: boolean = false
+      let publisherPlatforms = []
+      let fbPlacements = [] 
+      let igPlacements = []
+
+      fbPlacementSelected = this.PLACEMENTS.some(placement => placement.tag === 'fb')
+      if(fbPlacementSelected){
+        publisherPlatforms.push('facebook')
+        fbPlacements = this.PLACEMENTS.filter(placement => placement.tag === 'fb').flatMap(placement => placement.apiName) 
+      }
+
+      igPlacementSelected = this.PLACEMENTS.some(placement => placement.tag === 'ig')
+      if(igPlacementSelected){
+        publisherPlatforms.push('instagram')
+        igPlacements = this.PLACEMENTS.filter(placement => placement.tag === 'ig').flatMap(placement => placement.apiName) 
+      }
+
+      let adset: Adset = {
+        name: this.AD_SET_NAME,
+        optimization_goal: this.OPTIMIZATION_GOAL,
+        billing_event: this.BILLING_EVENT,
+        bid_amount: this.BID_AMOUNT,
+        daily_budget: this.DAILY_BUDGET,
+        campaign_id: campaign.campaign_id, 
+        targeting: {
+          geo_locations: {
+              countries: [
+                  "US"
+              ]
+          },   
+          genders: this.GENDER,
+          age_min: this.MIN_AGE,
+          age_max: this.MAX_AGE, 
+          publisher_platforms: publisherPlatforms,
+          ...(fbPlacementSelected)  && { facebook_positions: fbPlacements },
+          ...(igPlacementSelected) && { instagram_positions: igPlacements }
+      },
+        start_time: this.START_DATE,
+        ...(this.END_DATE !== null) && { end_time: this.END_DATE },
+        status: this.campaign_status.PAUSED.apiName
+      }
+      
+      return new Promise<Adset>((resolve, reject) => {
+        this.facebookService.createAdset(adset).subscribe(
+          (data) => {
+            console.log(data)
+            resolve(data)
+          },
+          (error) => {
+            reject(error)
+          }
+        )
+      })
+  }
+
+  uploadImgToGraph(){
+    return new Promise<string>((resolve, reject) => {
+      const formData = new FormData()
+      formData.append('image', this.imgData.file)
+      this.facebookService.uploadImage(formData).subscribe(
+        (data) => {
+          let imgHash = data["images"][this.imgData.file.name]["hash"]
+          console.log(imgHash)
+          resolve(imgHash)
+        },
+        (error) => {
+          console.log(error)
+          reject(error)
+        }
+      )
+    })
+  }
+
+  createCreative(hash){
+    let creative: Creative = {
+      name: "New creative",
+      ad_format: "INSTAGRAM_STANDARD",
+      object_story_spec: {
+        instagram_actor_id: this.INSTAGRAM_ACTOR_ID,
+        page_id: this.FACEBOOK_PAGE_ID,
+        link_data: {
+            image_hash: hash,
+            link: "",
+            message: "",
+            caption: "",
+            call_to_action: {
+                "type": "",
+                "value": {
+                    "link": ""
+                }
+            }
+        },
+        platform_customizations: {
+          instagram: {
+              image_url: "",
+              image_crops: {
+                  "100x100": [
+                      [
+                          0,
+                          0
+                      ],
+                      [
+                          800,
+                          800
+                      ]
+                  ]
+              }
+          }
+        }
+      }
+    }
+    return new Promise<Creative>((resolve, reject) => {
+      this.facebookService.createCreative(creative).subscribe(
+        (data) => resolve(data),
+        (error) => reject(error)
+      )
+    })
+  }
+
+  async createAd(adset: Adset){
+    let hash: string = ""
+    let creative: Creative = null
+
+    hash = await this.uploadImgToGraph()
+    creative = await this.createCreative(hash)
+      
+    let ad: Ad = {
+        name: this.AD_NAME,
+        adset_id: adset.adset_id,
+        creative:{
+          creative_id: creative.creative_id
+        },
+        status: this.campaign_status.PAUSED
+      }
+
+    return new Promise((resolve, reject) => {
+      this.facebookService.createAd(ad).subscribe(
+        (data) => resolve(data),
+        (error) => reject(error)
+      )
+    })
   }
 
   goFrame1(){
@@ -232,162 +645,119 @@ export class NewFbCampaignSelectorComponent implements OnInit {
   }
 
   goFrame2(){
-   this.getName().then(get_name=>{
+   this.getName(this.campaignNameCtr).then(get_name=>{
       if(get_name==='ok'){
+        this.CAMPAIGN_NAME = this.campaignNameCtr.value
         this.getSpecialAdCategory().then(get_SAC=>{
           if(get_SAC==='ok'){
-            this.OBJECTIVE = this.currentObjectiveSelected
-            this.CHANNEL = this.currentChannelSelected
+            this.OBJECTIVE = this.currentOptionSelected.apiName
             this.frame2 = true
             this.frame1 = false
             this.frame3 = false
-          }else{
-            this.spinnerCreation = false
-          }
-        }).catch((e)=>{
-          this.spinnerCreation = false
-        })
-      }else{
-        this.spinnerCreation = false
-      }
-    }).catch((e)=>{
-      this.spinnerCreation = false
-    })
+          }else{ this.spinnerCreation = false }
+        }).catch(()=>{ this.spinnerCreation = false })
+      }else{ this.spinnerCreation = false }
+    }).catch(()=>{ this.spinnerCreation = false })
   }
 
   goFrame3(){
-    this.getName().then(get_name => {
+    this.getName(this.adsetNameCtr).then(get_name => {
       if(get_name === 'ok'){
-        this.getDates().then().catch((e) => console.log(e));
+        this.AD_SET_NAME = this.adsetNameCtr.value
         this.getBudget().then(get_budget => {
           if(get_budget === 'ok'){
-            this.getAudience().then(get_audience => {
-              if(get_audience === 'ok'){
-                this.getPlacement().then(get_placement => {
-                  if(get_placement === 'ok'){
-                    this.frame3 = true
-                    this.frame1 = false
-                    this.frame2 = false
-                  }else{
-                    this.spinnerCreation = false
-                  }
-                }).catch((e) => this.spinnerCreation = false)
-              }else {
-                this.spinnerCreation = false
-              }
-            }).catch((e) => this.spinnerCreation = false)
-          }else{
-            this.spinnerCreation = false
-          }
-        }).catch((e) => this.spinnerCreation = false);
-      }else {
-        this.spinnerCreation = false
-      }
-    }).catch((e) => this.spinnerCreation = false)
+            this.getDates().then(get_dates => {
+              if(get_dates === 'ok'){
+                this.getAudience().then(get_audience => {
+                  if(get_audience === 'ok'){
+                    this.getPlacement().then(get_placement => {
+                      if(get_placement === 'ok'){
+                        this.getOptimizationAndBilling().then(get_oab => {
+                          if(get_oab === 'ok'){
+                            this.fetchFacebookPages()
+                            this.frame3 = true
+                            this.frame1 = false
+                            this.frame2 = false
+                          }else{ this.spinnerCreation = false }
+                        }).catch((e) => this.spinnerCreation = false)
+                      }else{ this.spinnerCreation = false }
+                    }).catch((e) => this.spinnerCreation = false)
+                  }else{ this.spinnerCreation = false }
+                }).catch(() => this.spinnerCreation = false)
+              }else { this.spinnerCreation = false }
+            }).catch(() => this.spinnerCreation = false)
+          }else{ this.spinnerCreation = false }
+        }).catch((e) => console.log(e))
+      }else { this.spinnerCreation = false }
+    }).catch(() => this.spinnerCreation = false)
   }
 
-  // log(val) { console.log(val); }
+  openDialogPublish(data) {
+    const dialogRef = this.dialog.open(DialogPublish, { data })
+    dialogRef.afterClosed().subscribe(result => {
+      if(result === undefined){
+        this.router.navigate(['/campaigns/fb-list'])
+      }else if(result === 'publish'){
+        this.router.navigate(['/campaigns/fb-list'])
+      }
+    })
+  }
 
-  uploadFileEvt(imgFile: any) {
-    if (imgFile.target.files && imgFile.target.files[0]) {
-      this.fileAttr = '';
-      Array.from(imgFile.target.files).forEach((file: any) => {
-        this.fileAttr += file.name;
-      });
-
-      // HTML5 FileReader API
-      let reader = new FileReader();
-      reader.onload = (e: any) => {
-        let image = new Image();
-        image.src = e.target.result;
-        image.onload = (rs) => {
-          let imgBase64Path = e.target.result;
-          this.dataimage = imgBase64Path;
-        };
-      };
-      reader.readAsDataURL(imgFile.target.files[0]);
-
-      // Reset if duplicate image uploaded again
-      this.fileInput.nativeElement.value = '';
-    } else {
-      this.fileAttr = 'Choose File';
-    }
+  openCampaignBuilder(){
+    this.getName(this.adNameCtr).then(get_name => {
+      if(get_name === 'ok'){
+        this.AD_NAME = this.adNameCtr.value
+        this.getFacebookPageId().then(get_page_id => {
+          if(get_page_id === 'ok'){
+            this.saveCampaign()
+          }else { this.spinnerCreation = false }
+        }).catch(() => this.spinnerCreation = false )
+      }else { this.spinnerCreation = false }
+    }).catch(() => { this.spinnerCreation = false })
   }
 
   saveCampaign(){
-    this.getName().then(get_name => {
-      if(get_name === 'ok'){
-        const dialogRef = this.dialog.open(CampaignSavedSuccessDialog, {
-          data: {
-            campaign_name: this.NAME,
-            special_ad_category: this.SPECIAL_AD_CATEGORY,
-            objective: this.OBJECTIVE,
-            channel: this.CHANNEL,
-            daily_budget: this.DAILY_BUDGET,
-            total_budget: this.TOTAL_BUDGET,
-            start_date: this.START_DATE,
-            age: { min: this.MIN_AGE, max: this.MAX_AGE },
-            gender: this.GENDER
-          }
-        });
-        dialogRef.afterClosed().subscribe();
-      }else {
-        const dialogRef = this.dialog.open(CampaignSavedErrorDialog);
-        dialogRef.afterClosed().subscribe(result => {
-          console.log(`Dialog result: ${result}`);
-        });
-      }
-    }).catch((e) => {
-      console.log(e)
-    })
+    this.loaderSaving = true
+    this.createCampaign()
+      .then((campaign: Campaign) => this.createAdset(campaign))
+      .then((adset: Adset) => this.createAd(adset))
+      .then(() => {
+        let data = {
+          objective: this.currentOptionSelected.name,
+          campaign_name: this.CAMPAIGN_NAME,
+          daily_budget: this.DAILY_BUDGET,
+          bid_amount: this.BID_AMOUNT,
+          start_date: this.startDateCtr.value.toGMTString(),
+          age: { min: this.MIN_AGE, max: this.MAX_AGE },
+          gender: this.genderCtr.value.name,
+          placements: this.PLACEMENTS,
+          optimization_goal: this.optimizationGoalCtr.value.name,
+          billing_event: this.billingEventCtr.value.name
+        }
+        this.openDialogPublish(data)
+      })
+      .catch((e) => {
+        console.log(e)
+        this.loaderError = true
+      })
   }
+
+  log(val) { console.log(val) }
 }
+     
 
 @Component({
-  selector: 'campaign-save-success-dialog',
-  template: ` 
-              <h5>Campaign saved</h5>
-              <div class="d-flex w-100 justify-content-center align-items-center">
-                <div class="success-checkmark">
-                  <div class="check-icon">
-                    <span class="icon-line line-tip"></span>
-                    <span class="icon-line line-long"></span>
-                    <div class="icon-circle"></div>
-                    <div class="icon-fix"></div>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="d-flex flex-column justify-content-center align-items-start p-md-4 p-md-2 cmp-type-container">
-                <h6 class="mb-3">Name</h6>
-                <p>{{ data.campaign_name }}</p>
-                <h6 class="mb-3">Special ad category</h6>
-                <p>{{ data.special_ad_category }}</p>
-                <h6 class="mb-3">Objective</h6>
-                <p>{{ data.objective.primary.title }} -> {{data.channel.secondary.title}}</p>
-                <h6 class="mb-3">Budget & schedule</h6>
-                <p>Daily budget {{data.daily_budget}}</p>
-                <p>Start date {{ data.start_date }}</p>
-                <h6 class="mb-3">Audience</h6>
-                <p>Age group [{{ data.age.min }} - {{data.age.max}}]</p>
-                <p>Gender {{data.gender}} </p>
-              </div>
-            `,
+  selector: 'dialog-publish',
+  templateUrl: 'dialog-publish.html',
 })
-export class CampaignSavedSuccessDialog {
-   constructor(
-    public dialogRef: MatDialogRef<CampaignSavedSuccessDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {}
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
+export class DialogPublish{
+  constructor(
+    public dialogRef: MatDialogRef<DialogPublish>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+      dialogRef.disableClose = true
+    }
+    onNoClick(): void {
+      this.dialogRef.disableClose = false
+      this.dialogRef.close(undefined)
+    } 
 }
-
-@Component({
-  selector: 'campaign-save-error-dialog',
-  template: `<div>
-              Campaign not saved
-            </div>`,
-})
-export class CampaignSavedErrorDialog {}
